@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* NEW PASTEL BODY GRADIENT */
+body {
+  background: hsla(312, 77%, 86%, 1);
+  background: linear-gradient(90deg, hsla(312, 77%, 86%, 1) 0%, hsla(220, 61%, 79%, 1) 100%);
+  background: -moz-linear-gradient(90deg, hsla(312, 77%, 86%, 1) 0%, hsla(220, 61%, 79%, 1) 100%);
+  background: -webkit-linear-gradient(90deg, hsla(312, 77%, 86%, 1) 0%, hsla(220, 61%, 79%, 1) 100%);
+  background-attachment: fixed;
+}
+
+/* ROSE WATER ANIMATED BUTTON */
+.btn-grad {
+  background-image: linear-gradient(to right, #E55D87 0%, #5FC3E4 51%, #E55D87 100%);
+  padding: 12px 30px; /* Adjusted padding slightly to fit the Header layout perfectly */
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 4px 15px rgba(229, 93, 135, 0.4); /* Tinted shadow to match the Rose Water vibe */
+  border-radius: 50px; /* Pill shape for modern UI */
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-grad:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
