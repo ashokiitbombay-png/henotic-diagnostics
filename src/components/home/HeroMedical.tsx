@@ -93,52 +93,53 @@ export default function HeroMedical() {
           </div>
 
           {/* RIGHT COLUMN: 3D Image & Deep Shadow Accreditations */}
-          <div className="relative z-10 lg:ml-8 mt-12 lg:mt-0">
+          <div className="relative w-full z-10 lg:ml-8 mt-12 lg:mt-0 flex justify-center lg:block">
             
-            {/* 🌟 ACCREDITATION LOGOS (Top Left, Floating) 🌟 */}
-            <div className="absolute -top-12 -left-4 sm:-top-16 sm:-left-12 z-30 flex gap-3 sm:gap-5">
-              {ACCREDITATIONS.map((acc, index) => (
-                <div key={acc.title} className="flex flex-col items-center group animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${index * 150}ms` }}>
-                  {/* 3D Circular Logo Container */}
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center p-3 mb-2 transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-110 relative
-                    /* Deep 3D Shadow Effects */
-                    shadow-[0_20px_30px_-10px_rgba(0,0,0,0.3),_0_0_0_2px_rgba(255,255,255,0.8),_inset_0_-4px_6px_rgba(0,0,0,0.1),_inset_0_4px_6px_rgba(255,255,255,1)]
-                  ">
-                    <img src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-sm" />
-                    
-                    {/* Subtle highlight for glass/3D pop */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/40 to-white/80 pointer-events-none"></div>
-                  </div>
-                  {/* Text Below */}
-                  <span className="text-[10px] sm:text-xs font-black text-slate-800 tracking-wider uppercase drop-shadow-md bg-white/80 px-2 py-0.5 rounded-md backdrop-blur-sm border border-slate-100">
-                    {acc.title}
-                  </span>
-                </div>
-              ))}
-            </div>
-
             {/* Main Foreground Image Container */}
-            <div className="relative">
+            <div className="relative w-full max-w-md lg:max-w-none mx-auto">
+              
+              {/* 🌟 ACCREDITATION LOGOS (Top Left, Floating) 🌟 */}
+              <div className="absolute -top-10 -left-6 sm:-top-16 sm:-left-12 z-30 flex gap-2 sm:gap-5">
+                {ACCREDITATIONS.map((acc, index) => (
+                  <div key={acc.title} className="flex flex-col items-center group animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${index * 150}ms` }}>
+                    {/* 3D Circular Logo Container */}
+                    <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center p-2.5 sm:p-3 mb-2 transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-110 relative
+                      /* Deep 3D Shadow Effects */
+                      shadow-[0_20px_30px_-10px_rgba(0,0,0,0.3),_0_0_0_2px_rgba(255,255,255,0.8),_inset_0_-4px_6px_rgba(0,0,0,0.1),_inset_0_4px_6px_rgba(255,255,255,1)]
+                    ">
+                      <img src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-sm" />
+                      
+                      {/* Subtle highlight for glass/3D pop */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/40 to-white/80 pointer-events-none"></div>
+                    </div>
+                    {/* Text Below */}
+                    <span className="text-[9px] sm:text-xs font-black text-slate-800 tracking-wider uppercase drop-shadow-md bg-white/90 px-2 py-0.5 rounded-md backdrop-blur-sm border border-slate-100">
+                      {acc.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
               {/* Backglow for the image */}
               <div className="absolute inset-0 bg-gradient-to-tr from-[#4568dc] to-[#b06ab3] rounded-[3rem] transform rotate-3 scale-105 opacity-30 blur-2xl transition-transform duration-700 hover:rotate-6"></div>
               
               {/* The Actual Image (Fully Visible, High Priority) */}
               <div className="relative bg-white p-2 sm:p-3 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] transform -rotate-2 hover:rotate-0 transition-transform duration-700 overflow-hidden border border-white/60">
                 <img 
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/henotic-diagnostics-mri-scan-panvel.webp" 
+                  src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" 
                   alt="Premium 3T MRI Scan at Henotic Diagnostics" 
-                  className="rounded-[2.5rem] w-full h-auto object-cover aspect-[4/3] lg:aspect-[4/4]"
+                  className="rounded-[2.5rem] w-full h-auto object-cover aspect-[4/3] lg:aspect-square"
                 />
               </div>
 
               {/* Floating Performance Badge (Bottom Right) */}
-              <div className="absolute -bottom-6 -right-2 sm:-right-6 bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] border border-slate-100/50 flex items-center gap-4 animate-bounce hover:animate-none z-20">
-                <div className="bg-gradient-to-br from-green-100 to-green-200 p-3 rounded-full text-green-700 shadow-inner">
-                  <Activity size={24} />
+              <div className="absolute -bottom-6 -right-2 sm:-right-6 bg-white/95 backdrop-blur-md p-3 sm:p-5 rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] border border-slate-100/50 flex items-center gap-3 sm:gap-4 animate-bounce hover:animate-none z-20">
+                <div className="bg-gradient-to-br from-green-100 to-green-200 p-2 sm:p-3 rounded-full text-green-700 shadow-inner shrink-0">
+                  <Activity size={24} className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div>
-                  <div className="text-xs sm:text-sm font-extrabold text-slate-500 uppercase tracking-widest">Turnaround Time</div>
-                  <div className="text-lg sm:text-xl font-black text-slate-900 drop-shadow-sm">Same Day Reports</div>
+                  <div className="text-[10px] sm:text-xs font-extrabold text-slate-500 uppercase tracking-widest leading-tight">Turnaround Time</div>
+                  <div className="text-base sm:text-xl font-black text-slate-900 drop-shadow-sm leading-tight">Same Day Reports</div>
                 </div>
               </div>
 
