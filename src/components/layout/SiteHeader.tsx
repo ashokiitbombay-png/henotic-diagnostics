@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Phone, CalendarCheck, ChevronDown, Calendar, MessageCircle } from "lucide-react";
+import { Menu, X, Phone, CalendarCheck, ChevronDown } from "lucide-react";
+import BookingForm from "@/components/forms/BookingForm"; // Importing the Premium Form
 
 export default function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   
-  // 🌟 NEW: Booking Modal State
+  // Booking Modal State
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', mobile: '', test: '', center: '', date: '', time: '' });
 
   // Handle header scroll effect
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function SiteHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 🌟 NEW: Prevent background scrolling when modal is open
+  // Prevent background scrolling when modal is open
   useEffect(() => {
     if (isBookingOpen) {
       document.body.style.overflow = "hidden";
@@ -28,18 +28,6 @@ export default function SiteHeader() {
     }
     return () => { document.body.style.overflow = "unset"; }
   }, [isBookingOpen]);
-
-  // 🌟 NEW: Form Handlers
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleWhatsAppSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const message = `Hello Henotic Diagnostics, I would like to book an appointment:%0A- Name: *${formData.name}*%0A- Mobile: *${formData.mobile}*%0A- Test: *${formData.test}*%0A- Center: *${formData.center}*%0A- Date: *${formData.date}*%0A- Time: *${formData.time}*`;
-    window.open(`https://wa.me/9108879327184?text=${message}`, '_blank');
-    setIsBookingOpen(false); // Close modal after booking
-  };
 
   return (
     <>
@@ -128,7 +116,7 @@ export default function SiteHeader() {
         </div>
       </header>
 
-      {/* 🌟 BULLETPROOF INLINE BOOKING MODAL (MAXIMUM Z-INDEX) 🌟 */}
+      {/* 🌟 BULLETPROOF PREMIUM BOOKING MODAL (MAXIMUM Z-INDEX) 🌟 */}
       {isBookingOpen && (
         <div className="fixed inset-0 z-[2147483647] flex items-center justify-center p-4 sm:p-6" style={{ isolation: 'isolate' }}>
           
@@ -138,68 +126,22 @@ export default function SiteHeader() {
             onClick={() => setIsBookingOpen(false)}
           ></div>
 
-          {/* Modal Content Box */}
-          <div className="relative bg-white rounded-[2rem] shadow-[0_30px_60px_rgba(0,0,0,0.8)] w-full max-w-3xl max-h-[90vh] overflow-y-auto z-10 border-4 border-white/50 animate-in zoom-in-95 duration-200">
+          {/* Modal Content Box (Dynamically sized to fit the Premium Form) */}
+          <div className="relative w-full max-w-4xl max-h-[95vh] overflow-y-auto z-10 animate-in zoom-in-95 duration-200 rounded-[2.5rem]">
             
-            {/* Close Button */}
+            {/* Close Button - Pulled out slightly to contrast with the Premium Form's gradient */}
             <button
               type="button"
               onClick={() => setIsBookingOpen(false)}
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 bg-slate-100 hover:bg-pink-100 hover:text-[#E55D87] text-slate-800 rounded-full transition-colors z-50 shadow-sm cursor-pointer"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 bg-white hover:bg-pink-100 text-slate-800 hover:text-[#E55D87] rounded-full transition-colors z-50 shadow-xl cursor-pointer"
               aria-label="Close Booking Form"
             >
               <X size={24} />
             </button>
 
-            <div className="p-6 sm:p-10 relative z-40">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-[#4568dc] text-xs font-extrabold uppercase tracking-widest mb-4">
-                  <Calendar size={16} /> Priority Scheduling
-                </div>
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900">
-                  Book Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4568dc] to-[#b06ab3]">Appointment</span>
-                </h2>
-                <p className="text-slate-500 mt-2 font-medium">Fast, secure, and instant confirmation via WhatsApp.</p>
-              </div>
-              
-              {/* THE INLINE WHATSAPP FORM */}
-              <form className="space-y-4" onSubmit={handleWhatsAppSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Patient Name" required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
-                  <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} placeholder="Mobile Number" required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
-                </div>
-
-                <select name="test" value={formData.test} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none appearance-none">
-                  <option value="" disabled>Select Test Name</option>
-                  <option value="MRI Scan">MRI Scan</option>
-                  <option value="CT Scan">CT Scan</option>
-                  <option value="NT Scan / Sonography">NT Scan / Sonography</option>
-                  <option value="PET CT Scan">PET CT Scan</option>
-                  <option value="Blood Test / Pathology">Blood Test / Pathology</option>
-                  <option value="Health Checkup Package">Health Checkup Package</option>
-                </select>
-
-                <select name="center" value={formData.center} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none appearance-none">
-                  <option value="" disabled>Select Nearest Center</option>
-                  <option value="Kharghar Center">Kharghar Center</option>
-                  <option value="Panvel Center">Panvel Center</option>
-                  <option value="Navi Mumbai (Main)">Navi Mumbai (Main)</option>
-                </select>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <input type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
-                  <input type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
-                </div>
-
-                <button 
-                  type="submit" 
-                  className="w-full mt-6 bg-gradient-to-r from-[#25D366] to-[#1DA851] hover:from-[#1DA851] hover:to-[#128C7E] text-white font-black py-5 px-6 rounded-2xl shadow-lg transform transition-all hover:-translate-y-1 flex items-center justify-center gap-3 text-lg"
-                >
-                  <MessageCircle size={24} className="fill-current" /> Confirm via WhatsApp
-                </button>
-              </form>
-
-            </div>
+            {/* 🌟 THE INJECTED PREMIUM FORM 🌟 */}
+            <BookingForm />
+            
           </div>
         </div>
       )}

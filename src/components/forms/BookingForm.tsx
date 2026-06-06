@@ -61,30 +61,31 @@ export default function BookingForm() {
 
   return (
     <div 
-      className="w-full rounded-[2.5rem] p-1 shadow-2xl relative overflow-hidden"
+      className="w-full rounded-[2.5rem] p-1.5 shadow-2xl relative overflow-hidden"
       style={{
-        background: "linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1)"
+        // 🌟 NEW PREMIUM GRADIENT BACKGROUND 🌟
+        background: "linear-gradient(to top, #9795f0 0%, #fbc8d4 100%)"
       }}
     >
       {/* GLASSMORPHISM INNER CONTAINER */}
-      <div className="bg-white/95 backdrop-blur-3xl rounded-[2.3rem] p-6 sm:p-10 w-full relative z-10 border border-white/50">
+      <div className="bg-white/95 backdrop-blur-3xl rounded-[2.3rem] p-6 sm:p-10 w-full relative z-10 border border-white/60 shadow-inner">
         
         {/* TOP HEADER & TRUST SIGNALS */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 border border-pink-100 text-[#d16ba5] text-xs font-black uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#9795f0]/10 border border-[#9795f0]/30 text-[#9795f0] text-xs font-black uppercase tracking-widest mb-4">
             <ShieldCheck size={16} /> Official Booking Portal
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 tracking-tight">
-            Excellence in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d16ba5] to-[#52cffe]">Diagnostics</span>
+            Excellence in <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(to right, #9795f0, #fbc8d4)" }}>Diagnostics</span>
           </h2>
           <p className="text-slate-600 font-bold mb-4">12+ Years of precision. NABL Accredited. Trusted by leading specialists in Mumbai.</p>
           
           <div className="flex flex-wrap justify-center gap-3 text-xs font-extrabold text-slate-700">
-            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Award size={14} className="text-blue-500"/> AERB Accredited Lab</span>
-            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><FileCheck size={14} className="text-green-500"/> PCPNDT Registered</span>
-            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Activity size={14} className="text-pink-500"/> 3T MRI & 128-Slice CT</span>
-            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Clock size={14} className="text-orange-500"/> Same Day Reports</span>
-            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><MapPin size={14} className="text-purple-500"/> Home Collection</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Award size={14} className="text-[#9795f0]"/> AERB Accredited Lab</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><FileCheck size={14} className="text-[#fbc8d4]"/> PCPNDT Registered</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Activity size={14} className="text-[#9795f0]"/> 3T MRI & 128-Slice CT</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Clock size={14} className="text-[#fbc8d4]"/> Same Day Reports</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><MapPin size={14} className="text-[#9795f0]"/> Home Collection</span>
           </div>
         </div>
 
@@ -95,14 +96,15 @@ export default function BookingForm() {
               <h3 className="text-lg font-black text-slate-800">Secure Appointment</h3>
               <p className="text-xs font-bold text-slate-500">Fill the details below for priority confirmation.</p>
             </div>
-            <span className="text-2xl font-black text-[#52cffe]">{progress}%</span>
+            <span className="text-2xl font-black text-[#9795f0]">{progress}%</span>
           </div>
           <div className="w-full bg-slate-200 h-3 rounded-full overflow-hidden">
             <div 
               className="h-full rounded-full transition-all duration-700 ease-out"
               style={{ 
                 width: `${progress}%`,
-                background: "linear-gradient(to right, #d16ba5, #52cffe, #46eefa)"
+                // Matching the progress bar to the new theme
+                background: "linear-gradient(to right, #fbc8d4, #9795f0)"
               }}
             ></div>
           </div>
@@ -114,17 +116,17 @@ export default function BookingForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-              <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Patient Name" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all" />
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Patient Name" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#9795f0] focus:ring-4 focus:ring-[#9795f0]/20 text-slate-800 font-bold outline-none transition-all" />
             </div>
             <div className="relative">
               <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-              <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Mobile Number" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all" />
+              <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Mobile Number" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#9795f0] focus:ring-4 focus:ring-[#9795f0]/20 text-slate-800 font-bold outline-none transition-all" />
             </div>
           </div>
 
           <div className="relative">
             <Activity className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-            <select name="test" value={formData.test} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all appearance-none cursor-pointer">
+            <select name="test" value={formData.test} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#9795f0] focus:ring-4 focus:ring-[#9795f0]/20 text-slate-800 font-bold outline-none transition-all appearance-none cursor-pointer">
               <option value="" disabled>Select Test Name</option>
               {SERVICES.map((category, idx) => (
                 <optgroup key={idx} label={category.category}>
@@ -138,7 +140,7 @@ export default function BookingForm() {
 
           <div className="relative">
             <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-            <select name="center" value={formData.center} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all appearance-none cursor-pointer">
+            <select name="center" value={formData.center} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#9795f0] focus:ring-4 focus:ring-[#9795f0]/20 text-slate-800 font-bold outline-none transition-all appearance-none cursor-pointer">
               <option value="" disabled>Select Nearest Center</option>
               {LOCATIONS.map((region, idx) => (
                 <optgroup key={idx} label={region.region}>
@@ -153,11 +155,11 @@ export default function BookingForm() {
           <div className="grid grid-cols-2 gap-5">
             <div className="relative">
               <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-              <input type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all cursor-pointer" />
+              <input type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#9795f0] focus:ring-4 focus:ring-[#9795f0]/20 text-slate-800 font-bold outline-none transition-all cursor-pointer" />
             </div>
             <div className="relative">
               <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-              <input type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all cursor-pointer" />
+              <input type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#9795f0] focus:ring-4 focus:ring-[#9795f0]/20 text-slate-800 font-bold outline-none transition-all cursor-pointer" />
             </div>
           </div>
 
@@ -165,7 +167,7 @@ export default function BookingForm() {
           <button 
             type="submit" 
             disabled={progress < 100}
-            className={`w-full mt-4 py-5 px-6 rounded-2xl shadow-[0_15px_30px_-5px_rgba(37,211,102,0.4)] transform transition-all duration-300 flex items-center justify-center gap-3 text-lg font-black text-white ${progress === 100 ? 'bg-gradient-to-r from-[#25D366] to-[#1DA851] hover:scale-[1.02] cursor-pointer' : 'bg-slate-300 opacity-70 cursor-not-allowed'}`}
+            className={`w-full mt-4 py-5 px-6 rounded-2xl shadow-[0_15px_30px_-5px_rgba(37,211,102,0.4)] transform transition-all duration-300 flex items-center justify-center gap-3 text-lg font-black text-white ${progress === 100 ? 'bg-[#25D366] hover:bg-[#1DA851] hover:scale-[1.02] cursor-pointer' : 'bg-slate-300 opacity-70 cursor-not-allowed'}`}
           >
             <MessageCircle size={28} className="fill-current" /> 
             {progress === 100 ? "Confirm Appointment Now Via WhatsApp" : `Complete Form to Book (${progress}%)`}
@@ -175,12 +177,12 @@ export default function BookingForm() {
         {/* ACCREDITATIONS FOOTER BANNER */}
         <div className="mt-10 rounded-[2rem] p-6 border-2 border-white/20 shadow-inner" style={{ background: "linear-gradient(to right, #1e293b, #0f172a, #1e293b)" }}>
           <h4 className="text-center text-slate-300 text-xs font-black uppercase tracking-[0.2em] mb-5 flex items-center justify-center gap-2">
-            <CheckCircle2 size={16} className="text-[#52cffe]" /> Accredited by National Bodies
+            <CheckCircle2 size={16} className="text-[#9795f0]" /> Accredited by National Bodies
           </h4>
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {ACCREDITATIONS.map((acc, index) => (
               <div key={index} className="flex flex-col items-center group">
-                <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-2.5 mb-2 shadow-[0_5px_15px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_10px_20px_rgba(82,207,254,0.3)]">
+                <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-2.5 mb-2 shadow-[0_5px_15px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_10px_20px_rgba(151,149,240,0.4)]">
                   <img src={acc.img} alt={acc.title} className="w-full h-full object-contain" />
                 </div>
                 <span className="text-[10px] font-black text-slate-300 tracking-wider uppercase">{acc.title}</span>
