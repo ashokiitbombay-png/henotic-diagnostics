@@ -9,6 +9,11 @@ html, body {
   min-height: 100vh;
 }
 
+/* FORCE LIGHT MODE: Prevent mobile browsers from inverting colors into Dark Mode */
+:root {
+  color-scheme: light only;
+}
+
 /* NEW PASTEL BODY GRADIENT */
 body {
   background: hsla(312, 77%, 86%, 1);
@@ -38,11 +43,4 @@ body {
   background-position: right center;
   color: #fff;
   text-decoration: none;
-}
-/* FORCE LIGHT MODE: Prevent mobile browsers from turning the website black */
-:root {
-  color-scheme: light only;
-}
-html, body {
-  background-color: #f8fafc !important; /* Force Slate-50 globally */
 }

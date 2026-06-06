@@ -21,12 +21,12 @@ export default function CorporateVideo() {
         <div className="relative rounded-[3rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-white/20 group max-w-5xl mx-auto bg-black">
           <video ref={videoRef} src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/4e1a5cd1-henotic_diagnostics_trusted_health_care-corporate-video.mp4" className="w-full h-auto aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" loop controls={false} />
           <div className={`absolute inset-0 flex items-center justify-center bg-black/40 transition-all duration-300 ${isPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}>
-             <button onClick={togglePlay} className="w-24 h-24 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center hover:scale-110 transition-transform border border-white/50 text-white shadow-2xl">
+             <button suppressHydrationWarning  onClick={togglePlay} className="w-24 h-24 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center hover:scale-110 transition-transform border border-white/50 text-white shadow-2xl">
                {isPlaying ? <Pause size={40} fill="currentColor" /> : <Play size={40} fill="currentColor" className="ml-2" />}
              </button>
           </div>
           <div className="absolute bottom-8 right-8 flex gap-4">
-             <button onClick={toggleMute} className="p-4 bg-black/60 backdrop-blur-md rounded-full text-white border border-white/20 hover:bg-pink-600 transition-colors shadow-lg">
+             <button suppressHydrationWarning  onClick={toggleMute} className="p-4 bg-black/60 backdrop-blur-md rounded-full text-white border border-white/20 hover:bg-pink-600 transition-colors shadow-lg">
                {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
              </button>
           </div>

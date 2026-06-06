@@ -1,219 +1,195 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { User, Phone, MapPin, Activity, Calendar, Clock, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { User, Phone, Activity, MapPin, Calendar, Clock, MessageCircle, ShieldCheck, Award, FileCheck, CheckCircle2 } from "lucide-react";
 
-// ==========================================
-// DATA MAPS (Locations & Services)
-// ==========================================
-const LOCATIONS = {
-  "South Mumbai": ["colaba", "cuffe-parade", "fort", "churchgate", "marine-lines", "nariman-point", "worli", "parel", "lower-parel", "mahalaxmi", "byculla", "dadar"],
-  "Central Mumbai": ["sion", "kurla", "chembur", "ghatkopar", "vikhroli", "kanjurmarg", "bhandup", "mulund"],
-  "Western Suburbs": ["bandra", "khar", "santacruz", "vile-parle", "andheri", "jogeshwari", "goregaon", "malad", "kandivali", "borivali", "dahisar"],
-  "Eastern Suburbs": ["kurla-east", "chembur-east", "ghatkopar-east", "vikhroli-east", "mulund-east"],
-  "Navi Mumbai": ["vashi", "sanpada", "juinagar", "nerul", "seawoods", "cbd-belapur", "kharghar", "kamothe", "kalamboli", "panvel", "new-panvel", "taloja", "ghansoli", "kopar-khairane", "airoli", "turbhe"]
-};
-
-const SERVICES = {
-  "Health Screening": ["diagnostic-center", "full-body-check-up", "preventive-health-checkup", "women-health-checkup", "men-health-checkup", "senior-citizen-health-checkup"],
-  "Pathology & Lab Tests": ["blood-test", "home-blood-collection", "cbc-test", "lipid-profile", "thyroid-profile", "liver-function-test", "kidney-function-test", "diabetes-test", "vitamin-d-test", "vitamin-b12-test"],
-  "Ultrasound & Sonography": ["ultrasound", "abdomen-pelvis-ultrasound", "kidney-ultrasound", "thyroid-ultrasound", "breast-ultrasound", "transvaginal-ultrasound"],
-  "Pregnancy & Fetal Medicine": ["pregnancy-sonography", "nt-scan", "anomaly-scan", "growth-scan", "fetal-doppler", "fetal-echocardiography"],
-  "Doppler Studies": ["color-doppler", "arterial-doppler", "venous-doppler", "carotid-doppler", "lower-limb-doppler"],
-  "Women's Health": ["mammography", "3d-mammography", "sonomammography", "follicular-study", "hsg-test"],
-  "MRI Services": ["mri-scan", "brain-mri", "spine-mri", "knee-mri", "pelvis-mri", "whole-body-mri", "contrast-mri"],
-  "CT Scan Services": ["ct-scan", "hrct-chest", "brain-ct-scan", "abdomen-ct-scan", "ct-angiography", "coronary-ct-angiography"],
-  "Cardiology": ["ecg", "2d-echo", "stress-test", "holter-monitoring", "angiography"],
-  "Specialized Scans": ["pet-scan", "whole-body-pet-ct", "dexa-bone-scan", "fibroscan", "genetic-test"]
-};
-
-const TRUST_LOGOS = [
-  { name: 'NABL', src: 'https://storage.googleapis.com/wp-media-henoticbucket/2026/01/b027e422-nabl-certified-henotic-diagnostics.webp' },
-  { name: 'ISO', src: 'https://storage.googleapis.com/wp-media-henoticbucket/2026/01/b04115be-iso-certified-henotic-diagnostics.webp' },
-  { name: 'AERB', src: 'https://storage.googleapis.com/wp-media-henoticbucket/2026/01/b3a1aaeb-aerb-certified-henotic-diagnostics.webp' },
-  { name: 'PCPNDT', src: 'https://storage.googleapis.com/wp-media-henoticbucket/2026/01/3a45d45f-pcpndt-certified-henotic-diagnostics.webp' },
-  { name: 'NABH', src: 'https://storage.googleapis.com/wp-media-henoticbucket/2026/01/fb54c3da-nabh-certified-henotic-diagnostics.webp' }
+// --- STRUCTURED DATA SETS ---
+const LOCATIONS = [
+  { region: "Navi Mumbai", cities: ["Vashi", "Sanpada", "Juinagar", "Nerul", "Seawoods", "CBD Belapur", "Kharghar", "Kamothe", "Kalamboli", "Panvel", "New Panvel", "Taloja", "Ghansoli", "Kopar Khairane", "Airoli", "Turbhe"] },
+  { region: "South Mumbai", cities: ["Colaba", "Cuffe Parade", "Fort", "Churchgate", "Marine Lines", "Nariman Point", "Worli", "Parel", "Lower Parel", "Mahalaxmi", "Byculla", "Dadar"] },
+  { region: "Central Mumbai", cities: ["Sion", "Kurla", "Chembur", "Ghatkopar", "Vikhroli", "Kanjurmarg", "Bhandup", "Mulund"] },
+  { region: "Western Suburbs", cities: ["Bandra", "Khar", "Santacruz", "Vile Parle", "Andheri", "Jogeshwari", "Goregaon", "Malad", "Kandivali", "Borivali", "Dahisar"] },
+  { region: "Eastern Suburbs", cities: ["Kurla East", "Chembur East", "Ghatkopar East", "Vikhroli East", "Mulund East"] }
 ];
 
-// Helper to format slugs back to readable text
-const formatText = (text: string) => text.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+const SERVICES = [
+  { category: "Diagnostic Center & Health Screening", items: ["Diagnostic Center", "Medical Imaging Center", "Radiology Center", "Pathology Lab", "Diagnostic Services", "Health Checkup", "Full Body Check Up", "Master Health Checkup", "Preventive Health Checkup", "Cancer Screening"] },
+  { category: "Pathology & Lab Tests", items: ["Blood Test", "Home Blood Collection", "CBC Test", "Lipid Profile", "Thyroid Test", "Liver Function Test", "Kidney Function Test", "Diabetes Test", "Vitamin D Test", "Covid Test", "Dengue Test"] },
+  { category: "Ultrasound & Sonography", items: ["Ultrasound", "Sonography", "USG Scan", "Abdominal Ultrasound", "Pelvic Ultrasound", "Kidney Ultrasound", "Prostate Ultrasound", "Thyroid Ultrasound", "Breast Ultrasound", "Guided Biopsy"] },
+  { category: "Pregnancy & Fetal Medicine", items: ["Pregnancy Sonography", "Obstetric Ultrasound", "Early Pregnancy Scan", "Dating Scan", "NT Scan", "Anomaly Scan", "Target Scan", "Level 2 Scan", "Growth Scan", "Fetal Echo", "High Risk Pregnancy Scan"] },
+  { category: "Doppler Studies", items: ["Color Doppler", "Pregnancy Doppler", "Arterial Doppler", "Venous Doppler", "Carotid Doppler", "Renal Doppler", "DVT Doppler"] },
+  { category: "Women's Health & Breast Imaging", items: ["Mammography", "Digital Mammography", "3D Mammography", "Sonomammography", "Follicular Study", "Fertility Scan", "HSG Test"] },
+  { category: "MRI Services", items: ["MRI Scan", "MRI Brain", "MRI Spine", "Cervical Spine MRI", "MRI Joint", "Pelvis MRI", "Abdominal MRI", "Cardiac MRI", "MRI MRCP", "Whole Body MRI"] },
+  { category: "CT Scan Services", items: ["CT Scan", "HRCT Scan", "HRCT Chest", "CT Brain", "CT Angiography", "CT Coronary Angiography", "Whole Body CT Scan", "Low Dose CT"] },
+  { category: "PET CT & Nuclear Medicine", items: ["PET Scan", "PET CT", "Whole Body PET Scan", "FDG PET CT", "Bone Scan", "Thyroid Scan", "Renal Scan"] },
+  { category: "Cardiology & Liver Diagnostics", items: ["ECG", "2D Echo", "Stress Echo", "TMT Test", "Holter Monitoring", "Angiography", "Fibroscan", "Liver Elastography"] },
+  { category: "Genetic Testing", items: ["Prenatal Genetic Testing", "NIPT Test", "Karyotype Test", "DNA Test"] }
+];
+
+const ACCREDITATIONS = [
+  { title: "NABL", img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/b027e422-nabl-certified-henotic-diagnostics.webp" },
+  { title: "ISO", img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/b04115be-iso-certified-henotic-diagnostics.webp" },
+  { title: "AERB", img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/b3a1aaeb-aerb-certified-henotic-diagnostics.webp" },
+  { title: "PCPNDT", img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/3a45d45f-pcpndt-certified-henotic-diagnostics.webp" },
+  { title: "NABH", img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/fb54c3da-nabh-certified-henotic-diagnostics.webp" }
+];
 
 export default function BookingForm() {
   const [formData, setFormData] = useState({ name: "", mobile: "", test: "", center: "", date: "", time: "" });
   const [progress, setProgress] = useState(0);
 
+  // Dynamic Progress Bar Calculation
   useEffect(() => {
-    const fields = Object.values(formData);
-    const filledFields = fields.filter(field => field.trim() !== "").length;
-    setProgress(Math.round((filledFields / fields.length) * 100));
+    let filled = 0;
+    if (formData.name.trim() !== "") filled += 20;
+    if (formData.mobile.trim() !== "" && formData.mobile.length >= 10) filled += 20;
+    if (formData.test !== "") filled += 20;
+    if (formData.center !== "") filled += 20;
+    if (formData.date !== "" && formData.time !== "") filled += 20;
+    setProgress(filled);
   }, [formData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleWhatsAppSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, mobile, test, center, date, time } = formData;
-    
-    const message = `*New Appointment Request*%0A%0A*Patient Name:* ${name}%0A*Mobile Number:* ${mobile}%0A*Selected Test:* ${formatText(test)}%0A*Preferred Center:* ${formatText(center)}%0A*Date:* ${date}%0A*Time:* ${time}%0A%0A_Please confirm my booking._`;
-    
+    const message = `*NEW PRIORITY BOOKING*%0A%0A*Patient Details:*%0A👤 Name: ${formData.name}%0A📱 Mobile: ${formData.mobile}%0A%0A*Test Details:*%0A🏥 Center: ${formData.center}%0A🔬 Test: ${formData.test}%0A📅 Date: ${formData.date}%0A⏰ Time: ${formData.time}%0A%0A_Sent via Official Henotic Diagnostics Portal_`;
     window.open(`https://wa.me/9108879327184?text=${message}`, '_blank');
   };
 
   return (
-    <div id="booking" className="w-full max-w-4xl mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(0,0,0,0.1)] bg-white border border-slate-100">
-      
-      {/* HEADER SECTION */}
-      <div className="p-8 md:p-12 text-center" style={{ backgroundImage: "linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1)" }}>
-        <h2 className="text-sm md:text-base font-extrabold uppercase tracking-widest text-white/90 mb-2">Official Booking Portal</h2>
-        <h3 className="text-3xl md:text-5xl font-black text-white mb-6 drop-shadow-md">Excellence in Diagnostics</h3>
+    <div 
+      className="w-full rounded-[2.5rem] p-1 shadow-2xl relative overflow-hidden"
+      style={{
+        background: "linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1)"
+      }}
+    >
+      {/* GLASSMORPHISM INNER CONTAINER */}
+      <div className="bg-white/95 backdrop-blur-3xl rounded-[2.3rem] p-6 sm:p-10 w-full relative z-10 border border-white/50">
         
-        <div className="flex flex-wrap justify-center gap-3 text-sm font-bold text-white/95">
-          <span className="flex items-center gap-1 bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-md"><ShieldCheck size={16} /> 12+ Years Precision</span>
-          <span className="flex items-center gap-1 bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-md"><CheckCircle2 size={16} /> 3T MRI & 128-Slice CT</span>
-          <span className="flex items-center gap-1 bg-black/10 px-3 py-1.5 rounded-full backdrop-blur-md"><Activity size={16} /> Same Day Reports</span>
-        </div>
-      </div>
-
-      {/* FORM SECTION */}
-      <div className="p-8 md:p-12">
-        <div className="mb-8">
-          <div className="flex justify-between items-end mb-2">
-            <h4 className="text-2xl font-extrabold text-slate-800">Secure Appointment</h4>
-            <span className="text-[#d16ba5] font-black text-xl">{progress}% Filled</span>
+        {/* TOP HEADER & TRUST SIGNALS */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 border border-pink-100 text-[#d16ba5] text-xs font-black uppercase tracking-widest mb-4">
+            <ShieldCheck size={16} /> Official Booking Portal
           </div>
-          <p className="text-slate-500 font-medium mb-4">Fill the details below for priority confirmation.</p>
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 tracking-tight">
+            Excellence in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d16ba5] to-[#52cffe]">Diagnostics</span>
+          </h2>
+          <p className="text-slate-600 font-bold mb-4">12+ Years of precision. NABL Accredited. Trusted by leading specialists in Mumbai.</p>
           
-          {/* Progress Bar */}
-          <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+          <div className="flex flex-wrap justify-center gap-3 text-xs font-extrabold text-slate-700">
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Award size={14} className="text-blue-500"/> AERB Accredited Lab</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><FileCheck size={14} className="text-green-500"/> PCPNDT Registered</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Activity size={14} className="text-pink-500"/> 3T MRI & 128-Slice CT</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><Clock size={14} className="text-orange-500"/> Same Day Reports</span>
+            <span className="bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><MapPin size={14} className="text-purple-500"/> Home Collection</span>
+          </div>
+        </div>
+
+        {/* PROGRESS BAR */}
+        <div className="mb-8 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+          <div className="flex justify-between items-end mb-2">
+            <div>
+              <h3 className="text-lg font-black text-slate-800">Secure Appointment</h3>
+              <p className="text-xs font-bold text-slate-500">Fill the details below for priority confirmation.</p>
+            </div>
+            <span className="text-2xl font-black text-[#52cffe]">{progress}%</span>
+          </div>
+          <div className="w-full bg-slate-200 h-3 rounded-full overflow-hidden">
             <div 
-              className="h-full rounded-full transition-all duration-500 ease-out"
+              className="h-full rounded-full transition-all duration-700 ease-out"
               style={{ 
                 width: `${progress}%`,
-                backgroundImage: "linear-gradient(to right, #69bff8, #d16ba5)"
+                background: "linear-gradient(to right, #d16ba5, #52cffe, #46eefa)"
               }}
             ></div>
           </div>
         </div>
 
-        <form onSubmit={handleWhatsAppSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            {/* Name */}
+        {/* BOOKING FORM */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="relative">
-              <label className="block text-sm font-bold text-slate-700 mb-2">Patient Name</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                  <User size={18} />
-                </div>
-                <input required type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Enter full name" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#79b3f4] focus:border-transparent transition-all outline-none font-medium text-slate-800" />
-              </div>
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Patient Name" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all" />
             </div>
-
-            {/* Mobile */}
             <div className="relative">
-              <label className="block text-sm font-bold text-slate-700 mb-2">Mobile Number</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                  <Phone size={18} />
-                </div>
-                <input required type="tel" name="mobile" pattern="[0-9]{10}" value={formData.mobile} onChange={handleChange} placeholder="10-digit mobile number" className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#79b3f4] focus:border-transparent transition-all outline-none font-medium text-slate-800" />
-              </div>
-            </div>
-
-            {/* Test Selection */}
-            <div className="relative md:col-span-2">
-              <label className="block text-sm font-bold text-slate-700 mb-2">Select Test / Service</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                  <Activity size={18} />
-                </div>
-                <select required name="test" value={formData.test} onChange={handleChange} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#79b3f4] focus:border-transparent transition-all outline-none font-medium text-slate-800 appearance-none">
-                  <option value="" disabled>Select the required test...</option>
-                  {Object.entries(SERVICES).map(([category, items]) => (
-                    <optgroup key={category} label={category}>
-                      {items.map(item => <option key={item} value={item}>{formatText(item)}</option>)}
-                    </optgroup>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Center Selection */}
-            <div className="relative md:col-span-2">
-              <label className="block text-sm font-bold text-slate-700 mb-2">Nearest Center</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                  <MapPin size={18} />
-                </div>
-                <select required name="center" value={formData.center} onChange={handleChange} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#79b3f4] focus:border-transparent transition-all outline-none font-medium text-slate-800 appearance-none">
-                  <option value="" disabled>Select your nearest neighborhood...</option>
-                  {Object.entries(LOCATIONS).map(([region, cities]) => (
-                    <optgroup key={region} label={region}>
-                      {cities.map(city => <option key={city} value={city}>{formatText(city)}</option>)}
-                    </optgroup>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Date */}
-            <div className="relative">
-              <label className="block text-sm font-bold text-slate-700 mb-2">Preferred Date</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                  <Calendar size={18} />
-                </div>
-                <input required type="date" name="date" value={formData.date} onChange={handleChange} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#79b3f4] focus:border-transparent transition-all outline-none font-medium text-slate-800" />
-              </div>
-            </div>
-
-            {/* Time */}
-            <div className="relative">
-              <label className="block text-sm font-bold text-slate-700 mb-2">Preferred Time</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                  <Clock size={18} />
-                </div>
-                <input required type="time" name="time" value={formData.time} onChange={handleChange} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#79b3f4] focus:border-transparent transition-all outline-none font-medium text-slate-800" />
-              </div>
+              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Mobile Number" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all" />
             </div>
           </div>
 
-          <div className="pt-6">
-            <button 
-              type="submit" 
-              disabled={progress < 100}
-              className={`w-full flex items-center justify-center gap-3 py-4 md:py-5 rounded-2xl text-white font-extrabold text-lg md:text-xl transition-all duration-300 shadow-xl ${progress === 100 ? 'hover:scale-[1.02] active:scale-[0.98]' : 'opacity-70 cursor-not-allowed'}`}
-              style={{ 
-                backgroundImage: progress === 100 
-                  ? "linear-gradient(to right, #25D366, #128C7E)" 
-                  : "linear-gradient(to right, #94a3b8, #cbd5e1)" 
-              }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.004-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
-              </svg>
-              Confirm Appointment Now
-            </button>
-            <p className="text-center text-slate-500 text-sm mt-3 font-medium">Clicking this will redirect you to WhatsApp for instant confirmation.</p>
+          <div className="relative">
+            <Activity className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+            <select name="test" value={formData.test} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all appearance-none cursor-pointer">
+              <option value="" disabled>Select Test Name</option>
+              {SERVICES.map((category, idx) => (
+                <optgroup key={idx} label={category.category}>
+                  {category.items.map((test, i) => (
+                    <option key={i} value={test}>{test}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
           </div>
+
+          <div className="relative">
+            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+            <select name="center" value={formData.center} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all appearance-none cursor-pointer">
+              <option value="" disabled>Select Nearest Center</option>
+              {LOCATIONS.map((region, idx) => (
+                <optgroup key={idx} label={region.region}>
+                  {region.cities.map((city, i) => (
+                    <option key={i} value={`${city}, ${region.region}`}>{city}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-5">
+            <div className="relative">
+              <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <input type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all cursor-pointer" />
+            </div>
+            <div className="relative">
+              <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <input type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 focus:border-[#52cffe] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold outline-none transition-all cursor-pointer" />
+            </div>
+          </div>
+
+          {/* PREMIUM WHATSAPP SUBMIT BUTTON */}
+          <button 
+            type="submit" 
+            disabled={progress < 100}
+            className={`w-full mt-4 py-5 px-6 rounded-2xl shadow-[0_15px_30px_-5px_rgba(37,211,102,0.4)] transform transition-all duration-300 flex items-center justify-center gap-3 text-lg font-black text-white ${progress === 100 ? 'bg-gradient-to-r from-[#25D366] to-[#1DA851] hover:scale-[1.02] cursor-pointer' : 'bg-slate-300 opacity-70 cursor-not-allowed'}`}
+          >
+            <MessageCircle size={28} className="fill-current" /> 
+            {progress === 100 ? "Confirm Appointment Now Via WhatsApp" : `Complete Form to Book (${progress}%)`}
+          </button>
         </form>
-      </div>
 
-      {/* TRUST SIGNALS SECTION */}
-      <div className="py-8 px-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-t border-slate-700">
-        <h4 className="text-center text-white/80 text-sm font-extrabold uppercase tracking-widest mb-6">Accredited & Certified by National Bodies</h4>
-        <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10 opacity-90 grayscale hover:grayscale-0 transition-all duration-500">
-          {TRUST_LOGOS.map((logo) => (
-            <div key={logo.name} className="bg-white p-2 rounded-xl shadow-inner w-20 md:w-24 transform hover:scale-110 transition-transform duration-300">
-              <img src={logo.src} alt={`${logo.name} Certified Lab`} className="w-full h-auto object-contain mix-blend-multiply" />
-            </div>
-          ))}
+        {/* ACCREDITATIONS FOOTER BANNER */}
+        <div className="mt-10 rounded-[2rem] p-6 border-2 border-white/20 shadow-inner" style={{ background: "linear-gradient(to right, #1e293b, #0f172a, #1e293b)" }}>
+          <h4 className="text-center text-slate-300 text-xs font-black uppercase tracking-[0.2em] mb-5 flex items-center justify-center gap-2">
+            <CheckCircle2 size={16} className="text-[#52cffe]" /> Accredited by National Bodies
+          </h4>
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+            {ACCREDITATIONS.map((acc, index) => (
+              <div key={index} className="flex flex-col items-center group">
+                <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-2.5 mb-2 shadow-[0_5px_15px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_10px_20px_rgba(82,207,254,0.3)]">
+                  <img src={acc.img} alt={acc.title} className="w-full h-full object-contain" />
+                </div>
+                <span className="text-[10px] font-black text-slate-300 tracking-wider uppercase">{acc.title}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
   );
 }
