@@ -29,7 +29,7 @@ const TRUST_SIGNALS = [
 
 const formatText = (text: string) => text.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
-// --- DYNAMIC METADATA GENERATION ---
+// --- DYNAMIC METADATA GENERATION (UPGRADED WITH OPEN GRAPH) ---
 export async function generateMetadata({ params }: { params: Promise<{ slug?: string[] }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const slugArray = resolvedParams.slug || [];
@@ -37,27 +37,63 @@ export async function generateMetadata({ params }: { params: Promise<{ slug?: st
   const isRegion = slugArray.length === 1;
   const isLocal = slugArray.length === 2;
 
+  const baseUrl = "https://www.henoticdiagnostics.com";
+  const currentPath = `/services/nt-scan${slugArray.length > 0 ? '/' + slugArray.join('/') : ''}`;
+
+  // Mirror the image logic used in the UI
+  const heroImage = isLocal ? "https://storage.googleapis.com/wp-media-henoticbucket/Sonography/nt-scan-henotic-diagnostics-kharghar.webp" :
+                    isRegion ? "https://storage.googleapis.com/wp-media-henoticbucket/Sonography/anomaly-scan-nt-scan-henotic-diagnostics-kharghar.webp" :
+                    "https://storage.googleapis.com/wp-media-henoticbucket/Sonography/anomaly-scan-nt-scan-henotic-diagnostics-kharghar-navi-mumbai.webp";
+
+  let baseMetadata: any = {};
+
   if (isLocal) {
     const loc = formatText(slugArray[1]);
-    return {
+    baseMetadata = {
       title: `NT Scan in ${loc} | Pregnancy NT NB Scan Near Me`,
       description: `Looking for NT Scan in ${loc}? Book first trimester pregnancy screening, NT NB Scan, fetal assessment, and prenatal ultrasound services at Henotic Diagnostics.`,
       keywords: `NT Scan near me, NT Scan in ${loc}, NT NB Scan ${loc}, Pregnancy Scan ${loc}, Book NT Scan ${loc}, NT Scan Centre ${loc}`
     };
   } else if (isRegion) {
     const reg = formatText(slugArray[0]);
-    return {
+    baseMetadata = {
       title: `NT Scan in ${reg} | Nuchal Translucency Scan Near You`,
       description: `Book NT Scan in ${reg} with experienced fetal imaging specialists. First trimester screening, NT NB Scan, pregnancy ultrasound, and prenatal assessment services.`,
       keywords: `NT Scan in ${reg}, NT NB Scan ${reg}, Pregnancy Scan ${reg}, Nuchal Translucency Scan ${reg}, First Trimester Screening ${reg}`
     };
   } else {
-    return {
+    baseMetadata = {
       title: "NT Scan (Nuchal Translucency Scan) | First Trimester Pregnancy Screening",
       description: "Learn about NT Scan, Nuchal Translucency screening, Down syndrome risk assessment, first trimester fetal evaluation, NT NB scan, and prenatal screening during pregnancy.",
       keywords: "NT Scan, Nuchal Translucency Scan, NT NB Scan, First Trimester Screening, Down Syndrome Screening, Pregnancy Ultrasound, 11 to 13 Week Scan"
     };
   }
+
+  // Inject Open Graph & Twitter Cards dynamically
+  return {
+    ...baseMetadata,
+    openGraph: {
+      title: baseMetadata.title,
+      description: baseMetadata.description,
+      url: `${baseUrl}${currentPath}`,
+      siteName: 'Henotic Diagnostics',
+      images: [
+        {
+          url: heroImage,
+          width: 1200,
+          height: 630,
+          alt: baseMetadata.title,
+        }
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: baseMetadata.title,
+      description: baseMetadata.description,
+      images: [heroImage],
+    }
+  };
 }
 
 // --- MAIN PAGE COMPONENT ---
@@ -75,7 +111,6 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
   const regionName = isRegion || isLocal ? formatText(currentRegionSlug) : "";
   const locationName = isLocal ? formatText(currentLocalSlug) : "";
 
-  // Dynamic Image Logic - Ensuring absolute clarity
   const heroImage = isLocal ? "https://storage.googleapis.com/wp-media-henoticbucket/Sonography/nt-scan-henotic-diagnostics-kharghar.webp" :
                     isRegion ? "https://storage.googleapis.com/wp-media-henoticbucket/Sonography/anomaly-scan-nt-scan-henotic-diagnostics-kharghar.webp" :
                     "https://storage.googleapis.com/wp-media-henoticbucket/Sonography/anomaly-scan-nt-scan-henotic-diagnostics-kharghar-navi-mumbai.webp";
