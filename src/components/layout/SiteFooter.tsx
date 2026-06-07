@@ -210,11 +210,11 @@ export default function SiteFooter() {
       <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-4 items-end pointer-events-none">
         <a href="https://wa.me/918879327184" target="_blank" rel="noreferrer" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Chat on WhatsApp">
           <div className="absolute inset-0 bg-green-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img width="800" height="800" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
+          <img width="100" height="100" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
         </a>
         <a href="tel:08879327184" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Call Now">
           <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img width="800" height="800" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
+          <img width="100" height="100" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
         </a>
       </div>
     </footer>

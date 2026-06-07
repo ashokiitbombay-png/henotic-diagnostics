@@ -54,11 +54,11 @@ export default function HeaderPremium() {
           {/* LOGO AREA */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center p-1.5 shadow-md group-hover:scale-105 transition-transform">
-              <img width="800" height="800" decoding="async" 
+              <img decoding="async" 
                 src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.svg" 
                 alt="Henotic Diagnostics Logo" 
                 className="w-full h-full object-contain"
-              fetchPriority="high" />
+              width="48" height="48" fetchPriority="high" />
             </div>
             <div className="flex flex-col">
               <span className="text-white font-black text-lg md:text-xl tracking-wide leading-tight drop-shadow-sm uppercase">Henotic</span>

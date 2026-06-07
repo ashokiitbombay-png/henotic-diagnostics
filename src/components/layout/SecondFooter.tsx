@@ -77,7 +77,7 @@ export default function SecondFooter() {
               className={cn(
                 "px-5 py-2.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-widest transition-all border shadow-sm",
                 openRegion === region 
-                  ? "bg-white text-[#813985] border-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] scale-105" 
+                  ? "bg-white text-[#6d2870] border-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] scale-105" 
                   : "bg-white/10 text-white border-white/30 hover:bg-white/20"
               )}
             >

@@ -86,7 +86,7 @@ export default function HeroMedical() {
                 <span className="font-bold text-slate-800">Expert<br/>Radiologists</span>
               </div>
               <div className="flex flex-col gap-2">
-                <Shield size={24} className="text-[#813985]" />
+                <Shield size={24} className="text-[#6d2870]" />
                 <span className="font-bold text-slate-800">100% Accurate<br/>Reports</span>
               </div>
             </div>
