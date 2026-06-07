@@ -8,7 +8,7 @@ const packages = [
     title: "Comprehensive Full Body",
     price: "₹2,999",
     oldPrice: "₹6,500",
-    img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/88133686-henotic-diagnostics-top-pathology-lab-navi-mumbai-blood-test-near-me-health-checkup-nabl-accredited-lab-mri-scan-ct-scan-genetic-testing.webp",
+    img: "https://storage.googleapis.com/wp-media-henoticbucket/Laboratory/henotic-diagnostics-blood-test-lab.webp",
     gradient: "from-blue-600 to-cyan-400",
     includes: ["Lipid Profile (Heart)", "Liver Function Test (LFT)", "Kidney Function Test (KFT)", "Thyroid Profile (T3, T4, TSH)", "Complete Hemogram (CBC)", "Diabetes Screening (HbA1c)"]
   },
