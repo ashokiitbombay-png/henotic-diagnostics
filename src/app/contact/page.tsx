@@ -66,8 +66,8 @@ export default function ContactUs() {
           <div className="lg:w-1/2 relative p-6 lg:p-10 flex items-center justify-center bg-slate-50/50">
             {/* Deep 3D Frame Effect */}
             <div className="relative w-full h-[350px] lg:h-full min-h-[400px] rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white group transform transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_40px_70px_-15px_rgba(0,0,0,0.5)]">
-              <img decoding="async" 
-                src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp" 
+              <img width="800" height="800" decoding="async" 
+                src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp&w=1080&q=75" 
                 alt="Henotic Diagnostics Front Office" 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               fetchPriority="high" />
@@ -87,8 +87,8 @@ export default function ContactUs() {
             
             {/* 3D Waiting Area Image Container */}
             <div className="relative group w-full h-[400px] sm:h-[450px] rounded-[3rem] overflow-hidden bg-white shadow-[0_40px_80px_-20px_rgba(0,0,0,0.4)] hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] transform hover:-translate-y-4 transition-all duration-700 ease-out border-[8px] border-white">
-              <img decoding="async" 
-                src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp" 
+              <img width="800" height="800" decoding="async" 
+                src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp&w=1080&q=75" 
                 alt="Henotic Diagnostics Reception and Waiting Area" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
               fetchPriority="high" />
@@ -175,7 +175,7 @@ export default function ContactUs() {
                     <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} placeholder="Mobile Number" required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold placeholder-slate-400 transition-all outline-none" />
                   </div>
 
-                  <select name="test" value={formData.test} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold transition-all outline-none appearance-none">
+                  <select aria-label="Select Test Category" name="test" value={formData.test} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold transition-all outline-none appearance-none">
                     <option value="" disabled>Select Test Name</option>
                     <option value="MRI Scan">MRI Scan</option>
                     <option value="CT Scan">CT Scan</option>
@@ -184,7 +184,7 @@ export default function ContactUs() {
                     <option value="Health Checkup Package">Health Checkup Package</option>
                   </select>
 
-                  <select name="center" value={formData.center} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold transition-all outline-none appearance-none">
+                  <select aria-label="Select Nearest Center" name="center" value={formData.center} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold transition-all outline-none appearance-none">
                     <option value="" disabled>Select Nearest Center</option>
                     <option value="Kharghar Center">Kharghar Center</option>
                     <option value="Panvel Center">Panvel Center</option>
@@ -192,8 +192,8 @@ export default function ContactUs() {
                   </select>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <input type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold transition-all outline-none" />
-                    <input type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold transition-all outline-none" />
+                    <input aria-label="Select Date" type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold transition-all outline-none" />
+                    <input aria-label="Select Time" type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-white/95 backdrop-blur-xl border-0 focus:ring-4 focus:ring-white/50 text-slate-800 shadow-inner font-bold transition-all outline-none" />
                   </div>
 
                   <button 

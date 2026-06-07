@@ -21,7 +21,7 @@ export default function DoctorsTrustSignals() {
               <div className={`relative h-[300px] w-full ${doctor.bgColor} overflow-hidden flex items-center justify-center`}>
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
                 <div className={`absolute w-[200px] h-[200px] rounded-full ${doctor.primaryCircle} border border-white shadow-inner flex items-center justify-center`}></div>
-                <img loading="lazy" decoding="async" src={doctor.imageUrl} alt={doctor.name} className="relative z-10 h-[90%] w-auto object-contain mt-auto transition-transform duration-700 group-hover:scale-110" />
+                <img width="800" height="800" loading="lazy" decoding="async" src={doctor.imageUrl} alt={doctor.name} className="relative z-10 h-[90%] w-auto object-contain mt-auto transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute top-6 left-6 z-20 flex items-center gap-1 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-sm border border-white"><Award size={12} className={doctor.accent} /><span className="text-[9px] font-black uppercase tracking-widest text-slate-700">Verified</span></div>
               </div>
               <div className="p-8 flex flex-col flex-grow bg-slate-50/50">

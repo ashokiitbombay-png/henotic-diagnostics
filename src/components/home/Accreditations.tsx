@@ -23,7 +23,7 @@ export default function Accreditations() {
               <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${item.grad} rounded-t-[2.5rem]`}></div>
               <div className="relative w-32 h-32 mb-8 flex items-center justify-center">
                 <div className={`absolute inset-0 bg-gradient-to-tr ${item.grad} opacity-0 group-hover:opacity-10 blur-2xl rounded-full transition duration-700`}></div>
-                <img decoding="async" src={item.img} alt={item.title} className="relative z-10 w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-110" fetchPriority="high" />
+                <img width="800" height="800" decoding="async" src={item.img} alt={item.title} className="relative z-10 w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-110" fetchPriority="high" />
               </div>
               <h4 className="text-2xl font-black text-blue-950 mb-2">{item.title}</h4>
               <h5 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-6">{item.sub}</h5>

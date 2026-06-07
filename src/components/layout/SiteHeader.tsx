@@ -37,7 +37,7 @@ export default function SiteHeader() {
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-3 relative z-50 group shrink-0">
             <div className="bg-white rounded-full p-1 shadow-md group-hover:scale-105 transition-transform duration-300">
-              <img loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.svg" alt="Henotic Diagnostics Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
+              <img width="800" height="800" loading="lazy" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.svg&w=1080&q=75" alt="Henotic Diagnostics Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
             </div>
             <div className="flex flex-col justify-center leading-none">
               <span className="text-white font-extrabold text-lg md:text-xl tracking-tight m-0 p-0 drop-shadow-sm">HENOTIC</span>
@@ -88,7 +88,7 @@ export default function SiteHeader() {
           </div>
 
           {/* MOBILE TOGGLE */}
-          <button className="lg:hidden text-white z-50 p-2 shrink-0 flex items-center justify-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+          <button aria-label="Toggle Mobile Menu" className="lg:hidden text-white z-50 p-2 shrink-0 flex items-center justify-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>

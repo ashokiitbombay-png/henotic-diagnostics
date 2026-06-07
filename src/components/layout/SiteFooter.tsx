@@ -38,8 +38,8 @@ export default function SiteFooter() {
           <div className="lg:col-span-5 flex flex-col gap-6">
             <Link href="/" className="inline-block group relative z-50 w-max">
               <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.02]">
-                 <img decoding="async" 
-                   src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/6d8a7750-henotic_diagnostics_logo_gedg88_e_background_removal_f_png-scaled.webp" 
+                 <img width="800" height="800" decoding="async" 
+                   src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/2026/01/6d8a7750-henotic_diagnostics_logo_gedg88_e_background_removal_f_png-scaled.webp&w=1080&q=75" 
                    alt="Henotic Diagnostics" 
                    className="w-64 lg:w-80 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50"
                  />
@@ -73,7 +73,7 @@ export default function SiteFooter() {
           {/* GOOGLE MAP & GBP PROFILE (Right Column - Spans 7) */}
           <div className="lg:col-span-7 flex flex-col gap-6 h-full relative z-20">
              <div className="flex flex-col sm:flex-row gap-4 bg-white/10 p-4 rounded-3xl border border-white/20 backdrop-blur-md shadow-xl">
-                <img decoding="async" 
+                <img width="800" height="800" decoding="async" 
                   src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw" 
                   alt="Henotic Diagnostics Facility" 
                   className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
@@ -93,7 +93,7 @@ export default function SiteFooter() {
              </div>
 
              <div className="flex-grow bg-white/10 p-2 rounded-3xl border border-white/20 w-full shadow-2xl relative group overflow-hidden backdrop-blur-sm min-h-[250px]">
-               <iframe 
+               <iframe title="Google Maps Location" 
                  src="https://maps.google.com/maps?q=19.04313094481506,73.07794905888657&z=15&output=embed"
                  width="100%" 
                  height="100%" 
@@ -165,7 +165,7 @@ export default function SiteFooter() {
                 { name: "Paypal", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/3ffff106-paypal-banking-henotic-diagnostics.webp" }
               ].map((pay, i) => (
                 <div key={i} className="bg-white rounded-xl w-20 h-12 md:w-28 md:h-14 flex items-center justify-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 px-2">
-                  <img decoding="async" src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" />
+                  <img width="800" height="800" decoding="async" src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" />
                 </div>
               ))}
            </div>
@@ -179,19 +179,19 @@ export default function SiteFooter() {
            
            {/* REPLACED WITH BULLETPROOF ICONS */}
            <div className="flex flex-wrap justify-center gap-3">
-              <a href="https://www.facebook.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-600 hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="Facebook" href="https://www.facebook.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-600 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <FacebookIcon size={18} />
               </a>
-              <a href="https://www.instagram.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-pink-600 hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="Instagram" href="https://www.instagram.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-pink-600 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <InstagramIcon size={18} />
               </a>
-              <a href="https://x.com/henoticservices" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-black hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="X Twitter" href="https://x.com/henoticservices" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-black hover:-translate-y-1 shadow-lg text-white transition-all">
                 <TwitterIcon size={18} />
               </a>
-              <a href="https://www.linkedin.com/company/14610097/admin/page-posts/published/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-700 hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="LinkedIn" href="https://www.linkedin.com/company/14610097/admin/page-posts/published/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-700 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <LinkedinIcon size={18} />
               </a>
-              <a href="https://www.youtube.com/@HenoticDiagnostics" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-600 hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="YouTube" href="https://www.youtube.com/@HenoticDiagnostics" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-600 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <YoutubeIcon size={18} />
               </a>
               <a href="https://in.pinterest.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-500 hover:-translate-y-1 shadow-lg text-white transition-all font-bold text-lg font-serif">
@@ -210,11 +210,11 @@ export default function SiteFooter() {
       <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-4 items-end pointer-events-none">
         <a href="https://wa.me/918879327184" target="_blank" rel="noreferrer" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Chat on WhatsApp">
           <div className="absolute inset-0 bg-green-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
+          <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp&w=1080&q=75" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
         </a>
         <a href="tel:08879327184" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Call Now">
           <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
+          <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp&w=1080&q=75" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
         </a>
       </div>
     </footer>

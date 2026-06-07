@@ -28,7 +28,7 @@ export default function GoogleReviews() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <span className="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-white text-blue-800 font-extrabold text-xs tracking-[0.2em] uppercase mb-6 shadow-[0_10px_20px_rgba(0,0,0,0.05)] border border-blue-100">
-            <img decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg" alt="Google" className="w-4 h-4" />
+            <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg&w=1080&q=75" alt="Google" className="w-4 h-4" />
             Verified Patient Trust Signals
           </span>
           <h2 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 drop-shadow-sm tracking-tight">
@@ -49,22 +49,22 @@ export default function GoogleReviews() {
           <div className="w-full lg:w-[45%] relative">
             <div className="absolute inset-0 bg-blue-600 rounded-[2.5rem] transform rotate-3 opacity-15 transition-transform duration-500 group-hover:rotate-6 blur-lg"></div>
             
-            <img decoding="async" 
-              src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-main-building.webp" 
+            <img width="800" height="800" decoding="async" 
+              src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-main-building.webp&w=1080&q=75" 
               alt="Henotic Diagnostics Facility" 
               className="relative z-10 w-full h-72 md:h-80 object-cover rounded-[2.5rem] border-[6px] border-white shadow-2xl transition-transform duration-700 group-hover:scale-[1.03]"
             fetchPriority="high" />
             
             {/* Floating GBP Badge */}
             <div className="absolute -bottom-6 -right-4 md:-right-8 z-30 bg-white p-2 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.15)] border border-slate-50 transform hover:scale-110 transition-transform duration-300">
-              <img decoding="async" 
+              <img width="800" height="800" decoding="async" 
                 src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw" 
                 alt="Google Business Profile" 
                 className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover"
                 onError={(e) => { e.currentTarget.src = "https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-my-business-icon.webp"; }}
               />
-              <img decoding="async" 
-                src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg" 
+              <img width="800" height="800" decoding="async" 
+                src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg&w=1080&q=75" 
                 alt="Google Icon" 
                 className="absolute -top-4 -left-4 w-10 h-10 bg-white rounded-full p-2 shadow-lg border border-slate-100"
               />
@@ -74,7 +74,7 @@ export default function GoogleReviews() {
           {/* Right Side: Rating Info & Actions */}
           <div className="w-full lg:w-[55%] flex flex-col items-center lg:items-start text-center lg:text-left pl-0 lg:pl-8">
             <div className="flex items-center gap-3 mb-6">
-              <img decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg" alt="Google" className="w-8 h-8 drop-shadow-sm" />
+              <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg&w=1080&q=75" alt="Google" className="w-8 h-8 object-contain drop-shadow-sm" />
               <h3 className="text-3xl md:text-4xl font-black text-slate-800 tracking-tight">Henotic Diagnostics</h3>
             </div>
             
@@ -83,7 +83,7 @@ export default function GoogleReviews() {
               <div className="flex flex-col items-center sm:items-start gap-2">
                 <div className="flex gap-1.5">
                   {[...Array(5)].map((_, i) => (
-                    <img decoding="async" key={i} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp" alt="Star" className="w-7 h-7 md:w-9 md:h-9 drop-shadow-[0_5px_10px_rgba(250,204,21,0.5)] transform hover:scale-125 hover:-translate-y-1 transition-all duration-300" />
+                    <img width="800" height="800" decoding="async" key={i} src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp&w=1080&q=75" alt="Star" className="w-7 h-7 md:w-9 md:h-9 drop-shadow-[0_5px_10px_rgba(250,204,21,0.5)] transform hover:scale-125 hover:-translate-y-1 transition-all duration-300" />
                   ))}
                 </div>
                 <span className="text-slate-600 font-extrabold text-sm tracking-wide">Based on 1,030+ Verified Reviews</span>
@@ -105,7 +105,7 @@ export default function GoogleReviews() {
                 rel="noreferrer"
                 className="flex items-center justify-center gap-3 px-8 py-4 bg-white border-2 border-slate-200 hover:border-blue-300 hover:bg-blue-50 text-slate-700 hover:text-blue-800 font-extrabold rounded-2xl shadow-sm hover:shadow-md transform hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto text-lg group"
               >
-                <img decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google_Maps_icon_(2020).svg.png" alt="Google Maps" className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google_Maps_icon_(2020).svg.png&w=1080&q=75" alt="Google Maps" className="w-6 h-6 object-contain group-hover:scale-110 transition-transform" />
                 View Map
               </a>
             </div>
@@ -142,7 +142,7 @@ export default function GoogleReviews() {
 
                 <div className="flex gap-1.5 mb-6 relative z-10">
                   {[...Array(review.rating)].map((_, i) => (
-                    <img decoding="async" key={i} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp" alt="Star" className="w-5 h-5 drop-shadow-sm" />
+                    <img width="800" height="800" decoding="async" key={i} src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp&w=1080&q=75" alt="Star" className="w-5 h-5 drop-shadow-sm" />
                   ))}
                 </div>
 
@@ -151,7 +151,7 @@ export default function GoogleReviews() {
                 </p>
 
                 <div className="mt-8 pt-5 border-t border-slate-200 flex items-center gap-3 relative z-10 bg-slate-100/50 -mx-4 -mb-4 p-4 rounded-b-[2rem]">
-                   <img decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg" alt="Google" className="w-5 h-5 drop-shadow-sm" />
+                   <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg&w=1080&q=75" alt="Google" className="w-5 h-5 drop-shadow-sm" />
                    <span className="text-[11px] uppercase tracking-[0.15em] text-slate-500 font-extrabold">Verified Google Review</span>
                 </div>
               </div>
@@ -165,7 +165,7 @@ export default function GoogleReviews() {
                  <p className="font-extrabold text-slate-900 text-sm">Find Us Here</p>
                  <p className="text-xs font-bold text-slate-500">Kharghar, Navi Mumbai</p>
                </div>
-               <img decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google_Maps_icon_(2020).svg.png" alt="Maps" className="w-8 h-8 drop-shadow-md" />
+               <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google_Maps_icon_(2020).svg.png&w=1080&q=75" alt="Maps" className="w-8 h-8 object-contain drop-shadow-md" />
              </div>
              
              <iframe 

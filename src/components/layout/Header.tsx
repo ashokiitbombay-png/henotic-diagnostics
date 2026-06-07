@@ -54,8 +54,8 @@ export default function HeaderPremium() {
           {/* LOGO AREA */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center p-1.5 shadow-md group-hover:scale-105 transition-transform">
-              <img decoding="async" 
-                src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.svg" 
+              <img width="800" height="800" decoding="async" 
+                src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.svg&w=1080&q=75" 
                 alt="Henotic Diagnostics Logo" 
                 className="w-full h-full object-contain"
               fetchPriority="high" />
@@ -97,7 +97,7 @@ export default function HeaderPremium() {
           </div>
 
           {/* MOBILE MENU TOGGLE */}
-          <button 
+          <button aria-label="Toggle Mobile Menu" 
             type="button"
             className="lg:hidden text-white p-2 relative z-50 cursor-pointer"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -173,7 +173,7 @@ export default function HeaderPremium() {
                   <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} placeholder="Mobile Number" required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
                 </div>
 
-                <select name="test" value={formData.test} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none appearance-none">
+                <select aria-label="Select Test Category" name="test" value={formData.test} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none appearance-none">
                   <option value="" disabled>Select Test Name</option>
                   <option value="MRI Scan">MRI Scan</option>
                   <option value="CT Scan">CT Scan</option>
@@ -183,7 +183,7 @@ export default function HeaderPremium() {
                   <option value="Health Checkup Package">Health Checkup Package</option>
                 </select>
 
-                <select name="center" value={formData.center} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none appearance-none">
+                <select aria-label="Select Nearest Center" name="center" value={formData.center} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none appearance-none">
                   <option value="" disabled>Select Nearest Center</option>
                   <option value="Kharghar Center">Kharghar Center</option>
                   <option value="Panvel Center">Panvel Center</option>
@@ -191,8 +191,8 @@ export default function HeaderPremium() {
                 </select>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
-                  <input type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
+                  <input aria-label="Select Date" type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
+                  <input aria-label="Select Time" type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#4568dc] focus:ring-4 focus:ring-blue-50 text-slate-800 font-bold transition-all outline-none" />
                 </div>
 
                 <button 

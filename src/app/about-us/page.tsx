@@ -114,7 +114,7 @@ export default function AboutUsPage() {
             </div>
             <div className="relative mt-8 lg:mt-0 group">
               <div className="absolute inset-0 bg-blue-600 rounded-3xl transform rotate-3 opacity-15 transition-transform duration-500 group-hover:rotate-6 blur-lg"></div>
-              <img decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/henotic-diagnostics-mri-scan-panvel.webp" alt="Henotic Diagnostics MRI Scan" className="relative rounded-[2.5rem] shadow-2xl object-cover h-[350px] md:h-[450px] lg:h-[500px] w-full border-[6px] border-white transition-transform hover:scale-[1.02] duration-500 z-10" fetchPriority="high" />
+              <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/henotic-diagnostics-mri-scan-panvel.webp&w=1080&q=75" alt="Henotic Diagnostics MRI Scan" className="relative rounded-[2.5rem] shadow-2xl object-cover h-[350px] md:h-[450px] lg:h-[500px] w-full border-[6px] border-white transition-transform hover:scale-[1.02] duration-500 z-10" fetchPriority="high" />
             </div>
           </div>
         </div>
@@ -130,12 +130,12 @@ export default function AboutUsPage() {
           <div className="animate-marquee">
             {techImages.map((src, index) => (
               <div key={index} className="w-[80vw] sm:w-[320px] md:w-[350px] lg:w-[400px] flex-shrink-0 px-3 md:px-4">
-                <img decoding="async" src={src} className="w-full h-56 md:h-80 object-cover rounded-3xl deep-shadow border-4 border-white" alt="Technology" fetchPriority="high" />
+                <img width="800" height="800" decoding="async" src={src} className="w-full h-56 md:h-80 object-cover rounded-3xl deep-shadow border-4 border-white" alt="Technology" fetchPriority="high" />
               </div>
             ))}
             {techImages.map((src, index) => (
               <div key={`dup-${index}`} className="w-[80vw] sm:w-[320px] md:w-[350px] lg:w-[400px] flex-shrink-0 px-3 md:px-4">
-                <img decoding="async" src={src} className="w-full h-56 md:h-80 object-cover rounded-3xl deep-shadow border-4 border-white" alt="Technology" fetchPriority="high" />
+                <img width="800" height="800" decoding="async" src={src} className="w-full h-56 md:h-80 object-cover rounded-3xl deep-shadow border-4 border-white" alt="Technology" fetchPriority="high" />
               </div>
             ))}
           </div>
@@ -173,14 +173,14 @@ export default function AboutUsPage() {
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-xs md:text-sm font-bold text-slate-700 mb-1">Test Name</label>
-                    <select name="test" value={formData.test} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-[#E55D87] outline-none transition bg-white shadow-sm font-medium" required>
+                    <select aria-label="Select Test Category" name="test" value={formData.test} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-[#E55D87] outline-none transition bg-white shadow-sm font-medium" required>
                       <option value="">Select Required Test...</option>
                       {tests.map((test, idx) => <option key={idx} value={test}>{test}</option>)}
                     </select>
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-xs md:text-sm font-bold text-slate-700 mb-1">Select Center</label>
-                    <select name="center" value={formData.center} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-[#E55D87] outline-none transition bg-white shadow-sm font-medium" required>
+                    <select aria-label="Select Nearest Center" name="center" value={formData.center} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-[#E55D87] outline-none transition bg-white shadow-sm font-medium" required>
                       <option value="">Choose location...</option>
                       {cities.map((city, idx) => <option key={idx} value={city}>{city}</option>)}
                     </select>
