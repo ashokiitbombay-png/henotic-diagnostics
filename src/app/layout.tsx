@@ -2,6 +2,8 @@ import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 import "./globals.css";
 
+
+import SecondFooter from "@/components/layout/SecondFooter";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // Added data-scroll-behavior="smooth" to satisfy Next.js routing requirements
@@ -13,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         
+        <SecondFooter />
         <SiteFooter />
       </body>
     </html>
