@@ -61,7 +61,7 @@ export default function GoogleReviews() {
             {/* Floating Google Profile Badge */}
             <div className="absolute -bottom-6 -right-6 md:-right-8 z-20 bg-white p-2 rounded-2xl shadow-2xl border border-slate-100 flex items-center justify-center transform transition-transform duration-300 hover:scale-110">
               <img width="800" height="800" loading="lazy" decoding="async" 
-                src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw" 
+                src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
                 alt="Google Business Profile" 
                 className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover"
                 onError={(e) => {

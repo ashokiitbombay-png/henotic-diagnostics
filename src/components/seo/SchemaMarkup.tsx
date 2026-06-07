@@ -11,7 +11,7 @@ export default function SchemaMarkup({ service, location }: SchemaMarkupProps) {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
     "name": "Henotic Diagnostics",
-    "image": "https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw",
+    "image": "https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no",
     "@id": "https://www.henoticdiagnostics.com/#medicalclinic",
     "url": "https://share.google/IcBtvtVjwozCBFMPp",
     "telephone": "08879327184",

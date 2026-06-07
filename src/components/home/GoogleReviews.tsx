@@ -57,7 +57,7 @@ export default function GoogleReviews() {
             {/* Floating GBP Badge */}
             <div className="absolute -bottom-6 -right-4 md:-right-8 z-30 bg-white p-2 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.15)] border border-slate-50 transform hover:scale-110 transition-transform duration-300">
               <img width="800" height="800" decoding="async" 
-                src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw" 
+                src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
                 alt="Google Business Profile" 
                 className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover"
                 onError={(e) => { e.currentTarget.src = "https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-my-business-icon.webp"; }}
