@@ -8,6 +8,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     // Added data-scroll-behavior="smooth" to satisfy Next.js routing requirements
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
+        <head>
+          <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
+          <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+        </head>
       <body suppressHydrationWarning className="flex flex-col min-h-screen bg-gray-50">
         <SiteHeader />
         

@@ -18,7 +18,7 @@ export default function FooterPremium() {
           <div className="space-y-10">
             <Link href="/" className="inline-block group relative z-50">
               <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md">
-                 <img src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/6d8a7750-henotic_diagnostics_logo_gedg88_e_background_removal_f_png-scaled.webp" alt="Henotic Diagnostics" className="w-72 lg:w-96 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50" />
+                 <img loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/6d8a7750-henotic_diagnostics_logo_gedg88_e_background_removal_f_png-scaled.webp" alt="Henotic Diagnostics" className="w-72 lg:w-96 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50" />
               </div>
             </Link>
             <div className="flex gap-4">
