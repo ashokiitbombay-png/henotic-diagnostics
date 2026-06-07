@@ -108,7 +108,7 @@ export default function FacilityShowcase() {
                 <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
                   <Link 
                     href={`/services/${facility.slug}`}
-                    className="text-[#4568dc] font-extrabold text-sm flex items-center gap-1 hover:gap-2 transition-all hover:text-[#b06ab3]"
+                    className="text-[#4568dc] font-extrabold text-sm flex items-center gap-1 hover:gap-2 transition-all hover:text-[#813985]"
                   >
                     Explore Service <ArrowRight size={16} />
                   </Link>

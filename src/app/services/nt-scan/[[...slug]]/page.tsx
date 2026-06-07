@@ -157,7 +157,7 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
       <section className="relative pt-10 pb-24 md:pt-16 md:pb-32 bg-slate-900 overflow-hidden">
         
         {/* The Base Hero Image - Boosted Opacity for Visibility */}
-        <div className="absolute inset-0 z-0 bg-cover bg-center opacity-70 transition-transform duration-[10000ms] hover:scale-105" style={{ backgroundImage: `url('${heroImage}')` }}></div>
+        <img src={`${heroImage}`} alt="Hero Banner" className="absolute inset-0 z-0 bg-cover bg-center opacity-70 transition-transform duration-[10000ms] hover:scale-105 object-cover w-full h-full" fetchPriority="high" />
         
         {/* DYNAMIC DIRECTIONAL GRADIENT: Forces image visibility on the opposite side of the text */}
         <div className={`absolute inset-0 z-0 ${isAuthority ? 'bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent' : 'bg-gradient-to-l from-slate-900 via-slate-900/80 to-transparent'}`}></div>
@@ -372,7 +372,7 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
 
           <div className="lg:col-span-1">
             <div className="sticky top-[100px] bg-gradient-to-br from-[#4568dc] to-[#b06ab3] rounded-[3rem] p-8 shadow-[0_40px_80px_-20px_rgba(176,106,179,0.5)] border-4 border-white text-white">
-              <h3 className="text-2xl font-black mb-6 drop-shadow-md">Henotic Advantage</h3>
+              <h3 className="text-2xl font-black mb-6 drop-shadow-md text-slate-900">Henotic Advantage</h3>
               <ul className="space-y-4 mb-8">
                 {TRUST_SIGNALS.map((signal, idx) => (
                   <li key={idx} className="flex items-start gap-3 font-bold text-white/95 text-sm">

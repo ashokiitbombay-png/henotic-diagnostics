@@ -85,7 +85,7 @@ export default function ServiceLocationTemplate({ service, region, location, con
           {/* Right Column: Sticky Conversion Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-[100px] bg-gradient-to-br from-[#4568dc] to-[#b06ab3] rounded-[3rem] p-8 md:p-10 shadow-[0_40px_80px_-20px_rgba(176,106,179,0.5)] border-4 border-white text-white transform transition-transform hover:-translate-y-2 duration-500">
-              <h3 className="text-2xl font-black mb-6 drop-shadow-md">Why Choose Us in {formattedLocation}?</h3>
+              <h3 className="text-2xl font-black mb-6 drop-shadow-md text-slate-900">Why Choose Us in {formattedLocation}?</h3>
               
               <ul className="space-y-5 mb-10">
                 <li className="flex items-start gap-4 font-bold text-white/90"><CheckCircle2 className="text-white shrink-0 mt-0.5 drop-shadow" size={22}/> Zero waiting time with prior booking</li>
