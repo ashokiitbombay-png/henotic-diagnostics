@@ -39,7 +39,7 @@ export default function SiteFooter() {
             <Link href="/" className="inline-block group relative z-50 w-max">
               <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.02]">
                  <img width="800" height="800" decoding="async" 
-                   src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/2026/01/6d8a7750-henotic_diagnostics_logo_gedg88_e_background_removal_f_png-scaled.webp&w=1080&q=75" 
+                   src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/6d8a7750-henotic_diagnostics_logo_gedg88_e_background_removal_f_png-scaled.webp" 
                    alt="Henotic Diagnostics" 
                    className="w-64 lg:w-80 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50"
                  />
@@ -210,11 +210,11 @@ export default function SiteFooter() {
       <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-4 items-end pointer-events-none">
         <a href="https://wa.me/918879327184" target="_blank" rel="noreferrer" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Chat on WhatsApp">
           <div className="absolute inset-0 bg-green-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp&w=1080&q=75" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
+          <img width="800" height="800" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
         </a>
         <a href="tel:08879327184" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Call Now">
           <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp&w=1080&q=75" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
+          <img width="800" height="800" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
         </a>
       </div>
     </footer>

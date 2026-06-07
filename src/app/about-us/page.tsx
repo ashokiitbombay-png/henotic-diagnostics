@@ -114,7 +114,7 @@ export default function AboutUsPage() {
             </div>
             <div className="relative mt-8 lg:mt-0 group">
               <div className="absolute inset-0 bg-blue-600 rounded-3xl transform rotate-3 opacity-15 transition-transform duration-500 group-hover:rotate-6 blur-lg"></div>
-              <img width="800" height="800" decoding="async" src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/henotic-diagnostics-mri-scan-panvel.webp&w=1080&q=75" alt="Henotic Diagnostics MRI Scan" className="relative rounded-[2.5rem] shadow-2xl object-cover h-[350px] md:h-[450px] lg:h-[500px] w-full border-[6px] border-white transition-transform hover:scale-[1.02] duration-500 z-10" fetchPriority="high" />
+              <img width="800" height="800" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/henotic-diagnostics-mri-scan-panvel.webp" alt="Henotic Diagnostics MRI Scan" className="relative rounded-[2.5rem] shadow-2xl object-cover h-[350px] md:h-[450px] lg:h-[500px] w-full border-[6px] border-white transition-transform hover:scale-[1.02] duration-500 z-10" fetchPriority="high" />
             </div>
           </div>
         </div>

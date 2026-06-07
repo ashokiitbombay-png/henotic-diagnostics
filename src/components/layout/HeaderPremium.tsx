@@ -55,7 +55,7 @@ export default function HeaderPremium() {
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center p-1.5 shadow-md group-hover:scale-105 transition-transform">
               <img width="800" height="800" decoding="async" 
-                src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.svg&w=1080&q=75" 
+                src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.svg" 
                 alt="Henotic Diagnostics Logo" 
                 className="w-full h-full object-contain"
               fetchPriority="high" />

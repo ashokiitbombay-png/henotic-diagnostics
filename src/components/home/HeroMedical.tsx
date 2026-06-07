@@ -126,7 +126,7 @@ export default function HeroMedical() {
               {/* The Actual Image (Fully Visible, High Priority) */}
               <div className="relative bg-white p-2 sm:p-3 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] transform -rotate-2 hover:rotate-0 transition-transform duration-700 overflow-hidden border border-white/60">
                 <img width="800" height="800" decoding="async" 
-                  src="/_next/image?url=https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp&w=1080&q=75" 
+                  src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" 
                   alt="Premium 3T MRI Scan at Henotic Diagnostics" 
                   className="rounded-[2.5rem] w-full h-auto object-cover aspect-[4/3] lg:aspect-square"
                 fetchPriority="high" />
