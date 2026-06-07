@@ -80,11 +80,10 @@ export default function FacilityShowcase() {
               {/* Image Container */}
               <div className="md:w-2/5 relative overflow-hidden h-64 md:h-auto">
                 <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors z-10 duration-500"></div>
-                <img width="800" height="800" decoding="async" 
-                  src={facility.image} 
+                <img width="800" height="800" src={facility.image} 
                   alt={facility.title} 
                   className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                fetchPriority="high" />
+                fetchPriority="high" decoding="sync" />
               </div>
 
               {/* Content Container */}

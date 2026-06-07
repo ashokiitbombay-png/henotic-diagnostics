@@ -157,7 +157,7 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
       <section className="relative pt-10 pb-24 md:pt-16 md:pb-32 bg-slate-900 overflow-hidden">
         
         {/* The Base Hero Image - Boosted Opacity for Visibility */}
-        <img src={`${heroImage}`} alt="Hero Banner" className="absolute inset-0 z-0 bg-cover bg-center opacity-70 transition-transform duration-[10000ms] hover:scale-105 object-cover w-full h-full" fetchPriority="high" />
+        <img src={`${heroImage}`} alt="Hero Banner" className="absolute inset-0 z-0 bg-cover bg-center opacity-70 transition-transform duration-[10000ms] hover:scale-105 object-cover w-full h-full" fetchPriority="high" decoding="sync" />
         
         {/* DYNAMIC DIRECTIONAL GRADIENT: Forces image visibility on the opposite side of the text */}
         <div className={`absolute inset-0 z-0 ${isAuthority ? 'bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent' : 'bg-gradient-to-l from-slate-900 via-slate-900/80 to-transparent'}`}></div>
@@ -222,7 +222,7 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
                {ACCREDITATIONS.map((acc, index) => (
                   <div key={acc.title} className="flex flex-col items-center group">
                     <div className="w-16 h-16 sm:w-24 sm:h-24 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center p-3 sm:p-4 mb-3 transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-110 relative shadow-[0_25px_40px_-10px_rgba(0,0,0,0.8),_0_0_0_2px_rgba(255,255,255,0.4),_inset_0_-5px_8px_rgba(0,0,0,0.2),_inset_0_5px_8px_rgba(255,255,255,0.5)]">
-                      <img width="800" height="800" decoding="async" src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-xl" fetchPriority="high" />
+                      <img width="800" height="800" src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-xl" fetchPriority="high" decoding="sync" />
                       <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-white/30 pointer-events-none"></div>
                     </div>
                     <span className="text-[10px] sm:text-xs font-black text-white tracking-widest uppercase drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">{acc.title}</span>
@@ -392,7 +392,7 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
       {/* --- 4. PREMIUM BOOKING FORM --- */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 mt-20" id="booking">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 border border-pink-100 text-[#E55D87] text-sm font-extrabold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 border border-pink-200 text-[#7a1f5c] text-sm font-extrabold uppercase tracking-widest mb-4">
             <Calendar size={16} /> Fast Track Booking
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">

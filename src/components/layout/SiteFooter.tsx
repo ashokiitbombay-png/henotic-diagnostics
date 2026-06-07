@@ -73,11 +73,10 @@ export default function SiteFooter() {
           {/* GOOGLE MAP & GBP PROFILE (Right Column - Spans 7) */}
           <div className="lg:col-span-7 flex flex-col gap-6 h-full relative z-20">
              <div className="flex flex-col sm:flex-row gap-4 bg-white/10 p-4 rounded-3xl border border-white/20 backdrop-blur-md shadow-xl">
-                <img width="800" height="800" decoding="async" 
-                  src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw" 
+                <img width="800" height="800" src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw" 
                   alt="Henotic Diagnostics Facility" 
                   className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
-                fetchPriority="high" />
+                fetchPriority="high" decoding="sync" />
                 <div className="flex flex-col justify-center">
                   <h5 className="font-bold text-lg mb-1">Highly Rated on Google</h5>
                   <p className="text-xs text-white/80 mb-3 max-w-sm">Experience world-class diagnostic imaging and pathology in Navi Mumbai.</p>

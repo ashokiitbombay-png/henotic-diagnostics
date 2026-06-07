@@ -107,7 +107,7 @@ export default function HeroMedical() {
                       /* Deep 3D Shadow Effects */
                       shadow-[0_20px_30px_-10px_rgba(0,0,0,0.3),_0_0_0_2px_rgba(255,255,255,0.8),_inset_0_-4px_6px_rgba(0,0,0,0.1),_inset_0_4px_6px_rgba(255,255,255,1)]
                     ">
-                      <img width="800" height="800" decoding="async" src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-sm" fetchPriority="high" />
+                      <img width="800" height="800" src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-sm" fetchPriority="high" decoding="sync" />
                       
                       {/* Subtle highlight for glass/3D pop */}
                       <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/40 to-white/80 pointer-events-none"></div>
@@ -125,11 +125,10 @@ export default function HeroMedical() {
               
               {/* The Actual Image (Fully Visible, High Priority) */}
               <div className="relative bg-white p-2 sm:p-3 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] transform -rotate-2 hover:rotate-0 transition-transform duration-700 overflow-hidden border border-white/60">
-                <img width="800" height="800" decoding="async" 
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" 
+                <img width="800" height="800" src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" 
                   alt="Premium 3T MRI Scan at Henotic Diagnostics" 
                   className="rounded-[2.5rem] w-full h-auto object-cover aspect-[4/3] lg:aspect-square"
-                fetchPriority="high" />
+                fetchPriority="high" decoding="sync" />
               </div>
 
               {/* Floating Performance Badge (Bottom Right) */}

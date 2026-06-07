@@ -109,7 +109,7 @@ export default function ServiceLocationTemplate({ service, region, location, con
       {/* 3. FULL-WIDTH PREMIUM BOOKING FORM INJECTION */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 mt-24" id="booking">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 border border-pink-100 text-[#E55D87] text-sm font-extrabold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 border border-pink-200 text-[#7a1f5c] text-sm font-extrabold uppercase tracking-widest mb-4">
             <Calendar size={16} /> Instant Confirmation
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">

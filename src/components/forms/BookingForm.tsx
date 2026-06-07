@@ -183,7 +183,7 @@ export default function BookingForm() {
             {ACCREDITATIONS.map((acc, index) => (
               <div key={index} className="flex flex-col items-center group">
                 <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-2.5 mb-2 shadow-[0_5px_15px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_10px_20px_rgba(151,149,240,0.4)]">
-                  <img width="800" height="800" decoding="async" src={acc.img} alt={acc.title} className="w-full h-full object-contain" fetchPriority="high" />
+                  <img width="800" height="800" src={acc.img} alt={acc.title} className="w-full h-full object-contain" fetchPriority="high" decoding="sync" />
                 </div>
                 <span className="text-[10px] font-black text-slate-300 tracking-wider uppercase">{acc.title}</span>
               </div>
