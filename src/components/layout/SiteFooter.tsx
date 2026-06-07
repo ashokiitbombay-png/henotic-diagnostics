@@ -39,7 +39,7 @@ export default function SiteFooter() {
             <Link href="/" className="inline-block group relative z-50 w-max">
               <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.02]">
                  <img width="800" height="800" decoding="async" 
-                   src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/6d8a7750-henotic_diagnostics_logo_gedg88_e_background_removal_f_png-scaled.webp" 
+                   src="https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp" 
                    alt="Henotic Diagnostics" 
                    className="w-64 lg:w-80 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50"
                  />
