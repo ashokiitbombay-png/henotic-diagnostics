@@ -18,7 +18,7 @@ export default function ServiceLocationTemplate({ service, region, location, con
         {/* Background Image & Overlays */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-30" 
-          style={{ backgroundImage: "url('https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/henotic-diagnostics-mri-scan-panvel.webp')" }}
+          style={{ backgroundImage: "url('https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp')" }}
         ></div>
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-50 via-slate-900/80 to-slate-900/40"></div>
         
