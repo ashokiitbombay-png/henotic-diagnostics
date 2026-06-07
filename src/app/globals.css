@@ -2,19 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 🌟 ANTI-WOBBLE & HARDWARE ACCELERATION LOCK 🌟 */
 html, body {
+  max-width: 100vw;
+  overflow-x: hidden !important; /* Kills mobile wobbling instantly */
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased; /* Crisp text rendering */
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* FORCE LIGHT MODE: Prevent mobile browsers from inverting colors into Dark Mode */
+/* Force Light Mode to prevent mobile dark-mode inversion */
 :root {
   color-scheme: light only;
 }
 
-/* NEW PASTEL BODY GRADIENT */
+/* Pastel Body Gradient */
 body {
   background: hsla(312, 77%, 86%, 1);
   background: linear-gradient(90deg, hsla(312, 77%, 86%, 1) 0%, hsla(220, 61%, 79%, 1) 100%);
@@ -23,20 +29,27 @@ body {
   background-attachment: fixed;
 }
 
-/* ROSE WATER ANIMATED BUTTON */
+/* Smooth Image Loading */
+img {
+  content-visibility: auto;
+}
+
+/* Rose Water Animated Button */
 .btn-grad {
   background-image: linear-gradient(to right, #E55D87 0%, #5FC3E4 51%, #E55D87 100%);
-  padding: 12px 30px; /* Adjusted padding slightly to fit the Header layout perfectly */
+  padding: 12px 30px;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
-  box-shadow: 0 4px 15px rgba(229, 93, 135, 0.4); /* Tinted shadow to match the Rose Water vibe */
-  border-radius: 50px; /* Pill shape for modern UI */
+  box-shadow: 0 4px 15px rgba(229, 93, 135, 0.4);
+  border-radius: 50px;
   outline: none;
   border: none;
   cursor: pointer;
+  /* Hardware acceleration for smooth hover */
+  will-change: transform, background-position;
 }
 
 .btn-grad:hover {

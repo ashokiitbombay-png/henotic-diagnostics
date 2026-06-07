@@ -50,7 +50,7 @@ export default function PremiumRateCards() {
               {/* Image Pop-up Effect Request */}
               <div className="relative h-64 overflow-hidden bg-slate-200">
                 <div className={`absolute inset-0 bg-gradient-to-t ${pkg.gradient} opacity-40 group-hover:opacity-20 transition-opacity z-10`}></div>
-                <img src={pkg.img} alt={pkg.title} className="w-full h-full object-cover transform group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-700 ease-out" />
+                <img src={pkg.img} alt={pkg.title} className="w-full h-full object-cover transform group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-700 ease-out" fetchPriority="high" />
                 
                 {/* Price Tag Overlay */}
                 <div className="absolute bottom-4 right-4 z-20 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg border border-white">

@@ -70,7 +70,7 @@ export default function ContactUs() {
                 src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp" 
                 alt="Henotic Diagnostics Front Office" 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-              />
+              fetchPriority="high" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function ContactUs() {
                 src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp" 
                 alt="Henotic Diagnostics Reception and Waiting Area" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
-              />
+              fetchPriority="high" />
               {/* Floating Info Badge */}
               <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-between">
                  <div className="flex items-center gap-3">

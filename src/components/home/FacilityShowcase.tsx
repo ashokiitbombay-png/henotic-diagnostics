@@ -84,7 +84,7 @@ export default function FacilityShowcase() {
                   src={facility.image} 
                   alt={facility.title} 
                   className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                />
+                fetchPriority="high" />
               </div>
 
               {/* Content Container */}

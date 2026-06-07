@@ -57,7 +57,7 @@ export default function GoogleReviews() {
               src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-main-building.webp" 
               alt="Henotic Diagnostics Main Building" 
               className="relative z-10 w-full h-64 md:h-80 object-cover rounded-3xl border-4 border-white shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
-            />
+            fetchPriority="high" />
             
             {/* Floating Google Profile Badge */}
             <div className="absolute -bottom-6 -right-6 md:-right-8 z-20 bg-white p-2 rounded-2xl shadow-2xl border border-slate-100 flex items-center justify-center transform transition-transform duration-300 hover:scale-110">

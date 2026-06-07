@@ -53,7 +53,7 @@ export default function GoogleReviews() {
               src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-main-building.webp" 
               alt="Henotic Diagnostics Facility" 
               className="relative z-10 w-full h-72 md:h-80 object-cover rounded-[2.5rem] border-[6px] border-white shadow-2xl transition-transform duration-700 group-hover:scale-[1.03]"
-            />
+            fetchPriority="high" />
             
             {/* Floating GBP Badge */}
             <div className="absolute -bottom-6 -right-4 md:-right-8 z-30 bg-white p-2 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.15)] border border-slate-50 transform hover:scale-110 transition-transform duration-300">

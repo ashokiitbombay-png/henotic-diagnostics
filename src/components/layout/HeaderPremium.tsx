@@ -58,7 +58,7 @@ export default function HeaderPremium() {
                 src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.svg" 
                 alt="Henotic Diagnostics Logo" 
                 className="w-full h-full object-contain"
-              />
+              fetchPriority="high" />
             </div>
             <div className="flex flex-col">
               <span className="text-white font-black text-lg md:text-xl tracking-wide leading-tight drop-shadow-sm uppercase">Henotic</span>
