@@ -63,29 +63,32 @@ export default function BookingForm() {
   };
 
   return (
-    // 🌟 ZERO VERTICAL GAPS: m-0 p-0 on the section 🌟
+    // 🌟 ZERO VERTICAL GAPS: m-0 p-0 block display to sit flush with adjacent sections 🌟
     // LAYER 3 BACKGROUND: Full edge-to-edge gradient
     <section 
-      className="w-full m-0 p-0 relative overflow-hidden flex items-center justify-center"
+      className="w-full m-0 p-0 relative overflow-hidden block"
       style={{
         background: "linear-gradient(to right, #EC6EAD, #3494E6)"
       }}
     >
       {/* Dynamic Background Overlays for Depth */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.15]"></div>
-      
-      {/* Internal Padding applied here so the background touches the edges perfectly */}
-      <div className="w-full max-w-6xl mx-auto px-4 py-16 sm:px-6 md:py-24 relative z-10">
+      <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black/20 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/20 to-transparent"></div>
+
+      {/* Internal Container: 100% width, no max-width constraints on mobile to be truly edge-to-edge */}
+      <div className="w-full mx-auto px-0 sm:px-6 md:px-8 py-8 sm:py-16 md:py-24 relative z-10 max-w-7xl">
         
-        {/* LAYER 1 BACKGROUND: Deep 3D Shadow Container for the Form */}
-        <div className="rounded-[2.5rem] p-[4px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)]"
+        {/* LAYER 1 BACKGROUND: Deep 3D Shadow Container */}
+        {/* On mobile: no rounded corners so it bleeds to the edge. On desktop: beautifully rounded */}
+        <div className="rounded-none sm:rounded-[2.5rem] p-0 sm:p-[4px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] w-full"
              style={{ background: "linear-gradient(90deg, #439CFB, #F187FB)" }}>
              
-          {/* Frosted Glass Core */}
-          <div className="bg-white/95 backdrop-blur-3xl rounded-[2.3rem] p-6 sm:p-12 w-full border border-white/60 shadow-inner">
+          {/* Frosted Glass Core: Square on mobile, rounded on desktop */}
+          <div className="bg-white/95 backdrop-blur-3xl rounded-none sm:rounded-[2.3rem] p-6 sm:p-12 w-full border-y sm:border border-white/60 shadow-inner">
             
             {/* TOP HEADER & TRUST SIGNALS */}
-            <div className="text-center mb-10">
+            <div className="text-center mb-10 mt-4 sm:mt-0">
               <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#EC6EAD]/10 to-[#3494E6]/10 border border-[#3494E6]/20 text-[#3494E6] text-xs font-black uppercase tracking-widest mb-6 shadow-sm">
                 <ShieldCheck size={18} /> Official Booking Portal
               </div>
@@ -128,16 +131,16 @@ export default function BookingForm() {
             </div>
 
             {/* HIGH END BOOKING FORM */}
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative group">
+            <form onSubmit={handleSubmit} className="space-y-6 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <div className="relative group w-full">
                   <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                     <User className="text-slate-400 group-focus-within:text-[#3494E6] transition-colors" size={22} />
                   </div>
                   <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Patient Name" className="w-full pl-14 pr-5 py-5 rounded-2xl bg-slate-50 border-0 shadow-[inset_0_2px_8px_rgba(0,0,0,0.06)] ring-1 ring-slate-200 focus:ring-4 focus:ring-[#3494E6]/30 text-slate-800 font-bold outline-none transition-all text-lg" />
                 </div>
                 
-                <div className="relative group">
+                <div className="relative group w-full">
                   <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                     <Phone className="text-slate-400 group-focus-within:text-[#3494E6] transition-colors" size={22} />
                   </div>
@@ -145,7 +148,7 @@ export default function BookingForm() {
                 </div>
               </div>
 
-              <div className="relative group">
+              <div className="relative group w-full">
                 <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                   <Activity className="text-slate-400 group-focus-within:text-[#3494E6] transition-colors" size={22} />
                 </div>
@@ -164,7 +167,7 @@ export default function BookingForm() {
                 </div>
               </div>
 
-              <div className="relative group">
+              <div className="relative group w-full">
                 <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                   <MapPin className="text-slate-400 group-focus-within:text-[#3494E6] transition-colors" size={22} />
                 </div>
@@ -183,15 +186,15 @@ export default function BookingForm() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative group">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <div className="relative group w-full">
                   <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                     <Calendar className="text-slate-400 group-focus-within:text-[#3494E6] transition-colors" size={22} />
                   </div>
                   <input aria-label="Select Date" type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full pl-14 pr-5 py-5 rounded-2xl bg-slate-50 border-0 shadow-[inset_0_2px_8px_rgba(0,0,0,0.06)] ring-1 ring-slate-200 focus:ring-4 focus:ring-[#3494E6]/30 text-slate-800 font-bold outline-none transition-all cursor-pointer text-lg" />
                 </div>
                 
-                <div className="relative group">
+                <div className="relative group w-full">
                   <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                     <Clock className="text-slate-400 group-focus-within:text-[#3494E6] transition-colors" size={22} />
                   </div>
@@ -203,7 +206,7 @@ export default function BookingForm() {
               <button 
                 type="submit" 
                 disabled={progress < 100}
-                className={`w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-xl font-black text-white ${progress === 100 ? 'bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-[#25D366]/50' : 'bg-slate-300 shadow-inner opacity-70 cursor-not-allowed'}`}
+                className={`w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-lg md:text-xl font-black text-white ${progress === 100 ? 'bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-[#25D366]/50' : 'bg-slate-300 shadow-inner opacity-70 cursor-not-allowed'}`}
               >
                 {/* CUSTOM WHATSAPP IMAGE ICON */}
                 <img 
@@ -219,7 +222,7 @@ export default function BookingForm() {
 
             {/* ACCREDITATIONS GRID - NEW DARK GLASSMORPHISM THEME */}
             <div 
-              className="mt-12 rounded-3xl p-8 border border-white/10 shadow-inner relative overflow-hidden"
+              className="mt-12 rounded-3xl p-8 border border-white/10 shadow-inner relative overflow-hidden w-full"
               style={{ background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)" }}
             >
               {/* Grid texture overlay inside the accreditation box */}
@@ -228,13 +231,13 @@ export default function BookingForm() {
               <h4 className="relative z-10 text-center text-slate-300 text-sm font-black uppercase tracking-[0.2em] mb-6 flex items-center justify-center gap-2 drop-shadow-sm">
                 <CheckCircle2 size={18} className="text-[#EC6EAD]" /> Accredited by National Bodies
               </h4>
-              <div className="relative z-10 flex flex-wrap justify-center gap-6 sm:gap-8">
+              <div className="relative z-10 flex flex-wrap justify-center gap-4 sm:gap-8">
                 {ACCREDITATIONS.map((acc, index) => (
                   <div key={index} className="flex flex-col items-center group">
-                    <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl flex items-center justify-center p-3 mb-3 shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(52,148,230,0.4)] border border-slate-200">
+                    <div className="w-14 h-14 md:w-20 md:h-20 bg-white rounded-2xl flex items-center justify-center p-2.5 sm:p-3 mb-3 shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(52,148,230,0.4)] border border-slate-200">
                       <img width="100" height="100" src={acc.img} alt={acc.title} className="w-full h-full object-contain drop-shadow-sm" loading="lazy" decoding="async" />
                     </div>
-                    <span className="text-xs font-black text-slate-300 tracking-wider uppercase group-hover:text-white transition-colors">{acc.title}</span>
+                    <span className="text-[10px] sm:text-xs font-black text-slate-300 tracking-wider uppercase group-hover:text-white transition-colors">{acc.title}</span>
                   </div>
                 ))}
               </div>
