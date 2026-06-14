@@ -20,13 +20,16 @@ html, body {
   color-scheme: light only;
 }
 
-/* Pastel Body Gradient */
+/* 🌟 THEME: GLOBAL PASTEL GRADIENT BACKGROUND 🌟 */
 body {
-  background: hsla(312, 77%, 86%, 1);
-  background: linear-gradient(90deg, hsla(312, 77%, 86%, 1) 0%, hsla(220, 61%, 79%, 1) 100%);
-  background: -moz-linear-gradient(90deg, hsla(312, 77%, 86%, 1) 0%, hsla(220, 61%, 79%, 1) 100%);
-  background: -webkit-linear-gradient(90deg, hsla(312, 77%, 86%, 1) 0%, hsla(220, 61%, 79%, 1) 100%);
-  background-attachment: fixed;
+  /* High-end 6-stop Grabient background */
+  background: linear-gradient(315deg, #fcb8e2 0.000%, #ffc8ed 20.000%, #fbe8f9 40.000%, #e8f9ff 60.000%, #d0ecff 80.000%, #b8cdfa 100.000%) !important;
+  background-attachment: fixed !important;
+}
+
+/* Forces main content area to be transparent so the gradient shines through */
+main {
+  background: transparent !important;
 }
 
 /* Smooth Image Loading */
