@@ -38,7 +38,7 @@ export default function SiteFooter() {
           <div className="lg:col-span-5 flex flex-col gap-6">
             <Link href="/" className="inline-block group relative z-50 w-max">
               <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.02]">
-                 <img width="40" height="40" decoding="async" 
+                 <img width="36" height="36" decoding="async" 
                    src="https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp" 
                    alt="Henotic Diagnostics" 
                    className="w-64 lg:w-80 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50"
@@ -73,7 +73,7 @@ export default function SiteFooter() {
           {/* GOOGLE MAP & GBP PROFILE (Right Column - Spans 7) */}
           <div className="lg:col-span-7 flex flex-col gap-6 h-full relative z-20">
              <div className="flex flex-col sm:flex-row gap-4 bg-white/10 p-4 rounded-3xl border border-white/20 backdrop-blur-md shadow-xl">
-                <img width="40" height="40" src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
+                <img width="36" height="36" src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
                   alt="Henotic Diagnostics Facility" 
                   className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
                 loading="lazy" decoding="async" />
@@ -164,7 +164,7 @@ export default function SiteFooter() {
                 { name: "Paypal", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/3ffff106-paypal-banking-henotic-diagnostics.webp" }
               ].map((pay, i) => (
                 <div key={i} className="bg-white rounded-xl w-20 h-12 md:w-28 md:h-14 flex items-center justify-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 px-2">
-                  <img width="40" height="40" decoding="async" src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" />
+                  <img width="36" height="36" decoding="async" src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" />
                 </div>
               ))}
            </div>

@@ -26,7 +26,7 @@ export default function ServiceLines() {
           {services.map((s) => (
             <Link key={s.id} href={s.link} className="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-[350px]">
               <div className="absolute inset-0">
-                <img width="40" height="40" src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-40" fetchPriority="high" decoding="sync" />
+                <img width="36" height="36" src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-40" fetchPriority="high" decoding="sync" />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-900/60 to-transparent"></div>
               </div>
               <div className="absolute bottom-0 left-0 p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">

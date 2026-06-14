@@ -8,7 +8,7 @@ const HeaderBasic = () => {
       <div className={styles.headerContent}>
         <Link href="/" className={styles.logoSection}>
           {/* Replaced static asset import with standard img tag for Next.js compatibility */}
-          <img width="40" height="40" loading="lazy" decoding="async" src="/logo.svg" alt="Henotic Diagnostics Logo" className={styles.logoImage} />
+          <img width="36" height="36" loading="lazy" decoding="async" src="/logo.svg" alt="Henotic Diagnostics Logo" className={styles.logoImage} />
           <h1 className={styles.brandName}>Henotic Diagnostics</h1>
         </Link>
         <nav className={styles.navLinks}>

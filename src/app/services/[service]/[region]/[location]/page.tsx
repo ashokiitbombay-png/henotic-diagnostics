@@ -102,7 +102,7 @@ export default async function ServiceLocationPage({ params }: { params: Promise<
           </div>
           
           <div className="hidden lg:block">
-            <img width="40" height="40" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp" alt={`${serviceName} in ${locationName}`} className="rounded-[2rem] shadow-2xl border-4 border-white/10 transform rotate-2 hover:rotate-0 transition-transform duration-500" />
+            <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp" alt={`${serviceName} in ${locationName}`} className="rounded-[2rem] shadow-2xl border-4 border-white/10 transform rotate-2 hover:rotate-0 transition-transform duration-500" />
           </div>
         </div>
       </section>

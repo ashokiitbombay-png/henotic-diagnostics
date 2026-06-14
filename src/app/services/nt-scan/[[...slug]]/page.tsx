@@ -222,7 +222,7 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
                {ACCREDITATIONS.map((acc, index) => (
                   <div key={acc.title} className="flex flex-col items-center group">
                     <div className="w-16 h-16 sm:w-24 sm:h-24 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center p-3 sm:p-4 mb-3 transition-transform duration-500 group-hover:-translate-y-3 group-hover:scale-110 relative shadow-[0_25px_40px_-10px_rgba(0,0,0,0.8),_0_0_0_2px_rgba(255,255,255,0.4),_inset_0_-5px_8px_rgba(0,0,0,0.2),_inset_0_5px_8px_rgba(255,255,255,0.5)]">
-                      <img width="40" height="40" src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-xl" fetchPriority="high" decoding="sync" />
+                      <img width="36" height="36" src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-xl" fetchPriority="high" decoding="sync" />
                       <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-white/30 pointer-events-none"></div>
                     </div>
                     <span className="text-[10px] sm:text-xs font-black text-white tracking-widest uppercase drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">{acc.title}</span>
