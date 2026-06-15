@@ -86,7 +86,7 @@ export default function ContactUs() {
             
             {/* 3D Waiting Area Image Container */}
             <div className="relative group w-full h-[400px] sm:h-[450px] rounded-[3rem] overflow-hidden bg-white shadow-[0_40px_80px_-20px_rgba(0,0,0,0.4)] hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] transform hover:-translate-y-4 transition-all duration-700 ease-out border-[8px] border-white">
-              <img width="36" height="36" src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp" 
+              <img width="800" height="800" src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp" 
                 alt="Henotic Diagnostics Reception and Waiting Area" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
               fetchPriority="high" decoding="sync" />
