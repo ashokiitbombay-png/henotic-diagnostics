@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
         </head>
       <link rel="preconnect" href="https://www.transparenttextures.com" crossOrigin="anonymous" /><link rel="preconnect" href="https://grainy-gradients.vercel.app" crossOrigin="anonymous" /><body suppressHydrationWarning className="flex flex-col min-h-screen bg-gray-50">
-        <GoogleTagManager gtmId="GTM-XXXXXXX" />
+        <GoogleTagManager gtmId="GTM-WKF28JPK" />
         <MedicalClinicSchema />
         <SiteHeader />
         
