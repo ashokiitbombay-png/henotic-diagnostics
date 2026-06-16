@@ -15,10 +15,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
-        </head>
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2224247495448831" crossOrigin="anonymous"></script>
+</head>
       <link rel="preconnect" href="https://www.transparenttextures.com" crossOrigin="anonymous" /><link rel="preconnect" href="https://grainy-gradients.vercel.app" crossOrigin="anonymous" /><body suppressHydrationWarning className="flex flex-col min-h-screen bg-gray-50">
-        {/* Google AdSense */}
-        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2224247495448831" crossOrigin="anonymous" strategy="afterInteractive" />
+        
         <GoogleTagManager gtmId="GTM-WKF28JPK" />
         <MedicalClinicSchema />
         <SiteHeader />
