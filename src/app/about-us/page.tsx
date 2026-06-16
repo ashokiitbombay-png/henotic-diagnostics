@@ -187,7 +187,7 @@ export default function AboutUsPage() {
                   </div>
                 </div>
                 <div className="pt-6">
-                  <button type="submit" className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-extrabold text-white text-lg transition-all ${progressPercentage === 100 ? 'bg-[#25D366] hover:bg-[#20b958] shadow-lg transform hover:-translate-y-1' : 'bg-[#25D366]/60 cursor-not-allowed'}`} disabled={progressPercentage < 100}>
+                  <button type="submit" className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-extrabold text-white text-lg transition-all ${progressPercentage === 100 ? 'bg-[#16a34a] hover:bg-[#20b958] shadow-lg transform hover:-translate-y-1' : 'bg-[#16a34a]/60 cursor-not-allowed'}`} disabled={progressPercentage < 100}>
                     Confirm Now Via WhatsApp
                   </button>
                 </div>

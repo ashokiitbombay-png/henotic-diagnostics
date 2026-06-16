@@ -13,7 +13,7 @@ export default function DoctorsTrustSignals() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-extrabold uppercase tracking-[0.2em] mb-6 shadow-sm"><Sparkles size={14} className="text-[#E55D87]" /> Benchmarks of Excellence</div>
-           <h2 className="text-4xl md:text-6xl font-extrabold text-blue-950 tracking-tight">Precision Imaging. <br /> <span className="text-slate-400">Trusted Expertise.</span></h2>
+           <h2 className="text-4xl md:text-6xl font-extrabold text-blue-950 tracking-tight">Precision Imaging. <br /> <span className="text-slate-500">Trusted Expertise.</span></h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {TEAM_DATA.map((doctor, i) => (

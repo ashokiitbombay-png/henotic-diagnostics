@@ -27,7 +27,7 @@ export default function FooterBasic() {
           
           <div className="space-y-6">
             <h4 className="text-white font-bold text-lg tracking-wide uppercase">HENOTIC DIAGNOSTICS</h4>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="text-slate-500 leading-relaxed">
               NABL Accredited & ISO Certified. Bringing the world's most advanced imaging and pathology technology to your neighborhood.
             </p>
             <div className="flex gap-4">

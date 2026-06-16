@@ -99,7 +99,7 @@ export default function LocalSEOMastery({ service, region, location }: { service
             {nearbyLocations.map((loc) => (
               <Link key={loc} href={`/services/${service}/${region}/${loc}`} className="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-white shadow-sm hover:-translate-y-1 hover:shadow-md transition-all flex items-center gap-2 group">
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-[#3494E6]/10 transition-colors">
-                  <MapPin size={14} className="text-slate-400 group-hover:text-[#3494E6]" />
+                  <MapPin size={14} className="text-slate-500 group-hover:text-[#3494E6]" />
                 </div>
                 <div>
                   <p className="text-xs text-slate-500 font-bold uppercase">{serviceName}</p>

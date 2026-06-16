@@ -115,7 +115,7 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
                   className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all group"
                 >
                   <span className="font-bold text-slate-700 group-hover:text-blue-700">{formatText(loc)}</span>
-                  <ArrowRight size={16} className="text-slate-400 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all" />
+                  <ArrowRight size={16} className="text-slate-500 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all" />
                 </Link>
               ))}
             </div>

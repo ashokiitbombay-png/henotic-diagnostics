@@ -55,7 +55,7 @@ export default function ServicesIndexPage() {
             
             {/* Search Bar */}
             <div className="relative w-full md:w-1/2 lg:w-1/3">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400" size={20} />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500" size={20} />
               <input 
                 type="text" 
                 placeholder="Search for a test, scan, or package..." 
@@ -67,7 +67,7 @@ export default function ServicesIndexPage() {
 
             {/* Category Filters */}
             <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
-              <Filter className="text-slate-400 mr-2 shrink-0" size={20} />
+              <Filter className="text-slate-500 mr-2 shrink-0" size={20} />
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -109,7 +109,7 @@ export default function ServicesIndexPage() {
                       <div className={`w-16 h-16 ${service.bg} ${service.color} rounded-2xl flex items-center justify-center shadow-inner transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
                         <Icon size={32} strokeWidth={2.5} />
                       </div>
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
                         {service.category}
                       </span>
                     </div>

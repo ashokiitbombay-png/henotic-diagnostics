@@ -151,7 +151,7 @@ export default function GoogleReviews() {
 
               <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2">
                  <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg" alt="Google" className="w-4 h-4" />
-                 <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Posted on Google</span>
+                 <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Posted on Google</span>
               </div>
             </div>
           ))}

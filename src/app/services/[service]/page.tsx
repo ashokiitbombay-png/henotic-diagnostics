@@ -69,7 +69,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
               />
             ) : (
               <div className="py-16 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
-                <div className="w-16 h-16 bg-slate-200 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-slate-200 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 </div>
                 <h3 className="text-xl font-bold text-slate-600 mb-2">Connecting to Backend...</h3>
@@ -86,7 +86,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
               <h4 className="text-lg font-extrabold text-slate-900">Ready to book your {wpTitle}?</h4>
               <p className="text-slate-600 font-medium text-sm">Get priority booking through our secure portal.</p>
             </div>
-            <Link href="/contact#booking" className="flex items-center gap-2 bg-[#25D366] hover:bg-[#1DA851] text-white font-extrabold py-4 px-8 rounded-2xl transition-all shadow-md hover:shadow-lg w-full sm:w-auto justify-center hover:-translate-y-1 text-lg">
+            <Link href="/contact#booking" className="flex items-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white font-extrabold py-4 px-8 rounded-2xl transition-all shadow-md hover:shadow-lg w-full sm:w-auto justify-center hover:-translate-y-1 text-lg">
               <Calendar size={20} /> Book Appointment
             </Link>
           </div>

@@ -54,7 +54,7 @@ export default function PremiumRateCards() {
                 
                 {/* Price Tag Overlay */}
                 <div className="absolute bottom-4 right-4 z-20 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg border border-white">
-                  <div className="text-xs text-slate-400 line-through font-bold">{pkg.oldPrice}</div>
+                  <div className="text-xs text-slate-500 line-through font-bold">{pkg.oldPrice}</div>
                   <div className="text-2xl font-black text-slate-900">{pkg.price}</div>
                 </div>
               </div>

@@ -93,7 +93,7 @@ export default async function ServiceLocationPage({ params }: { params: Promise<
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact#booking" className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1DA851] text-white font-extrabold py-4 px-8 rounded-2xl transition-all shadow-lg text-lg">
+              <Link href="/contact#booking" className="flex items-center justify-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white font-extrabold py-4 px-8 rounded-2xl transition-all shadow-lg text-lg">
                 <Calendar size={20} /> Book in {locationName}
               </Link>
             </div>

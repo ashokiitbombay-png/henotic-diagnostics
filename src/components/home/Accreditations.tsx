@@ -26,7 +26,7 @@ export default function Accreditations() {
                 <img width="36" height="36" src={item.img} alt={item.title} className="relative z-10 w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-110" fetchPriority="high" decoding="sync" />
               </div>
               <h4 className="text-2xl font-black text-blue-950 mb-2">{item.title}</h4>
-              <h5 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-6">{item.sub}</h5>
+              <h5 className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-6">{item.sub}</h5>
               <p className="text-slate-600 leading-relaxed text-sm mb-8 font-medium">{item.desc}</p>
               <div className="mt-auto pt-6 border-t border-slate-100 w-full">
                 <span className="text-blue-700 font-extrabold text-xs uppercase tracking-widest flex items-center justify-center gap-2">

@@ -248,7 +248,7 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
               {locationsToDisplay.map(loc => (
                 <Link key={loc} href={`/services/nt-scan/${currentRegionSlug}/${loc}`} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-[#4568dc] hover:bg-blue-50 transition-all group">
                   <span className="font-bold text-slate-700 group-hover:text-[#4568dc] text-sm">{formatText(loc)}</span>
-                  <ArrowRight size={16} className="text-slate-400 group-hover:text-[#4568dc] transform group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={16} className="text-slate-500 group-hover:text-[#4568dc] transform group-hover:translate-x-1 transition-transform" />
                 </Link>
               ))}
             </div>
