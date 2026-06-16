@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import { GoogleTagManager } from '@next/third-parties/google';
 import MedicalClinicSchema from '@/components/seo/MedicalClinicSchema';
 import { Analytics } from '@vercel/analytics/next';
@@ -16,6 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
         </head>
       <link rel="preconnect" href="https://www.transparenttextures.com" crossOrigin="anonymous" /><link rel="preconnect" href="https://grainy-gradients.vercel.app" crossOrigin="anonymous" /><body suppressHydrationWarning className="flex flex-col min-h-screen bg-gray-50">
+        {/* Google AdSense */}
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2224247495448831" crossOrigin="anonymous" strategy="afterInteractive" />
         <GoogleTagManager gtmId="GTM-WKF28JPK" />
         <MedicalClinicSchema />
         <SiteHeader />
