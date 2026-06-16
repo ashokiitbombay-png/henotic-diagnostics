@@ -1,3 +1,4 @@
+import DynamicBreadcrumbs from '@/components/seo/DynamicBreadcrumbs';
 import React from "react";
 import { Metadata } from "next";
 import { getClient } from "@/lib/apollo-client";
@@ -70,6 +71,8 @@ export default async function ServiceLocationPage({ params }: { params: Promise<
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+      {/* 🚀 DYNAMIC SEO BREADCRUMBS */}
+      <DynamicBreadcrumbs />
       
       {/* 1. HERO SECTION (Google Ads Optimization) */}
       <section className="bg-gradient-to-r from-blue-950 to-blue-900 pt-20 pb-24 px-4 md:px-8 relative overflow-hidden">

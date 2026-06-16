@@ -1,3 +1,4 @@
+import DynamicBreadcrumbs from '@/components/seo/DynamicBreadcrumbs';
 import React from "react";
 import Link from "next/link";
 import { Metadata } from "next";
@@ -151,6 +152,8 @@ export default async function NTScanSilo({ params }: { params: Promise<{ slug?: 
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24 overflow-hidden">
+      {/* 🚀 DYNAMIC SEO BREADCRUMBS */}
+      <DynamicBreadcrumbs />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* --- 1. PREMIUM HERO SECTION --- */}

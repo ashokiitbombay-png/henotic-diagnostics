@@ -1,3 +1,4 @@
+import DynamicBreadcrumbs from '@/components/seo/DynamicBreadcrumbs';
 import React from "react";
 import { getClient } from "@/lib/apollo-client";
 import { gql } from "@apollo/client";
@@ -40,6 +41,8 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] py-12">
+      {/* 🚀 DYNAMIC SEO BREADCRUMBS */}
+      <DynamicBreadcrumbs />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <Link href="/services" className="inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors mb-8">
