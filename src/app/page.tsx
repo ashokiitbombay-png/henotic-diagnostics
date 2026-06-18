@@ -7,7 +7,7 @@ import FacilityShowcase from "@/components/home/FacilityShowcase";
 import DoctorsTrustSignals from "@/components/home/DoctorsTrustSignals";
 import CorporateVideo from "@/components/home/CorporateVideo";
 import Accreditations from "@/components/home/Accreditations";
-import GoogleReviews from "@/components/home/GoogleReviews";
+import GoogleReviews from '@/components/features/reviews/GoogleReviews';
 
 export const metadata = {
   title: "Henotic Diagnostics | Premier Diagnostic Center in Mumbai",
