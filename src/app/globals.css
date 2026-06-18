@@ -60,3 +60,99 @@ img {
   color: #fff;
   text-decoration: none;
 }
+
+/* 🌟 WORDPRESS CONTENT BEAUTIFICATION ENGINE 🌟 */
+/* This intercepts raw HTML from WordPress and applies premium Tailwind UI */
+
+.wp-content-wrapper {
+  @apply max-w-5xl mx-auto w-full;
+}
+
+/* 1. TYPOGRAPHY & HEADINGS */
+.wp-content-wrapper h2 {
+  @apply text-3xl md:text-5xl font-black text-slate-800 mt-16 mb-6 tracking-tight leading-tight;
+}
+.wp-content-wrapper h3 {
+  @apply text-2xl md:text-3xl font-extrabold text-slate-800 mt-12 mb-4;
+}
+.wp-content-wrapper p {
+  @apply text-lg md:text-xl text-slate-600 leading-relaxed mb-8 font-medium;
+}
+.wp-content-wrapper strong {
+  @apply font-black text-slate-800;
+}
+.wp-content-wrapper a {
+  @apply text-[#3494E6] font-bold hover:text-[#EC6EAD] underline decoration-2 underline-offset-4 transition-colors;
+}
+
+/* 2. HIGH QUALITY IMAGES WITH 3D SHADOWS & EDGE-TO-EDGE MOBILE */
+.wp-content-wrapper img {
+  @apply w-full h-auto object-cover rounded-[2rem] shadow-[0_30px_60px_rgba(52,_148,_230,_0.2)] border-8 border-white/50 my-12 transition-transform duration-700 hover:scale-[1.02];
+}
+@media (max-width: 640px) {
+  .wp-content-wrapper img {
+    /* Forces edge-to-edge on mobile, ignoring parent padding */
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+  }
+}
+
+/* 3. PREMIUM GLASSMORPHISM TABLES (Pricing & Packages) */
+.wp-content-wrapper table {
+  @apply w-full text-left border-collapse my-12 bg-white/80 backdrop-blur-xl rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(0,_0,_0,_0.05)] border border-white;
+}
+.wp-content-wrapper th {
+  @apply bg-gradient-to-r from-[#3494E6] to-[#1CB5E0] text-white font-black p-5 text-sm md:text-base uppercase tracking-widest;
+}
+.wp-content-wrapper td {
+  @apply p-5 border-b border-slate-100 text-slate-600 font-bold text-sm md:text-base;
+}
+.wp-content-wrapper tr:last-child td {
+  @apply border-0;
+}
+.wp-content-wrapper tr:hover td {
+  @apply bg-blue-50/50 transition-colors;
+}
+
+/* 4. HIGH QUALITY ICONS FOR LISTS */
+.wp-content-wrapper ul {
+  @apply space-y-4 my-8 list-none pl-0;
+}
+.wp-content-wrapper ul li {
+  @apply relative pl-10 text-slate-700 font-medium text-lg md:text-xl;
+}
+.wp-content-wrapper ul li::before {
+  content: '✓';
+  @apply absolute left-0 top-0 flex items-center justify-center w-6 h-6 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full font-black text-sm shadow-md mt-1;
+}
+
+.wp-content-wrapper ol {
+  @apply space-y-4 my-8 pl-6 list-decimal text-slate-700 font-medium text-lg md:text-xl;
+}
+.wp-content-wrapper ol li::marker {
+  @apply text-[#3494E6] font-black text-xl;
+}
+
+/* 5. PATIENT REVIEW CALLOUTS (Blockquotes) */
+.wp-content-wrapper blockquote {
+  @apply relative p-8 md:p-10 my-12 bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-md border-l-[12px] border-[#EC6EAD] rounded-r-3xl shadow-[0_20px_40px_rgba(236,_110,_173,_0.15)] italic text-slate-700 text-xl md:text-2xl font-medium;
+}
+.wp-content-wrapper blockquote::before {
+  content: '"';
+  @apply absolute top-2 left-6 text-6xl text-[#EC6EAD] opacity-20 font-serif leading-none;
+}
+.wp-content-wrapper blockquote p {
+  @apply mb-0 relative z-10;
+}
+
+/* 6. ZERO WOBBLE FIXES */
+.wp-content-wrapper * {
+  @apply max-w-full break-words;
+}
+/* 🌟 END WORDPRESS CONTENT BEAUTIFICATION 🌟 */
