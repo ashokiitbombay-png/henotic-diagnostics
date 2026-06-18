@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { 
   MapPin, Phone, Mail, Clock, ExternalLink, 
   FileText, Globe, Navigation, ArrowUpRight 
@@ -209,11 +210,11 @@ export default function SiteFooter() {
       <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-4 items-end pointer-events-none">
         <a href="https://wa.me/918879327184" target="_blank" rel="noreferrer" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Chat on WhatsApp">
           <div className="absolute inset-0 bg-green-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img width="56" height="56" decoding="async" src="/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fwp-media-henoticbucket%2F2026%2F01%2Fc65e4696-whatsapp.webp&w=128&q=75" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
+          <Image width={56} height={56} src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
         </a>
         <a href="tel:08879327184" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Call Now">
           <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img width="56" height="56" decoding="async" src="/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fwp-media-henoticbucket%2F2026%2F01%2F0f754a41-call-now.webp&w=128&q=75" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
+          <Image width={56} height={56} src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
         </a>
       </div>
     </footer>
