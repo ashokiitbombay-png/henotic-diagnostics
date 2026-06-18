@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { User, Phone, Activity, MapPin, Calendar, Clock, ShieldCheck, Award, FileCheck, CheckCircle2, Lock, HeartPulse } from "lucide-react";
 
 import { services } from "@/lib/constants/services";
@@ -341,12 +340,14 @@ export default function BookingForm() {
                   disabled={progress < 100}
                   className={`w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-lg md:text-xl font-black text-white ${progress === 100 ? 'bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-white/40' : 'bg-slate-800/20 backdrop-blur-md shadow-inner opacity-60 cursor-not-allowed'}`}
                 >
-                  <Image 
+                  <img 
                     src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" 
                     alt="WhatsApp" 
-                    width={32}
-                    height={32}
+                    width="32"
+                    height="32"
                     className={`w-8 h-8 object-contain ${progress === 100 ? 'drop-shadow-md' : 'opacity-50 grayscale'}`} 
+                    loading="lazy"
+                    decoding="async"
                   />
                   {progress === 100 ? "Confirm Appointment via WhatsApp" : `Complete Form to Book (${progress}%)`}
                 </button>

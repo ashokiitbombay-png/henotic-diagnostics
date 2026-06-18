@@ -17,21 +17,15 @@ export function optimizeWordPressHTML(htmlContent: string): string {
     const originalSrc = srcMatch[1];
     let updatedTag = match;
 
-    // 2. Pass GCS images through Next.js Image Optimization
-    if (originalSrc.includes("storage.googleapis.com") && !originalSrc.includes("_next/image")) {
-      const isHero = originalSrc.toLowerCase().includes("hero");
-      // Optimize image width: 800px for hero scans, 640px for others
-      const targetWidth = isHero ? 800 : 640;
-      // Resolve any HTML entities and decode URI to prevent double-encoding (%20 -> %2520)
-      let decodedSrc = originalSrc.replace(/&amp;/g, '&');
-      try {
-        decodedSrc = decodeURIComponent(decodedSrc);
-      } catch (e) {
-        console.error("Failed to decode image URL:", e);
-      }
-      const optimizedSrc = `/_next/image?url=${encodeURIComponent(decodedSrc)}&w=${targetWidth}&q=75`;
-      updatedTag = updatedTag.replace(/src=["']([^"']+)["']/i, `src="${optimizedSrc}"`);
+    // 2. Resolve any HTML entities and decode URI to prevent double-encoding (%20 -> %2520)
+    let decodedSrc = originalSrc.replace(/&amp;/g, '&');
+    try {
+      decodedSrc = decodeURIComponent(decodedSrc);
+    } catch (e) {
+      console.error("Failed to decode image URL:", e);
     }
+    // Update the tag to use the direct decoded GCS URL so it is 100% reliable and never breaks
+    updatedTag = updatedTag.replace(/src=["']([^"']+)["']/i, `src="${decodedSrc}"`);
 
     // 3. Prevent CLS by forcing explicit width and height if missing
     if (!updatedTag.includes("width=") && !updatedTag.includes("height=")) {
