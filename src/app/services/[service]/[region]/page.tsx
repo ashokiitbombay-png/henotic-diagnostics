@@ -7,6 +7,7 @@ import Link from "next/link";
 import { MapPin, Calendar, ArrowRight, Activity } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
 import { REGION_LOCATIONS } from '@/lib/constants/locations';
+import { optimizeWordPressHTML } from '@/lib/utils';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -135,7 +136,7 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
           {wpContent ? (
             <div 
               className="wp-content-wrapper text-slate-700 font-medium leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: wpContent }} 
+              dangerouslySetInnerHTML={{ __html: optimizeWordPressHTML(wpContent) }} 
             />
           ) : (
             <p className="text-slate-500 italic text-center py-10">Detailed medical information for this service is being updated.</p>

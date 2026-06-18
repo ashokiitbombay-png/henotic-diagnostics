@@ -7,6 +7,7 @@ import Link from "next/link";
 import { MapPin, Calendar, Clock, ShieldCheck, Phone, ArrowRight } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
 import LocalSEOMastery from "@/components/seo/LocalSEOMastery";
+import { optimizeWordPressHTML } from "@/lib/utils";
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -94,7 +95,7 @@ export default async function ServiceLocationPage({ params }: { params: Promise<
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact#booking" className="flex items-center justify-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white font-extrabold py-4 px-8 rounded-2xl transition-all shadow-lg text-lg">
+              <Link href="/contact#booking" className="flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-extrabold py-4 px-8 rounded-2xl transition-all shadow-lg text-lg">
                 <Calendar size={20} /> Book in {locationName}
               </Link>
             </div>
@@ -124,7 +125,7 @@ export default async function ServiceLocationPage({ params }: { params: Promise<
             {wpContent ? (
               <div 
                 className="wp-content-wrapper text-slate-700 font-medium leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: wpContent }} 
+                dangerouslySetInnerHTML={{ __html: optimizeWordPressHTML(wpContent) }} 
               />
             ) : (
               <p className="text-slate-500 italic">Detailed medical information for this service is being updated.</p>

@@ -341,8 +341,10 @@ export default function BookingForm() {
                   className={`w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-lg md:text-xl font-black text-white ${progress === 100 ? 'bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-white/40' : 'bg-slate-800/20 backdrop-blur-md shadow-inner opacity-60 cursor-not-allowed'}`}
                 >
                   <img 
-                    src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" 
+                    src="/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2Fwp-media-henoticbucket%2F2026%2F01%2Fc65e4696-whatsapp.webp&w=96&q=75" 
                     alt="WhatsApp" 
+                    width="32"
+                    height="32"
                     className={`w-8 h-8 object-contain ${progress === 100 ? 'drop-shadow-md' : 'opacity-50 grayscale'}`} 
                     loading="lazy" 
                     decoding="async" 

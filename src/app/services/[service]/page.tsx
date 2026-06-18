@@ -5,6 +5,7 @@ import { getClient } from "@/lib/apollo-client";
 import { gql } from "@apollo/client";
 import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
+import { optimizeWordPressHTML } from '@/lib/utils';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -82,7 +83,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
             {wpContent ? (
               <div 
                 className="wp-content-wrapper text-slate-700 font-medium leading-relaxed space-y-6"
-                dangerouslySetInnerHTML={{ __html: wpContent }} 
+                dangerouslySetInnerHTML={{ __html: optimizeWordPressHTML(wpContent) }} 
               />
             ) : (
               <div className="py-16 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
@@ -103,7 +104,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
               <h4 className="text-lg font-extrabold text-slate-900">Ready to book your {wpTitle}?</h4>
               <p className="text-slate-600 font-medium text-sm">Get priority booking through our secure portal.</p>
             </div>
-            <Link href="/contact#booking" className="flex items-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white font-extrabold py-4 px-8 rounded-2xl transition-all shadow-md hover:shadow-lg w-full sm:w-auto justify-center hover:-translate-y-1 text-lg">
+            <Link href="/contact#booking" className="flex items-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-extrabold py-4 px-8 rounded-2xl transition-all shadow-md hover:shadow-lg w-full sm:w-auto justify-center hover:-translate-y-1 text-lg">
               <Calendar size={20} /> Book Appointment
             </Link>
           </div>
