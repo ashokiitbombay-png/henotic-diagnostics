@@ -1,6 +1,16 @@
 import React from 'react';
+import { Metadata } from 'next';
 import BookingForm from '@/components/forms/BookingForm';
 import { ShieldCheck, Star, CheckCircle2 } from 'lucide-react';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
 
 export default async function GoogleAdsLandingPage({ params, searchParams }: { params: Promise<{ service: string }>, searchParams: Promise<{ keyword?: string }> }) {
   const resolvedParams = await params;

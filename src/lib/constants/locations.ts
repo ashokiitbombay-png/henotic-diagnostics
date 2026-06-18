@@ -1,12 +1,44 @@
-export const locations = [
-  // South Mumbai
-  { city: "colaba", region: "south-mumbai" }, { city: "cuffe-parade", region: "south-mumbai" }, { city: "fort", region: "south-mumbai" }, { city: "churchgate", region: "south-mumbai" }, { city: "marine-lines", region: "south-mumbai" }, { city: "nariman-point", region: "south-mumbai" }, { city: "worli", region: "south-mumbai" }, { city: "parel", region: "south-mumbai" }, { city: "lower-parel", region: "south-mumbai" }, { city: "mahalaxmi", region: "south-mumbai" }, { city: "byculla", region: "south-mumbai" }, { city: "dadar", region: "south-mumbai" },
-  // Central Mumbai
-  { city: "sion", region: "central-mumbai" }, { city: "kurla", region: "central-mumbai" }, { city: "chembur", region: "central-mumbai" }, { city: "ghatkopar", region: "central-mumbai" }, { city: "vikhroli", region: "central-mumbai" }, { city: "kanjurmarg", region: "central-mumbai" }, { city: "bhandup", region: "central-mumbai" }, { city: "mulund", region: "central-mumbai" },
-  // Western Suburbs
-  { city: "bandra", region: "western-suburbs" }, { city: "khar", region: "western-suburbs" }, { city: "santacruz", region: "western-suburbs" }, { city: "vile-parle", region: "western-suburbs" }, { city: "andheri", region: "western-suburbs" }, { city: "jogeshwari", region: "western-suburbs" }, { city: "goregaon", region: "western-suburbs" }, { city: "malad", region: "western-suburbs" }, { city: "kandivali", region: "western-suburbs" }, { city: "borivali", region: "western-suburbs" }, { city: "dahisar", region: "western-suburbs" },
-  // Eastern Suburbs
-  { city: "kurla-east", region: "eastern-suburbs" }, { city: "chembur-east", region: "eastern-suburbs" }, { city: "ghatkopar-east", region: "eastern-suburbs" }, { city: "vikhroli-east", region: "eastern-suburbs" }, { city: "mulund-east", region: "eastern-suburbs" },
-  // Navi Mumbai
-  { city: "vashi", region: "navi-mumbai" }, { city: "sanpada", region: "navi-mumbai" }, { city: "juinagar", region: "navi-mumbai" }, { city: "nerul", region: "navi-mumbai" }, { city: "seawoods", region: "navi-mumbai" }, { city: "cbd-belapur", region: "navi-mumbai" }, { city: "kharghar", region: "navi-mumbai" }, { city: "kamothe", region: "navi-mumbai" }, { city: "kalamboli", region: "navi-mumbai" }, { city: "panvel", region: "navi-mumbai" }, { city: "new-panvel", region: "navi-mumbai" }, { city: "taloja", region: "navi-mumbai" }, { city: "ghansoli", region: "navi-mumbai" }, { city: "kopar-khairane", region: "navi-mumbai" }, { city: "airoli", region: "navi-mumbai" }, { city: "turbhe", region: "navi-mumbai" }
-];
+// Unified Geographic Source of Truth for Henotic Diagnostics PSEO Architecture
+
+export const REGION_NAMES: Record<string, string> = {
+  "south-mumbai": "South Mumbai",
+  "central-suburbs": "Central Suburbs",
+  "western-suburbs": "Western Suburbs",
+  "eastern-suburbs": "Eastern Suburbs",
+  "navi-mumbai": "Navi Mumbai"
+};
+
+export const REGION_LOCATIONS: Record<string, string[]> = {
+  "south-mumbai": [
+    "colaba", "cuffe-parade", "fort", "churchgate", "marine-lines", 
+    "nariman-point", "worli", "parel", "lower-parel", "mahalaxmi", 
+    "byculla", "dadar", "sion"
+  ],
+  "central-suburbs": [
+    "kurla", "chembur", "ghatkopar", "vikhroli", "kanjurmarg", 
+    "bhandup", "mulund"
+  ],
+  "western-suburbs": [
+    "bandra", "khar", "santacruz", "vile-parle", "andheri", 
+    "jogeshwari", "goregaon", "malad", "kandivali", "borivali", 
+    "dahisar"
+  ],
+  "eastern-suburbs": [
+    "kurla-east", "chembur-east", "ghatkopar-east", "vikhroli-east", 
+    "mulund-east"
+  ],
+  "navi-mumbai": [
+    "vashi", "sanpada", "juinagar", "nerul", "seawoods", 
+    "cbd-belapur", "kharghar", "kamothe", "kalamboli", "panvel", 
+    "new-panvel", "taloja", "ghansoli", "kopar-khairane", "airoli", 
+    "turbhe"
+  ]
+};
+
+// Flat array representation generated dynamically from the region locations mapping
+export const locations = Object.entries(REGION_LOCATIONS).flatMap(([region, cities]) =>
+  cities.map((city) => ({
+    city,
+    region
+  }))
+);

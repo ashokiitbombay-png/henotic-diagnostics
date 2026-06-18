@@ -6,8 +6,9 @@ import { gql } from "@apollo/client";
 import Link from "next/link";
 import { MapPin, Calendar, ArrowRight, Activity } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
+import { REGION_LOCATIONS } from '@/lib/constants/locations';
 
-export const revalidate = 0;
+export const revalidate = 86400; // 24 hours cache revalidation
 
 const GET_SERVICE_CONTENT = gql`
   query GetServiceContent($slug: ID!) {
@@ -20,14 +21,6 @@ const GET_SERVICE_CONTENT = gql`
 
 // Helper to format URL slugs (e.g., "navi-mumbai" -> "Navi Mumbai")
 const formatText = (text: string) => text.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-
-// Master geographic data for generating internal SEO links
-const regionLocations: Record<string, string[]> = {
-  'navi-mumbai': ['kharghar', 'panvel', 'vashi', 'nerul', 'seawoods', 'cbd-belapur', 'kamothe', 'kalamboli', 'taloja', 'ghansoli', 'kopar-khairane', 'airoli', 'turbhe', 'sanpada', 'juinagar'],
-  'south-mumbai': ['colaba', 'cuffe-parade', 'fort', 'churchgate', 'marine-lines', 'nariman-point', 'worli', 'parel', 'lower-parel', 'mahalaxmi', 'byculla', 'dadar', 'sion'],
-  'central-suburbs': ['kurla', 'chembur', 'ghatkopar', 'vikhroli', 'kanjurmarg', 'bhandup', 'mulund'],
-  'western-suburbs': ['bandra', 'khar', 'santacruz', 'vile-parle', 'andheri', 'jogeshwari', 'goregaon', 'malad', 'kandivali', 'borivali', 'dahisar']
-};
 
 // ==========================================
 // 1. DYNAMIC SEO METADATA GENERATOR
@@ -42,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     description: `Looking for a reliable ${serviceName} in ${regionName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology.`,
     keywords: `${serviceName} in ${regionName}, best ${serviceName} centers ${regionName}, ${serviceName} cost ${regionName}`,
     alternates: {
-      canonical: `https://henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}`
+      canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}`
     }
   };
 }
@@ -59,7 +52,7 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
   const regionName = formatText(resolvedParams.region);
   
   // Get the list of specific locations for this region to build the SEO grid
-  const locations = regionLocations[resolvedParams.region] || [];
+  const locations = REGION_LOCATIONS[resolvedParams.region] || [];
 
   try {
     const { data } = await client.query<any>({

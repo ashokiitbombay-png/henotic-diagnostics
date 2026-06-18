@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://henoticdiagnostics.com/sitemap.xml',
+    sitemap: 'https://www.henoticdiagnostics.com/sitemap.xml',
   };
 }

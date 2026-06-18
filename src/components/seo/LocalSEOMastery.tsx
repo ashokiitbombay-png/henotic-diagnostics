@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { MapPin, Star, HelpCircle, CheckCircle2 } from 'lucide-react';
+import { REGION_LOCATIONS } from '@/lib/constants/locations';
 
 const formatSlug = (slug: string) => slug?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '';
 
@@ -50,8 +51,9 @@ export default function LocalSEOMastery({ service, region, location }: { service
     }
   };
 
-  // 3. PROGRAMMATIC CROSS-LINKING (Nearby Hubs)
-  const nearbyLocations = ["kharghar", "panvel", "vashi", "nerul", "belapur"].filter(l => l !== location).slice(0, 4);
+  // 3. PROGRAMMATIC CROSS-LINKING (Nearby Hubs resolved dynamically from the same region)
+  const regionCities = REGION_LOCATIONS[region] || [];
+  const nearbyLocations = regionCities.filter(l => l !== location).slice(0, 4);
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-16">
@@ -91,24 +93,26 @@ export default function LocalSEOMastery({ service, region, location }: { service
         </div>
 
         {/* PROGRAMMATIC CROSS-LINKING */}
-        <div>
-          <h3 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
-            <MapPin className="text-[#EC6EAD]" /> Nearby Centers in {regionName}
-          </h3>
-          <div className="grid grid-cols-2 gap-4">
-            {nearbyLocations.map((loc) => (
-              <Link key={loc} href={`/services/${service}/${region}/${loc}`} className="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-white shadow-sm hover:-translate-y-1 hover:shadow-md transition-all flex items-center gap-2 group">
-                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-[#3494E6]/10 transition-colors">
-                  <MapPin size={14} className="text-slate-500 group-hover:text-[#3494E6]" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500 font-bold uppercase">{serviceName}</p>
-                  <p className="text-sm font-black text-slate-800">{formatSlug(loc)}</p>
-                </div>
-              </Link>
-            ))}
+        {nearbyLocations.length > 0 && (
+          <div>
+            <h3 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
+              <MapPin className="text-[#EC6EAD]" /> Nearby Centers in {regionName}
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {nearbyLocations.map((loc) => (
+                <Link key={loc} href={`/services/${service}/${region}/${loc}`} className="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-white shadow-sm hover:-translate-y-1 hover:shadow-md transition-all flex items-center gap-2 group">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-[#3494E6]/10 transition-colors">
+                    <MapPin size={14} className="text-slate-500 group-hover:text-[#3494E6]" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-500 font-bold uppercase">{serviceName}</p>
+                    <p className="text-sm font-black text-slate-800">{formatSlug(loc)}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

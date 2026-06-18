@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import DynamicBreadcrumbs from '@/components/seo/DynamicBreadcrumbs';
 import React from "react";
 import { getClient } from "@/lib/apollo-client";
@@ -5,7 +6,23 @@ import { gql } from "@apollo/client";
 import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
 
-export const revalidate = 0; 
+export const revalidate = 86400; // 24 hours cache revalidation
+
+const formatText = (text: string) => text.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
+export async function generateMetadata({ params }: { params: Promise<{ service: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const serviceName = formatText(resolvedParams.service);
+
+  return {
+    title: `Best ${serviceName} | Book Online | Henotic Diagnostics`,
+    description: `Looking for a reliable ${serviceName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology.`,
+    keywords: `${serviceName}, best ${serviceName} centers, ${serviceName} cost`,
+    alternates: {
+      canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`
+    }
+  };
+} 
 
 // UPGRADED: Using the exact Custom Post Type query verified from your WordPress backend
 const GET_SERVICE_CONTENT = gql`

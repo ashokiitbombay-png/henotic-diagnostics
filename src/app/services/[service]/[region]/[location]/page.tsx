@@ -6,8 +6,9 @@ import { gql } from "@apollo/client";
 import Link from "next/link";
 import { MapPin, Calendar, Clock, ShieldCheck, Phone, ArrowRight } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
+import LocalSEOMastery from "@/components/seo/LocalSEOMastery";
 
-export const revalidate = 0;
+export const revalidate = 86400; // 24 hours cache revalidation
 
 const GET_SERVICE_CONTENT = gql`
   query GetServiceContent($slug: ID!) {
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     description: `Looking for a ${serviceName} in ${locationName}? Henotic Diagnostics offers highly accurate, NABL-accredited imaging and pathology with same-day reports. Book now!`,
     keywords: `${serviceName} in ${locationName}, best ${serviceName} near me, ${serviceName} cost in ${locationName}, diagnostic center in ${locationName} ${regionName}`,
     alternates: {
-      canonical: `https://henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}/${resolvedParams.location}`
+      canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}/${resolvedParams.location}`
     },
     openGraph: {
       title: `${serviceName} in ${locationName} | Henotic Diagnostics`,
@@ -157,6 +158,13 @@ export default async function ServiceLocationPage({ params }: { params: Promise<
 
         </div>
       </section>
+
+      {/* 🌟 Local SEO Mastery - FAQs, localized paragraphs, and cross-linking */}
+      <LocalSEOMastery 
+        service={resolvedParams.service} 
+        region={resolvedParams.region} 
+        location={resolvedParams.location} 
+      />
 
       {/* 3. TRUST SIGNALS */}
       <GoogleReviews />

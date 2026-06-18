@@ -3,32 +3,142 @@
 import React, { useState, useEffect } from "react";
 import { User, Phone, Activity, MapPin, Calendar, Clock, ShieldCheck, Award, FileCheck, CheckCircle2, Lock, HeartPulse } from "lucide-react";
 
-// --- STRUCTURED LOCATION DATA ---
-const LOCATIONS = [
-  { region: "South Mumbai", cities: ["Colaba", "Cuffe Parade", "Fort", "Churchgate", "Marine Lines", "Nariman Point", "Worli", "Parel", "Lower Parel", "Mahalaxmi", "Byculla", "Dadar"] },
-  { region: "Central Mumbai", cities: ["Sion", "Kurla", "Chembur", "Ghatkopar", "Vikhroli", "Kanjurmarg", "Bhandup", "Mulund"] },
-  { region: "Western Suburbs", cities: ["Bandra", "Khar", "Santacruz", "Vile Parle", "Andheri", "Jogeshwari", "Goregaon", "Malad", "Kandivali", "Borivali", "Dahisar"] },
-  { region: "Eastern Suburbs", cities: ["Kurla East", "Chembur East", "Ghatkopar East", "Vikhroli East", "Mulund East"] },
-  { region: "Navi Mumbai", cities: ["Vashi", "Sanpada", "Juinagar", "Nerul", "Seawoods", "CBD Belapur", "Kharghar", "Kamothe", "Kalamboli", "Panvel", "New Panvel", "Taloja", "Ghansoli", "Kopar Khairane", "Airoli", "Turbhe"] }
-];
+import { services } from "@/lib/constants/services";
+import { REGION_LOCATIONS, REGION_NAMES } from "@/lib/constants/locations";
 
-// --- MASTER DIAGNOSTIC CENTER SERVICE DATA ---
-const SERVICES = [
-  { category: "Diagnostic Center & Health Screening", items: ["Diagnostic Center", "Medical Imaging Center", "Radiology Center", "Pathology Lab", "Diagnostic Lab", "Diagnostic Services", "Medical Diagnostics", "Diagnostic Imaging", "Medical Imaging", "Radiology Services", "Health Checkup", "Full Body Check Up", "Master Health Checkup", "Executive Health Checkup", "Executive Health Screening", "Preventive Health Checkup", "Preventive Health Screening", "Annual Health Checkup", "Corporate Health Checkup", "Employee Health Checkup", "Pre Employment Health Checkup", "Wellness Screening", "Health Screening", "Women Health Checkup", "Women Health Screening", "Men Health Checkup", "Men Health Screening", "Senior Citizen Health Checkup", "Senior Health Checkup", "Family Health Checkup", "Heart Health Checkup", "Cardiac Health Checkup", "Diabetes Health Checkup", "Diabetes Health Screening", "Cancer Screening", "Cancer Screening Package"] },
-  { category: "Pathology & Lab Tests", items: ["Blood Test", "Lab Test", "Pathology Test", "Home Blood Collection", "CBC Test", "Lipid Profile", "Thyroid Test", "Thyroid Profile", "Liver Function Test", "Kidney Function Test", "Diabetes Test", "HbA1c Test", "Vitamin D Test", "Vitamin B12 Test", "Iron Profile", "Urine Test", "Stool Test", "Hormone Test", "Allergy Test", "Tumor Marker Test", "Infection Test", "Covid Test", "Dengue Test", "Malaria Test", "Typhoid Test"] },
-  { category: "Ultrasound & Sonography", items: ["Ultrasound", "Sonography", "USG Scan", "Abdominal Ultrasound", "Pelvic Ultrasound", "Abdomen Pelvis Ultrasound", "Whole Abdomen Ultrasound", "Whole Abdomen Sonography", "Upper Abdomen Sonography", "Lower Abdomen Sonography", "Kidney Ultrasound", "KUB Ultrasound", "Prostate Ultrasound", "Scrotal Ultrasound", "Testicular Ultrasound", "Groin Ultrasound", "Inguinal Ultrasound", "Thyroid Ultrasound", "Breast Ultrasound", "Neck Ultrasound", "Neck Sonography", "Parotid Ultrasound", "Salivary Gland Ultrasound", "Axilla Ultrasound", "Soft Tissue Ultrasound", "Musculoskeletal Ultrasound", "Vascular Ultrasound", "Small Parts Ultrasound", "Transvaginal Ultrasound", "Transrectal Ultrasound", "Guided Ultrasound", "Guided FNAC", "Guided Biopsy", "Ultrasound Guided Procedure"] },
-  { category: "Pregnancy & Fetal Medicine", items: ["Pregnancy Sonography", "Obstetric Ultrasound", "Early Pregnancy Scan", "Pregnancy Dating Scan", "Dating Scan", "Viability Scan", "First Trimester Scan", "Second Trimester Scan", "Third Trimester Scan", "NT Scan", "Anomaly Scan", "Target Scan", "Targeted Anomaly Scan", "Level 2 Scan", "Growth Scan", "Fetal Growth Scan", "Fetal Wellbeing Scan", "Fetal Weight Estimation", "Cervical Length Scan", "Fetal Doppler", "Fetal Doppler Study", "Fetal Echocardiography", "Fetal Echo", "Fetal BPP", "Biophysical Profile", "BPP Scan", "High Risk Pregnancy Scan", "Multiple Pregnancy Scan", "Twin Pregnancy Scan", "Antenatal Scan", "Fetal Medicine Scan"] },
-  { category: "Doppler Studies", items: ["Color Doppler", "Doppler Scan", "Pregnancy Doppler", "Obstetric Doppler", "Arterial Doppler", "Venous Doppler", "Vascular Doppler", "Vascular Color Doppler", "Carotid Doppler", "Carotid Artery Doppler", "Renal Doppler", "Uterine Artery Doppler", "Uterine Doppler", "Umbilical Artery Doppler", "Middle Cerebral Artery Doppler", "Lower Limb Doppler", "Upper Limb Doppler", "Peripheral Arterial Doppler", "Venous Insufficiency Scan", "Deep Vein Thrombosis Scan", "DVT Doppler"] },
-  { category: "Women's Health & Breast Imaging", items: ["Mammography", "Digital Mammography", "3D Mammography", "Sonomammography", "Breast Imaging", "Breast Screening", "Breast Cancer Screening", "Breast Diagnostics", "Digital Breast Tomosynthesis", "3D Breast Imaging", "Follicular Study", "Fertility Scan", "Fertility Assessment", "Fertility Monitoring", "Ovulation Study", "Ovulation Monitoring", "Reproductive Health Screening", "Gynecology Ultrasound", "Pelvic Scan For Fertility", "HSG Test", "SSG Test"] },
-  { category: "MRI Services", items: ["MRI Scan", "MRI Brain", "Brain MRI", "MRI Spine", "Spine MRI", "Cervical Spine MRI", "Lumbar Spine MRI", "Whole Spine MRI", "MRI Neck", "MRI Shoulder", "Shoulder MRI", "MRI Elbow", "MRI Wrist", "MRI Hand", "MRI Hip", "MRI Thigh", "MRI Knee", "Knee MRI", "MRI Ankle", "MRI Foot", "MRI Joint", "Pelvis MRI", "Abdominal MRI", "MRI Whole Abdomen", "Breast MRI", "Cardiac MRI", "MRI Pituitary", "MRI Orbit", "MRI Face", "MRI Paranasal Sinus", "MRI Prostate", "MRI Enterography", "MRI MRCP", "MRCP Scan", "MR Angiography", "MRI Angiography", "Whole Body MRI", "Contrast MRI", "MRI Brain Screening"] },
-  { category: "CT Scan Services", items: ["CT Scan", "HRCT Scan", "HRCT Chest", "CT Brain", "Brain CT Scan", "CT Neck", "CT Face", "CT Orbit", "CT PNS", "CT Temporal Bone", "CT Spine", "Chest CT Scan", "Abdomen CT Scan", "CT Abdomen Pelvis", "CT KUB", "Cardiac CT Scan", "CT Angiography", "Coronary CT Angiography", "CT Coronary Angiography", "CT Pulmonary Angiography", "CT Enterography", "CT Colonography", "CT Urology", "CT Guided Biopsy", "CT Guided FNAC", "Whole Body CT Scan", "Contrast CT Scan", "Low Dose CT", "Lung Cancer Screening CT"] },
-  { category: "PET CT & Nuclear Medicine", items: ["PET Scan", "PET CT", "Whole Body PET CT", "Whole Body PET Scan", "FDG PET CT", "Oncology PET CT", "Cardiac PET CT", "Neurology PET CT", "Cancer PET Scan", "PET Cancer Screening", "SPECT Scan", "Nuclear Medicine", "DTPA Scan", "EC Scan", "Renal Scan", "Renal Function Scan", "EC Renal Scan", "MAG3 Scan", "Bone Scan", "Bone Scintigraphy", "Thyroid Scan", "Thyroid Scintigraphy", "Thyroid Uptake Scan", "Parathyroid Scan", "GFR Test", "Myocardial Perfusion Scan", "Lung Perfusion Scan", "Gastric Emptying Study", "Hepatobiliary Scan"] },
-  { category: "Bone Health & DEXA", items: ["DEXA Bone Scan", "Bone Density Test", "BMD Test", "Osteoporosis Screening"] },
-  { category: "Cardiology Diagnostics", items: ["ECG", "ECG Test", "Electrocardiogram", "2D Echo", "2D Echo Test", "Echo Test", "Echocardiography", "Color Echo", "Stress Echo", "Dobutamine Stress Echo", "TMT Test", "Stress Test", "Holter Monitoring", "24 Hour Holter", "48 Hour Holter", "72 Hour Holter", "Ambulatory ECG", "Ambulatory BP Monitoring", "BP Monitoring", "24 Hour BP Monitoring", "Heart Screening", "Cardiac Screening", "Cardiac Risk Assessment", "Cardiac Evaluation"] },
-  { category: "Cardiac Interventions", items: ["Angiography", "Coronary Angiography", "Angioplasty", "TAVR", "Cardiac Catheterization"] },
-  { category: "Fibroscan & Liver Diagnostics", items: ["Fibroscan", "Fibroscan Test", "Liver Fibroscan", "Liver Elastography", "Hepatic Elastography", "Fatty Liver Assessment", "Fatty Liver Screening", "Fatty Liver Scan", "Liver Health Assessment", "Liver Screening", "Liver Fibrosis Assessment", "Liver Stiffness Test", "Cirrhosis Screening", "Chronic Liver Disease Screening"] },
-  { category: "Genetic Testing & Molecular Diagnostics", items: ["Prenatal Test", "Prenatal Genetic Testing", "NIPT Test", "NIPS Test", "NIPPT", "Karyotype Test", "Chromosomal Analysis", "Chromosomal Testing", "Chromosome Analysis", "Genetic Test", "Genetic Screening", "Genetic Counselling", "Genetic Counselling Service", "Carrier Screening", "Carrier Testing", "DNA Test", "DNA Analysis", "Paternity Test", "Relationship DNA Test", "Molecular Diagnostics", "Cytogenetics", "Fertility Genetic Test", "Fertility Genetic Screening", "Reproductive Genetics", "Fetal Genetic Testing"] }
-];
+const formatSlug = (slug: string) => {
+  const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", "tavr", "cbd", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna"];
+  return slug.split('-').map(word => {
+    const lower = word.toLowerCase();
+    if (acronyms.includes(lower)) {
+      if (lower === 'hba1c') return 'HbA1c';
+      return word.toUpperCase();
+    }
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+};
+
+// --- STRUCTURED LOCATION DATA GENERATED DYNAMICALLY ---
+const LOCATIONS = Object.entries(REGION_LOCATIONS).map(([regionSlug, cities]) => ({
+  region: REGION_NAMES[regionSlug] || formatSlug(regionSlug),
+  cities: cities.map((c) => {
+    if (c === "cbd-belapur") return "CBD Belapur";
+    if (c.endsWith("-east")) return formatSlug(c.replace("-east", "")) + " East";
+    return formatSlug(c);
+  })
+}));
+
+// --- SLUGS CATEGORY MAP FOR DYNAMIC GROUPING ---
+const CATEGORY_SLUGS: Record<string, string[]> = {
+  "Diagnostic Center & Health Screening": [
+    "diagnostic-center", "medical-imaging-center", "radiology-center", "pathology-lab", "diagnostic-lab", 
+    "diagnostic-services", "medical-diagnostics", "diagnostic-imaging", "medical-imaging", "radiology-services", 
+    "health-checkup", "full-body-check-up", "master-health-checkup", "executive-health-checkup", "executive-health-screening", 
+    "preventive-health-checkup", "preventive-health-screening", "annual-health-checkup", "corporate-health-checkup", 
+    "employee-health-checkup", "pre-employment-health-checkup", "wellness-screening", "health-screening", 
+    "women-health-checkup", "women-health-screening", "men-health-checkup", "men-health-screening", 
+    "senior-citizen-health-checkup", "senior-health-checkup", "family-health-checkup", "heart-health-checkup", 
+    "cardiac-health-checkup", "diabetes-health-checkup", "diabetes-health-screening", "cancer-screening", 
+    "cancer-screening-package"
+  ],
+  "Pathology & Lab Tests": [
+    "blood-test", "lab-test", "pathology-test", "home-blood-collection", "cbc-test", "lipid-profile", 
+    "thyroid-test", "thyroid-profile", "liver-function-test", "kidney-function-test", "diabetes-test", 
+    "hba1c-test", "vitamin-d-test", "vitamin-b12-test", "iron-profile", "urine-test", "stool-test", 
+    "hormone-test", "allergy-test", "tumor-marker-test", "infection-test", "covid-test", "dengue-test", 
+    "malaria-test", "typhoid-test"
+  ],
+  "Ultrasound & Sonography": [
+    "ultrasound", "sonography", "usg-scan", "abdominal-ultrasound", "pelvic-ultrasound", "abdomen-pelvis-ultrasound", 
+    "whole-abdomen-ultrasound", "whole-abdomen-sonography", "upper-abdomen-sonography", "lower-abdomen-sonography", 
+    "kidney-ultrasound", "kub-ultrasound", "prostate-ultrasound", "scrotal-ultrasound", "testicular-ultrasound", 
+    "groin-ultrasound", "inguinal-ultrasound", "thyroid-ultrasound", "breast-ultrasound", "neck-ultrasound", 
+    "neck-sonography", "parotid-ultrasound", "salivary-gland-ultrasound", "axilla-ultrasound", "soft-tissue-ultrasound", 
+    "musculoskeletal-ultrasound", "vascular-ultrasound", "small-parts-ultrasound", "transvaginal-ultrasound", 
+    "transrectal-ultrasound", "guided-ultrasound", "guided-fnac", "guided-biopsy", "ultrasound-guided-procedure"
+  ],
+  "Pregnancy & Fetal Medicine": [
+    "pregnancy-sonography", "obstetric-ultrasound", "early-pregnancy-scan", "pregnancy-dating-scan", 
+    "dating-scan", "viability-scan", "first-trimester-scan", "second-trimester-scan", "third-trimester-scan", 
+    "nt-scan", "anomaly-scan", "target-scan", "targeted-anomaly-scan", "level-2-scan", "growth-scan", 
+    "fetal-growth-scan", "fetal-wellbeing-scan", "fetal-weight-estimation", "cervical-length-scan", 
+    "fetal-doppler", "fetal-doppler-study", "fetal-echocardiography", "fetal-echo", "fetal-bpp", 
+    "biophysical-profile", "bpp-scan", "high-risk-pregnancy-scan", "multiple-pregnancy-scan", 
+    "twin-pregnancy-scan", "antenatal-scan", "fetal-medicine-scan"
+  ],
+  "Doppler Studies": [
+    "color-doppler", "doppler-scan", "pregnancy-doppler", "obstetric-doppler", "arterial-doppler", 
+    "venous-doppler", "vascular-doppler", "vascular-color-doppler", "carotid-doppler", "carotid-artery-doppler", 
+    "renal-doppler", "uterine-artery-doppler", "uterine-doppler", "umbilical-artery-doppler", 
+    "middle-cerebral-artery-doppler", "lower-limb-doppler", "upper-limb-doppler", "peripheral-arterial-doppler", 
+    "venous-insufficiency-scan", "deep-vein-thrombosis-scan", "dvt-doppler"
+  ],
+  "Women's Health & Breast Imaging": [
+    "mammography", "digital-mammography", "3d-mammography", "sonomammography", "breast-imaging", 
+    "breast-screening", "breast-cancer-screening", "breast-diagnostics", "digital-breast-tomosynthesis", 
+    "3d-breast-imaging", "follicular-study", "fertility-scan", "fertility-assessment", "fertility-monitoring", 
+    "ovulation-study", "ovulation-monitoring", "reproductive-health-screening", "gynecology-ultrasound", 
+    "pelvic-scan-for-fertility", "hsg-test", "ssg-test"
+  ],
+  "MRI Services": [
+    "mri-scan", "mri-brain", "brain-mri", "mri-spine", "spine-mri", "cervical-spine-mri", 
+    "lumbar-spine-mri", "whole-spine-mri", "mri-neck", "mri-shoulder", "shoulder-mri", "mri-elbow", 
+    "mri-wrist", "mri-hand", "mri-hip", "mri-thigh", "mri-knee", "knee-mri", "mri-ankle", "mri-foot", 
+    "mri-joint", "pelvis-mri", "abdominal-mri", "mri-whole-abdomen", "breast-mri", "cardiac-mri", 
+    "mri-pituitary", "mri-orbit", "mri-face", "mri-paranasal-sinus", "mri-prostate", "mri-enterography", 
+    "mri-mrcp", "mrcp-scan", "mr-angiography", "mri-angiography", "whole-body-mri", "contrast-mri", 
+    "mri-brain-screening"
+  ],
+  "CT Scan Services": [
+    "ct-scan", "hrct-scan", "hrct-chest", "ct-brain", "brain-ct-scan", "ct-neck", "ct-face", 
+    "ct-orbit", "ct-pns", "ct-temporal-bone", "ct-spine", "chest-ct-scan", "abdomen-ct-scan", 
+    "ct-abdomen-pelvis", "ct-kub", "cardiac-ct-scan", "ct-angiography", "coronary-ct-angiography", 
+    "ct-coronary-angiography", "ct-pulmonary-angiography", "ct-enterography", "ct-colonography", 
+    "ct-urology", "ct-guided-biopsy", "ct-guided-fnac", "whole-body-ct-scan", "contrast-ct-scan", 
+    "low-dose-ct", "lung-cancer-screening-ct"
+  ],
+  "PET CT & Nuclear Medicine": [
+    "pet-scan", "pet-ct", "whole-body-pet-ct", "whole-body-pet-scan", "fdg-pet-ct", "oncology-pet-ct", 
+    "cardiac-pet-ct", "neurology-pet-ct", "cancer-pet-scan", "pet-cancer-screening", "spect-scan", 
+    "nuclear-medicine", "dtpa-scan", "ec-scan", "renal-scan", "renal-function-scan", "ec-renal-scan", 
+    "mag3-scan", "bone-scan", "bone-scintigraphy", "thyroid-scan", "thyroid-scintigraphy", 
+    "thyroid-uptake-scan", "parathyroid-scan", "gfr-test", "myocardial-perfusion-scan", 
+    "lung-perfusion-scan", "gastric-emptying-study", "hepatobiliary-scan"
+  ],
+  "Bone Health & DEXA": [
+    "dexa-bone-scan", "bone-density-test", "bmd-test", "osteoporosis-screening"
+  ],
+  "Cardiology Diagnostics": [
+    "ecg", "ecg-test", "electrocardiogram", "2d-echo", "2d-echo-test", "echo-test", "echocardiography", 
+    "color-echo", "stress-echo", "dobutamine-stress-echo", "tmt-test", "stress-test", "holter-monitoring", 
+    "24-hour-holter", "48-hour-holter", "72-hour-holter", "ambulatory-ecg", "ambulatory-bp-monitoring", 
+    "bp-monitoring", "24-hour-bp-monitoring", "heart-screening", "cardiac-screening", 
+    "cardiac-risk-assessment", "cardiac-evaluation"
+  ],
+  "Cardiac Interventions": [
+    "angiography", "coronary-angiography", "angioplasty", "tavr", "cardiac-catheterization"
+  ],
+  "Fibroscan & Liver Diagnostics": [
+    "fibroscan", "fibroscan-test", "liver-fibroscan", "liver-elastography", "hepatic-elastography", 
+    "fatty-liver-assessment", "fatty-liver-screening", "fatty-liver-scan", "liver-health-assessment", 
+    "liver-screening", "liver-fibrosis-assessment", "liver-stiffness-test", "cirrhosis-screening", 
+    "chronic-liver-disease-screening"
+  ],
+  "Genetic Testing & Molecular Diagnostics": [
+    "prenatal-test", "prenatal-genetic-testing", "nipt-test", "nips-test", "nippt", "karyotype-test", 
+    "chromosomal-analysis", "chromosomal-testing", "chromosome-analysis", "genetic-test", 
+    "genetic-screening", "genetic-counselling", "genetic-counselling-service", "carrier-screening", 
+    "carrier-testing", "dna-test", "dna-analysis", "paternity-test", "relationship-dna-test", 
+    "molecular-diagnostics", "cytogenetics", "fertility-genetic-test", "fertility-genetic-screening", 
+    "reproductive-genetics", "fetal-genetic-testing"
+  ]
+};
+
+// --- STRUCTURED SERVICES DATA GENERATED DYNAMICALLY ---
+const SERVICES = Object.entries(CATEGORY_SLUGS).map(([category, slugs]) => ({
+  category,
+  items: slugs.filter(s => services.includes(s)).map(formatSlug)
+}));
 
 const ACCREDITATIONS = [
   { title: "NABL", img: "https://storage.googleapis.com/wp-media-henoticbucket/Miscellaneous%20Section%20Images/b027e422-nabl-certified-henotic-diagnostics.webp"},
