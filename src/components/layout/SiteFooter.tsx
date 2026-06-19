@@ -170,14 +170,42 @@ export default function SiteFooter() {
            </div>
         </div>
 
-        {/* ================= SECTION 4: SOCIALS & COPYRIGHT ================= */}
-        <div className="border-t border-white/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20">
-           <div className="text-[10px] font-bold text-white tracking-[0.2em] uppercase text-center md:text-left drop-shadow-sm">
+        {/* ================= SECTION 4: SOCIALS, POLICIES & COPYRIGHT ================= */}
+        <div className="border-t border-white/30 pt-8 flex flex-col xl:flex-row justify-between items-center gap-8 relative z-20">
+           <div className="text-[10px] font-bold text-white tracking-[0.2em] uppercase text-center xl:text-left drop-shadow-sm min-w-max">
              © {new Date().getFullYear()} Henotic Diagnostics. All Rights Reserved.
            </div>
            
+           {/* PATIENT POLICIES & LEGAL WIDGET */}
+           <div className="flex flex-col items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm shadow-md transition-colors hover:bg-white/10 max-w-4xl">
+             <span className="text-[10px] font-extrabold text-white/80 uppercase tracking-[0.25em] flex items-center gap-1.5">
+               <FileText size={12} className="text-blue-300" /> Patient Care & Legal Policies
+             </span>
+             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-bold text-white/90 tracking-wider uppercase">
+                <Link href="/privacy" className="hover:text-blue-200 transition-colors hover:underline">Privacy Policy</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/terms" className="hover:text-blue-200 transition-colors hover:underline">Terms of Service</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/cancellation-policy" className="hover:text-blue-200 transition-colors hover:underline">Cancellation Policy</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/delivery-policy" className="hover:text-blue-200 transition-colors hover:underline">Delivery Policy</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/disclaimers" className="hover:text-blue-200 transition-colors hover:underline">Disclaimers</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/grievance-policy" className="hover:text-blue-200 transition-colors hover:underline">Grievance Redressal</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/medical-disclaimer" className="hover:text-blue-200 transition-colors hover:underline">Medical Disclaimer</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/refund-returns" className="hover:text-blue-200 transition-colors hover:underline">Refund & Returns</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/refund-policy" className="hover:text-blue-200 transition-colors hover:underline">Refund Policy</Link>
+                <span className="text-white/30">•</span>
+                <Link href="/return-policy" className="hover:text-blue-200 transition-colors hover:underline">Return Policy</Link>
+             </div>
+           </div>
+
            {/* REPLACED WITH BULLETPROOF ICONS */}
-           <div className="flex flex-wrap justify-center gap-3">
+           <div className="flex flex-wrap justify-center gap-3 min-w-max">
               <a aria-label="Facebook" href="https://www.facebook.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-600 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <FacebookIcon size={18} />
               </a>
@@ -196,11 +224,6 @@ export default function SiteFooter() {
               <a href="https://in.pinterest.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-500 hover:-translate-y-1 shadow-lg text-white transition-all font-bold text-lg font-serif">
                 P
               </a>
-           </div>
-
-           <div className="flex gap-6 text-[10px] font-bold text-white tracking-widest uppercase drop-shadow-sm">
-              <Link href="/privacy" className="hover:text-white/70 transition-colors">Privacy</Link>
-              <Link href="/terms" className="hover:text-white/70 transition-colors">Terms</Link>
            </div>
         </div>
       </div>
