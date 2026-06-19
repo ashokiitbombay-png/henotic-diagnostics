@@ -13,7 +13,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/contact',
     '/services',
     '/privacy',
-    '/terms'
+    '/terms',
+    '/cancellation-policy',
+    '/delivery-policy',
+    '/disclaimers',
+    '/grievance-policy',
+    '/medical-disclaimer',
+    '/refund-returns',
+    '/refund-policy',
+    '/return-policy'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString().split('T')[0],
