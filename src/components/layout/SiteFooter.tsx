@@ -27,15 +27,15 @@ const GithubIcon = ({ size = 18 }) => (
 export default function SiteFooter() {
   return (
     <footer 
-      className="relative text-white font-sans pt-24 pb-32 lg:pb-16 overflow-hidden bg-header-footer-gradient shadow-[0_-10px_20px_rgba(0,0,0,0.05)]"
+      className="relative text-white font-sans pt-12 pb-12 lg:pt-20 lg:pb-12 overflow-hidden bg-header-footer-gradient shadow-[0_-10px_20px_rgba(0,0,0,0.05)]"
     >
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl w-full relative z-20">
         
         {/* ================= SECTION 1: NAP, MAP & BRAND ================= */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 mb-16 border-b border-white/20 pb-16 items-stretch">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 mb-8 lg:mb-16 border-b border-white/20 pb-8 lg:pb-16 items-stretch">
           
           {/* BRAND & NAP (Left Column - Spans 5) */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="lg:col-span-5 flex flex-col gap-4 lg:gap-6">
             <Link href="/" className="inline-block group relative z-50 w-max">
               <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.02]">
                  <img width="36" height="36" decoding="async" 
@@ -52,43 +52,43 @@ export default function SiteFooter() {
                </h4>
                
                <address className="text-white/90 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-white/40 not-italic">
-                 <strong className="text-lg text-white block mb-2">Henotic Diagnostics</strong>
-                 Second floor, Millennium Empire, Business Park,<br/>
-                 Plot No 47, D Mart Rd, Sector 15, Kharghar,<br/>
-                 Panvel, Navi Mumbai, Maharashtra 410210
+                  <strong className="text-lg text-white block mb-2">Henotic Diagnostics</strong>
+                  Second floor, Millennium Empire, Business Park,<br/>
+                  Plot No 47, D Mart Rd, Sector 15, Kharghar,<br/>
+                  Panvel, Navi Mumbai, Maharashtra 410210
                </address>
 
                <div className="flex flex-col gap-3 text-sm font-semibold">
-                 <a href="tel:08879327184" className="flex items-center justify-between text-white hover:text-white transition bg-white/10 p-4 rounded-xl hover:bg-white/20 border border-white/10 shadow-inner">
-                   <span className="flex items-center gap-3"><Phone size={18} /> 08879327184</span>
-                   <ArrowUpRight size={16} className="opacity-50" />
-                 </a>
-                 <div className="flex items-center gap-3 text-white p-3 bg-black/10 rounded-xl border border-black/5">
-                   <Clock size={18} className="text-green-300" /> Open 24 Hours • 365 Days
-                 </div>
+                  <a href="tel:08879327184" className="flex items-center justify-between text-white hover:text-white transition bg-white/10 p-4 rounded-xl hover:bg-white/20 border border-white/10 shadow-inner">
+                    <span className="flex items-center gap-3"><Phone size={18} /> 08879327184</span>
+                    <ArrowUpRight size={16} className="opacity-50" />
+                  </a>
+                  <div className="flex items-center gap-3 text-white p-3 bg-black/10 rounded-xl border border-black/5">
+                    <Clock size={18} className="text-green-300" /> Open 24 Hours • 365 Days
+                  </div>
                </div>
             </div>
           </div>
 
           {/* GOOGLE MAP & GBP PROFILE (Right Column - Spans 7) */}
-          <div className="lg:col-span-7 flex flex-col gap-6 h-full relative z-20">
+          <div className="lg:col-span-7 flex flex-col gap-4 lg:gap-6 h-full relative z-20">
              <div className="flex flex-col sm:flex-row gap-4 bg-white/10 p-4 rounded-3xl border border-white/20 backdrop-blur-md shadow-xl">
-                <img width="36" height="36" src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
-                  alt="Henotic Diagnostics Facility" 
-                  className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
-                loading="lazy" decoding="async" />
-                <div className="flex flex-col justify-center">
-                  <h5 className="font-bold text-lg mb-1">Highly Rated on Google</h5>
-                  <p className="text-xs text-white/80 mb-3 max-w-sm">Experience world-class diagnostic imaging and pathology in Navi Mumbai.</p>
-                  <div className="flex gap-2">
-                    <a href="https://share.google/yRA62stKchzN8uOVe" target="_blank" rel="noreferrer" className="text-xs bg-white text-blue-900 px-3 py-1.5 rounded-lg font-bold hover:bg-gray-100 transition shadow-md flex items-center gap-1">
-                      <Globe size={12}/> View Profile
-                    </a>
-                    <a href="https://share.google/IcBtvtVjwozCBFMPp" target="_blank" rel="noreferrer" className="text-xs bg-black/20 text-white px-3 py-1.5 rounded-lg font-bold border border-white/20 hover:bg-black/30 transition flex items-center gap-1">
-                      Reviews
-                    </a>
-                  </div>
-                </div>
+                 <img width="36" height="36" src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
+                   alt="Henotic Diagnostics Facility" 
+                   className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
+                 loading="lazy" decoding="async" />
+                 <div className="flex flex-col justify-center">
+                   <h5 className="font-bold text-lg mb-1">Highly Rated on Google</h5>
+                   <p className="text-xs text-white/80 mb-3 max-w-sm">Experience world-class diagnostic imaging and pathology in Navi Mumbai.</p>
+                   <div className="flex gap-2">
+                     <a href="https://share.google/yRA62stKchzN8uOVe" target="_blank" rel="noreferrer" className="text-xs bg-white text-blue-900 px-3 py-1.5 rounded-lg font-bold hover:bg-gray-100 transition shadow-md flex items-center gap-1">
+                       <Globe size={12}/> View Profile
+                     </a>
+                     <a href="https://share.google/IcBtvtVjwozCBFMPp" target="_blank" rel="noreferrer" className="text-xs bg-black/20 text-white px-3 py-1.5 rounded-lg font-bold border border-white/20 hover:bg-black/30 transition flex items-center gap-1">
+                       Reviews
+                     </a>
+                   </div>
+                 </div>
              </div>
 
              <div className="flex-grow bg-white/10 p-2 rounded-3xl border border-white/20 w-full shadow-2xl relative group overflow-hidden backdrop-blur-sm min-h-[250px]">
@@ -111,7 +111,7 @@ export default function SiteFooter() {
         </div>
 
         {/* ================= SECTION 2: ARCHITECTURE LINKS ================= */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 relative z-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 mb-8 lg:mb-16 relative z-20">
           <div>
             <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Core Diagnostics</h4>
             <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
@@ -150,7 +150,7 @@ export default function SiteFooter() {
         </div>
 
         {/* ================= SECTION 3: PAYMENTS ================= */}
-        <div className="mb-12 relative z-20 bg-black/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
+        <div className="mb-8 lg:mb-12 relative z-20 bg-black/5 p-6 lg:p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
            <p className="text-center text-[10px] font-bold text-white/90 uppercase tracking-[0.2em] mb-6">Secure Payment Partners</p>
            <div className="flex flex-wrap justify-center gap-4">
               {[
@@ -170,42 +170,43 @@ export default function SiteFooter() {
            </div>
         </div>
 
-        {/* ================= SECTION 4: SOCIALS, POLICIES & COPYRIGHT ================= */}
-        <div className="border-t border-white/30 pt-8 flex flex-col xl:flex-row justify-between items-center gap-8 relative z-20">
-           <div className="text-[10px] font-bold text-white tracking-[0.2em] uppercase text-center xl:text-left drop-shadow-sm min-w-max">
-             © {new Date().getFullYear()} Henotic Diagnostics. All Rights Reserved.
-           </div>
-           
-           {/* PATIENT POLICIES & LEGAL WIDGET */}
-           <div className="flex flex-col items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm shadow-md transition-colors hover:bg-white/10 max-w-4xl">
-             <span className="text-[10px] font-extrabold text-white/80 uppercase tracking-[0.25em] flex items-center gap-1.5">
-               <FileText size={12} className="text-blue-300" /> Patient Care & Legal Policies
-             </span>
-             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-bold text-white/90 tracking-wider uppercase">
-                <Link href="/privacy" className="hover:text-blue-200 transition-colors hover:underline">Privacy Policy</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/terms" className="hover:text-blue-200 transition-colors hover:underline">Terms of Service</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/cancellation-policy" className="hover:text-blue-200 transition-colors hover:underline">Cancellation Policy</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/delivery-policy" className="hover:text-blue-200 transition-colors hover:underline">Delivery Policy</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/disclaimers" className="hover:text-blue-200 transition-colors hover:underline">Disclaimers</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/grievance-policy" className="hover:text-blue-200 transition-colors hover:underline">Grievance Redressal</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/medical-disclaimer" className="hover:text-blue-200 transition-colors hover:underline">Medical Disclaimer</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/refund-returns" className="hover:text-blue-200 transition-colors hover:underline">Refund & Returns</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/refund-policy" className="hover:text-blue-200 transition-colors hover:underline">Refund Policy</Link>
-                <span className="text-white/30">•</span>
-                <Link href="/return-policy" className="hover:text-blue-200 transition-colors hover:underline">Return Policy</Link>
-             </div>
-           </div>
+        {/* ================= SECTION 4: PATIENT POLICIES BOX ================= */}
+        <div className="mb-8 relative z-20 w-full">
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 backdrop-blur-md shadow-xl transition-all duration-300 hover:bg-white/10 w-full">
+            <h5 className="text-xs font-black text-white/90 uppercase tracking-[0.25em] mb-4 text-center md:text-left flex items-center justify-center md:justify-start gap-2">
+              <FileText size={14} className="text-blue-300" /> Patient Care & Legal Policies
+            </h5>
+            <div className="flex flex-wrap justify-center md:justify-start gap-x-4 md:gap-x-6 gap-y-3 text-xs md:text-sm font-semibold text-white/80">
+              <Link href="/privacy" className="hover:text-blue-200 hover:underline transition-colors">Privacy Policy</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/terms" className="hover:text-blue-200 hover:underline transition-colors">Terms of Service</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/cancellation-policy" className="hover:text-blue-200 hover:underline transition-colors">Cancellation Policy</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/delivery-policy" className="hover:text-blue-200 hover:underline transition-colors">Delivery Policy</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/disclaimers" className="hover:text-blue-200 hover:underline transition-colors">Disclaimers</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/grievance-policy" className="hover:text-blue-200 hover:underline transition-colors">Grievance Redressal</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/medical-disclaimer" className="hover:text-blue-200 hover:underline transition-colors">Medical Disclaimer</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/refund-returns" className="hover:text-blue-200 hover:underline transition-colors">Refund & Returns</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/refund-policy" className="hover:text-blue-200 hover:underline transition-colors">Refund Policy</Link>
+              <span className="text-white/30 hidden sm:inline">•</span>
+              <Link href="/return-policy" className="hover:text-blue-200 hover:underline transition-colors">Return Policy</Link>
+            </div>
+          </div>
+        </div>
 
-           {/* REPLACED WITH BULLETPROOF ICONS */}
-           <div className="flex flex-wrap justify-center gap-3 min-w-max">
+        {/* ================= SECTION 5: SOCIAL MEDIA WITH HEADING ================= */}
+        <div className="mb-8 border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20 w-full">
+          <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+            <span className="text-xs font-black text-white/95 uppercase tracking-[0.25em] min-w-max text-center md:text-left">
+              Social Media Pages
+            </span>
+            <div className="flex flex-wrap justify-center gap-3">
               <a aria-label="Facebook" href="https://www.facebook.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-600 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <FacebookIcon size={18} />
               </a>
@@ -224,8 +225,20 @@ export default function SiteFooter() {
               <a href="https://in.pinterest.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-500 hover:-translate-y-1 shadow-lg text-white transition-all font-bold text-lg font-serif">
                 P
               </a>
-           </div>
+            </div>
+          </div>
+          <div className="text-[10px] font-bold text-white/60 tracking-widest uppercase text-center md:text-right hidden md:block">
+            ISO 9001:2015 Certified Center
+          </div>
         </div>
+
+        {/* ================= SECTION 6: COPYRIGHT (ENDING ROW) ================= */}
+        <div className="border-t border-white/20 pt-6 flex flex-col items-center justify-center relative z-20 w-full">
+          <div className="text-[11px] font-bold text-white/90 tracking-[0.25em] uppercase text-center drop-shadow-sm select-none">
+            © {new Date().getFullYear()} Henotic Diagnostics. All Rights Reserved.
+          </div>
+        </div>
+
       </div>
 
       {/* --- PREMIUM FLOATING WIDGETS --- */}
