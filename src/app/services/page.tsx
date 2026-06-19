@@ -1,30 +1,160 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { Search, Activity, Heart, Baby, Bone, Droplet, Microscope, ScanHeart, Orbit, Stethoscope, ArrowRight, Filter } from "lucide-react";
+import { services } from "@/lib/constants/services";
+import ServicesSearchFilter from "@/components/features/ServicesSearchFilter";
+import { Metadata } from "next";
 
-const allServices = [
-  { id: "mri-scan", title: "MRI Scan (3 Tesla)", category: "Imaging", icon: Orbit, color: "text-blue-600", bg: "bg-blue-100", desc: "High-resolution magnetic resonance imaging for brain, spine, and joints with silent scan technology." },
-  { id: "ct-scan", title: "128-Slice CT Scan", category: "Imaging", icon: Activity, color: "text-emerald-600", bg: "bg-emerald-100", desc: "Ultra-fast, low-dose CT scans ideal for cardiac, neuro, and whole-body imaging." },
-  { id: "pet-scan", title: "PET-CT Scan", category: "Imaging", icon: ScanHeart, color: "text-purple-600", bg: "bg-purple-100", desc: "Advanced metabolic imaging for accurate cancer staging and neurological assessments." },
-  { id: "ultrasound", title: "Sonography / USG", category: "Imaging", icon: Baby, color: "text-pink-600", bg: "bg-pink-100", desc: "3D/4D ultrasound imaging for pregnancy, abdomen, and pelvic evaluations." },
-  { id: "blood-test", title: "Clinical Pathology", category: "Pathology", icon: Droplet, color: "text-red-600", bg: "bg-red-100", desc: "Fully automated NABL-accredited laboratory for blood, urine, and fluid testing." },
-  { id: "2d-echo", title: "Cardiac Care (2D Echo)", category: "Cardiology", icon: Heart, color: "text-rose-600", bg: "bg-rose-100", desc: "Comprehensive heart evaluations including 2D Echo, TMT, and Holter monitoring." },
-  { id: "dexa-bone-scan", title: "DEXA Bone Scan", category: "Imaging", icon: Bone, color: "text-orange-600", bg: "bg-orange-100", desc: "Precise bone mineral density testing for osteoporosis detection and fracture risk." },
-  { id: "full-body-check-up", title: "Preventive Health", category: "Preventive", icon: Stethoscope, color: "text-teal-600", bg: "bg-teal-100", desc: "Customized full-body health checkup packages for every age and lifestyle." },
-  { id: "nipt-test", title: "Advanced Genetics", category: "Pathology", icon: Microscope, color: "text-indigo-600", bg: "bg-indigo-100", desc: "Non-Invasive Prenatal Testing (NIPT) and advanced molecular diagnostics." },
-];
+export const metadata: Metadata = {
+  title: "Diagnostic Services Directory | Henotic Diagnostics",
+  description: "Browse our directory of over 200+ NABL accredited diagnostic services, including 3T MRI, 128-Slice CT, Ultrasound, Cardiology, and Pathology tests.",
+  alternates: {
+    canonical: "https://www.henoticdiagnostics.com/services"
+  }
+};
 
-const categories = ["All", "Imaging", "Pathology", "Cardiology", "Preventive"];
+interface ServiceItem {
+  id: string;
+  title: string;
+  category: string;
+  desc: string;
+}
+
+// Helper to determine category based on slug
+function getServiceCategory(slug: string): string {
+  const s = slug.toLowerCase();
+  
+  if (s.includes("cardiac-ct") || s.includes("cardiac-mri") || s.includes("cardiac-pet") || s.includes("renal-scan")) {
+    return "Imaging";
+  }
+  
+  if (
+    s.includes("2d-echo") || 
+    s.includes("echo-test") || 
+    s.includes("echocardiography") || 
+    s.includes("tmt") || 
+    s.includes("stress") || 
+    s.includes("holter") || 
+    s.includes("ecg") || 
+    s.includes("electrocardiogram") || 
+    s.includes("angiography") || 
+    s.includes("angioplasty") || 
+    s.includes("tavr") || 
+    s.includes("catheterization") || 
+    s.includes("heart-health") || 
+    s.includes("cardiac-health") ||
+    s.includes("cardiac-risk") ||
+    s.includes("cardiac-evaluation") ||
+    s.includes("cardiac-screening")
+  ) {
+    return "Cardiology";
+  }
+  
+  if (
+    s.includes("checkup") || 
+    s.includes("check-up") || 
+    s.includes("screening") || 
+    s.includes("wellness") || 
+    s.includes("diagnostic-center") || 
+    s.includes("imaging-center") || 
+    s.includes("radiology-center") || 
+    s.includes("pathology-lab") || 
+    s.includes("diagnostic-lab") || 
+    s.includes("diagnostic-services") || 
+    s.includes("medical-diagnostics") ||
+    s.includes("radiology-services")
+  ) {
+    return "Preventive";
+  }
+  
+  if (
+    s.includes("blood") || 
+    s.includes("lab-test") || 
+    s.includes("pathology-test") || 
+    s.includes("cbc") || 
+    s.includes("lipid") || 
+    s.includes("thyroid") || 
+    s.includes("liver") || 
+    s.includes("kidney") || 
+    s.includes("diabetes") || 
+    s.includes("hba1c") || 
+    s.includes("vitamin") || 
+    s.includes("iron") || 
+    s.includes("urine") || 
+    s.includes("stool") || 
+    s.includes("hormone") || 
+    s.includes("allergy") || 
+    s.includes("tumor") || 
+    s.includes("infection") || 
+    s.includes("covid") || 
+    s.includes("dengue") || 
+    s.includes("malaria") || 
+    s.includes("typhoid") || 
+    s.includes("prenatal") || 
+    s.includes("nipt") || 
+    s.includes("nips") || 
+    s.includes("nippt") || 
+    s.includes("karyotype") || 
+    s.includes("chromosomal") || 
+    s.includes("chromosome") || 
+    s.includes("genetic") || 
+    s.includes("dna") || 
+    s.includes("paternity") || 
+    s.includes("molecular") || 
+    s.includes("cytogenetics")
+  ) {
+    return "Pathology";
+  }
+  
+  return "Imaging";
+}
+
+// Helper to construct a Title Case representation of slugs
+function getServiceTitle(slug: string): string {
+  const uppercaseWords = new Set([
+    "mri", "ct", "pet", "dexa", "ecg", "tmt", "bmd", "kub", "hba1c", "nipt", 
+    "nips", "nippt", "hsg", "ssg", "dtpa", "ec", "gfr", "bpp", "dvt", "hrct", 
+    "fdg", "spect", "abpm", "tavr", "usg"
+  ]);
+  
+  return slug
+    .split("-")
+    .map(word => {
+      const w = word.toLowerCase();
+      if (uppercaseWords.has(w)) {
+        return word.toUpperCase();
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
+// Helper to generate description
+function getServiceDesc(slug: string, title: string, category: string): string {
+  if (category === "Imaging") {
+    return `Advanced high-resolution ${title} imaging services utilizing state-of-the-art diagnostic technology for precise results.`;
+  }
+  if (category === "Pathology") {
+    return `Accurate clinical pathology testing for ${title} under strict NABL quality control guidelines with same-day reports.`;
+  }
+  if (category === "Cardiology") {
+    return `Comprehensive cardiac diagnostics including ${title} to monitor heart functions, guided by experienced cardiologists.`;
+  }
+  return `Preventive healthcare package for ${title} to assess overall health parameters and identify early risk indicators.`;
+}
 
 export default function ServicesIndexPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
-
-  const filteredServices = allServices.filter(service => {
-    const matchesSearch = service.title.toLowerCase().includes(searchTerm.toLowerCase()) || service.desc.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = activeCategory === "All" || service.category === activeCategory;
-    return matchesSearch && matchesCategory;
+  // Map raw slugs from the constants database to full service items
+  const mappedServices: ServiceItem[] = services.map(slug => {
+    const title = getServiceTitle(slug);
+    const category = getServiceCategory(slug);
+    const desc = getServiceDesc(slug, title, category);
+    
+    return {
+      id: slug,
+      title,
+      category,
+      desc
+    };
   });
 
   return (
@@ -40,101 +170,33 @@ export default function ServicesIndexPage() {
             Comprehensive Healthcare
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">
-            Our Diagnostic <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E55D87] to-pink-400">Services</span>
+            Our Diagnostic <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-400">Services</span>
           </h1>
           <p className="text-lg md:text-xl text-blue-100 font-medium max-w-3xl mx-auto leading-relaxed">
-            Find the exact test you need. From routine blood work to advanced molecular imaging, we bring world-class medical technology under one roof.
+            Browse our comprehensive library of diagnostic capabilities. We provide over 200 NABL accredited radiology scans and automated clinical pathology investigations.
           </p>
         </div>
       </section>
 
-      {/* Search & Filter Section */}
-      <section className="py-12 bg-white border-b border-slate-200 sticky top-[80px] z-40 shadow-sm">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            
-            {/* Search Bar */}
-            <div className="relative w-full md:w-1/2 lg:w-1/3">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500" size={20} />
-              <input 
-                type="text" 
-                placeholder="Search for a test, scan, or package..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
-              />
-            </div>
+      {/* Services search/filter (Client Component Wrapper) */}
+      <ServicesSearchFilter initialServices={mappedServices} />
 
-            {/* Category Filters */}
-            <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
-              <Filter className="text-slate-500 mr-2 shrink-0" size={20} />
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`shrink-0 px-6 py-3 rounded-xl font-bold text-sm transition-all ${
-                    activeCategory === cat 
-                      ? "bg-blue-600 text-white shadow-md" 
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-            
+      {/* Static directory list for crawlers (Aids Search Indexing & Internal Linking) */}
+      <section className="py-12 bg-white border-t border-slate-200">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <h2 className="text-lg font-black text-slate-800 uppercase tracking-widest mb-6">Complete A-Z Diagnostics Directory</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 text-xs font-semibold text-slate-600">
+            {mappedServices.map((service) => (
+              <Link 
+                key={service.id}
+                href={`/services/${service.id}/navi-mumbai/kharghar`}
+                className="hover:text-blue-600 transition-colors p-2 bg-slate-50 hover:bg-blue-50 rounded-xl border border-slate-100 truncate block"
+                title={`Book ${service.title} in Kharghar`}
+              >
+                {service.title}
+              </Link>
+            ))}
           </div>
-        </div>
-      </section>
-
-      {/* Services Grid */}
-      <section className="py-20 relative">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          
-          {filteredServices.length === 0 ? (
-            <div className="text-center py-20">
-              <h3 className="text-2xl font-bold text-slate-700 mb-4">No services found</h3>
-              <p className="text-slate-500 font-medium">Try adjusting your search term or selecting a different category.</p>
-              <button onClick={() => {setSearchTerm(""); setActiveCategory("All");}} className="mt-6 px-6 py-3 bg-blue-50 text-blue-700 font-bold rounded-xl hover:bg-blue-100 transition-colors">
-                Clear Filters
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredServices.map((service, idx) => {
-                const Icon = service.icon;
-                return (
-                  <div key={idx} className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 group flex flex-col h-full">
-                    <div className="flex justify-between items-start mb-6">
-                      <div className={`w-16 h-16 ${service.bg} ${service.color} rounded-2xl flex items-center justify-center shadow-inner transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
-                        <Icon size={32} strokeWidth={2.5} />
-                      </div>
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
-                        {service.category}
-                      </span>
-                    </div>
-                    
-                    <h3 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight group-hover:text-blue-700 transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-slate-600 font-medium leading-relaxed mb-8 flex-grow">
-                      {service.desc}
-                    </p>
-                    
-                    {/* Programmatic SEO Funnel Link */}
-                    <div className="mt-auto pt-6 border-t border-slate-100">
-                      <Link 
-                        href={`/services/${service.id}/navi-mumbai/kharghar`}
-                        className="inline-flex items-center gap-2 text-sm font-extrabold uppercase tracking-widest text-[#E55D87] hover:text-pink-700 transition-colors group/link"
-                      >
-                        Explore Service <ArrowRight size={16} className="transform group-hover/link:translate-x-1 transition-transform" />
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </div>
       </section>
 
@@ -148,7 +210,7 @@ export default function ServicesIndexPage() {
               Book Appointment
             </Link>
             <a href="tel:08879327184" className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold py-4 px-8 rounded-2xl shadow-sm border border-slate-200 transition-all text-lg flex items-center justify-center gap-2">
-              Call 08879327184
+              Call Support
             </a>
           </div>
         </div>
