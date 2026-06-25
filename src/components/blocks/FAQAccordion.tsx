@@ -1,5 +1,7 @@
+"use client";
 import React from 'react';
 import { HelpCircle } from 'lucide-react';
+import Accordion from '@/components/ui/Accordion';
 
 interface FAQItem {
   question: string;
@@ -18,22 +20,17 @@ export default function FAQAccordion({ faqs, title }: FAQAccordionProps) {
     { question: "Is fasting required for blood tests?", answer: "Fasting requirements vary by test. For general health checkups or lipid profiles, 10 to 12 hours of overnight fasting is usually recommended." },
   ];
 
+  const accordionItems = defaultFaqs.map(faq => ({
+    title: faq.question,
+    content: faq.answer
+  }));
+
   return (
     <div className="w-full">
       <h3 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
         <HelpCircle className="text-blue-600" /> {title || "Frequently Asked Questions"}
       </h3>
-      <div className="space-y-4">
-        {defaultFaqs.map((faq, i) => (
-          <details key={i} className="group bg-white/60 backdrop-blur-md rounded-2xl border border-white shadow-sm p-5 cursor-pointer open:bg-white/90 transition-all">
-            <summary className="font-bold text-slate-800 outline-none list-none flex justify-between items-center">
-              {faq.question}
-              <span className="text-blue-600 group-open:rotate-45 transition-transform duration-300 font-bold text-lg">+</span>
-            </summary>
-            <p className="mt-4 text-slate-600 text-sm leading-relaxed font-medium">{faq.answer}</p>
-          </details>
-        ))}
-      </div>
+      <Accordion items={accordionItems} />
     </div>
   );
 }

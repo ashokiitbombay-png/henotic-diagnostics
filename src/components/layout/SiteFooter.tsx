@@ -3,6 +3,8 @@ import {
   MapPin, Phone, Mail, Clock, ExternalLink, 
   FileText, Globe, Navigation, ArrowUpRight 
 } from "lucide-react";
+import { siteConfig } from "@/config/site";
+import { routesConfig } from "@/config/routes";
 
 /* --- BULLETPROOF INLINE BRAND ICONS --- */
 const FacebookIcon = ({ size = 18 }) => (
@@ -36,11 +38,11 @@ export default function SiteFooter() {
           
           {/* BRAND & NAP (Left Column - Spans 5) */}
           <div className="lg:col-span-5 flex flex-col gap-4 lg:gap-6">
-            <Link href="/" className="inline-block group relative z-50 w-max">
+            <Link href={routesConfig.home} className="inline-block group relative z-50 w-max">
               <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.02]">
                  <img width="36" height="36" decoding="async" 
-                   src="https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp" 
-                   alt="Henotic Diagnostics" 
+                   src={siteConfig.logoUrl} 
+                   alt={siteConfig.name} 
                    className="w-64 lg:w-80 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50"
                  />
               </div>
@@ -52,15 +54,15 @@ export default function SiteFooter() {
                </h4>
                
                <address className="text-white/90 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-white/40 not-italic">
-                  <strong className="text-lg text-white block mb-2">Henotic Diagnostics</strong>
+                  <strong className="text-lg text-white block mb-2">{siteConfig.name}</strong>
                   Second floor, Millennium Empire, Business Park,<br/>
                   Plot No 47, D Mart Rd, Sector 15, Kharghar,<br/>
                   Panvel, Navi Mumbai, Maharashtra 410210
                </address>
 
                <div className="flex flex-col gap-3 text-sm font-semibold">
-                  <a href="tel:08879327184" className="flex items-center justify-between text-white hover:text-white transition bg-white/10 p-4 rounded-xl hover:bg-white/20 border border-white/10 shadow-inner">
-                    <span className="flex items-center gap-3"><Phone size={18} /> 08879327184</span>
+                  <a href={siteConfig.contact.phonePrimaryRaw} className="flex items-center justify-between text-white hover:text-white transition bg-white/10 p-4 rounded-xl hover:bg-white/20 border border-white/10 shadow-inner">
+                    <span className="flex items-center gap-3"><Phone size={18} /> {siteConfig.contact.phonePrimary}</span>
                     <ArrowUpRight size={16} className="opacity-50" />
                   </a>
                   <div className="flex items-center gap-3 text-white p-3 bg-black/10 rounded-xl border border-black/5">
@@ -115,19 +117,19 @@ export default function SiteFooter() {
           <div>
             <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Core Diagnostics</h4>
             <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
-              <li><Link href="/services/mri-scan" className="hover:text-white hover:translate-x-1 transition-all duration-200 block">MRI Scan (3T)</Link></li>
-              <li><Link href="/services/ct-scan" className="hover:text-white hover:translate-x-1 transition-all duration-200 block">CT Scan (128 Slice)</Link></li>
-              <li><Link href="/services/pet-scan" className="hover:text-white hover:translate-x-1 transition-all duration-200 block">PET-CT Scan</Link></li>
-              <li><Link href="/services/ultrasound" className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Ultrasound / USG</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("mri-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">MRI Scan (3T)</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("ct-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">CT Scan (128 Slice)</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("pet-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">PET-CT Scan</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("ultrasound")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Ultrasound / USG</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Pathology</h4>
             <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
-              <li><Link href="/services/blood-test" className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Blood Tests</Link></li>
-              <li><Link href="/services/full-body-check-up" className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Full Body Checkups</Link></li>
-              <li><Link href="/services" className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Specialized Profiles</Link></li>
-              <li><a href="https://www.henoticdiagnostics.com/" target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-1">Corporate Site <ExternalLink size={12}/></a></li>
+              <li><Link href={routesConfig.getServiceUrl("blood-test")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Blood Tests</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("full-body-check-up")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Full Body Checkups</Link></li>
+              <li><Link href={routesConfig.services} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Specialized Profiles</Link></li>
+              <li><a href={siteConfig.url} target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-1">Corporate Site <ExternalLink size={12}/></a></li>
             </ul>
           </div>
           <div>
@@ -144,7 +146,7 @@ export default function SiteFooter() {
             <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
               <li><a href="https://github.com/ashokiitbombay-png/headless-henotics" target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><GithubIcon size={14}/> Open Source</a></li>
               <li><Link href="/sitemap.xml" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> XML Sitemap</Link></li>
-              <li><a href="mailto:info@henoticdiagnostics.com" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Mail size={14}/> Support Email</a></li>
+              <li><a href={`mailto:${siteConfig.contact.email}`} className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Mail size={14}/> Support Email</a></li>
             </ul>
           </div>
         </div>
@@ -177,9 +179,9 @@ export default function SiteFooter() {
               <FileText size={14} className="text-blue-300" /> Patient Care & Legal Policies
             </h5>
             <div className="flex flex-wrap justify-center md:justify-start gap-x-4 md:gap-x-6 gap-y-3 text-xs md:text-sm font-semibold text-white/80">
-              <Link href="/privacy" className="hover:text-blue-200 hover:underline transition-colors">Privacy Policy</Link>
+              <Link href={routesConfig.privacy} className="hover:text-blue-200 hover:underline transition-colors">Privacy Policy</Link>
               <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/terms" className="hover:text-blue-200 hover:underline transition-colors">Terms of Service</Link>
+              <Link href={routesConfig.terms} className="hover:text-blue-200 hover:underline transition-colors">Terms of Service</Link>
               <span className="text-white/30 hidden sm:inline">•</span>
               <Link href="/cancellation-policy" className="hover:text-blue-200 hover:underline transition-colors">Cancellation Policy</Link>
               <span className="text-white/30 hidden sm:inline">•</span>
@@ -207,22 +209,22 @@ export default function SiteFooter() {
               Social Media Pages
             </span>
             <div className="flex flex-wrap justify-center gap-3">
-              <a aria-label="Facebook" href="https://www.facebook.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-600 hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="Facebook" href={siteConfig.socials.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-600 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <FacebookIcon size={18} />
               </a>
-              <a aria-label="Instagram" href="https://www.instagram.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-pink-600 hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="Instagram" href={siteConfig.socials.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-pink-600 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <InstagramIcon size={18} />
               </a>
-              <a aria-label="X Twitter" href="https://x.com/henoticservices" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-black hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="X Twitter" href={siteConfig.socials.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-black hover:-translate-y-1 shadow-lg text-white transition-all">
                 <TwitterIcon size={18} />
               </a>
-              <a aria-label="LinkedIn" href="https://www.linkedin.com/company/14610097/admin/page-posts/published/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-700 hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="LinkedIn" href={siteConfig.socials.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-700 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <LinkedinIcon size={18} />
               </a>
-              <a aria-label="YouTube" href="https://www.youtube.com/@HenoticDiagnostics" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-600 hover:-translate-y-1 shadow-lg text-white transition-all">
+              <a aria-label="YouTube" href={siteConfig.socials.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-600 hover:-translate-y-1 shadow-lg text-white transition-all">
                 <YoutubeIcon size={18} />
               </a>
-              <a href="https://in.pinterest.com/henoticdiagnostics2019/" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-500 hover:-translate-y-1 shadow-lg text-white transition-all font-bold text-lg font-serif">
+              <a href={siteConfig.socials.pinterest} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-500 hover:-translate-y-1 shadow-lg text-white transition-all font-bold text-lg font-serif">
                 P
               </a>
             </div>
@@ -247,7 +249,7 @@ export default function SiteFooter() {
           <div className="absolute inset-0 bg-green-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
           <img width="56" height="56" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
         </a>
-        <a href="tel:08879327184" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Call Now">
+        <a href={siteConfig.contact.phonePrimaryRaw} className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Call Now">
           <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
           <img width="56" height="56" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
         </a>

@@ -8,6 +8,7 @@ import { REGION_LOCATIONS, REGION_NAMES } from "@/config/locations";
 import { validateBooking } from "@/lib/validations/bookingSchema";
 import { submitBookingAction } from "@/actions/booking";
 import { trackLeadSubmission } from "@/lib/analytics/tracking";
+import Input from "@/components/ui/Input";
 
 const formatSlug = (slug: string) => {
   const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", "tavr", "cbd", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna"];
@@ -293,19 +294,24 @@ export default function BookingForm() {
 
                 {/* Form Fields - White frosted glass for readability */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                  <div className="relative group w-full">
-                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                      <User className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
-                    </div>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Patient Name" className="w-full pl-14 pr-5 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all text-lg placeholder-slate-500" />
-                  </div>
-                  
-                  <div className="relative group w-full">
-                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                      <Phone className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
-                    </div>
-                    <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Mobile Number" className="w-full pl-14 pr-5 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all text-lg placeholder-slate-500" />
-                  </div>
+                  <Input 
+                    type="text" 
+                    name="name" 
+                    value={formData.name} 
+                    onChange={handleChange} 
+                    required 
+                    placeholder="Patient Name" 
+                    icon={User} 
+                  />
+                  <Input 
+                    type="tel" 
+                    name="mobile" 
+                    value={formData.mobile} 
+                    onChange={handleChange} 
+                    required 
+                    placeholder="Mobile Number" 
+                    icon={Phone} 
+                  />
                 </div>
 
                 <div className="relative group w-full">
@@ -347,19 +353,26 @@ export default function BookingForm() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                  <div className="relative group w-full">
-                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                      <Calendar className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
-                    </div>
-                    <input aria-label="Select Date" type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full pl-14 pr-5 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all cursor-pointer text-lg" />
-                  </div>
-                  
-                  <div className="relative group w-full">
-                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                      <Clock className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
-                    </div>
-                    <input aria-label="Select Time" type="time" name="time" value={formData.time} onChange={handleChange} required className="w-full pl-14 pr-5 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all cursor-pointer text-lg" />
-                  </div>
+                  <Input 
+                    aria-label="Select Date" 
+                    type="date" 
+                    name="date" 
+                    value={formData.date} 
+                    onChange={handleChange} 
+                    required 
+                    icon={Calendar} 
+                    className="cursor-pointer"
+                  />
+                  <Input 
+                    aria-label="Select Time" 
+                    type="time" 
+                    name="time" 
+                    value={formData.time} 
+                    onChange={handleChange} 
+                    required 
+                    icon={Clock} 
+                    className="cursor-pointer"
+                  />
                 </div>
 
                 {/* PREMIUM WHATSAPP SUBMIT BUTTON */}

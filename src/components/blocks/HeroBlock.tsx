@@ -1,6 +1,8 @@
 "use client";
 import React from 'react';
-import { MapPin, ShieldCheck, Activity, Star, Calendar, Shield, Award, Trophy } from 'lucide-react';
+import { MapPin, ShieldCheck, Activity, Star, Calendar, Shield, Award } from 'lucide-react';
+import Badge from '@/components/ui/Badge';
+import { siteConfig } from '@/config/site';
 
 interface HeroBlockProps {
   title?: string;
@@ -50,9 +52,9 @@ export default function HeroBlock({ title, description, locationName, regionName
             
             {/* LEFT COLUMN: Premium Copy & CTAs */}
             <div className="max-w-2xl relative z-20">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm text-slate-800 text-sm font-extrabold uppercase tracking-widest mb-8">
+              <Badge variant="slate" className="px-4 py-2 bg-white border-slate-200 text-slate-800 text-sm font-extrabold mb-8">
                 <Shield size={16} className="text-[#E55D87]" /> Premium Diagnostic Center
-              </div>
+              </Badge>
               
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 leading-[1.1] mb-6 tracking-tight drop-shadow-sm">
                 Precision You Can <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4568dc] to-[#b06ab3]">Trust.</span>
@@ -72,10 +74,10 @@ export default function HeroBlock({ title, description, locationName, regionName
                   <Calendar size={20} /> Book Scan Now
                 </a>
                 <a 
-                  href="tel:08879327184" 
+                  href={siteConfig.contact.phonePrimaryRaw} 
                   className="flex items-center justify-center gap-2 bg-white text-slate-800 border-2 border-slate-200 hover:border-[#4568dc] hover:text-[#4568dc] font-extrabold px-8 py-4 rounded-2xl transition-all duration-300 text-lg shadow-sm hover:shadow-md"
                 >
-                  Call 08879327184
+                  Call {siteConfig.contact.phonePrimary}
                 </a>
               </div>
 
@@ -155,9 +157,9 @@ export default function HeroBlock({ title, description, locationName, regionName
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 text-center">
         {locationName && (
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/20 text-blue-50 sm:text-sm text-xs font-extrabold uppercase tracking-widest mb-6 backdrop-blur-md shadow-lg">
+          <Badge variant="transparent" className="px-5 py-2 text-blue-50 sm:text-sm text-xs mb-6">
             <MapPin size={16} className="text-pink-400" /> Available in {locationName}{regionName ? `, ${regionName}` : ''}
-          </div>
+          </Badge>
         )}
         
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-2xl">
@@ -169,9 +171,9 @@ export default function HeroBlock({ title, description, locationName, regionName
         </p>
         
         <div className="mt-10 flex flex-wrap justify-center items-center gap-4 text-xs md:text-sm font-bold text-white/90">
-          <span className="flex items-center gap-2 bg-white/10 px-4 py-2.5 rounded-xl backdrop-blur-md border border-white/10 shadow-lg"><ShieldCheck size={18} className="text-blue-400" /> NABL Certified</span>
-          <span className="flex items-center gap-2 bg-white/10 px-4 py-2.5 rounded-xl backdrop-blur-md border border-white/10 shadow-lg"><Activity size={18} className="text-pink-400" /> Advanced 3T Technology</span>
-          <span className="flex items-center gap-2 bg-white/10 px-4 py-2.5 rounded-xl backdrop-blur-md border border-white/10 shadow-lg"><Star size={18} className="text-yellow-400" /> Top Rated</span>
+          <Badge variant="transparent" className="px-4 py-2.5 rounded-xl"><ShieldCheck size={18} className="text-blue-400" /> NABL Certified</Badge>
+          <Badge variant="transparent" className="px-4 py-2.5 rounded-xl"><Activity size={18} className="text-pink-400" /> Advanced 3T Technology</Badge>
+          <Badge variant="transparent" className="px-4 py-2.5 rounded-xl"><Star size={18} className="text-yellow-400" /> Top Rated</Badge>
         </div>
       </div>
     </section>

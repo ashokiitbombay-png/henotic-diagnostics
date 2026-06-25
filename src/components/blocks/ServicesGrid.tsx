@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { Orbit, Activity, ScanHeart, Baby, Droplet, Heart, Bone, Stethoscope, ArrowRight } from 'lucide-react';
+import Card from '@/components/ui/Card';
+import { routesConfig } from '@/config/routes';
 
 export default function ServicesGrid() {
   const serviceCards = [
@@ -23,16 +25,18 @@ export default function ServicesGrid() {
           return (
             <Link 
               key={idx} 
-              href={`/services/${service.id}/navi-mumbai/kharghar`}
-              className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between h-40 transition-all hover:-translate-y-1 hover:shadow-md hover:border-blue-100 group"
+              href={routesConfig.getLocationUrl(service.id, "navi-mumbai", "kharghar")}
+              className="group block"
             >
-              <div className={`w-12 h-12 rounded-xl ${service.bg} ${service.color} flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-300`}>
-                <Icon size={24} />
-              </div>
-              <div className="flex justify-between items-center mt-4">
-                <span className="font-extrabold text-slate-800 text-sm md:text-base group-hover:text-blue-700 transition-colors">{service.title}</span>
-                <ArrowRight size={14} className="text-slate-400 group-hover:translate-x-1 transition-transform" />
-              </div>
+              <Card className="p-5 flex flex-col justify-between h-40 transition-all hover:-translate-y-1 hover:shadow-md hover:border-blue-100 bg-white border border-slate-100">
+                <div className={`w-12 h-12 rounded-xl ${service.bg} ${service.color} flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-300`}>
+                  <Icon size={24} />
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                  <span className="font-extrabold text-slate-800 text-sm md:text-base group-hover:text-blue-700 transition-colors">{service.title}</span>
+                  <ArrowRight size={14} className="text-slate-400 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Card>
             </Link>
           );
         })}

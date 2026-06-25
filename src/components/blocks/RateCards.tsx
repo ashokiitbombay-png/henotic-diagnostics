@@ -2,6 +2,8 @@
 import React from 'react';
 import { DollarSign, ShieldAlert, ArrowRight, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
 
 interface RateCardItem {
   name: string;
@@ -70,7 +72,7 @@ export default function RateCards({ items, title, variant = 'list', packages = D
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {packages.map((pkg, idx) => (
-              <div key={idx} className="group relative bg-white/70 backdrop-blur-xl border border-white rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700">
+              <Card key={idx} className="group relative border border-white rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 bg-white/70 backdrop-blur-xl !p-0">
                 <div className="relative h-64 overflow-hidden bg-slate-200">
                   <div className={`absolute inset-0 bg-gradient-to-t ${pkg.gradient} opacity-40 group-hover:opacity-20 transition-opacity z-10`}></div>
                   <img width="36" height="36" src={pkg.img} alt={pkg.title} className="w-full h-full object-cover transform group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-700 ease-out" />
@@ -90,11 +92,13 @@ export default function RateCards({ items, title, variant = 'list', packages = D
                       </li>
                     ))}
                   </ul>
-                  <Link href="/contact" className="w-full block text-center py-4 rounded-2xl bg-blue-50 text-blue-700 font-extrabold uppercase tracking-widest border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm hover:shadow-md">
-                    Book Package
+                  <Link href="/contact" className="w-full block">
+                    <Button className="w-full text-center py-4 rounded-2xl font-extrabold uppercase tracking-widest transition-all duration-300 shadow-sm hover:shadow-md text-sm">
+                      Book Package
+                    </Button>
                   </Link>
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
@@ -117,7 +121,7 @@ export default function RateCards({ items, title, variant = 'list', packages = D
       </h4>
       <div className="space-y-4">
         {defaultItems.map((item, idx) => (
-          <div key={idx} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all hover:shadow-md hover:border-blue-100">
+          <Card key={idx} className="p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all hover:shadow-md hover:border-blue-100 bg-white border border-slate-100">
             <div className="flex-grow">
               <h5 className="font-extrabold text-slate-900 text-base mb-1">{item.name}</h5>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-500 text-xs font-semibold">
@@ -135,7 +139,7 @@ export default function RateCards({ items, title, variant = 'list', packages = D
                 <ArrowRight size={18} />
               </Link>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
       <p className="mt-4 text-xs font-bold text-slate-400 flex items-center gap-1.5 justify-center md:justify-start">
