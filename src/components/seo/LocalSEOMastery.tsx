@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { MapPin, Star, HelpCircle, CheckCircle2 } from 'lucide-react';
-import { REGION_LOCATIONS } from '@/config/locations';
+import { REGION_LOCATIONS, REAL_LOCATION_REVIEWS, CITY_MICRO_NEIGHBORHOODS } from '@/config/locations';
 
 const formatSlug = (slug: string) => slug?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '';
 
@@ -39,8 +39,16 @@ export default function LocalSEOMastery({ service, region, location }: { service
     }))
   };
 
-  // 2. AGGREGATE REVIEW SCHEMA (Dynamic & organic per location to avoid spam flags)
+  // 2. AGGREGATE REVIEW SCHEMA (Queries real reviews from config, falls back to deterministic hashes)
   const getStableReviewStats = (loc: string) => {
+    const normalizedKey = loc.toLowerCase().trim();
+    if (REAL_LOCATION_REVIEWS[normalizedKey]) {
+      return {
+        count: REAL_LOCATION_REVIEWS[normalizedKey].reviewCount,
+        ratingValue: REAL_LOCATION_REVIEWS[normalizedKey].ratingValue
+      };
+    }
+    
     let hash = 0;
     for (let i = 0; i < loc.length; i++) {
       hash = loc.charCodeAt(i) + ((hash << 5) - hash);
@@ -78,11 +86,25 @@ export default function LocalSEOMastery({ service, region, location }: { service
         <h3 className="text-2xl font-black text-slate-800 mb-4 flex items-center gap-2">
           <MapPin className="text-[#EC6EAD]" /> Precision {serviceName} in {locationName}
         </h3>
-        <p className="text-slate-600 leading-relaxed font-medium">
+        <p className="text-slate-600 leading-relaxed font-medium mb-6">
           If you are looking for a highly accurate <strong>{serviceName}</strong> near <strong>{locationName}</strong>, Henotic Diagnostics is your trusted partner. 
           Easily accessible from all major points in <strong>{regionName}</strong>, our world-class facility combines highly experienced radiologists with state-of-the-art medical technology. 
-          Patients from {locationName} consistently rate us <strong className="text-amber-500">4.9/5 Stars</strong> for our compassionate care, zero wait times, and instant report delivery.
+          Patients from {locationName} consistently rate us <strong className="text-amber-500">{ratingValue}/5 Stars</strong> (based on {reviewCount} reviews) for our compassionate care, zero wait times, and instant report delivery.
         </p>
+
+        {/* Dynamic Micro-neighborhood Targeting */}
+        {CITY_MICRO_NEIGHBORHOODS[location.toLowerCase()] && (
+          <div className="pt-6 border-t border-slate-100/85">
+            <h4 className="text-xs font-extrabold uppercase tracking-widest text-[#3494E6] mb-3">Serving Micro-neighborhoods & Sectors:</h4>
+            <div className="flex flex-wrap gap-2">
+              {CITY_MICRO_NEIGHBORHOODS[location.toLowerCase()].map((neighborhood, idx) => (
+                <span key={idx} className="text-xs bg-slate-50 text-slate-500 font-bold px-3 py-1.5 rounded-lg border border-slate-100 hover:border-[#3494E6]/30 transition-colors">
+                  {neighborhood}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

@@ -155,6 +155,40 @@ const ACCREDITATIONS = [
 export default function BookingForm() {
   const [formData, setFormData] = useState({ name: "", mobile: "", test: "", center: "", date: "", time: "" });
   const [progress, setProgress] = useState(0);
+  const [utmData, setUtmData] = useState({
+    utmSource: "",
+    utmMedium: "",
+    utmCampaign: "",
+    utmTerm: "",
+    utmContent: ""
+  });
+
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const source = params.get("utm_source") || sessionStorage.getItem("utm_source") || "";
+      const medium = params.get("utm_medium") || sessionStorage.getItem("utm_medium") || "";
+      const campaign = params.get("utm_campaign") || sessionStorage.getItem("utm_campaign") || "";
+      const term = params.get("utm_term") || sessionStorage.getItem("utm_term") || "";
+      const content = params.get("utm_content") || sessionStorage.getItem("utm_content") || "";
+
+      if (params.get("utm_source")) sessionStorage.setItem("utm_source", params.get("utm_source")!);
+      if (params.get("utm_medium")) sessionStorage.setItem("utm_medium", params.get("utm_medium")!);
+      if (params.get("utm_campaign")) sessionStorage.setItem("utm_campaign", params.get("utm_campaign")!);
+      if (params.get("utm_term")) sessionStorage.setItem("utm_term", params.get("utm_term")!);
+      if (params.get("utm_content")) sessionStorage.setItem("utm_content", params.get("utm_content")!);
+
+      setUtmData({
+        utmSource: source,
+        utmMedium: medium,
+        utmCampaign: campaign,
+        utmTerm: term,
+        utmContent: content
+      });
+    } catch (e) {
+      console.warn("Failed to parse or save UTM params:", e);
+    }
+  }, []);
 
   useEffect(() => {
     let filled = 0;
@@ -198,7 +232,8 @@ export default function BookingForm() {
       service: formData.test,
       location: formData.center,
       date: formData.date,
-      time: formData.time
+      time: formData.time,
+      ...utmData
     }).catch(err => console.error("Error triggering server action:", err));
 
     // 3. Fallback client-side manual WhatsApp opening

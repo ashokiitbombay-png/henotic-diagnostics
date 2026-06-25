@@ -9,6 +9,11 @@ interface BookingData {
   location?: string;
   date?: string;
   time?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmTerm?: string;
+  utmContent?: string;
 }
 
 /**
@@ -78,6 +83,9 @@ export async function submitBookingAction(formData: BookingData) {
 
     // Simulated Success Logging for Development
     console.log(`✅ [DEV MODE - SERVER ACTION] Automated WhatsApp Triggered for ${phone}: "Hi ${name}, your ${service} at ${location || 'our center'} is confirmed."`);
+    if (formData.utmSource || formData.utmMedium || formData.utmCampaign) {
+      console.log(`📈 [UTM ATTRIBUTION] Source: "${formData.utmSource || 'N/A'}", Medium: "${formData.utmMedium || 'N/A'}", Campaign: "${formData.utmCampaign || 'N/A'}", Term: "${formData.utmTerm || 'N/A'}", Content: "${formData.utmContent || 'N/A'}"`);
+    }
 
     return { 
       success: true, 
