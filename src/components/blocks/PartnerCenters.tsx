@@ -246,17 +246,66 @@ const centersData: Center[] = [
   }
 ];
 
+// Curated theme styles selector
+const getCardTheme = (isMainHub: boolean, index: number) => {
+  if (isMainHub) {
+    return {
+      container: "bg-gradient-to-br from-blue-50/80 via-white to-white border-blue-300 shadow-[0_20px_40px_rgba(37,99,235,0.06)] hover:shadow-[0_30px_60px_rgba(37,99,235,0.12)] hover:border-blue-400",
+      header: "bg-gradient-to-r from-blue-900 to-blue-950 text-white border-b border-blue-800",
+      addressBg: "bg-blue-50/80 border border-blue-100/50",
+      mapFrame: "border-4 border-blue-600/80 bg-blue-50/50",
+      badge: "bg-blue-100 text-blue-900 border border-blue-200",
+      accentText: "text-blue-700",
+      btnPrimary: "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
+    };
+  }
+
+  // Three different color themes distributed across cards
+  const schemes = [
+    // Theme 1: Vibrant Pink Theme (index % 3 == 0)
+    {
+      container: "bg-gradient-to-br from-pink-50/80 via-white to-white border-pink-200 shadow-[0_20px_40px_rgba(223,137,181,0.06)] hover:shadow-[0_30px_60px_rgba(223,137,181,0.12)] hover:border-pink-300",
+      header: "bg-gradient-to-r from-[#b03a74] to-[#c85694] text-white border-b border-[#a12f65]",
+      addressBg: "bg-[#fdf2f8]/90 border border-pink-100/60",
+      mapFrame: "border-4 border-[#c85694]/80 bg-pink-50/50",
+      badge: "bg-pink-100 text-[#b03a74] border border-pink-200",
+      accentText: "text-[#c85694]",
+      btnPrimary: "bg-gradient-to-r from-[#c85694] to-pink-600 hover:from-pink-600 hover:to-pink-750 text-white shadow-sm"
+    },
+    // Theme 2: Emerald Green Theme (index % 3 == 1)
+    {
+      container: "bg-gradient-to-br from-emerald-50/80 via-white to-white border-emerald-200 shadow-[0_20px_40px_rgba(16,185,129,0.06)] hover:shadow-[0_30px_60px_rgba(16,185,129,0.12)] hover:border-emerald-300",
+      header: "bg-gradient-to-r from-emerald-800 to-emerald-900 text-white border-b border-emerald-700",
+      addressBg: "bg-emerald-50/90 border border-emerald-100/60",
+      mapFrame: "border-4 border-emerald-600/80 bg-emerald-50/50",
+      badge: "bg-emerald-100 text-emerald-900 border border-emerald-200",
+      accentText: "text-emerald-700",
+      btnPrimary: "bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-sm"
+    },
+    // Theme 3: Deep Indigo / Violet Theme (index % 3 == 2)
+    {
+      container: "bg-gradient-to-br from-indigo-50/80 via-white to-white border-indigo-200 shadow-[0_20px_40px_rgba(99,102,241,0.06)] hover:shadow-[0_30px_60px_rgba(99,102,241,0.12)] hover:border-indigo-300",
+      header: "bg-gradient-to-r from-indigo-850 to-indigo-950 text-white border-b border-indigo-800",
+      addressBg: "bg-indigo-50/90 border border-indigo-100/60",
+      mapFrame: "border-4 border-indigo-600/80 bg-indigo-50/50",
+      badge: "bg-indigo-100 text-indigo-900 border border-indigo-200",
+      accentText: "text-indigo-700",
+      btnPrimary: "bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white shadow-sm"
+    }
+  ];
+
+  return schemes[index % schemes.length];
+};
+
 interface PartnerCentersProps {
-  service: string; // e.g. "mri-scan", "blood-test"
-  region: string;  // e.g. "navi-mumbai", "central-suburbs"
+  service: string;
+  region: string;
 }
 
 export default function PartnerCenters({ service, region }: PartnerCentersProps) {
-  // Normalize parameters to resolve matching categories
   const serviceSlug = service.toLowerCase();
   const regionSlug = region.toLowerCase();
 
-  // Map service slug to generic types
   const getMappedServiceCategory = (slug: string): string => {
     if (slug.includes('blood') || slug.includes('body-check') || slug.includes('pathology')) {
       return 'blood-test';
@@ -277,28 +326,19 @@ export default function PartnerCenters({ service, region }: PartnerCentersProps)
   };
 
   const category = getMappedServiceCategory(serviceSlug);
-
-  // Group region parameter: navi-mumbai vs mumbai
   const regionGroup = regionSlug === 'navi-mumbai' ? 'navi-mumbai' : 'mumbai';
 
-  // Filter centers based on matching services and region group
   const filteredCenters = centersData.filter(center => {
-    // 1. Flagship center (index 0 / Kharghar) is always included for all services and regions
     if (center.name === "Henotic Diagnostics - Kharghar" && center.subtitle.includes("Main Flagship")) {
       return true;
     }
-
-    // 2. Otherwise, must match the region group (mumbai vs navi-mumbai)
     if (center.regionGroup !== regionGroup) {
       return false;
     }
-
-    // 3. Must match the service category
-    if (category === 'default') return true; // fallback
+    if (category === 'default') return true;
     return center.services.includes(category);
   });
 
-  // Unique centers filter just in case of overlaps
   const uniqueCenters = Array.from(new Set(filteredCenters.map(c => c.name)))
     .map(name => filteredCenters.find(c => c.name === name)!);
 
@@ -314,9 +354,9 @@ export default function PartnerCenters({ service, region }: PartnerCentersProps)
         
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs md:text-sm font-bold uppercase tracking-widest mb-4 shadow-sm">
-            <Building2 size={16} className="text-[#E55D87]" /> Direct Network Centers
-          </span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 text-slate-800 text-xs md:text-sm font-bold uppercase tracking-widest mb-4 shadow-sm backdrop-blur-md">
+            <Building2 size={16} className="text-[#c85694]" /> Direct Network Centers
+          </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
             Our Parent Diagnostic Centers
           </h2>
@@ -326,85 +366,97 @@ export default function PartnerCenters({ service, region }: PartnerCentersProps)
         </div>
 
         {/* Centers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {uniqueCenters.map((center, i) => {
             const isMainHub = center.name === "Henotic Diagnostics - Kharghar" && center.subtitle.includes("Main Flagship");
             
+            // Get custom theme styles based on flagship status and loop index
+            const theme = getCardTheme(isMainHub, i);
+            
+            // Separate brand name ("Henotic Diagnostics") from location name
+            const [brandPart, locationPart] = center.name.includes(' - ') 
+              ? center.name.split(' - ') 
+              : ['Henotic Diagnostics', center.name.replace('Henotic Diagnostics ', '')];
+
             return (
               <div 
                 key={i}
-                className={`relative rounded-[2.5rem] p-6 bg-white border flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 shadow-[0_15px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_25px_45px_rgba(0,0,0,0.08)] ${
-                  isMainHub 
-                    ? "border-blue-400/80 ring-2 ring-blue-500/10 bg-gradient-to-b from-blue-50/20 to-white" 
-                    : "border-slate-100 hover:border-slate-300"
-                }`}
+                className={`relative rounded-[2.5rem] overflow-hidden border flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 ${theme.container}`}
               >
-                {/* 3D Glassmorphism Accent Badge */}
+                {/* Ribbon Tag for Flagship Hub */}
                 {isMainHub && (
-                  <span className="absolute -top-3.5 left-8 px-4 py-1 rounded-full bg-gradient-to-r from-[#E55D87] to-pink-500 text-white text-[10px] md:text-xs font-black uppercase tracking-widest shadow-md">
-                    Corporate Flagship Hub
+                  <span className="absolute top-4 right-4 z-20 px-3 py-1 rounded-full bg-gradient-to-r from-[#E55D87] to-pink-500 text-white text-[9px] font-black uppercase tracking-widest shadow-md">
+                    Flagship Hub
                   </span>
                 )}
 
                 <div>
-                  {/* Title & Badge */}
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div>
-                      <h3 className="font-extrabold text-lg md:text-xl text-slate-900 leading-snug">
-                        {center.name}
-                      </h3>
-                      <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">
+                  {/* Colored Header Banner Grid */}
+                  <div className={`p-6 ${theme.header}`}>
+                    <span className="block text-[11px] font-black tracking-[0.25em] uppercase text-white/80 mb-1 leading-none">
+                      Parent Network Center
+                    </span>
+                    {/* Brand Name - Rendered BIG always */}
+                    <span className="block text-xl md:text-2xl font-black tracking-wide uppercase leading-tight text-white drop-shadow-sm">
+                      {brandPart}
+                    </span>
+                    {/* Location Name */}
+                    <span className="block text-md md:text-lg font-bold text-white/95 mt-1">
+                      — {locationPart}
+                    </span>
+                  </div>
+
+                  {/* Body Content Area */}
+                  <div className="p-6">
+                    {/* Subtitle & Badge Row */}
+                    <div className="flex items-center justify-between gap-4 mb-4">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                         {center.subtitle}
                       </p>
+                      <div className={`p-2.5 rounded-xl flex items-center justify-center shrink-0 ${theme.badge}`}>
+                        {center.type === 'pathology' ? (
+                          <Microscope size={18} />
+                        ) : center.type === 'cardiology' ? (
+                          <Activity size={18} />
+                        ) : (
+                          <Building2 size={18} />
+                        )}
+                      </div>
                     </div>
-                    <div className={`p-3 rounded-2xl flex items-center justify-center shrink-0 ${
-                      isMainHub ? "bg-blue-100 text-blue-600" : "bg-slate-100 text-slate-600"
-                    }`}>
-                      {center.type === 'pathology' ? (
-                        <Microscope size={22} />
-                      ) : center.type === 'cardiology' ? (
-                        <Activity size={22} />
-                      ) : (
-                        <Building2 size={22} />
-                      )}
-                    </div>
-                  </div>
 
-                  {/* Trust Signals (Accreditations) */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-50 text-slate-600 border border-slate-100">
-                      NABL Compliant
-                    </span>
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-50 text-slate-600 border border-slate-100">
-                      ISO 9001 Certified
-                    </span>
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
-                      Priority Booking
-                    </span>
-                  </div>
+                    {/* Trust Signals */}
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      <span className="text-[9px] font-bold px-2.5 py-0.5 rounded-full bg-slate-50 text-slate-600 border border-slate-100">
+                        NABL Compliant
+                      </span>
+                      <span className="text-[9px] font-bold px-2.5 py-0.5 rounded-full bg-slate-50 text-slate-600 border border-slate-100">
+                        ISO 9001
+                      </span>
+                      <span className="text-[9px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                        Priority Desk
+                      </span>
+                    </div>
 
-                  {/* Core Details (Address, Phone, Hours) */}
-                  <div className="space-y-3.5 mb-6 text-sm text-slate-600 font-medium">
-                    <div className="flex items-start gap-3">
-                      <MapPin size={18} className="text-[#E55D87] shrink-0 mt-0.5" />
-                      <span className="leading-relaxed">{center.address}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Clock size={18} className="text-blue-500 shrink-0" />
-                      <span>{center.hours}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Phone size={18} className="text-emerald-500 shrink-0" />
-                      <a href={`tel:${center.phone.replace(/\s+/g, '')}`} className="font-extrabold text-slate-800 hover:text-blue-600 transition-colors">
-                        {center.phone}
-                      </a>
+                    {/* Body Address Box (Visual background color panel) */}
+                    <div className={`p-4 rounded-2xl mb-4 ${theme.addressBg}`}>
+                      <div className="space-y-3 text-xs md:text-sm text-slate-700 font-medium">
+                        <div className="flex items-start gap-2.5">
+                          <MapPin size={16} className={`shrink-0 mt-0.5 ${theme.accentText}`} />
+                          <span className="leading-relaxed">{center.address}</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 border-t border-slate-200/50 pt-2 mt-2">
+                          <Clock size={16} className="text-blue-500 shrink-0" />
+                          <span>{center.hours}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Google Maps Dedicated Box */}
-                <div className="mt-4">
-                  <div className="w-full h-44 rounded-2xl overflow-hidden border border-slate-200 shadow-inner bg-slate-100 relative mb-4">
+                {/* Map Frame and Direct Actions Area */}
+                <div className="px-6 pb-6 mt-auto">
+                  {/* Google Map Box (Visual frame background edge color) */}
+                  <div className={`w-full h-44 rounded-2xl overflow-hidden shadow-inner relative mb-4 ${theme.mapFrame}`}>
                     <iframe 
                       title={`Google Map - ${center.name}`}
                       src={center.embedUrl}
@@ -414,25 +466,25 @@ export default function PartnerCenters({ service, region }: PartnerCentersProps)
                       allowFullScreen={false}
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover rounded-xl"
                     ></iframe>
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="grid grid-cols-2 gap-3 mt-4">
+                  {/* Interactive Button Grid */}
+                  <div className="grid grid-cols-2 gap-3">
                     <a 
                       href={`tel:${center.phone.replace(/\s+/g, '')}`} 
-                      className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-xs hover:shadow-md hover:from-blue-700 hover:to-blue-800 transition-all text-center"
+                      className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-xs transition-all text-center ${theme.btnPrimary}`}
                     >
-                      <PhoneCall size={14} /> Call Hub
+                      <PhoneCall size={13} /> Call Center
                     </a>
                     <a 
                       href={center.gbpUrl} 
                       target="_blank" 
                       rel="noreferrer" 
-                      className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition-all text-center"
+                      className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 hover:border-slate-300 transition-all text-center shadow-sm"
                     >
-                      <Globe size={14} /> View Hub
+                      <Globe size={13} /> Google Profile
                     </a>
                   </div>
                 </div>
