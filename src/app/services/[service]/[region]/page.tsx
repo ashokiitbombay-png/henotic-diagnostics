@@ -7,6 +7,7 @@ import GoogleReviews from "@/components/features/reviews/GoogleReviews";
 import { REGION_LOCATIONS } from '@/config/locations';
 import { optimizeWordPressHTML } from '@/lib/utils';
 import { getService } from '@/lib/wordpress/getService';
+import PartnerCenters from '@/components/blocks/PartnerCenters';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -132,6 +133,9 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
           )}
         </div>
       </section>
+
+      {/* 🌟 Parent Diagnostic Centers Section */}
+      <PartnerCenters service={resolvedParams.service} region={resolvedParams.region} />
 
       {/* 3. MEDICAL CONTENT */}
       <section className="py-16 px-4 md:px-8 max-w-5xl mx-auto">
