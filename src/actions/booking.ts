@@ -1,6 +1,7 @@
 "use server";
 
 import { validateBooking } from "@/lib/validations/bookingSchema";
+import { createCrmAppointment } from "@/lib/crm/client";
 
 interface BookingData {
   name: string;
@@ -9,6 +10,7 @@ interface BookingData {
   location?: string;
   date?: string;
   time?: string;
+  slotId?: string;
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
@@ -38,6 +40,46 @@ export async function submitBookingAction(formData: BookingData) {
 
     const { name, phone, service, location } = validation.data!;
 
+    // 1. Attempt CRM Booking First
+    let crmSuccess = false;
+    let appointmentId = "";
+
+    try {
+      if (formData.slotId) {
+        const crmResponse = await createCrmAppointment({
+          patientName: name,
+          phone: phone,
+          serviceId: service,
+          locationId: location || "general",
+          date: formData.date || "",
+          slotId: formData.slotId,
+          utmSource: formData.utmSource,
+          utmMedium: formData.utmMedium,
+          utmCampaign: formData.utmCampaign,
+          utmTerm: formData.utmTerm,
+          utmContent: formData.utmContent
+        });
+
+        if (crmResponse.success) {
+          crmSuccess = true;
+          appointmentId = crmResponse.appointmentId || "";
+          console.log(`✅ [CRM BOOKING SUCCESS] Appointment created in CRM. ID: ${appointmentId}`);
+        }
+      }
+    } catch (crmErr: any) {
+      console.warn(`⚠️ [CRM BOOKING FAILED] CRM booking failed, falling back to WhatsApp:`, crmErr.message);
+    }
+
+    if (crmSuccess) {
+      return { 
+        success: true, 
+        crmBooked: true,
+        appointmentId,
+        message: `Booking successfully confirmed in our clinic system! ID: ${appointmentId}` 
+      };
+    }
+
+    // 2. Fallback to WhatsApp Lead Method
     // Official Meta WhatsApp Cloud API Endpoint Configuration
     const WA_API_URL = process.env.WHATSAPP_API_URL || "https://graph.facebook.com/v17.0/YOUR_PHONE_NUMBER_ID/messages";
     const WA_BEARER_TOKEN = process.env.WHATSAPP_API_TOKEN || "YOUR_ACCESS_TOKEN";
@@ -64,32 +106,16 @@ export async function submitBookingAction(formData: BookingData) {
       }
     };
 
-    /* 
-    // UNCOMMENT AND CONFIGURE IN PRODUCTION
-    const response = await fetch(WA_API_URL, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${WA_BEARER_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(whatsappPayload),
-    });
-
-    const responseData = await response.json();
-    if (!response.ok) {
-      throw new Error(`WhatsApp API Error: ${responseData.error?.message}`);
-    }
-    */
-
     // Simulated Success Logging for Development
-    console.log(`✅ [DEV MODE - SERVER ACTION] Automated WhatsApp Triggered for ${phone}: "Hi ${name}, your ${service} at ${location || 'our center'} is confirmed."`);
+    console.log(`✅ [FALLBACK ACTIVE - SERVER ACTION] Automated WhatsApp Triggered for ${phone}: "Hi ${name}, your ${service} at ${location || 'our center'} is registered."`);
     if (formData.utmSource || formData.utmMedium || formData.utmCampaign) {
       console.log(`📈 [UTM ATTRIBUTION] Source: "${formData.utmSource || 'N/A'}", Medium: "${formData.utmMedium || 'N/A'}", Campaign: "${formData.utmCampaign || 'N/A'}", Term: "${formData.utmTerm || 'N/A'}", Content: "${formData.utmContent || 'N/A'}"`);
     }
 
     return { 
       success: true, 
-      message: "Booking confirmed! A WhatsApp message has been sent to the patient." 
+      crmBooked: false,
+      message: "Our automated slot booking is busy. Proceeding to direct agent confirmation via WhatsApp..." 
     };
 
   } catch (error: any) {

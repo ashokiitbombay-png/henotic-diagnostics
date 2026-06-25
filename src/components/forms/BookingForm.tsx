@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import { User, Phone, Activity, MapPin, Calendar, Clock, ShieldCheck, Award, FileCheck, CheckCircle2, Lock, HeartPulse } from "lucide-react";
 
 import { services } from "@/config/services";
@@ -9,6 +9,7 @@ import { validateBooking } from "@/lib/validations/bookingSchema";
 import { submitBookingAction } from "@/actions/booking";
 import { trackLeadSubmission } from "@/lib/analytics/tracking";
 import Input from "@/components/ui/Input";
+import { getSlotsForDate } from "@/actions/slots";
 
 const formatSlug = (slug: string) => {
   const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", "tavr", "cbd", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna"];
@@ -153,8 +154,10 @@ const ACCREDITATIONS = [
 ];
 
 export default function BookingForm() {
-  const [formData, setFormData] = useState({ name: "", mobile: "", test: "", center: "", date: "", time: "" });
+  const [formData, setFormData] = useState({ name: "", mobile: "", test: "", center: "", date: "", time: "", slotId: "" });
   const [progress, setProgress] = useState(0);
+  const [isPending, startTransition] = useTransition();
+  const [availableSlots, setAvailableSlots] = useState<{ id: string; time: string; available: boolean }[]>([]);
   const [utmData, setUtmData] = useState({
     utmSource: "",
     utmMedium: "",
@@ -196,17 +199,47 @@ export default function BookingForm() {
     if (formData.mobile.trim() !== "" && formData.mobile.length >= 10) filled += 20;
     if (formData.test !== "") filled += 20;
     if (formData.center !== "") filled += 20;
-    if (formData.date !== "" && formData.time !== "") filled += 20;
+    if (formData.date !== "" && (formData.slotId !== "" || formData.time !== "")) filled += 20;
     setProgress(filled);
   }, [formData]);
 
+  const fetchSlots = (date: string, center: string, test: string) => {
+    if (!date || !center || !test) return;
+    startTransition(async () => {
+      try {
+        const response = await getSlotsForDate(date, center, test);
+        if (response.success && response.slots) {
+          setAvailableSlots(response.slots);
+          setFormData(prev => ({
+            ...prev,
+            slotId: response.slots!.some(s => s.id === prev.slotId) ? prev.slotId : ""
+          }));
+        } else {
+          setAvailableSlots([]);
+        }
+      } catch (err) {
+        console.error("Failed fetching CRM slots:", err);
+        setAvailableSlots([]);
+      }
+    });
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData(prev => {
+      const updated = { ...prev, [name]: value };
+      if (name === "date" || name === "center" || name === "test") {
+        fetchSlots(updated.date, updated.center, updated.test);
+      }
+      return updated;
+    });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
+    const selectedSlotTime = availableSlots.find(s => s.id === formData.slotId)?.time || formData.time || "";
+
     // 1. Run Shared Validation
     const validation = validateBooking({
       name: formData.name,
@@ -214,7 +247,7 @@ export default function BookingForm() {
       service: formData.test,
       location: formData.center,
       date: formData.date,
-      time: formData.time
+      time: selectedSlotTime
     });
 
     if (!validation.success) {
@@ -232,13 +265,24 @@ export default function BookingForm() {
       service: formData.test,
       location: formData.center,
       date: formData.date,
-      time: formData.time,
+      time: selectedSlotTime,
+      slotId: formData.slotId,
       ...utmData
-    }).catch(err => console.error("Error triggering server action:", err));
-
-    // 3. Fallback client-side manual WhatsApp opening
-    const message = `*NEW PRIORITY BOOKING*%0A%0A*Patient Details:*%0A👤 Name: ${formData.name}%0A📱 Mobile: ${formData.mobile}%0A%0A*Test Details:*%0A🏥 Center: ${formData.center}%0A🔬 Test: ${formData.test}%0A📅 Date: ${formData.date}%0A⏰ Time: ${formData.time}%0A%0A_Sent via Official Henotic Diagnostics Portal_`;
-    window.open(`https://wa.me/9108879327184?text=${message}`, '_blank');
+    })
+    .then((res) => {
+      if (res.success && res.crmBooked) {
+        alert(`Booking successfully confirmed in our clinic system! Appointment ID: ${res.appointmentId}`);
+      } else {
+        // Fallback client-side manual WhatsApp opening
+        const message = `*NEW PRIORITY BOOKING*%0A%0A*Patient Details:*%0A👤 Name: ${formData.name}%0A📱 Mobile: ${formData.mobile}%0A%0A*Test Details:*%0A🏥 Center: ${formData.center}%0A🔬 Test: ${formData.test}%0A📅 Date: ${formData.date}%0A⏰ Time: ${selectedSlotTime}%0A%0A_Sent via Official Henotic Diagnostics Portal_`;
+        window.open(`https://wa.me/9108879327184?text=${message}`, '_blank');
+      }
+    })
+    .catch(err => {
+      console.error("Error triggering server action:", err);
+      const message = `*NEW PRIORITY BOOKING*%0A%0A*Patient Details:*%0A👤 Name: ${formData.name}%0A📱 Mobile: ${formData.mobile}%0A%0A*Test Details:*%0A🏥 Center: ${formData.center}%0A🔬 Test: ${formData.test}%0A📅 Date: ${formData.date}%0A⏰ Time: ${selectedSlotTime || "Pending"}%0A%0A_Sent via Official Henotic Diagnostics Portal_`;
+      window.open(`https://wa.me/9108879327184?text=${message}`, '_blank');
+    });
   };
 
   return (
@@ -398,16 +442,49 @@ export default function BookingForm() {
                     icon={Calendar} 
                     className="cursor-pointer"
                   />
-                  <Input 
-                    aria-label="Select Time" 
-                    type="time" 
-                    name="time" 
-                    value={formData.time} 
-                    onChange={handleChange} 
-                    required 
-                    icon={Clock} 
-                    className="cursor-pointer"
-                  />
+                  
+                  {isPending ? (
+                    <div className="relative group w-full">
+                      <div className="w-full pl-5 pr-5 py-[22px] rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm text-slate-500 font-bold text-lg select-none animate-pulse">
+                        Loading available slots...
+                      </div>
+                    </div>
+                  ) : availableSlots.length > 0 ? (
+                    <div className="relative group w-full">
+                      <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                        <Clock className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
+                      </div>
+                      <select 
+                        aria-label="Select Appointment Slot"
+                        name="slotId" 
+                        value={formData.slotId} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full pl-14 pr-10 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all appearance-none cursor-pointer text-lg"
+                      >
+                        <option value="" disabled>Select Time Slot</option>
+                        {availableSlots.map(slot => (
+                          <option key={slot.id} value={slot.id} disabled={!slot.available}>
+                            {slot.time} {!slot.available ? '(Booked)' : ''}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                        <span className="text-slate-500">▼</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <Input 
+                      aria-label="Select Time" 
+                      type="time" 
+                      name="time" 
+                      value={formData.time} 
+                      onChange={handleChange} 
+                      required 
+                      icon={Clock} 
+                      className="cursor-pointer"
+                    />
+                  )}
                 </div>
 
                 {/* PREMIUM WHATSAPP SUBMIT BUTTON */}
