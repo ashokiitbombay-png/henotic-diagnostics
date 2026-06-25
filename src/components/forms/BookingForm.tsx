@@ -3,8 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { User, Phone, Activity, MapPin, Calendar, Clock, ShieldCheck, Award, FileCheck, CheckCircle2, Lock, HeartPulse } from "lucide-react";
 
-import { services } from "@/lib/constants/services";
-import { REGION_LOCATIONS, REGION_NAMES } from "@/lib/constants/locations";
+import { services } from "@/config/services";
+import { REGION_LOCATIONS, REGION_NAMES } from "@/config/locations";
+import { validateBooking } from "@/lib/validations/bookingSchema";
+import { submitBookingAction } from "@/actions/booking";
+import { trackLeadSubmission } from "@/lib/analytics/tracking";
 
 const formatSlug = (slug: string) => {
   const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", "tavr", "cbd", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna"];
@@ -168,11 +171,36 @@ export default function BookingForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 🚀 GOOGLE ADS CONVERSION TRACKING
-    if (typeof window !== 'undefined' && (window as any).dataLayer) {
-      (window as any).dataLayer.push({ event: 'generate_lead', service: formData.test, location: formData.center });
+    
+    // 1. Run Shared Validation
+    const validation = validateBooking({
+      name: formData.name,
+      phone: formData.mobile,
+      service: formData.test,
+      location: formData.center,
+      date: formData.date,
+      time: formData.time
+    });
+
+    if (!validation.success) {
+      alert(Object.values(validation.errors || {}).join("\n"));
+      return;
     }
 
+    // 🚀 GOOGLE ADS CONVERSION TRACKING
+    trackLeadSubmission(formData.test, formData.center);
+
+    // 2. Trigger Server Action asynchronously
+    submitBookingAction({
+      name: formData.name,
+      phone: formData.mobile,
+      service: formData.test,
+      location: formData.center,
+      date: formData.date,
+      time: formData.time
+    }).catch(err => console.error("Error triggering server action:", err));
+
+    // 3. Fallback client-side manual WhatsApp opening
     const message = `*NEW PRIORITY BOOKING*%0A%0A*Patient Details:*%0A👤 Name: ${formData.name}%0A📱 Mobile: ${formData.mobile}%0A%0A*Test Details:*%0A🏥 Center: ${formData.center}%0A🔬 Test: ${formData.test}%0A📅 Date: ${formData.date}%0A⏰ Time: ${formData.time}%0A%0A_Sent via Official Henotic Diagnostics Portal_`;
     window.open(`https://wa.me/9108879327184?text=${message}`, '_blank');
   };

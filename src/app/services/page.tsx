@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { services } from "@/lib/constants/services";
+import { services } from "@/config/services";
 import ServicesSearchFilter from "@/components/features/ServicesSearchFilter";
 import { Metadata } from "next";
 

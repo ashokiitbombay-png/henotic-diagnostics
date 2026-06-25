@@ -1,24 +1,14 @@
 import DynamicBreadcrumbs from '@/components/seo/DynamicBreadcrumbs';
 import React from "react";
 import { Metadata } from "next";
-import { getClient } from "@/lib/apollo-client";
-import { gql } from "@apollo/client";
 import Link from "next/link";
 import { MapPin, Calendar, ArrowRight, Activity } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
-import { REGION_LOCATIONS } from '@/lib/constants/locations';
+import { REGION_LOCATIONS } from '@/config/locations';
 import { optimizeWordPressHTML } from '@/lib/utils';
+import { getService } from '@/lib/wordpress/getService';
 
 export const revalidate = 86400; // 24 hours cache revalidation
-
-const GET_SERVICE_CONTENT = gql`
-  query GetServiceContent($slug: ID!) {
-    service(id: $slug, idType: SLUG) {
-      title
-      content
-    }
-  }
-`;
 
 // Helper to format URL slugs (e.g., "navi-mumbai" -> "Navi Mumbai")
 const formatText = (text: string) => text.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -46,7 +36,6 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
 // ==========================================
 export default async function ServiceRegionPage({ params }: { params: Promise<{ service: string, region: string }> }) {
   const resolvedParams = await params;
-  const client = getClient();
   let wpContent: any = null;
   
   const serviceName = formatText(resolvedParams.service);
@@ -56,12 +45,8 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
   const locations = REGION_LOCATIONS[resolvedParams.region] || [];
 
   try {
-    const { data } = await client.query<any>({
-      query: GET_SERVICE_CONTENT,
-      variables: { slug: resolvedParams.service },
-      fetchPolicy: "no-cache", 
-    });
-    if (data?.service) { wpContent = data.service.content; }
+    const serviceData = await getService(resolvedParams.service);
+    if (serviceData) { wpContent = serviceData.content; }
   } catch (error) {
     console.error("Failed to fetch WordPress content:", error);
   }

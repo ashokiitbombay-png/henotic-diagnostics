@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import React from "react";
-import { getClient } from "@/lib/apollo-client";
-import { gql } from "@apollo/client";
 import ServiceTemplate from '@/templates/ServiceTemplate';
+import { getService } from '@/lib/wordpress/getService';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -49,33 +48,16 @@ export async function generateStaticParams() {
   return topServices.map(service => ({ service }));
 }
 
-// UPGRADED: Using the exact Custom Post Type query verified from your WordPress backend
-const GET_SERVICE_CONTENT = gql`
-  query GetServiceContent($slug: ID!) {
-    service(id: $slug, idType: SLUG) {
-      title
-      content
-    }
-  }
-`;
-
 export default async function ServicePage({ params }: { params: Promise<{ service: string }> }) {
   const resolvedParams = await params;
-  const client = getClient();
   let wpContent: any = null;
   let wpTitle: string = formatText(resolvedParams.service);
 
   try {
-    const { data } = await client.query<any>({
-      query: GET_SERVICE_CONTENT,
-      variables: { slug: resolvedParams.service },
-      fetchPolicy: "no-cache", 
-    });
-    
-    // Extracting data directly from the "service" object as per your GraphQL schema
-    if (data?.service) {
-      wpContent = data.service.content;
-      wpTitle = data.service.title || wpTitle;
+    const serviceData = await getService(resolvedParams.service);
+    if (serviceData) {
+      wpContent = serviceData.content;
+      wpTitle = serviceData.title || wpTitle;
     }
   } catch (error) {
     console.error("Failed to fetch WordPress content:", error);

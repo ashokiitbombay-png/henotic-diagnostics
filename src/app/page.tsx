@@ -1,12 +1,12 @@
-import HeroMedical from "@/components/home/HeroMedical";
-import HomeBookingSection from "@/components/home/HomeBookingSection";
-import PremiumRateCards from "@/components/home/PremiumRateCards";
-import ServiceLines from "@/components/home/ServiceLines";
-import MedicalTechnology from "@/components/home/MedicalTechnology";
-import FacilityShowcase from "@/components/home/FacilityShowcase";
-import DoctorsTrustSignals from "@/components/home/DoctorsTrustSignals";
-import CorporateVideo from "@/components/home/CorporateVideo";
-import Accreditations from "@/components/home/Accreditations";
+import HeroBlock from "@/components/blocks/HeroBlock";
+import HomeBookingSection from "@/components/blocks/HomeBookingSection";
+import RateCards from "@/components/blocks/RateCards";
+import ServiceLines from "@/components/blocks/ServiceLines";
+import MedicalTechnology from "@/components/blocks/MedicalTechnology";
+import FacilityShowcase from "@/components/blocks/FacilityShowcase";
+import DoctorsTrustSignals from "@/components/blocks/DoctorsTrustSignals";
+import CorporateVideo from "@/components/blocks/CorporateVideo";
+import Accreditations from "@/components/blocks/Accreditations";
 import GoogleReviews from '@/components/features/reviews/GoogleReviews';
 
 export const metadata = {
@@ -17,12 +17,12 @@ export const metadata = {
 export default function HomePage() {
   return (
     <main className="w-full flex flex-col bg-white overflow-hidden mt-[80px]">
-      <HeroMedical />
+      <HeroBlock variant="home" />
       
       {/* 🌟 New Premium Booking Section Injected Here! */}
       <HomeBookingSection />
       
-      <PremiumRateCards />
+      <RateCards variant="premium" />
       <ServiceLines />
       <MedicalTechnology />
       <FacilityShowcase />

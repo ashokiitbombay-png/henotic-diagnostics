@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next';
 import ThirdPartyScripts from '@/components/seo/ThirdPartyScripts';
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
+import Providers from '@/providers/Providers';
 import "./globals.css";
 
 
@@ -49,17 +50,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <link rel="preconnect" href="https://grainy-gradients.vercel.app" crossOrigin="anonymous" />
         </head>
       <body suppressHydrationWarning className="flex flex-col min-h-screen bg-gray-50">
-        <ThirdPartyScripts />
-        <MedicalClinicSchema />
-        <SiteHeader />
-        
-        <main className="flex-grow pt-[88px]">
-          {children}
-        </main>
-        
-        <SecondFooter />
-        <SiteFooter />
-        <Analytics />
+        <Providers>
+          <ThirdPartyScripts />
+          <MedicalClinicSchema />
+          <SiteHeader />
+          
+          <main className="flex-grow pt-[88px]">
+            {children}
+          </main>
+          
+          <SecondFooter />
+          <SiteFooter />
+          <Analytics />
+        </Providers>
         </body>
     </html>
   );

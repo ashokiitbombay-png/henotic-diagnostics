@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { MapPin, Star, HelpCircle, CheckCircle2 } from 'lucide-react';
-import { REGION_LOCATIONS } from '@/lib/constants/locations';
+import { REGION_LOCATIONS } from '@/config/locations';
 
 const formatSlug = (slug: string) => slug?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '';
 

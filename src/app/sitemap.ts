@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
-import { services } from '@/lib/constants/services';
-import { REGION_LOCATIONS } from '@/lib/constants/locations';
+import { services } from '@/config/services';
+import { REGION_LOCATIONS } from '@/config/locations';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Enforcing strict canonical URL matching the layout.tsx metadataBase
