@@ -32,7 +32,34 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
 }
 
 // ==========================================
-// 2. MAIN REGIONAL HUB COMPONENT
+// 2. STATIC PARAMETERS GENERATOR (PRE-RENDERING)
+// ==========================================
+export async function generateStaticParams() {
+  const topServices = [
+    "mri-scan",
+    "ct-scan",
+    "pet-scan",
+    "ultrasound",
+    "blood-test",
+    "2d-echo",
+    "dexa-bone-scan",
+    "full-body-check-up",
+    "mammography",
+    "pregnancy-sonography"
+  ];
+  const topRegions = ["navi-mumbai", "western-suburbs", "central-suburbs", "south-mumbai", "eastern-suburbs"];
+
+  const paths: { service: string; region: string }[] = [];
+  topServices.forEach((service) => {
+    topRegions.forEach((region) => {
+      paths.push({ service, region });
+    });
+  });
+  return paths;
+}
+
+// ==========================================
+// 3. MAIN REGIONAL HUB COMPONENT
 // ==========================================
 export default async function ServiceRegionPage({ params }: { params: Promise<{ service: string, region: string }> }) {
   const resolvedParams = await params;

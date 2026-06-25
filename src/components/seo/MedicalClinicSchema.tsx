@@ -3,8 +3,13 @@ import React from 'react';
 export default function MedicalClinicSchema() {
   const schemaData = {
     "@context": "https://schema.org",
-    "@type": "MedicalClinic",
+    "@type": "DiagnosticLab",
     "name": "Henotic Diagnostics",
+    "medicalSpecialty": [
+      "Pathology",
+      "DiagnosticImaging",
+      "Cardiology"
+    ],
     "image": "https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw",
     "@id": "https://www.henoticdiagnostics.com/#clinic",
     "url": "https://share.google/IcBtvtVjwozCBFMPp",

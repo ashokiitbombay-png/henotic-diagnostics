@@ -12,6 +12,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/media-cdn/:path*',
+        destination: 'https://storage.googleapis.com/wp-media-henoticbucket/:path*',
+      },
+    ];
+  },
   async headers() {
     return [
       {

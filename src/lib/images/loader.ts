@@ -10,6 +10,12 @@ interface ImageLoaderProps {
  */
 export default function wordpressImageLoader({ src, width, quality }: ImageLoaderProps): string {
   // If the image is served from Google Cloud Storage, handle standard URL output
+  if (src.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
+    const relativePath = src.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
+    return `/media-cdn/${relativePath}?w=${width}&q=${quality || 75}`;
+  }
+
+  // If the image is served from Google Cloud Storage generally, handle standard URL output
   if (src.includes("storage.googleapis.com")) {
     return `${src}?w=${width}&q=${quality || 75}`;
   }

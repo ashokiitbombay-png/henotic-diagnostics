@@ -33,7 +33,36 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
 }
 
 // ==========================================
-// 2. MAIN LANDING PAGE COMPONENT
+// 2. STATIC PARAMETERS GENERATOR (PRE-RENDERING)
+// ==========================================
+export async function generateStaticParams() {
+  const topServices = ["mri-scan", "ct-scan", "pet-scan", "ultrasound", "blood-test"];
+  const topLocations = [
+    { city: "kharghar", region: "navi-mumbai" },
+    { city: "panvel", region: "navi-mumbai" },
+    { city: "vashi", region: "navi-mumbai" },
+    { city: "nerul", region: "navi-mumbai" },
+    { city: "cbd-belapur", region: "navi-mumbai" },
+    { city: "kamothe", region: "navi-mumbai" },
+    { city: "kalamboli", region: "navi-mumbai" },
+    { city: "taloja", region: "navi-mumbai" }
+  ];
+
+  const paths: { service: string; region: string; location: string }[] = [];
+  topServices.forEach((service) => {
+    topLocations.forEach((loc) => {
+      paths.push({
+        service,
+        region: loc.region,
+        location: loc.city
+      });
+    });
+  });
+  return paths;
+}
+
+// ==========================================
+// 3. MAIN LANDING PAGE COMPONENT
 // ==========================================
 export default async function ServiceLocationPage({ params }: { params: Promise<{ service: string, region: string, location: string }> }) {
   const resolvedParams = await params;

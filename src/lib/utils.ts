@@ -24,8 +24,12 @@ export function optimizeWordPressHTML(htmlContent: string): string {
     } catch (e) {
       console.error("Failed to decode image URL:", e);
     }
-    // Update the tag to use the direct decoded GCS URL so it is 100% reliable and never breaks
-    updatedTag = updatedTag.replace(/src=["']([^"']+)["']/i, `src="${decodedSrc}"`);
+    // Update the tag to use the direct decoded GCS URL or the proxied CDN URL
+    let finalSrc = decodedSrc;
+    if (decodedSrc.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
+      finalSrc = "/media-cdn/" + decodedSrc.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
+    }
+    updatedTag = updatedTag.replace(/src=["']([^"']+)["']/i, `src="${finalSrc}"`);
 
     // 3. Prevent CLS by forcing explicit width and height if missing
     if (!updatedTag.includes("width=") && !updatedTag.includes("height=")) {
