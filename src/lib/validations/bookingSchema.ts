@@ -60,12 +60,7 @@ export function validateBooking(data: any): ValidationResult {
   }
 
   // 5. Booking Time Validation (if provided)
-  if (time) {
-    const hour = parseInt(time.split(":")[0]);
-    if (hour < 7 || hour > 21) {
-      errors.time = "Bookings are only available between 07:00 AM and 09:00 PM.";
-    }
-  }
+  // No time constraints to support 24/7 bookings
 
   if (Object.keys(errors).length > 0) {
     return { success: false, errors };

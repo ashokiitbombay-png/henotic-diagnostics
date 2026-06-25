@@ -239,7 +239,9 @@ export default function BookingForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    const selectedSlotTime = availableSlots.find(s => s.id === formData.slotId)?.time || formData.time || "";
+    const selectedSlotTime = formData.slotId === "custom" 
+      ? formData.time 
+      : (availableSlots.find(s => s.id === formData.slotId)?.time || formData.time || "");
 
     // 1. Run Shared Validation
     const validation = validateBooking({
@@ -259,7 +261,7 @@ export default function BookingForm() {
     // 🚀 GOOGLE ADS CONVERSION TRACKING
     trackLeadSubmission(formData.test, formData.center);
 
-    // 2. Trigger Server Action asynchronously
+    // 2. Trigger Server Action asynchronously (runs in background to write to CRM)
     submitBookingAction({
       name: formData.name,
       phone: formData.mobile,
@@ -267,23 +269,23 @@ export default function BookingForm() {
       location: formData.center,
       date: formData.date,
       time: selectedSlotTime,
-      slotId: formData.slotId,
+      slotId: formData.slotId === "custom" ? "custom_slot" : formData.slotId,
       ...utmData
     })
     .then((res) => {
       if (res.success && res.crmBooked) {
-        alert(`Booking successfully confirmed in our clinic system! Appointment ID: ${res.appointmentId}`);
+        console.log(`✅ [CRM BOOKING SUCCESS] Appointment created in CRM. ID: ${res.appointmentId}`);
       } else {
-        // Fallback client-side manual WhatsApp opening
-        const message = `*NEW PRIORITY BOOKING*%0A%0A*Patient Details:*%0A👤 Name: ${formData.name}%0A📱 Mobile: ${formData.mobile}%0A%0A*Test Details:*%0A🏥 Center: ${formData.center}%0A🔬 Test: ${formData.test}%0A📅 Date: ${formData.date}%0A⏰ Time: ${selectedSlotTime}%0A%0A_Sent via Official Henotic Diagnostics Portal_`;
-        window.open(`https://wa.me/9108879327184?text=${message}`, '_blank');
+        console.warn(`⚠️ [CRM BOOKING FALLBACK] CRM fallback response:`, res.message);
       }
     })
     .catch(err => {
-      console.error("Error triggering server action:", err);
-      const message = `*NEW PRIORITY BOOKING*%0A%0A*Patient Details:*%0A👤 Name: ${formData.name}%0A📱 Mobile: ${formData.mobile}%0A%0A*Test Details:*%0A🏥 Center: ${formData.center}%0A🔬 Test: ${formData.test}%0A📅 Date: ${formData.date}%0A⏰ Time: ${selectedSlotTime || "Pending"}%0A%0A_Sent via Official Henotic Diagnostics Portal_`;
-      window.open(`https://wa.me/9108879327184?text=${message}`, '_blank');
+      console.error("❌ Error triggering server action:", err);
     });
+
+    // 3. ALWAYS open client-side WhatsApp message link for manual agent monitoring
+    const message = `*NEW PRIORITY BOOKING*%0A%0A*Patient Details:*%0A👤 Name: ${formData.name}%0A📱 Mobile: ${formData.mobile}%0A%0A*Test Details:*%0A🏥 Center: ${formData.center}%0A🔬 Test: ${formData.test}%0A📅 Date: ${formData.date || "Not Specified"}%0A⏰ Time: ${selectedSlotTime || "Not Specified"}%0A%0A_Sent via Official Henotic Diagnostics Portal_`;
+    window.open(`https://wa.me/918879327184?text=${message}`, '_blank');
   };
 
   return (
@@ -451,28 +453,44 @@ export default function BookingForm() {
                       </div>
                     </div>
                   ) : availableSlots.length > 0 ? (
-                    <div className="relative group w-full">
-                      <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                        <Clock className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
+                    <div className="flex flex-col gap-6 w-full">
+                      <div className="relative group w-full">
+                        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                          <Clock className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
+                        </div>
+                        <select 
+                          aria-label="Select Appointment Slot"
+                          name="slotId" 
+                          value={formData.slotId} 
+                          onChange={handleChange} 
+                          required 
+                          className="w-full pl-14 pr-10 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all appearance-none cursor-pointer text-lg"
+                        >
+                          <option value="" disabled>Select Time Slot</option>
+                          {availableSlots.map(slot => (
+                            <option key={slot.id} value={slot.id}>
+                              {slot.time}
+                            </option>
+                          ))}
+                          <option value="custom">Choose Custom Time...</option>
+                        </select>
+                        <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                          <span className="text-slate-500">▼</span>
+                        </div>
                       </div>
-                      <select 
-                        aria-label="Select Appointment Slot"
-                        name="slotId" 
-                        value={formData.slotId} 
-                        onChange={handleChange} 
-                        required 
-                        className="w-full pl-14 pr-10 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all appearance-none cursor-pointer text-lg"
-                      >
-                        <option value="" disabled>Select Time Slot</option>
-                        {availableSlots.map(slot => (
-                          <option key={slot.id} value={slot.id} disabled={!slot.available}>
-                            {slot.time} {!slot.available ? '(Booked)' : ''}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
-                        <span className="text-slate-500">▼</span>
-                      </div>
+
+                      {formData.slotId === "custom" && (
+                        <Input 
+                          aria-label="Select Custom Time" 
+                          type="time" 
+                          name="time" 
+                          value={formData.time} 
+                          onChange={handleChange} 
+                          required 
+                          icon={Clock} 
+                          className="cursor-pointer"
+                        />
+                      )}
                     </div>
                   ) : (
                     <Input 
@@ -491,19 +509,18 @@ export default function BookingForm() {
                 {/* PREMIUM WHATSAPP SUBMIT BUTTON */}
                 <button 
                   type="submit" 
-                  disabled={progress < 100}
-                  className={`w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-lg md:text-xl font-black text-white ${progress === 100 ? 'bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-white/40' : 'bg-slate-800/20 backdrop-blur-md shadow-inner opacity-60 cursor-not-allowed'}`}
+                  className="w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-lg md:text-xl font-black text-white bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-white/40"
                 >
                   <img 
                     src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" 
                     alt="WhatsApp" 
                     width="32"
                     height="32"
-                    className={`w-8 h-8 object-contain ${progress === 100 ? 'drop-shadow-md' : 'opacity-50 grayscale'}`} 
+                    className="w-8 h-8 object-contain drop-shadow-md" 
                     loading="lazy"
                     decoding="async"
                   />
-                  {progress === 100 ? "Confirm Appointment via WhatsApp" : `Complete Form to Book (${progress}%)`}
+                  Confirm Appointment via WhatsApp
                 </button>
               </form>
 
