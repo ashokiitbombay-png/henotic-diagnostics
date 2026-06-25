@@ -8,6 +8,7 @@ import DoctorsTrustSignals from "@/components/blocks/DoctorsTrustSignals";
 import CorporateVideo from "@/components/blocks/CorporateVideo";
 import Accreditations from "@/components/blocks/Accreditations";
 import GoogleReviews from '@/components/features/reviews/GoogleReviews';
+import PartnerLogos from "@/components/blocks/PartnerLogos";
 
 export const metadata = {
   title: "Henotic Diagnostics | Premier Diagnostic Center in Mumbai",
@@ -30,6 +31,8 @@ export default function HomePage() {
       
       {/* 🌟 Premium Trust Signal Section Included Here! */}
       <GoogleReviews />
+      
+      <PartnerLogos />
       
       <CorporateVideo />
       <Accreditations />
