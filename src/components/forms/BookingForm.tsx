@@ -226,13 +226,14 @@ export default function BookingForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => {
-      const updated = { ...prev, [name]: value };
-      if (name === "date" || name === "center" || name === "test") {
-        fetchSlots(updated.date, updated.center, updated.test);
-      }
-      return updated;
-    });
+    setFormData(prev => ({ ...prev, [name]: value }));
+
+    if (name === "date" || name === "center" || name === "test") {
+      const updatedDate = name === "date" ? value : formData.date;
+      const updatedCenter = name === "center" ? value : formData.center;
+      const updatedTest = name === "test" ? value : formData.test;
+      fetchSlots(updatedDate, updatedCenter, updatedTest);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
