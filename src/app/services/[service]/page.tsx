@@ -25,6 +25,33 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   };
 } 
 
+// Pre-render the top 20 most popular services at build time for instant loading
+export async function generateStaticParams() {
+  const topServices = [
+    "mri-scan",
+    "ct-scan",
+    "pet-scan",
+    "ultrasound",
+    "blood-test",
+    "2d-echo",
+    "dexa-bone-scan",
+    "full-body-check-up",
+    "nipt-test",
+    "ecg",
+    "tmt-test",
+    "holter-monitoring",
+    "mammography",
+    "pregnancy-sonography",
+    "anomaly-scan",
+    "nt-scan",
+    "color-doppler",
+    "fibroscan",
+    "angiography",
+    "angioplasty"
+  ];
+  return topServices.map(service => ({ service }));
+}
+
 // UPGRADED: Using the exact Custom Post Type query verified from your WordPress backend
 const GET_SERVICE_CONTENT = gql`
   query GetServiceContent($slug: ID!) {
