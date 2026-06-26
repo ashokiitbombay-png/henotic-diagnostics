@@ -37,20 +37,35 @@ const fallbackDatabase: Record<string, { title: string; content: string }> = {
   }
 };
 
-export function getFailsafeData(key: string): { title: string; content: string } | null {
+// In-memory cache layer to avoid reading/writing to disk on every single request
+let fileCache: Record<string, { title: string; content: string }> | null = null;
+
+function loadCacheFromFile(): Record<string, { title: string; content: string }> {
+  if (fileCache !== null) {
+    return fileCache;
+  }
+  
+  const cache: Record<string, { title: string; content: string }> = {};
   try {
     const cachePath = path.join(process.cwd(), 'src/lib/wordpress/failsafe-cache.json');
     if (fs.existsSync(cachePath)) {
       const content = fs.readFileSync(cachePath, 'utf8').trim();
       if (content) {
-        const cache = JSON.parse(content);
-        if (cache[key]) {
-          return cache[key];
-        }
+        Object.assign(cache, JSON.parse(content));
       }
     }
   } catch (e) {
     // Fail silently to prevent console pollution
+  }
+  
+  fileCache = cache;
+  return cache;
+}
+
+export function getFailsafeData(key: string): { title: string; content: string } | null {
+  const cache = loadCacheFromFile();
+  if (cache[key]) {
+    return cache[key];
   }
   
   return fallbackDatabase[key] || null;
@@ -63,15 +78,17 @@ export function saveFailsafeData(key: string, data: { title: string; content: st
   }
 
   try {
-    const cachePath = path.join(process.cwd(), 'src/lib/wordpress/failsafe-cache.json');
-    let cache: Record<string, any> = {};
-    if (fs.existsSync(cachePath)) {
-      const content = fs.readFileSync(cachePath, 'utf8').trim();
-      if (content) {
-        cache = JSON.parse(content);
-      }
+    const cache = loadCacheFromFile();
+
+    // Prevent redundant disk writes if the data matches exactly
+    if (cache[key] && cache[key].title === data.title && cache[key].content === data.content) {
+      return;
     }
+
+    // Update in-memory cache
     cache[key] = data;
+
+    const cachePath = path.join(process.cwd(), 'src/lib/wordpress/failsafe-cache.json');
     // Create directory if not exists
     const dir = path.dirname(cachePath);
     if (!fs.existsSync(dir)) {
