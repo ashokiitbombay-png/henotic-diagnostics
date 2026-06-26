@@ -56,6 +56,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+          {/* Preload LCP hero image to eliminate chain delay */}
+          <link
+            rel="preload"
+            as="image"
+            href="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp"
+            fetchPriority="high"
+          />
         </head>
       <body suppressHydrationWarning className={`${inter.variable} ${inter.className} flex flex-col min-h-screen bg-gray-50`}>
         <Providers>
