@@ -135,19 +135,23 @@ export default function ServiceHero({
       {/* 🖼️ FULL-WIDTH HERO SECTION WITH IMAGE BACKGROUND */}
       <section className="relative min-h-[420px] md:min-h-[520px] overflow-hidden bg-slate-900">
         
-        {/* Background Hero Image */}
+        {/* Background Hero Image — Responsive for all devices */}
         <div className="absolute inset-0 z-0">
           <Image 
             src={getHeroImageForService(service || '')}
             alt={`${heroTitle} — Advanced Diagnostics at Henotic Diagnostics`}
             fill
-            className="object-cover object-center"
+            className="object-cover object-center sm:object-center"
             priority
+            quality={80}
             sizes="100vw"
+            style={{ objectPosition: '50% 30%' }}
           />
-          {/* Dark gradient overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/70 to-slate-900/40"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 to-transparent"></div>
+          {/* Multi-layer gradient overlays for text readability on ALL devices */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/60 to-slate-900/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-950/30 to-transparent"></div>
+          {/* Extra mobile overlay for better contrast on small screens */}
+          <div className="absolute inset-0 bg-slate-900/20 md:bg-transparent transition-colors"></div>
         </div>
 
         {/* Decorative Gradient Glow */}
