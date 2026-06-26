@@ -518,6 +518,7 @@ export default function BookingForm() {
                     width={32}
                     height={32}
                     className="w-8 h-8 object-contain drop-shadow-md" 
+                    priority
                   />
                   Confirm Appointment via WhatsApp
                 </button>
