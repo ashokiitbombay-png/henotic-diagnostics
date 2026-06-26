@@ -1,8 +1,8 @@
-import DynamicBreadcrumbs from '@/components/seo/DynamicBreadcrumbs';
+import ServiceHero from '@/components/blocks/ServiceHero';
 import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { MapPin, Calendar, ArrowRight, Activity } from "lucide-react";
+import { ArrowRight, Activity } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
 import { REGION_LOCATIONS } from '@/config/locations';
 import { optimizeWordPressHTML } from '@/lib/utils';
@@ -81,27 +81,11 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
-      {/* 🚀 DYNAMIC SEO BREADCRUMBS */}
-      <DynamicBreadcrumbs />
-      
-      {/* 1. HERO SECTION */}
-      <section className="bg-gradient-to-r from-blue-950 to-blue-900 pt-20 pb-24 px-4 md:px-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500 rounded-full mix-blend-multiply filter blur-[120px] opacity-40"></div>
-        <div className="max-w-7xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/20 text-blue-100 text-sm font-bold uppercase tracking-widest mb-8 backdrop-blur-md">
-            <MapPin size={16} className="text-[#E55D87]" /> Regional Diagnostic Hub
-          </div>
-          
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight drop-shadow-lg">
-            Premier {serviceName} Centers in <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E55D87] to-pink-400">{regionName}</span>
-          </h1>
-          
-          <p className="text-xl text-blue-100 mb-10 font-medium max-w-3xl mx-auto">
-            Access world-class diagnostic technology across our comprehensive network in {regionName}. Select your nearest neighborhood below for priority booking.
-          </p>
-        </div>
-      </section>
+      {/* 🌟 Premium Service Hero with Breadcrumbs & Accreditations */}
+      <ServiceHero 
+        service={resolvedParams.service} 
+        region={resolvedParams.region} 
+      />
 
       {/* 2. SEO INTERNAL LINKING GRID (The Secret Sauce) */}
       <section className="py-16 bg-white border-b border-slate-200 relative -mt-10 rounded-t-[3rem] z-20">

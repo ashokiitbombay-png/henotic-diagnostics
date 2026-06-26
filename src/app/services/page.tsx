@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { services } from "@/config/services";
 import ServicesSearchFilter from "@/components/features/ServicesSearchFilter";
+import ServiceHero from '@/components/blocks/ServiceHero';
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -160,23 +161,8 @@ export default function ServicesIndexPage() {
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
       
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 bg-blue-950 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/patterns/stardust.png')] opacity-20 mix-blend-overlay"></div>
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-600/30 rounded-full blur-[120px] pointer-events-none"></div>
-        
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 text-center">
-          <span className="inline-block py-1.5 px-5 rounded-full bg-white/10 text-blue-200 border border-white/20 font-extrabold text-xs tracking-widest uppercase mb-6 backdrop-blur-md">
-            Comprehensive Healthcare
-          </span>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">
-            Our Diagnostic <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-400">Services</span>
-          </h1>
-          <p className="text-lg md:text-xl text-blue-100 font-medium max-w-3xl mx-auto leading-relaxed">
-            Browse our comprehensive library of diagnostic capabilities. We provide over 200 NABL accredited radiology scans and automated clinical pathology investigations.
-          </p>
-        </div>
-      </section>
+      {/* 🌟 Premium Service Hero with Breadcrumbs & Accreditations */}
+      <ServiceHero isServicesIndex />
 
       {/* Services search/filter (Client Component Wrapper) */}
       <ServicesSearchFilter initialServices={mappedServices} />

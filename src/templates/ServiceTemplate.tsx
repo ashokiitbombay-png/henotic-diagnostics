@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
-import DynamicBreadcrumbs from '@/components/seo/DynamicBreadcrumbs';
+import ServiceHero from '@/components/blocks/ServiceHero';
 
 interface ServiceTemplateProps {
   service: string;
@@ -19,7 +19,7 @@ export default function ServiceTemplate({
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] py-12">
-      <DynamicBreadcrumbs />
+      <ServiceHero service={service} />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <Link href="/services" className="inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors mb-8">

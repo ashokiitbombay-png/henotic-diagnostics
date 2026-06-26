@@ -3,7 +3,8 @@ import BookingForm from "@/components/forms/BookingForm";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import LocalSEOMastery from "@/components/seo/LocalSEOMastery";
 import SchemaMarkup from "@/components/seo/SchemaMarkup";
-import { MapPin, ShieldCheck, Activity, Star, CheckCircle2, Calendar } from "lucide-react";
+import { Activity, CheckCircle2, Calendar } from "lucide-react";
+import ServiceHero from '@/components/blocks/ServiceHero';
 
 interface LocationTemplateProps {
   service: string;
@@ -30,35 +31,12 @@ export default function LocationTemplate({
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24 overflow-hidden">
       <SchemaMarkup service={formattedService} location={formattedLocation} />
 
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-16 pb-24 md:pt-24 md:pb-32 bg-slate-900">
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-30" 
-          style={{ backgroundImage: "url('https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp')" }}
-        ></div>
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-slate-900/40"></div>
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-[#b06ab3]"></div>
-
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/20 text-blue-50 text-sm font-extrabold uppercase tracking-widest mb-6 backdrop-blur-md shadow-lg">
-            <MapPin size={16} className="text-pink-400" /> Available in {formattedLocation}, {formattedRegion}
-          </div>
-          
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-2xl">
-            Best <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-400">{formattedService}</span> in {formattedLocation}
-          </h1>
-          
-          <p className="text-lg md:text-xl text-slate-200 font-medium max-w-3xl mx-auto drop-shadow-md leading-relaxed">
-            Accurate, fast, and reliable diagnostic services near you. Experience state-of-the-art technology with same-day reporting.
-          </p>
-          
-          <div className="mt-10 flex flex-wrap justify-center items-center gap-4 text-sm font-bold text-white/90">
-            <span className="flex items-center gap-2 bg-white/10 px-4 py-2.5 rounded-xl backdrop-blur-md border border-white/10 shadow-lg"><ShieldCheck size={18} className="text-blue-400" /> NABL Certified</span>
-            <span className="flex items-center gap-2 bg-white/10 px-4 py-2.5 rounded-xl backdrop-blur-md border border-white/10 shadow-lg"><Activity size={18} className="text-pink-400" /> Advanced Technology</span>
-            <span className="flex items-center gap-2 bg-white/10 px-4 py-2.5 rounded-xl backdrop-blur-md border border-white/10 shadow-lg"><Star size={18} className="text-yellow-400" /> Top Rated</span>
-          </div>
-        </div>
-      </section>
+      {/* 1. PREMIUM HERO WITH BREADCRUMBS & ACCREDITATIONS */}
+      <ServiceHero 
+        service={service} 
+        region={region} 
+        location={location}
+      />
 
       {/* 2. DYNAMIC CONTENT & STICKY SIDEBAR SPLIT */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 -mt-16 relative z-20">
