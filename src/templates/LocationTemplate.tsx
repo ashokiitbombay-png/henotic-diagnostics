@@ -143,19 +143,6 @@ export default function LocationTemplate({
         <BookingForm />
       </section>
 
-      {/* Global CSS for WordPress HTML Formatting */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .wp-content-wrapper h2 { font-size: 2rem; font-weight: 800; color: #0f172a; margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.2; }
-        .wp-content-wrapper h3 { font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-top: 2rem; margin-bottom: 0.75rem; }
-        .wp-content-wrapper p { margin-bottom: 1.25rem; font-size: 1.125rem; }
-        .wp-content-wrapper ul, .wp-content-wrapper ol { padding-left: 0; margin-bottom: 1.5rem; }
-        .wp-content-wrapper ul li, .wp-content-wrapper ol li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; font-size: 1.125rem; }
-        .wp-content-wrapper ul li::before { content: '✓'; position: absolute; left: 0; color: #2563eb; font-weight: bold; }
-        .wp-content-wrapper ol { list-style-type: decimal; padding-left: 1.5rem; }
-        .wp-content-wrapper a { color: #2563eb; font-weight: 800; text-decoration: underline; text-underline-offset: 4px; }
-        .wp-content-wrapper img { border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); margin: 2rem 0; width: 100%; height: auto; }
-        .wp-content-wrapper hr { margin: 3rem 0; border-color: #e2e8f0; }
-      `}} />
     </main>
   );
 }

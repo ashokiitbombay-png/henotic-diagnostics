@@ -161,16 +161,6 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
       {/* 8. TRUST SIGNALS */}
       <GoogleReviews />
 
-      {/* Global CSS for WordPress HTML Formatting */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .wp-content-wrapper h2 { font-size: 2rem; font-weight: 800; color: #0f172a; margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.2; }
-        .wp-content-wrapper h3 { font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-top: 2rem; margin-bottom: 0.75rem; }
-        .wp-content-wrapper p { margin-bottom: 1.25rem; font-size: 1.125rem; }
-        .wp-content-wrapper ul, .wp-content-wrapper ol { padding-left: 0; margin-bottom: 1.5rem; }
-        .wp-content-wrapper ul li, .wp-content-wrapper ol li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; font-size: 1.125rem; }
-        .wp-content-wrapper ul li::before { content: '✓'; position: absolute; left: 0; color: #E55D87; font-weight: bold; }
-        .wp-content-wrapper a { color: #2563eb; font-weight: 800; text-decoration: underline; text-underline-offset: 4px; }
-      `}} />
     </main>
   );
 }
