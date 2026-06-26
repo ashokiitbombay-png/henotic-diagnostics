@@ -3,6 +3,12 @@ import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import ServiceHero from '@/components/blocks/ServiceHero';
+import ServiceSchema from "@/components/seo/ServiceSchema";
+import FAQSchema from "@/components/seo/FAQSchema";
+import RelatedServices from "@/components/seo/RelatedServices";
+import PricingTable from "@/components/blocks/PricingTable";
+import ServiceFAQ from "@/components/blocks/ServiceFAQ";
+import { getFAQsForService } from "@/config/faqs";
 
 interface ServiceTemplateProps {
   service: string;
@@ -16,6 +22,7 @@ export default function ServiceTemplate({
   formattedService
 }: ServiceTemplateProps) {
   const context = { serviceName: formattedService };
+  const faqs = getFAQsForService(service, formattedService);
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] py-12">
@@ -69,6 +76,19 @@ export default function ServiceTemplate({
 
         </div>
       </div>
+
+      {/* Pricing */}
+      <PricingTable serviceSlug={service} serviceName={formattedService} />
+
+      {/* FAQ Section */}
+      <ServiceFAQ faqs={faqs} serviceName={formattedService} />
+      <FAQSchema faqs={faqs} />
+
+      {/* Enhanced Schema */}
+      <ServiceSchema serviceName={formattedService} serviceSlug={service} />
+
+      {/* Related Services */}
+      <RelatedServices currentService={service} />
 
       {/* Global CSS for WordPress HTML Formatting */}
       <style dangerouslySetInnerHTML={{__html: `

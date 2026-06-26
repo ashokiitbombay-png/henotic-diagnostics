@@ -9,6 +9,7 @@ import SiteFooter from "@/components/layout/SiteFooter";
 import Providers from '@/providers/Providers';
 import WhatsAppWidget from '@/components/ui/WhatsAppWidget';
 import StickyMobileCTA from '@/components/ui/StickyMobileCTA';
+import SocialProofNotification from '@/components/ui/SocialProofNotification';
 import "./globals.css";
 
 const inter = Inter({
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteFooter />
           <WhatsAppWidget />
           <StickyMobileCTA />
+          <SocialProofNotification />
           <Analytics />
         </Providers>
         </body>

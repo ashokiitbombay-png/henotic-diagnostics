@@ -3,6 +3,15 @@ import BookingForm from "@/components/forms/BookingForm";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import LocalSEOMastery from "@/components/seo/LocalSEOMastery";
 import SchemaMarkup from "@/components/seo/SchemaMarkup";
+import ServiceSchema from "@/components/seo/ServiceSchema";
+import FAQSchema from "@/components/seo/FAQSchema";
+import CrossLocationLinks from "@/components/seo/CrossLocationLinks";
+import RelatedServices from "@/components/seo/RelatedServices";
+import PricingTable from "@/components/blocks/PricingTable";
+import ServiceFAQ from "@/components/blocks/ServiceFAQ";
+import { getFAQsForService } from "@/config/faqs";
+import { getPricingForService } from "@/config/pricing";
+import { REAL_LOCATION_REVIEWS } from "@/config/locations";
 import { Activity, CheckCircle2, Calendar } from "lucide-react";
 import ServiceHero from '@/components/blocks/ServiceHero';
 
@@ -26,10 +35,21 @@ export default function LocationTemplate({
   formattedRegion
 }: LocationTemplateProps) {
   const context = { locationName: formattedLocation, serviceName: formattedService, regionName: formattedRegion };
+  const faqs = getFAQsForService(service, formattedService, formattedLocation);
+  const locationReviews = REAL_LOCATION_REVIEWS[location];
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24 overflow-hidden">
       <SchemaMarkup service={formattedService} location={formattedLocation} />
+      <ServiceSchema
+        serviceName={formattedService}
+        serviceSlug={service}
+        locationName={location}
+        regionName={region}
+        ratingValue={locationReviews?.ratingValue}
+        reviewCount={locationReviews?.reviewCount}
+      />
+      <FAQSchema faqs={faqs} />
 
       {/* 1. PREMIUM HERO WITH BREADCRUMBS & ACCREDITATIONS */}
       <ServiceHero 
@@ -88,7 +108,19 @@ export default function LocationTemplate({
         </div>
       </section>
 
-      {/* 3. LOCAL SEO MASTERY COMPONENT SECTION */}
+      {/* 3. PRICING TABLE */}
+      <PricingTable serviceSlug={service} serviceName={formattedService} locationName={formattedLocation} />
+
+      {/* 4. FAQ SECTION WITH RICH SNIPPETS */}
+      <ServiceFAQ faqs={faqs} serviceName={formattedService} />
+
+      {/* 5. CROSS-LOCATION LINKS */}
+      <CrossLocationLinks service={service} region={region} currentLocation={location} />
+
+      {/* 6. RELATED SERVICES — Internal Linking */}
+      <RelatedServices currentService={service} region={region} location={location} />
+
+      {/* 7. LOCAL SEO MASTERY COMPONENT SECTION */}
       <section className="mt-16">
         <LocalSEOMastery service={service} region={region} location={location} />
       </section>

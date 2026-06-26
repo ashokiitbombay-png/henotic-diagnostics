@@ -4,6 +4,12 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Activity } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
+import ServiceSchema from "@/components/seo/ServiceSchema";
+import FAQSchema from "@/components/seo/FAQSchema";
+import RelatedServices from "@/components/seo/RelatedServices";
+import PricingTable from "@/components/blocks/PricingTable";
+import ServiceFAQ from "@/components/blocks/ServiceFAQ";
+import { getFAQsForService } from "@/config/faqs";
 import { REGION_LOCATIONS } from '@/config/locations';
 import { optimizeWordPressHTML } from '@/lib/utils';
 import { getService } from '@/lib/wordpress/getService';
@@ -139,7 +145,20 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      {/* 4. TRUST SIGNALS */}
+      {/* 4. PRICING TABLE */}
+      <PricingTable serviceSlug={service} serviceName={serviceName} locationName={regionName} />
+
+      {/* 5. FAQ SECTION */}
+      <ServiceFAQ faqs={getFAQsForService(service, serviceName)} serviceName={serviceName} />
+      <FAQSchema faqs={getFAQsForService(service, serviceName)} />
+
+      {/* 6. ENHANCED SCHEMA */}
+      <ServiceSchema serviceName={serviceName} serviceSlug={service} regionName={region} />
+
+      {/* 7. RELATED SERVICES */}
+      <RelatedServices currentService={service} region={region} />
+
+      {/* 8. TRUST SIGNALS */}
       <GoogleReviews />
 
       {/* Global CSS for WordPress HTML Formatting */}
