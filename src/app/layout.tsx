@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import MedicalClinicSchema from '@/components/seo/MedicalClinicSchema';
 import { Analytics } from '@vercel/analytics/next';
@@ -6,7 +7,15 @@ import ThirdPartyScripts from '@/components/seo/ThirdPartyScripts';
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 import Providers from '@/providers/Providers';
+import WhatsAppWidget from '@/components/ui/WhatsAppWidget';
+import StickyMobileCTA from '@/components/ui/StickyMobileCTA';
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 
 import SecondFooter from "@/components/layout/SecondFooter";
@@ -47,18 +56,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
         </head>
-      <body suppressHydrationWarning className="flex flex-col min-h-screen bg-gray-50">
+      <body suppressHydrationWarning className={`${inter.variable} ${inter.className} flex flex-col min-h-screen bg-gray-50`}>
         <Providers>
           <ThirdPartyScripts />
           <MedicalClinicSchema />
           <SiteHeader />
           
-          <main className="flex-grow pt-[88px]">
+          <main className="flex-grow">
             {children}
           </main>
           
           <SecondFooter />
           <SiteFooter />
+          <WhatsAppWidget />
+          <StickyMobileCTA />
           <Analytics />
         </Providers>
         </body>

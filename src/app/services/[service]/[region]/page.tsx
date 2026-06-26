@@ -37,18 +37,13 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
 // ==========================================
 export async function generateStaticParams() {
   const topServices = [
-    "mri-scan",
-    "ct-scan",
-    "pet-scan",
-    "ultrasound",
-    "blood-test",
-    "2d-echo",
-    "dexa-bone-scan",
-    "full-body-check-up",
-    "mammography",
-    "pregnancy-sonography"
+    "mri-scan", "ct-scan", "pet-scan", "ultrasound", "blood-test",
+    "2d-echo", "dexa-bone-scan", "full-body-check-up", "mammography",
+    "pregnancy-sonography", "ecg", "hrct-scan", "whole-body-pet-ct",
+    "cardiac-ct-scan", "fibroscan", "color-doppler", "thyroid-test",
+    "liver-function-test", "kidney-function-test", "tmt-test"
   ];
-  const topRegions = ["navi-mumbai", "western-suburbs", "central-suburbs", "south-mumbai", "eastern-suburbs"];
+  const topRegions = ["navi-mumbai", "western-suburbs", "central-suburbs", "south-mumbai", "eastern-suburbs", "thane", "pune", "raigad", "mumbai-suburban"];
 
   const paths: { service: string; region: string }[] = [];
   topServices.forEach((service) => {

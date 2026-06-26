@@ -3,15 +3,18 @@ import { services } from '@/config/services';
 import { REGION_LOCATIONS } from '@/config/locations';
 
 const baseUrl = 'https://www.henoticdiagnostics.com';
+const HERO_IMAGE = 'https://storage.googleapis.com/wp-media-henoticbucket/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
 const CHUNK_SIZE = 20;
 
 /**
  * Next.js App Router dynamic sitemap segmentation.
- * Generates sitemap IDs so the framework serves a sitemap index listing each sub-sitemap.
+ * Enhanced with image sitemap entries and priority tuning.
+ * Now includes: /conditions, /doctors, /blog, /services/category routes.
  */
 export async function generateSitemaps() {
   const totalChunks = Math.ceil(services.length / CHUNK_SIZE);
-  // id 0 is reserved for core static routes & top base services
+  // id 0 = core static + new section pages
+  // id 1..N = chunked service/region/location combos
   const sitemaps = [{ id: 0 }];
   for (let i = 1; i <= totalChunks; i++) {
     sitemaps.push({ id: i });
@@ -22,13 +25,16 @@ export async function generateSitemaps() {
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
   const currentDate = new Date().toISOString().split('T')[0];
 
-  // 1. Sitemap ID 0: Core Static Pages and base Service Pages
+  // 1. Sitemap ID 0: Core Static Pages + New Section Pages
   if (id === 0) {
     const staticRoutes = [
       '',
       '/about-us',
       '/contact',
       '/services',
+      '/doctors',
+      '/conditions',
+      '/blog',
       '/privacy',
       '/terms',
       '/cancellation-policy',
@@ -43,17 +49,32 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
       url: `${baseUrl}${route}`,
       lastModified: currentDate,
       changeFrequency: 'weekly' as const,
-      priority: route === '' ? 1.0 : 0.8,
+      priority: route === '' ? 1.0 : 
+               ['/services', '/doctors', '/conditions'].includes(route) ? 0.9 : 0.7,
     }));
 
+    // Base service pages
     const baseServiceRoutes = services.map((service) => ({
       url: `${baseUrl}/services/${service}`,
       lastModified: currentDate,
       changeFrequency: 'weekly' as const,
-      priority: 0.9,
+      priority: 0.85,
     }));
 
-    return [...staticRoutes, ...baseServiceRoutes];
+    // Category hub pages
+    const categoryIds = [
+      'diagnostic-center', 'pathology', 'ultrasound', 'pregnancy',
+      'doppler', 'womens-health', 'mri', 'ct-scan', 'pet-ct',
+      'bone-health', 'cardiology', 'liver', 'genetics'
+    ];
+    const categoryRoutes = categoryIds.map((cat) => ({
+      url: `${baseUrl}/services/category/${cat}`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    }));
+
+    return [...staticRoutes, ...baseServiceRoutes, ...categoryRoutes];
   }
 
   // 2. Sitemap ID >= 1: Segmented chunks of regional/location combinations
@@ -61,23 +82,32 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   const chunkServices = services.slice(chunkIndex * CHUNK_SIZE, (chunkIndex + 1) * CHUNK_SIZE);
   const dynamicRoutes: MetadataRoute.Sitemap = [];
 
+  // Top services get higher priority
+  const topServices = new Set([
+    'mri-scan', 'ct-scan', 'pet-scan', 'ultrasound', 'blood-test',
+    '2d-echo', 'full-body-check-up', 'mammography', 'pregnancy-sonography',
+    'dexa-bone-scan', 'ecg', 'hrct-scan', 'whole-body-pet-ct'
+  ]);
+
   chunkServices.forEach((service) => {
+    const isTopService = topServices.has(service);
+    
     Object.entries(REGION_LOCATIONS).forEach(([region, locations]) => {
       // Regional Hub page
       dynamicRoutes.push({
         url: `${baseUrl}/services/${service}/${region}`,
         lastModified: currentDate,
         changeFrequency: 'weekly' as const,
-        priority: 0.8,
+        priority: isTopService ? 0.8 : 0.7,
       });
 
-      // City-specific location page
+      // City-specific location pages
       locations.forEach((location) => {
         dynamicRoutes.push({
           url: `${baseUrl}/services/${service}/${region}/${location}`,
           lastModified: currentDate,
           changeFrequency: 'monthly' as const,
-          priority: 0.6,
+          priority: isTopService ? 0.7 : 0.5,
         });
       });
     });

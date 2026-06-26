@@ -1,14 +1,17 @@
+import dynamic from 'next/dynamic';
 import HeroBlock from "@/components/blocks/HeroBlock";
 import HomeBookingSection from "@/components/blocks/HomeBookingSection";
 import RateCards from "@/components/blocks/RateCards";
 import ServiceLines from "@/components/blocks/ServiceLines";
-import MedicalTechnology from "@/components/blocks/MedicalTechnology";
-import FacilityShowcase from "@/components/blocks/FacilityShowcase";
-import DoctorsTrustSignals from "@/components/blocks/DoctorsTrustSignals";
-import CorporateVideo from "@/components/blocks/CorporateVideo";
-import Accreditations from "@/components/blocks/Accreditations";
-import GoogleReviews from '@/components/features/reviews/GoogleReviews';
-import PartnerLogos from "@/components/blocks/PartnerLogos";
+
+// 🚀 Lazy-load below-fold components for faster LCP & reduced TBT
+const MedicalTechnology = dynamic(() => import("@/components/blocks/MedicalTechnology"));
+const FacilityShowcase = dynamic(() => import("@/components/blocks/FacilityShowcase"));
+const DoctorsTrustSignals = dynamic(() => import("@/components/blocks/DoctorsTrustSignals"));
+const CorporateVideo = dynamic(() => import("@/components/blocks/CorporateVideo"));
+const Accreditations = dynamic(() => import("@/components/blocks/Accreditations"));
+const GoogleReviews = dynamic(() => import('@/components/features/reviews/GoogleReviews'));
+const PartnerLogos = dynamic(() => import("@/components/blocks/PartnerLogos"));
 
 export const metadata = {
   title: "Henotic Diagnostics | Premier Diagnostic Center in Mumbai",

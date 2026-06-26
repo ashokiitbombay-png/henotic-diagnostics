@@ -5,7 +5,11 @@ export const REGION_NAMES: Record<string, string> = {
   "central-suburbs": "Central Suburbs",
   "western-suburbs": "Western Suburbs",
   "eastern-suburbs": "Eastern Suburbs",
-  "navi-mumbai": "Navi Mumbai"
+  "navi-mumbai": "Navi Mumbai",
+  "thane": "Thane",
+  "pune": "Pune",
+  "raigad": "Raigad",
+  "mumbai-suburban": "Mumbai Suburban"
 };
 
 export const REGION_LOCATIONS: Record<string, string[]> = {
@@ -32,6 +36,25 @@ export const REGION_LOCATIONS: Record<string, string[]> = {
     "cbd-belapur", "kharghar", "kamothe", "kalamboli", "panvel", 
     "new-panvel", "taloja", "ghansoli", "kopar-khairane", "airoli", 
     "turbhe"
+  ],
+  "thane": [
+    "thane-west", "thane-east", "dombivli", "kalyan", "ulhasnagar",
+    "ambernath", "badlapur", "bhiwandi", "mira-road", "bhayandar",
+    "vasai", "virar", "nalasopara", "palghar"
+  ],
+  "pune": [
+    "pune-city", "kothrud", "shivajinagar", "deccan", "swargate",
+    "hadapsar", "kharadi", "viman-nagar", "koregaon-park", "aundh",
+    "baner", "wakad", "hinjewadi", "pimpri-chinchwad", "chinchwad",
+    "pimpri", "nigdi", "akurdi", "ravet", "pradhikaran"
+  ],
+  "raigad": [
+    "alibag", "uran", "pen", "karjat", "khopoli",
+    "roha", "mangaon", "murud"
+  ],
+  "mumbai-suburban": [
+    "mira-bhayandar", "thane-city", "navi-mumbai-east", 
+    "diva", "mumbra", "bhiwandi-town", "shahapur", "wada"
   ]
 };
 
@@ -51,7 +74,13 @@ export const REAL_LOCATION_REVIEWS: Record<string, { ratingValue: string; review
   "cbd-belapur": { ratingValue: "4.7", reviewCount: "480" },
   "kamothe": { ratingValue: "4.8", reviewCount: "350" },
   "kalamboli": { ratingValue: "4.7", reviewCount: "290" },
-  "taloja": { ratingValue: "4.6", reviewCount: "180" }
+  "taloja": { ratingValue: "4.6", reviewCount: "180" },
+  "thane-west": { ratingValue: "4.8", reviewCount: "720" },
+  "dombivli": { ratingValue: "4.7", reviewCount: "380" },
+  "kalyan": { ratingValue: "4.7", reviewCount: "410" },
+  "pune-city": { ratingValue: "4.9", reviewCount: "560" },
+  "hinjewadi": { ratingValue: "4.8", reviewCount: "290" },
+  "hadapsar": { ratingValue: "4.7", reviewCount: "320" }
 };
 
 export const CITY_MICRO_NEIGHBORHOODS: Record<string, string[]> = {
@@ -65,5 +94,13 @@ export const CITY_MICRO_NEIGHBORHOODS: Record<string, string[]> = {
   "taloja": ["Taloja Phase 1", "Taloja Phase 2", "Taloja MIDC", "Taloja Station"],
   "ghansoli": ["Ghansoli Station", "Sector 15 Ghansoli", "Reliance Corporate Park Road"],
   "kopar-khairane": ["Sector 5 Kopar Khairane", "Sector 11 Kopar Khairane", "Kopar Khairane Station"],
-  "airoli": ["Sector 8 Airoli", "Sector 19 Airoli", "Airoli Station", "Mindspace Road"]
+  "airoli": ["Sector 8 Airoli", "Sector 19 Airoli", "Airoli Station", "Mindspace Road"],
+  "thane-west": ["Ghodbunder Road", "Hiranandani Estate", "Majiwada", "Manpada", "Pokhran Road"],
+  "thane-east": ["Kopri", "Naupada", "Teen Hath Naka", "LBS Marg"],
+  "dombivli": ["Dombivli East", "Dombivli West", "Tilak Nagar", "Kopar Road"],
+  "kalyan": ["Kalyan East", "Kalyan West", "Khadakpada", "Ganesh Nagar"],
+  "pune-city": ["MG Road", "FC Road", "JM Road", "Camp Area", "Pune Station"],
+  "hinjewadi": ["Phase 1", "Phase 2", "Phase 3", "Rajiv Gandhi Infotech Park"],
+  "kharadi": ["EON IT Park", "Kharadi Bypass", "Mundhwa"],
+  "hadapsar": ["Magarpatta", "Amanora", "Fursungi", "Hadapsar Industrial Estate"]
 };

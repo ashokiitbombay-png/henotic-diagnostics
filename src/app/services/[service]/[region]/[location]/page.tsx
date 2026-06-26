@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
 // 2. STATIC PARAMETERS GENERATOR (PRE-RENDERING)
 // ==========================================
 export async function generateStaticParams() {
-  const topServices = ["mri-scan", "ct-scan", "pet-scan", "ultrasound", "blood-test"];
+  const topServices = ["mri-scan", "ct-scan", "pet-scan", "ultrasound", "blood-test", "2d-echo", "full-body-check-up", "mammography", "pregnancy-sonography", "ecg"];
   const topLocations = [
     { city: "kharghar", region: "navi-mumbai" },
     { city: "panvel", region: "navi-mumbai" },
@@ -45,7 +45,19 @@ export async function generateStaticParams() {
     { city: "cbd-belapur", region: "navi-mumbai" },
     { city: "kamothe", region: "navi-mumbai" },
     { city: "kalamboli", region: "navi-mumbai" },
-    { city: "taloja", region: "navi-mumbai" }
+    { city: "taloja", region: "navi-mumbai" },
+    { city: "kopar-khairane", region: "navi-mumbai" },
+    { city: "airoli", region: "navi-mumbai" },
+    { city: "thane-west", region: "thane" },
+    { city: "dombivli", region: "thane" },
+    { city: "kalyan", region: "thane" },
+    { city: "andheri", region: "western-suburbs" },
+    { city: "bandra", region: "western-suburbs" },
+    { city: "borivali", region: "western-suburbs" },
+    { city: "ghatkopar", region: "central-suburbs" },
+    { city: "pune-city", region: "pune" },
+    { city: "hinjewadi", region: "pune" },
+    { city: "hadapsar", region: "pune" },
   ];
 
   const paths: { service: string; region: string; location: string }[] = [];
