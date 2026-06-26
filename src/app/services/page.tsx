@@ -162,7 +162,7 @@ export default function ServicesIndexPage() {
       
       {/* Hero Section */}
       <section className="relative py-20 lg:py-28 bg-blue-950 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('/patterns/stardust.png')] opacity-20 mix-blend-overlay"></div>
         <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-600/30 rounded-full blur-[120px] pointer-events-none"></div>
         
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 text-center">

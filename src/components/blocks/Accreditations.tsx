@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { CheckCircle, ShieldCheck, ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 
 export default function Accreditations() {
@@ -102,7 +103,7 @@ export default function Accreditations() {
         
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-[#E55D87] font-extrabold tracking-widest text-sm uppercase mb-3 drop-shadow-sm">Our Credentials</h2>
+          <h2 className="text-[#BE185D] font-extrabold tracking-widest text-sm uppercase mb-3 drop-shadow-sm">Our Credentials</h2>
           <h3 className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-6 drop-shadow-sm">
             Accredited Quality & Global Standards
           </h3>
@@ -164,13 +165,12 @@ export default function Accreditations() {
                     {/* Accreditation Badge Logo */}
                     <div className="relative w-28 h-28 mb-6 flex items-center justify-center">
                       <div className={`absolute inset-0 bg-gradient-to-tr ${item.grad} opacity-0 group-hover:opacity-10 blur-2xl rounded-full transition duration-700`}></div>
-                      <img 
-                        width="112" 
-                        height="112" 
+                      <Image 
+                        width={112} 
+                        height={112} 
                         src={item.img} 
                         alt={item.title} 
                         className="relative z-10 w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-110" 
-                        loading="lazy" 
                       />
                     </div>
 
@@ -187,11 +187,12 @@ export default function Accreditations() {
                       className="w-full aspect-[1.4/1] relative rounded-2xl overflow-hidden border border-slate-200/50 bg-slate-50 mb-6 shadow-[inset_0_2px_8px_rgba(0,0,0,0.03),0_10px_20px_rgba(0,0,0,0.04)] hover:shadow-lg hover:border-slate-350 cursor-pointer group/cert group-hover:translate-z-8 transition-all duration-500"
                       title="Click to view full certificate"
                     >
-                      <img 
+                      <Image 
                         src={item.certificateUrl} 
                         alt={`${item.title} Certificate`}
-                        className="w-full h-full object-contain p-3 transition-transform duration-500 group-hover/cert:scale-[1.03]"
-                        loading="lazy"
+                        fill
+                        className="object-contain p-3 transition-transform duration-500 group-hover/cert:scale-[1.03]"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                       {/* Zoom Indicator Icon Overlay */}
                       <div className="absolute inset-0 bg-black/5 opacity-0 group-hover/cert:opacity-100 flex items-center justify-center transition-opacity duration-300">
@@ -214,19 +215,21 @@ export default function Accreditations() {
           </div>
 
           {/* Bottom Dots Indicator Navigation */}
-          <div className="flex justify-center items-center gap-2.5 mt-8">
+          <div className="flex justify-center items-center gap-1 mt-8">
             {Array.from({ length: dotsCount }).map((_, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setActiveIndex(idx)}
-                className={`h-3 rounded-full transition-all duration-350 ${
+                className="w-12 h-12 flex items-center justify-center cursor-pointer transition-all"
+                aria-label={`Go to slide ${idx + 1}`}
+              >
+                <span className={`h-3 rounded-full transition-all duration-350 ${
                   activeIndex === idx 
                     ? "w-8 bg-gradient-to-r from-blue-600 to-[#E55D87] shadow-sm" 
                     : "w-3 bg-slate-300 hover:bg-slate-400"
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
+                }`} />
+              </button>
             ))}
           </div>
 
@@ -256,9 +259,11 @@ export default function Accreditations() {
 
             {/* Scrollable Container for zoom overflow */}
             <div className="w-full max-h-[80vh] overflow-auto rounded-3xl bg-white border border-white/10 p-4 shadow-2xl relative group flex items-center justify-center">
-              <img 
+              <Image 
                 src={activeCert} 
                 alt="Accreditation Certificate Full View" 
+                width={800}
+                height={600}
                 className="max-w-full max-h-[72vh] object-contain rounded-xl transition-transform duration-300 hover:scale-150 cursor-zoom-in"
               />
               

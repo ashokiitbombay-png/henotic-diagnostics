@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useTransition } from "react";
+import Image from "next/image";
 import { User, Phone, Activity, MapPin, Calendar, Clock, ShieldCheck, Award, FileCheck, CheckCircle2, Lock, HeartPulse } from "lucide-react";
 
 import { services } from "@/config/services";
@@ -296,7 +297,7 @@ export default function BookingForm() {
       style={{ backgroundImage: "linear-gradient(120deg, #a6c0fe 0%, #f68084 100%)" }}
     >
       {/* Dynamic Background Overlays for Depth */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.2]"></div>
+      <div className="absolute inset-0 bg-[url('/patterns/cubes.png')] opacity-[0.2]"></div>
       <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black/10 to-transparent pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
 
@@ -511,14 +512,12 @@ export default function BookingForm() {
                   type="submit" 
                   className="w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-lg md:text-xl font-black text-white bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-white/40"
                 >
-                  <img 
+                  <Image 
                     src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" 
                     alt="WhatsApp" 
-                    width="32"
-                    height="32"
+                    width={32}
+                    height={32}
                     className="w-8 h-8 object-contain drop-shadow-md" 
-                    loading="lazy"
-                    decoding="async"
                   />
                   Confirm Appointment via WhatsApp
                 </button>
@@ -529,7 +528,7 @@ export default function BookingForm() {
                 className="mt-12 rounded-3xl p-8 border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.1)] relative overflow-hidden w-full"
                 style={{ background: "linear-gradient(135deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.9) 100%)", backdropFilter: "blur(12px)" }}
               >
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.1] pointer-events-none"></div>
+                <div className="absolute inset-0 bg-[url('/patterns/cubes.png')] opacity-[0.1] pointer-events-none"></div>
                 
                 <h4 className="relative z-10 text-center text-white text-sm font-black uppercase tracking-[0.2em] mb-6 flex items-center justify-center gap-2 drop-shadow-sm">
                   <CheckCircle2 size={18} className="text-[#fccb90]" /> Accredited by National Bodies
@@ -538,7 +537,7 @@ export default function BookingForm() {
                   {ACCREDITATIONS.map((acc, index) => (
                     <div key={index} className="flex flex-col items-center group">
                       <div className="w-14 h-14 md:w-20 md:h-20 bg-white/90 backdrop-blur-md rounded-2xl flex items-center justify-center p-2.5 sm:p-3 mb-3 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(246,128,132,0.4)] border border-white">
-                        <img width="56" height="56" src={acc.img} alt={acc.title} className="w-full h-full object-contain drop-shadow-sm" loading="lazy" decoding="async" />
+                        <Image width={56} height={56} src={acc.img} alt={acc.title} className="w-full h-full object-contain drop-shadow-sm" />
                       </div>
                       <span className="text-[10px] sm:text-xs font-black text-slate-200 tracking-wider uppercase group-hover:text-white transition-colors">{acc.title}</span>
                     </div>

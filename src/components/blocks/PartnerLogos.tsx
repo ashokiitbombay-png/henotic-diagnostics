@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Network } from 'lucide-react';
 
 const constantPartners = [
@@ -52,12 +53,13 @@ export default function PartnerLogos() {
                 key={`row1-${i}`}
                 className="w-full max-w-[150px] aspect-[3/2] flex items-center justify-center p-3 rounded-xl bg-white border border-slate-100 hover:border-slate-200 hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer"
               >
-                <img 
+                <Image 
                   src={partner.logo} 
                   alt={partner.name}
                   title={partner.name}
+                  width={150}
+                  height={100}
                   className="max-w-full max-h-full object-contain filter grayscale-0 opacity-100 transition-all duration-300"
-                  loading="lazy"
                 />
               </div>
             ))}
@@ -70,12 +72,13 @@ export default function PartnerLogos() {
                 key={`row2-${i}`}
                 className="w-full max-w-[150px] aspect-[3/2] flex items-center justify-center p-3 rounded-xl bg-white border border-slate-100 hover:border-slate-200 hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer"
               >
-                <img 
+                <Image 
                   src={partner.logo} 
                   alt={partner.name}
                   title={partner.name}
+                  width={150}
+                  height={100}
                   className="max-w-full max-h-full object-contain filter grayscale-0 opacity-100 transition-all duration-300"
-                  loading="lazy"
                 />
               </div>
             ))}

@@ -46,8 +46,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
-          <link rel="preconnect" href="https://www.transparenttextures.com" crossOrigin="anonymous" />
-          <link rel="preconnect" href="https://grainy-gradients.vercel.app" crossOrigin="anonymous" />
         </head>
       <body suppressHydrationWarning className="flex flex-col min-h-screen bg-gray-50">
         <Providers>

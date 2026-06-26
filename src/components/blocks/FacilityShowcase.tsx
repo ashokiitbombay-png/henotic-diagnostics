@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { CheckCircle2, ArrowRight, Activity } from "lucide-react";
 import Link from "next/link";
 
@@ -80,10 +81,13 @@ export default function FacilityShowcase() {
               {/* Image Container */}
               <div className="md:w-2/5 relative overflow-hidden h-64 md:h-auto">
                 <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors z-10 duration-500"></div>
-                <img width="36" height="36" src={facility.image} 
+                <Image 
+                  src={facility.image} 
                   alt={facility.title} 
+                  fill
                   className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                fetchPriority="high" decoding="sync" />
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                />
               </div>
 
               {/* Content Container */}

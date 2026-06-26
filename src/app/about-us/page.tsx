@@ -144,7 +144,7 @@ export default function AboutUsPage() {
 
       {/* 📅 Premium Official Booking Portal */}
       <section id="appointment-portal" className="pt-16 pb-24 md:pt-24 md:pb-32 booking-gradient-bg relative border-y border-slate-200">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('/patterns/stardust.png')] opacity-30 mix-blend-overlay"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 lg:gap-12 bg-white/40 backdrop-blur-2xl border border-white rounded-[3rem] shadow-2xl overflow-hidden">
             <div className="lg:col-span-2 p-8 md:p-12 text-white h-full flex flex-col justify-center bg-blue-950/80">

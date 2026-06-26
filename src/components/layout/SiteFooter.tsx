@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { 
   MapPin, Phone, Mail, Clock, ExternalLink, 
   FileText, Globe, Navigation, ArrowUpRight 
@@ -40,10 +41,13 @@ export default function SiteFooter() {
           <div className="lg:col-span-5 flex flex-col gap-4 lg:gap-6">
             <Link href={routesConfig.home} className="inline-block group relative z-50 w-max">
               <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.02]">
-                 <img width="36" height="36" decoding="async" 
+                 <Image 
                    src={siteConfig.logoUrl} 
                    alt={siteConfig.name} 
+                   width={320}
+                   height={80}
                    className="w-64 lg:w-80 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50"
+                   priority
                  />
               </div>
             </Link>
@@ -247,11 +251,11 @@ export default function SiteFooter() {
       <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-4 items-end pointer-events-none">
         <a href="https://wa.me/918879327184" target="_blank" rel="noreferrer" className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Chat on WhatsApp">
           <div className="absolute inset-0 bg-green-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img width="56" height="56" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
+          <Image width={64} height={64} src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/c65e4696-whatsapp.webp" alt="WhatsApp" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl relative z-10" />
         </a>
         <a href={siteConfig.contact.phonePrimaryRaw} className="group relative transition-transform hover:scale-110 duration-300 pointer-events-auto" aria-label="Call Now">
           <div className="absolute inset-0 bg-blue-500 blur-xl opacity-0 group-hover:opacity-60 rounded-full transition-opacity duration-300"></div>
-          <img width="56" height="56" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
+          <Image width={64} height={64} src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/0f754a41-call-now.webp" alt="Call Now" className="w-14 h-14 md:w-16 md:h-16 drop-shadow-2xl animate-[pulse_2s_infinite] hover:animate-none relative z-10" />
         </a>
       </div>
     </footer>
