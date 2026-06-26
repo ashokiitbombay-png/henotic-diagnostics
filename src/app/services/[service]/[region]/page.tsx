@@ -146,17 +146,17 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
       </section>
 
       {/* 4. PRICING TABLE */}
-      <PricingTable serviceSlug={service} serviceName={serviceName} locationName={regionName} />
+      <PricingTable serviceSlug={resolvedParams.service} serviceName={serviceName} locationName={regionName} />
 
       {/* 5. FAQ SECTION */}
-      <ServiceFAQ faqs={getFAQsForService(service, serviceName)} serviceName={serviceName} />
-      <FAQSchema faqs={getFAQsForService(service, serviceName)} />
+      <ServiceFAQ faqs={getFAQsForService(resolvedParams.service, serviceName)} serviceName={serviceName} />
+      <FAQSchema faqs={getFAQsForService(resolvedParams.service, serviceName)} />
 
       {/* 6. ENHANCED SCHEMA */}
-      <ServiceSchema serviceName={serviceName} serviceSlug={service} regionName={region} />
+      <ServiceSchema serviceName={serviceName} serviceSlug={resolvedParams.service} regionName={resolvedParams.region} />
 
       {/* 7. RELATED SERVICES */}
-      <RelatedServices currentService={service} region={region} />
+      <RelatedServices currentService={resolvedParams.service} region={resolvedParams.region} />
 
       {/* 8. TRUST SIGNALS */}
       <GoogleReviews />
