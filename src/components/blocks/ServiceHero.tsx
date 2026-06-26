@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, Home, Shield } from 'lucide-react';
+import { getHeroImageForService } from '@/config/services';
 
 // 🏅 ACCREDITATION LOGOS - National Bodies
 const ACCREDITATIONS = [
@@ -27,7 +28,7 @@ const ACCREDITATIONS = [
   },
 ];
 
-const HERO_IMAGE = "https://storage.googleapis.com/wp-media-henoticbucket/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp";
+// HERO_IMAGE is now dynamically resolved per-service via getHeroImageForService()
 
 // 🧠 Intelligent Slug Formatter for 200+ Medical Services & Locations
 const formatSlug = (slug: string) => {
@@ -137,8 +138,8 @@ export default function ServiceHero({
         {/* Background Hero Image */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src={HERO_IMAGE}
-            alt="Advanced Medical Imaging Diagnostics at Henotic Diagnostics"
+            src={getHeroImageForService(service || '')}
+            alt={`${heroTitle} — Advanced Diagnostics at Henotic Diagnostics`}
             fill
             className="object-cover object-center"
             priority
