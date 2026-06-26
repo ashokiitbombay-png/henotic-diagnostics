@@ -512,14 +512,9 @@ export default function BookingForm() {
                   type="submit" 
                   className="w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-lg md:text-xl font-black text-white bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-white/40"
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src="https://storage.googleapis.com/wp-media-henoticbucket/SVG%20files%20/whatsapp.svg" 
-                    alt="WhatsApp" 
-                    width={28}
-                    height={28}
-                    className="w-7 h-7 object-contain drop-shadow-md" 
-                  />
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white" className="w-7 h-7 drop-shadow-md">
+                    <path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.13 6.742 3.046 9.378L1.054 31.29l6.118-1.958A15.9 15.9 0 0016.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.336 22.594c-.39 1.1-1.932 2.012-3.182 2.278-.856.18-1.974.324-5.738-1.234-4.816-1.994-7.912-6.878-8.152-7.196-.232-.318-1.934-2.578-1.934-4.916s1.224-3.486 1.658-3.964c.434-.478.95-.598 1.266-.598.316 0 .63.004.906.016.29.014.68-.11 1.064.812.39.94 1.328 3.242 1.444 3.478.116.236.194.512.038.83-.156.318-.234.516-.468.796-.234.278-.492.622-.702.834-.234.236-.478.492-.206.964.274.472 1.216 2.006 2.61 3.25 1.792 1.6 3.304 2.096 3.774 2.33.47.234.746.196 1.02-.118.274-.316 1.178-1.374 1.492-1.846.316-.472.63-.39 1.064-.234.434.156 2.748 1.296 3.218 1.532.47.236.784.354.9.55.116.194.116 1.138-.274 2.236z"/>
+                  </svg>
                   Confirm Appointment via WhatsApp
                 </button>
               </form>

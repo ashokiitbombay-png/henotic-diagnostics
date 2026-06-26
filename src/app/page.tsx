@@ -1,10 +1,10 @@
 import dynamic from 'next/dynamic';
 import HeroBlock from "@/components/blocks/HeroBlock";
-import HomeBookingSection from "@/components/blocks/HomeBookingSection";
-import RateCards from "@/components/blocks/RateCards";
-import ServiceLines from "@/components/blocks/ServiceLines";
 
-// 🚀 Lazy-load below-fold components for faster LCP & reduced TBT
+// 🚀 Lazy-load ALL below-fold components for faster LCP & reduced JS bundle
+const HomeBookingSection = dynamic(() => import("@/components/blocks/HomeBookingSection"));
+const RateCards = dynamic(() => import("@/components/blocks/RateCards"));
+const ServiceLines = dynamic(() => import("@/components/blocks/ServiceLines"));
 const MedicalTechnology = dynamic(() => import("@/components/blocks/MedicalTechnology"));
 const FacilityShowcase = dynamic(() => import("@/components/blocks/FacilityShowcase"));
 const DoctorsTrustSignals = dynamic(() => import("@/components/blocks/DoctorsTrustSignals"));
