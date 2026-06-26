@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import MedicalClinicSchema from '@/components/seo/MedicalClinicSchema';
 import { Analytics } from '@vercel/analytics/next';
@@ -12,14 +11,12 @@ import StickyMobileCTA from '@/components/ui/StickyMobileCTA';
 import SocialProofNotification from '@/components/ui/SocialProofNotification';
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'optional',
-  variable: '--font-inter',
-  weight: ['400', '500', '600', '700', '800', '900'],
-  preload: true,
-});
-
+/**
+ * System font stack — eliminates 84KB woff2 download from critical path.
+ * -apple-system (iOS/macOS), Segoe UI (Windows), Roboto (Android) are all
+ * Inter-like geometric sans-serif fonts. Zero network cost, instant render.
+ */
+const systemFontClass = 'font-system';
 
 import SecondFooter from "@/components/layout/SecondFooter";
 export const metadata = {
@@ -58,15 +55,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
-          {/* Preload LCP hero image to eliminate chain delay */}
-          <link
-            rel="preload"
-            as="image"
-            href="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp"
-            fetchPriority="high"
-          />
         </head>
-      <body suppressHydrationWarning className={`${inter.variable} ${inter.className} flex flex-col min-h-screen bg-gray-50`}>
+      <body suppressHydrationWarning className={`${systemFontClass} flex flex-col min-h-screen bg-gray-50`}>
         <Providers>
           <ThirdPartyScripts />
           <MedicalClinicSchema />
