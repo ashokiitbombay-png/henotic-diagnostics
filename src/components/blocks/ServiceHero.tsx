@@ -203,7 +203,7 @@ export default function ServiceHero({
             <div className="flex gap-3 sm:gap-4">
               {ACCREDITATIONS.map((acc) => (
                 <div key={acc.title} className="flex flex-col items-center group">
-                  <div className="w-14 h-14 sm:w-[72px] sm:h-[72px] bg-white rounded-full flex items-center justify-center p-2.5 sm:p-3 mb-1.5 transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-110 relative shadow-[0_20px_40px_-8px_rgba(0,0,0,0.6),_0_0_0_3px_rgba(255,255,255,0.9),_inset_0_-4px_8px_rgba(0,0,0,0.12),_inset_0_4px_6px_rgba(255,255,255,1),_0_8px_16px_rgba(0,0,0,0.3)]">
+                  <div className="w-14 h-14 sm:w-[72px] sm:h-[72px] bg-white rounded-full flex items-center justify-center p-1 sm:p-1.5 mb-1.5 transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-110 relative shadow-[0_20px_40px_-8px_rgba(0,0,0,0.6),_0_0_0_3px_rgba(255,255,255,0.9),_inset_0_-4px_8px_rgba(0,0,0,0.12),_inset_0_4px_6px_rgba(255,255,255,1),_0_8px_16px_rgba(0,0,0,0.3)]">
                     <Image 
                       width={64} 
                       height={64} 
