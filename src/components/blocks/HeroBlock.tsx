@@ -111,15 +111,16 @@ export default function HeroBlock({ title, description, locationName, regionName
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#4568dc] to-[#b06ab3] rounded-[3rem] transform rotate-3 scale-105 opacity-30 blur-2xl transition-transform duration-700 hover:rotate-6"></div>
                 
                 <div className="relative bg-white p-2 sm:p-3 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] transform -rotate-2 hover:rotate-0 transition-transform duration-700 overflow-hidden border border-white/60">
-                  <Image 
+                  {/* Native img — serves directly from GCS CDN, skips /_next/image proxy */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
                     src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" 
                     alt="Premium 3T MRI Scan at Henotic Diagnostics" 
                     width={500}
                     height={500}
                     className="rounded-[2.5rem] w-full h-auto object-cover aspect-[4/3] lg:aspect-square"
-                    priority
                     fetchPriority="high"
-                    sizes="(max-width: 768px) 100vw, 500px"
+                    decoding="sync"
                   />
                 </div>
 

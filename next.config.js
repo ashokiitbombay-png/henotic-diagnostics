@@ -15,7 +15,6 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', '@apollo/client', 'framer-motion'],
-    optimizeCss: true,
   },
   async rewrites() {
     return [

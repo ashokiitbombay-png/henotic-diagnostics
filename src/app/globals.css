@@ -37,9 +37,10 @@ main {
   background: transparent !important;
 }
 
-/* Smooth Image Loading */
-img {
+/* Skip rendering below-fold sections until scrolled — reduces Style & Layout time */
+footer, .below-fold-section {
   content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
 }
 
 /* Rose Water Animated Button */

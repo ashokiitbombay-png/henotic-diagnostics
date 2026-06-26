@@ -1,14 +1,10 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
+import dynamic from 'next/dynamic';
 import MedicalClinicSchema from '@/components/seo/MedicalClinicSchema';
 import { Analytics } from '@vercel/analytics/next';
 import ThirdPartyScripts from '@/components/seo/ThirdPartyScripts';
 import SiteHeader from "@/components/layout/SiteHeader";
-import SiteFooter from "@/components/layout/SiteFooter";
 import Providers from '@/providers/Providers';
-import WhatsAppWidget from '@/components/ui/WhatsAppWidget';
-import StickyMobileCTA from '@/components/ui/StickyMobileCTA';
-import SocialProofNotification from '@/components/ui/SocialProofNotification';
 import "./globals.css";
 
 /**
@@ -18,7 +14,13 @@ import "./globals.css";
  */
 const systemFontClass = 'font-system';
 
-import SecondFooter from "@/components/layout/SecondFooter";
+// 🚀 Lazy-load below-fold components to reduce initial DOM + JS bundle
+const SecondFooter = dynamic(() => import("@/components/layout/SecondFooter"));
+const SiteFooter = dynamic(() => import("@/components/layout/SiteFooter"));
+const WhatsAppWidget = dynamic(() => import('@/components/ui/WhatsAppWidget'));
+const StickyMobileCTA = dynamic(() => import('@/components/ui/StickyMobileCTA'));
+const SocialProofNotification = dynamic(() => import('@/components/ui/SocialProofNotification'));
+
 export const metadata = {
   metadataBase: new URL('https://www.henoticdiagnostics.com'),
   title: {
@@ -50,11 +52,17 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // Added data-scroll-behavior="smooth" to satisfy Next.js routing requirements
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
         <head>
           <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+          {/* Preload LCP hero image — direct from GCS CDN, no /_next/image proxy */}
+          <link
+            rel="preload"
+            as="image"
+            href="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp"
+            type="image/webp"
+          />
         </head>
       <body suppressHydrationWarning className={`${systemFontClass} flex flex-col min-h-screen bg-gray-50`}>
         <Providers>
