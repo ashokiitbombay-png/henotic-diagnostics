@@ -41,24 +41,35 @@ export function getFailsafeData(key: string): { title: string; content: string }
   try {
     const cachePath = path.join(process.cwd(), 'src/lib/wordpress/failsafe-cache.json');
     if (fs.existsSync(cachePath)) {
-      const cache = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
-      if (cache[key]) {
-        return cache[key];
+      const content = fs.readFileSync(cachePath, 'utf8').trim();
+      if (content) {
+        const cache = JSON.parse(content);
+        if (cache[key]) {
+          return cache[key];
+        }
       }
     }
   } catch (e) {
-    console.warn("Failsafe cache file read failed, falling back to static database:", e);
+    // Fail silently to prevent console pollution
   }
   
   return fallbackDatabase[key] || null;
 }
 
 export function saveFailsafeData(key: string, data: { title: string; content: string }) {
+  // Disable writing to failsafe cache during production builds to avoid multi-worker write collisions
+  if (process.env.NODE_ENV === 'production') {
+    return;
+  }
+
   try {
     const cachePath = path.join(process.cwd(), 'src/lib/wordpress/failsafe-cache.json');
     let cache: Record<string, any> = {};
     if (fs.existsSync(cachePath)) {
-      cache = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
+      const content = fs.readFileSync(cachePath, 'utf8').trim();
+      if (content) {
+        cache = JSON.parse(content);
+      }
     }
     cache[key] = data;
     // Create directory if not exists
@@ -69,7 +80,6 @@ export function saveFailsafeData(key: string, data: { title: string; content: st
     fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2), 'utf8');
     console.log(`💾 [FAILSAFE STORAGE] Mirrored data for key "${key}" to local cache.`);
   } catch (e) {
-    // In serverless environments, writes may be restricted, which is handled gracefully
-    console.warn(`[FAILSAFE STORAGE] Write failed for key "${key}" (expected in serverless environments).`);
+    // Fail silently in read-only environments
   }
 }

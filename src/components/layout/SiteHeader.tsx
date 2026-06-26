@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Phone, CalendarCheck, ChevronDown } from "lucide-react";
 import BookingForm from "@/components/forms/BookingForm"; 
 import Modal from "@/components/ui/Modal";
@@ -30,7 +31,14 @@ export default function SiteHeader() {
           {/* LOGO */}
           <Link href={routesConfig.home} className="flex items-center gap-3 relative z-50 group shrink-0">
             <div className="bg-white rounded-full p-1 shadow-md group-hover:scale-105 transition-transform duration-300">
-              <img loading="lazy" src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.webp" alt="Henotic Diagnostics Logo" className="h-10 w-10 md:h-12 md:w-12 object-contain" width="36" height="36" fetchPriority="low" decoding="async" />
+              <Image 
+                src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.webp" 
+                alt="Henotic Diagnostics Logo" 
+                width={48} 
+                height={48} 
+                className="h-10 w-10 md:h-12 md:w-12 object-contain" 
+                priority 
+              />
             </div>
             <div className="flex flex-col justify-center leading-none">
               <span className="text-white font-extrabold text-lg md:text-xl tracking-tight m-0 p-0 drop-shadow-sm">HENOTIC</span>

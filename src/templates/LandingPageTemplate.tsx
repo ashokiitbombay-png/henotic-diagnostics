@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import BookingForm from "@/components/forms/BookingForm";
 import { ShieldCheck, Star, CheckCircle2, Phone, CalendarCheck, Sparkles, HeartPulse, Trophy } from "lucide-react";
 
@@ -27,10 +28,13 @@ export default function LandingPageTemplate({
       <header className="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4 px-6 md:px-12 flex justify-between items-center shadow-lg relative z-50">
         <div className="flex items-center gap-3">
           <div className="bg-white rounded-full p-1.5 shadow-md">
-            <img 
+            <Image 
               src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.webp" 
               alt="Henotic Diagnostics Logo" 
+              width={36}
+              height={36}
               className="w-9 h-9 object-contain" 
+              priority
             />
           </div>
           <div className="flex flex-col justify-center leading-none">
