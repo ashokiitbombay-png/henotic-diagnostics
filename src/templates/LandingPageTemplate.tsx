@@ -21,8 +21,8 @@ export default function LandingPageTemplate({
     <main className="min-h-screen bg-gradient-to-tr from-slate-900 via-slate-950 to-blue-950 text-white font-sans overflow-hidden -mt-[88px] relative z-50">
       
       {/* Dynamic light circles for premium glassmorphism background */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-blue-600 animate-pulse"></div>
-      <div className="absolute bottom-[20%] right-[-10%] w-[600px] h-[600px] rounded-full mix-blend-screen filter blur-[130px] opacity-25 bg-pink-500/70 animate-pulse duration-5000"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-blue-600"></div>
+      <div className="absolute bottom-[20%] right-[-10%] w-[600px] h-[600px] rounded-full mix-blend-screen filter blur-[130px] opacity-25 bg-pink-500/70"></div>
 
       {/* 🚀 No-Leak Header: Replaces site navigation with a trust-only banner */}
       <header className="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4 px-6 md:px-12 flex justify-between items-center shadow-lg relative z-50">
@@ -62,7 +62,7 @@ export default function LandingPageTemplate({
           
           {/* Left Text Column (7 cols on lg) */}
           <div className="lg:col-span-7 space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-black uppercase tracking-wider backdrop-blur-md shadow-md animate-bounce">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-black uppercase tracking-wider backdrop-blur-md shadow-md">
               <Sparkles size={14} className="text-pink-400" /> Priority Booking Active
             </div>
             

@@ -37,7 +37,7 @@ export default function LocationTemplate({
           style={{ backgroundImage: "url('https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp')" }}
         ></div>
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-slate-900/40"></div>
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-[#b06ab3] animate-pulse"></div>
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-[#b06ab3]"></div>
 
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/20 text-blue-50 text-sm font-extrabold uppercase tracking-widest mb-6 backdrop-blur-md shadow-lg">

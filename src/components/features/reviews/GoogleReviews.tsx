@@ -53,14 +53,14 @@ export default function GoogleReviews() {
             {/* 3D Depth effect for image */}
             <div className="absolute inset-0 bg-blue-600 rounded-3xl transform rotate-3 opacity-10 transition-transform duration-500 group-hover:rotate-6 blur-md"></div>
             
-            <img width="36" height="36" loading="lazy" src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-main-building.webp" 
+            <img width="600" height="320" loading="lazy" src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-main-building.webp" 
               alt="Henotic Diagnostics Main Building" 
               className="relative z-10 w-full h-64 md:h-80 object-cover rounded-3xl border-4 border-white shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
             fetchPriority="high" decoding="sync" />
             
             {/* Floating Google Profile Badge */}
             <div className="absolute -bottom-6 -right-6 md:-right-8 z-20 bg-white p-2 rounded-2xl shadow-2xl border border-slate-100 flex items-center justify-center transform transition-transform duration-300 hover:scale-110">
-              <img width="36" height="36" loading="lazy" decoding="async" 
+              <img width="96" height="96" loading="lazy" decoding="async" 
                 src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
                 alt="Google Business Profile" 
                 className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover"

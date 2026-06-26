@@ -1,4 +1,3 @@
-"use client";
 import React from 'react';
 import Image from 'next/image';
 import { MapPin, ShieldCheck, Activity, Star, Calendar, Shield, Award } from 'lucide-react';
@@ -33,19 +32,12 @@ const ACCREDITATIONS = [
 ];
 
 export default function HeroBlock({ title, description, locationName, regionName, variant = 'location' }: HeroBlockProps) {
-  const scrollToBooking = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const bookingSection = document.getElementById('booking');
-    if (bookingSection) {
-      bookingSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   if (variant === 'home') {
     return (
       <section className="relative pt-20 pb-24 md:pt-32 md:pb-32 overflow-hidden bg-slate-50">
         {/* Aesthetic Background Glows */}
-        <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full mix-blend-multiply filter blur-[150px] opacity-40 bg-gradient-to-br from-[#b06ab3] to-pink-300 animate-pulse"></div>
+        <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full mix-blend-multiply filter blur-[150px] opacity-40 bg-gradient-to-br from-[#b06ab3] to-pink-300"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-[120px] opacity-40 bg-gradient-to-tr from-[#4568dc] to-blue-300"></div>
 
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
@@ -68,7 +60,6 @@ export default function HeroBlock({ title, description, locationName, regionName
               <div className="flex flex-col sm:flex-row gap-4 mb-16">
                 <a 
                   href="#booking" 
-                  onClick={scrollToBooking}
                   className="flex items-center justify-center gap-2 text-white font-extrabold px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_15px_30px_-5px_rgba(176,106,179,0.4)] hover:shadow-[0_20px_40px_-5px_rgba(176,106,179,0.6)] hover:-translate-y-1 text-lg"
                   style={{ background: "linear-gradient(90deg, #4568dc 0%, #b06ab3 100%)" }}
                 >
@@ -130,7 +121,7 @@ export default function HeroBlock({ title, description, locationName, regionName
                   />
                 </div>
 
-                <div className="absolute -bottom-6 -right-2 sm:-right-6 bg-white/95 backdrop-blur-md p-3 sm:p-5 rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] border border-slate-100/50 flex items-center gap-3 sm:gap-4 animate-bounce hover:animate-none z-20">
+                <div className="absolute -bottom-6 -right-2 sm:-right-6 bg-white/95 backdrop-blur-md p-3 sm:p-5 rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] border border-slate-100/50 flex items-center gap-3 sm:gap-4 z-20">
                   <div className="bg-gradient-to-br from-green-100 to-green-200 p-2 sm:p-3 rounded-full text-green-700 shadow-inner shrink-0">
                     <Activity size={24} className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
@@ -158,7 +149,7 @@ export default function HeroBlock({ title, description, locationName, regionName
       ></div>
       <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-slate-900/40"></div>
       
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-[#b06ab3] animate-pulse"></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-[#b06ab3]"></div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 text-center">
         {locationName && (

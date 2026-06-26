@@ -3,6 +3,7 @@ const nextConfig = {
   trailingSlash: false,
   reactStrictMode: true,
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -11,6 +12,9 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@apollo/client'],
   },
   async rewrites() {
     return [
