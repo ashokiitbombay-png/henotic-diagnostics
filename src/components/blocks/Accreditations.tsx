@@ -12,7 +12,7 @@ export default function Accreditations() {
       title: "CAP Accredited", 
       sub: "College of American Pathologists", 
       desc: "Achieving CAP accreditation places us among an exclusive group globally. The 'Gold Standard' in pathology.", 
-      img: "https://storage.googleapis.com/wp-media-henoticbucket/2025/12/6980ef5c-cap-accredited-lab-henotic-diagnostics.webp", 
+      img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/cap-accredidation-logo.webp", 
       certificateUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Certificates/Certificates_henotic-diagnostics-cap-certified.webp",
       grad: "from-blue-600 to-cyan-400", 
       tag: "Global Gold Standard" 
@@ -21,7 +21,7 @@ export default function Accreditations() {
       title: "NABL Accredited", 
       sub: "ISO 15189:2012 Certified", 
       desc: "Verifies strict adherence to ISO standards, ensuring every test result is precise, reproducible, and technically valid.", 
-      img: "https://storage.googleapis.com/wp-media-henoticbucket/2025/12/67415d7c-nabl-accrediated-lab-henotic-diagnostics.webp", 
+      img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/NABL-henotic-diagnsotics-kharghar.webp", 
       certificateUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Certificates/Certificates_henotic-diagnostics-nabl-certified.webp",
       grad: "from-yellow-500 to-orange-400", 
       tag: "Technical Competence" 
