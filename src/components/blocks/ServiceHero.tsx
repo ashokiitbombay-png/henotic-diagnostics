@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronRight, Home, Shield } from 'lucide-react';
+import { ChevronRight, Home } from 'lucide-react';
 import { getHeroImageForService } from '@/config/services';
+import AccreditationLogos from '@/components/blocks/AccreditationLogos';
 
 // 🏅 ACCREDITATION LOGOS - National Bodies
 const ACCREDITATIONS = [
@@ -196,35 +197,10 @@ export default function ServiceHero({
           </div>
         </div>
 
-        {/* 🏅 ACCREDITATION LOGOS — Below Breadcrumbs, Top-Left */}
+        {/* 🏅 ACCREDITATION LOGOS — Interactive with Certificate Viewer */}
         <div className="relative z-20 mt-4 md:mt-6 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center gap-3 mb-2">
-              <Shield size={16} className="text-blue-300" />
-              <span className="text-[10px] sm:text-xs font-black text-blue-200 uppercase tracking-[0.2em]">
-                Accredited by National Bodies
-              </span>
-            </div>
-            <div className="flex gap-3 sm:gap-4">
-              {ACCREDITATIONS.map((acc) => (
-                <div key={acc.title} className="flex flex-col items-center group">
-                  <div className="w-14 h-14 sm:w-[72px] sm:h-[72px] bg-white rounded-full flex items-center justify-center p-1 sm:p-1.5 mb-1.5 transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-110 relative shadow-[0_20px_40px_-8px_rgba(0,0,0,0.6),_0_0_0_3px_rgba(255,255,255,0.9),_inset_0_-4px_8px_rgba(0,0,0,0.12),_inset_0_4px_6px_rgba(255,255,255,1),_0_8px_16px_rgba(0,0,0,0.3)]">
-                    <Image 
-                      width={64} 
-                      height={64} 
-                      src={acc.img} 
-                      alt={`${acc.title} Certified Henotic Diagnostics`} 
-                      className="w-full h-full object-contain drop-shadow-sm" 
-                    />
-                    {/* Glass sheen overlay */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/30 to-white/70 pointer-events-none"></div>
-                  </div>
-                  <span className="text-[9px] sm:text-[11px] font-black text-white tracking-wider uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] bg-slate-900/50 px-2 py-0.5 rounded-md backdrop-blur-sm border border-white/10">
-                    {acc.title}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <AccreditationLogos badges={ACCREDITATIONS} variant="hero" />
           </div>
         </div>
 

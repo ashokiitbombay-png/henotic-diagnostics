@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { MapPin, ShieldCheck, Activity, Star, Calendar, Shield, Award } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 import { siteConfig } from '@/config/site';
+import AccreditationLogos from '@/components/blocks/AccreditationLogos';
 
 interface HeroBlockProps {
   title?: string;
@@ -93,19 +94,9 @@ export default function HeroBlock({ title, description, locationName, regionName
             <div className="relative w-full z-10 lg:ml-8 mt-12 lg:mt-0 flex justify-center lg:block">
               <div className="relative w-full max-w-md lg:max-w-none mx-auto">
                 
-                {/* ACCREDITATION LOGOS */}
-                <div className="absolute -top-10 -left-6 sm:-top-16 sm:-left-12 z-30 flex gap-2 sm:gap-5">
-                  {ACCREDITATIONS.map((acc, index) => (
-                    <div key={acc.title} className="flex flex-col items-center group animate-in fade-in" style={{ animationDelay: `${index * 150}ms` }}>
-                      <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center p-1 sm:p-1.5 mb-2 transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-110 relative shadow-[0_20px_30px_-10px_rgba(0,0,0,0.3),_0_0_0_2px_rgba(255,255,255,0.8),_inset_0_-4px_6px_rgba(0,0,0,0.1),_inset_0_4px_6px_rgba(255,255,255,1)]">
-                        <Image width={80} height={80} src={acc.img} alt={`${acc.title} Certified`} className="w-full h-full object-contain drop-shadow-sm" loading="lazy" />
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/40 to-white/80 pointer-events-none"></div>
-                      </div>
-                      <span className="text-[9px] sm:text-xs font-black text-slate-800 tracking-wider uppercase drop-shadow-md bg-white/90 px-2 py-0.5 rounded-md backdrop-blur-sm border border-slate-100">
-                        {acc.title}
-                      </span>
-                    </div>
-                  ))}
+                {/* ACCREDITATION LOGOS — Interactive with Certificate Viewer */}
+                <div className="absolute -top-10 -left-6 sm:-top-16 sm:-left-12 z-30">
+                  <AccreditationLogos badges={ACCREDITATIONS} variant="light" />
                 </div>
 
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#4568dc] to-[#b06ab3] rounded-[3rem] transform rotate-3 scale-105 opacity-30 blur-2xl transition-transform duration-700 hover:rotate-6"></div>

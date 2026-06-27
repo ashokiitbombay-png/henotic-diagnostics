@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { CheckCircle, ShieldCheck, ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
+import { CheckCircle, ShieldCheck, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import CertificateViewer from "@/components/ui/CertificateViewer";
 
 export default function Accreditations() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
-  const [activeCert, setActiveCert] = useState<string | null>(null);
+  const [activeCert, setActiveCert] = useState<{ url: string; title: string } | null>(null);
 
   const accreditationsList = [
     { 
@@ -162,8 +163,14 @@ export default function Accreditations() {
                     {/* Colored Accent Top Border */}
                     <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${item.grad} rounded-t-[2.5rem]`}></div>
                     
-                    {/* Accreditation Badge Logo */}
-                    <div className="relative w-28 h-28 mb-6 flex items-center justify-center">
+                    {/* Accreditation Badge Logo — Clickable to open certificate */}
+                    <button
+                      type="button"
+                      onClick={() => setActiveCert({ url: item.certificateUrl, title: `${item.title} — Henotic Diagnostics` })}
+                      className="relative w-28 h-28 mb-6 flex items-center justify-center cursor-pointer group/logo focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-full transition-transform hover:scale-110"
+                      aria-label={`View ${item.title} certificate`}
+                      title={`Click to view ${item.title} Certificate`}
+                    >
                       <div className={`absolute inset-0 bg-gradient-to-tr ${item.grad} opacity-0 group-hover:opacity-10 blur-2xl rounded-full transition duration-700`}></div>
                       <Image 
                         width={112} 
@@ -172,7 +179,7 @@ export default function Accreditations() {
                         alt={item.title} 
                         className="relative z-10 w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-110" 
                       />
-                    </div>
+                    </button>
 
                     {/* Titles */}
                     <h4 className="text-2xl font-black text-blue-950 mb-2">{item.title}</h4>
@@ -183,7 +190,7 @@ export default function Accreditations() {
                     
                     {/* Clickable Framed Certificate */}
                     <div 
-                      onClick={() => setActiveCert(item.certificateUrl)}
+                      onClick={() => setActiveCert({ url: item.certificateUrl, title: `${item.title} — Henotic Diagnostics` })}
                       className="w-full aspect-[1.4/1] relative rounded-2xl overflow-hidden border border-slate-200/50 bg-slate-50 mb-6 shadow-[inset_0_2px_8px_rgba(0,0,0,0.03),0_10px_20px_rgba(0,0,0,0.04)] hover:shadow-lg hover:border-slate-350 cursor-pointer group/cert group-hover:translate-z-8 transition-all duration-500"
                       title="Click to view full certificate"
                     >
@@ -236,53 +243,14 @@ export default function Accreditations() {
         </div>
       </div>
 
-      {/* 🔍 HIGH CLARITY CERTIFICATE LIGHTBOX MODAL */}
+      {/* 🔍 PREMIUM CERTIFICATE VIEWER LIGHTBOX */}
       {activeCert && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 transition-opacity duration-300"
-          onClick={() => setActiveCert(null)}
-          style={{ animation: 'fadeIn 0.25s ease-out' }}
-        >
-          <div 
-            className="relative max-w-4xl w-full flex flex-col items-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button 
-              type="button"
-              className="absolute -top-14 right-2 md:right-0 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-full p-2.5 transition-colors cursor-pointer"
-              onClick={() => setActiveCert(null)}
-              aria-label="Close Lightbox"
-            >
-              <X size={24} />
-            </button>
-
-            {/* Scrollable Container for zoom overflow */}
-            <div className="w-full max-h-[80vh] overflow-auto rounded-3xl bg-white border border-white/10 p-4 shadow-2xl relative group flex items-center justify-center">
-              <Image 
-                src={activeCert} 
-                alt="Accreditation Certificate Full View" 
-                width={800}
-                height={600}
-                className="max-w-full max-h-[72vh] object-contain rounded-xl transition-transform duration-300 hover:scale-150 cursor-zoom-in"
-              />
-              
-              {/* Zoom Notification Tip */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/80 border border-white/15 text-white text-xs px-5 py-2 rounded-full font-bold shadow-lg opacity-80 pointer-events-none select-none">
-                Hover or pinch on desktop to zoom in 150% for high clarity
-              </div>
-            </div>
-          </div>
-        </div>
+        <CertificateViewer
+          src={activeCert.url}
+          alt={activeCert.title}
+          onClose={() => setActiveCert(null)}
+        />
       )}
-
-      {/* Animation CSS Injection */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-      `}} />
     </section>
   );
 }
