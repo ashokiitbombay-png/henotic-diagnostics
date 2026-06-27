@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { X, ZoomIn, ZoomOut, RotateCcw, Maximize2 } from "lucide-react";
+import { X, ZoomIn, ZoomOut, RotateCcw, Maximize2, ArrowLeft } from "lucide-react";
 
 interface CertificateViewerProps {
   src: string;
@@ -152,12 +152,18 @@ export default function CertificateViewer({ src, alt, onClose }: CertificateView
 
       {/* Top Control Bar */}
       <div className="relative z-10 flex items-center justify-between px-4 md:px-6 py-3 bg-black/60 border-b border-white/10">
-        {/* Left: Certificate title */}
+        {/* Left: Back/Close + Certificate title */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-            <Maximize2 size={14} className="text-white" />
-          </div>
-          <span className="text-white font-bold text-sm md:text-base truncate max-w-[200px] md:max-w-none">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold text-sm transition-all cursor-pointer"
+            aria-label="Close and go back"
+          >
+            <ArrowLeft size={16} />
+            <span className="hidden sm:inline">Back</span>
+          </button>
+          <span className="text-white font-bold text-sm md:text-base truncate max-w-[150px] md:max-w-none">
             {alt}
           </span>
         </div>
@@ -202,33 +208,43 @@ export default function CertificateViewer({ src, alt, onClose }: CertificateView
           </button>
         </div>
 
-        {/* Right: Close */}
+        {/* Right: Prominent Close Button */}
         <button 
           type="button"
           onClick={onClose}
-          className="p-2.5 rounded-xl bg-white/10 hover:bg-red-500/80 border border-white/15 text-white transition-all duration-200 cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/80 hover:bg-red-500 border border-red-400/30 text-white font-bold text-sm transition-all duration-200 cursor-pointer shadow-lg hover:shadow-red-500/30"
           aria-label="Close Certificate Viewer"
         >
-          <X size={20} />
+          <X size={18} />
+          <span className="hidden sm:inline">Close</span>
         </button>
       </div>
 
-      {/* Mobile Zoom Controls — Bottom bar for touch devices */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-20 flex items-center justify-center gap-2 px-4 py-3 bg-black/80 border-t border-white/10 backdrop-blur-xl">
-        <button type="button" onClick={zoomOut} className="p-3 rounded-xl bg-white/10 text-white active:bg-white/20 cursor-pointer" aria-label="Zoom Out">
-          <ZoomOut size={20} />
-        </button>
-        <span className="text-white font-bold text-sm min-w-[60px] text-center tabular-nums">
-          {Math.round(scale * 100)}%
-        </span>
-        <button type="button" onClick={zoomIn} className="p-3 rounded-xl bg-white/10 text-white active:bg-white/20 cursor-pointer" aria-label="Zoom In">
-          <ZoomIn size={20} />
-        </button>
-        <button type="button" onClick={resetZoom} className="p-3 rounded-xl bg-white/10 text-white active:bg-white/20 cursor-pointer" aria-label="Reset">
-          <RotateCcw size={18} />
-        </button>
-        <button type="button" onClick={fitToScreen} className="p-3 rounded-xl bg-white/10 text-white active:bg-white/20 cursor-pointer" aria-label="Full">
-          <Maximize2 size={18} />
+      {/* Mobile Bottom Bar — Zoom Controls + Close */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-20 flex items-center justify-between px-4 py-3 bg-black/90 border-t border-white/10 backdrop-blur-xl">
+        <div className="flex items-center gap-2">
+          <button type="button" onClick={zoomOut} className="p-3 rounded-xl bg-white/10 text-white active:bg-white/20 cursor-pointer" aria-label="Zoom Out">
+            <ZoomOut size={18} />
+          </button>
+          <span className="text-white font-bold text-sm min-w-[50px] text-center tabular-nums">
+            {Math.round(scale * 100)}%
+          </span>
+          <button type="button" onClick={zoomIn} className="p-3 rounded-xl bg-white/10 text-white active:bg-white/20 cursor-pointer" aria-label="Zoom In">
+            <ZoomIn size={18} />
+          </button>
+          <button type="button" onClick={resetZoom} className="p-2.5 rounded-xl bg-white/10 text-white active:bg-white/20 cursor-pointer" aria-label="Reset">
+            <RotateCcw size={16} />
+          </button>
+        </div>
+        {/* Prominent mobile close button */}
+        <button 
+          type="button" 
+          onClick={onClose} 
+          className="flex items-center gap-2 px-5 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-black text-sm tracking-wide cursor-pointer shadow-lg active:scale-95 transition-all"
+          aria-label="Close Certificate"
+        >
+          <X size={18} />
+          Close
         </button>
       </div>
 

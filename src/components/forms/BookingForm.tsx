@@ -11,6 +11,8 @@ import { submitBookingAction } from "@/actions/booking";
 import { trackLeadSubmission } from "@/lib/analytics/tracking";
 import Input from "@/components/ui/Input";
 import { getSlotsForDate } from "@/actions/slots";
+import CertificateViewer from "@/components/ui/CertificateViewer";
+import { CERTIFICATE_MAP } from "@/config/certificates";
 
 const formatSlug = (slug: string) => {
   const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", "tavr", "cbd", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna"];
@@ -159,6 +161,7 @@ export default function BookingForm() {
   const [progress, setProgress] = useState(0);
   const [isPending, startTransition] = useTransition();
   const [availableSlots, setAvailableSlots] = useState<{ id: string; time: string; available: boolean }[]>([]);
+  const [activeCert, setActiveCert] = useState<{ url: string; title: string } | null>(null);
   const [utmData, setUtmData] = useState({
     utmSource: "",
     utmMedium: "",
@@ -290,8 +293,9 @@ export default function BookingForm() {
   };
 
   return (
-    // 🌟 ZERO VERTICAL GAPS: m-0 p-0 block display
-    // LAYER 1 BACKGROUND: Full edge-to-edge section gradient
+    <>
+    {/* 🌟 ZERO VERTICAL GAPS: m-0 p-0 block display */}
+    {/* LAYER 1 BACKGROUND: Full edge-to-edge section gradient */}
     <section 
       className="w-full m-0 p-0 relative overflow-hidden block"
       style={{ backgroundImage: "linear-gradient(120deg, #a6c0fe 0%, #f68084 100%)" }}
@@ -530,14 +534,24 @@ export default function BookingForm() {
                   <CheckCircle2 size={18} className="text-[#fccb90]" /> Accredited by National Bodies
                 </h4>
                 <div className="relative z-10 flex flex-wrap justify-center gap-4 sm:gap-8">
-                  {ACCREDITATIONS.map((acc, index) => (
-                    <div key={index} className="flex flex-col items-center group">
-                      <div className="w-14 h-14 md:w-20 md:h-20 bg-white/90 backdrop-blur-md rounded-2xl flex items-center justify-center p-2.5 sm:p-3 mb-3 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(246,128,132,0.4)] border border-white">
-                        <Image width={56} height={56} src={acc.img} alt={acc.title} className="w-full h-full object-contain drop-shadow-sm" />
-                      </div>
-                      <span className="text-[10px] sm:text-xs font-black text-slate-200 tracking-wider uppercase group-hover:text-white transition-colors">{acc.title}</span>
-                    </div>
-                  ))}
+                  {ACCREDITATIONS.map((acc, index) => {
+                    const certUrl = CERTIFICATE_MAP[acc.title.toUpperCase()] || CERTIFICATE_MAP[acc.title];
+                    return (
+                      <button 
+                        key={index} 
+                        type="button"
+                        onClick={() => certUrl && setActiveCert({ url: certUrl, title: `${acc.title} Certificate — Henotic Diagnostics` })}
+                        className={`flex flex-col items-center group ${certUrl ? 'cursor-pointer' : 'cursor-default'}`}
+                        aria-label={certUrl ? `View ${acc.title} certificate` : acc.title}
+                        title={certUrl ? `Click to view ${acc.title} Certificate` : acc.title}
+                      >
+                        <div className="w-14 h-14 md:w-20 md:h-20 bg-white/90 backdrop-blur-md rounded-2xl flex items-center justify-center p-2.5 sm:p-3 mb-3 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(59,130,246,0.4)] group-active:scale-95 border border-white">
+                          <Image width={56} height={56} src={acc.img} alt={acc.title} className="w-full h-full object-contain drop-shadow-sm" />
+                        </div>
+                        <span className="text-[10px] sm:text-xs font-black text-slate-200 tracking-wider uppercase group-hover:text-white transition-colors">{acc.title}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -546,5 +560,15 @@ export default function BookingForm() {
         </div>
       </div>
     </section>
+
+    {/* Certificate Viewer Lightbox */}
+    {activeCert && (
+      <CertificateViewer
+        src={activeCert.url}
+        alt={activeCert.title}
+        onClose={() => setActiveCert(null)}
+      />
+    )}
+    </>
   );
 }
