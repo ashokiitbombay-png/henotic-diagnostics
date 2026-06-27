@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import ReactDOM from "react-dom";
 import Image from "next/image";
 import { X, ZoomIn, ZoomOut, RotateCcw, Maximize2, ArrowLeft } from "lucide-react";
 
@@ -139,7 +140,8 @@ export default function CertificateViewer({ src, alt, onClose }: CertificateView
     }
   }, [scale, resetZoom]);
 
-  return (
+  // Use portal to render on document.body — escapes overflow-hidden & stacking contexts
+  return ReactDOM.createPortal(
     <div 
       className="fixed inset-0 z-[9999] flex flex-col"
       style={{ animation: 'certFadeIn 0.3s ease-out' }}
@@ -304,6 +306,7 @@ export default function CertificateViewer({ src, alt, onClose }: CertificateView
           to { opacity: 1; transform: scale(1); }
         }
       `}} />
-    </div>
+    </div>,
+    document.body
   );
 }
