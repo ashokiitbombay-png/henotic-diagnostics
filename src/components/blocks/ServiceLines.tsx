@@ -16,9 +16,18 @@ const GALLERY_IMAGES = [
 ];
 
 const MODALITIES = [
-  "Pathology", "Ultrasound & Color Doppler", "CT Scan", "MRI", "PET-CT",
-  "Nuclear Medicine", "Digital X-Ray", "Mammography", "DEXA",
-  "Cardiology", "Preventive Health Checkups", "Genetic Testing"
+  { name: "Pathology", href: "/services/blood-test" },
+  { name: "Ultrasound & Color Doppler", href: "/services/ultrasound" },
+  { name: "CT Scan", href: "/services/ct-scan" },
+  { name: "MRI", href: "/services/mri-scan" },
+  { name: "PET-CT", href: "/services/pet-scan" },
+  { name: "Nuclear Medicine", href: "/services/nuclear-medicine" },
+  { name: "Digital X-Ray", href: "/services/digital-x-ray" },
+  { name: "Mammography", href: "/services/mammography" },
+  { name: "DEXA", href: "/services/dexa-bone-scan" },
+  { name: "Cardiology", href: "/services/2d-echo" },
+  { name: "Preventive Health Checkups", href: "/services/health-checkup" },
+  { name: "Genetic Testing", href: "/services/genetic-test" },
 ];
 
 export default function ServiceLines() {
@@ -149,15 +158,16 @@ export default function ServiceLines() {
                   care with the highest quality standards.
                 </p>
 
-                {/* Modality Tags */}
+                {/* Modality Tags — Interlinked to Service Pages */}
                 <div className="flex flex-wrap gap-2 mb-8">
                   {MODALITIES.map((mod, i) => (
-                    <span
+                    <Link
                       key={i}
-                      className="px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-700 transition-colors duration-200"
+                      href={mod.href}
+                      className="px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
                     >
-                      {mod}
-                    </span>
+                      {mod.name}
+                    </Link>
                   ))}
                 </div>
 
