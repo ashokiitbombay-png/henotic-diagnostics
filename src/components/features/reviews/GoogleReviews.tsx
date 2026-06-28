@@ -66,11 +66,11 @@ export default function GoogleReviews() {
                 className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover"
                 onError={(e) => {
                   // Fallback if the Google profile image URL is invalid or blocked
-                  e.currentTarget.src = "https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-my-business-icon.webp";
+                  e.currentTarget.src = "https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-my-business-profile-icon.webp";
                 }}
               />
               <img width="36" height="36" loading="lazy" decoding="async" 
-                src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg" 
+                src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" 
                 alt="Google Icon" 
                 className="absolute -top-3 -left-3 w-8 h-8 bg-white rounded-full p-1 shadow-md"
               />
@@ -80,7 +80,7 @@ export default function GoogleReviews() {
           {/* Right Side: Rating Info & Actions */}
           <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
             <div className="flex items-center gap-3 mb-2">
-               <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg" alt="Google" className="w-8 h-8 object-contain" />
+               <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-8 h-8 object-contain" />
                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800">Henotic Diagnostics</h3>
             </div>
             
@@ -103,7 +103,7 @@ export default function GoogleReviews() {
                 rel="noreferrer"
                 className="flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-blue-100 hover:border-blue-300 hover:bg-blue-50 text-blue-800 font-bold rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 group"
               >
-                <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google_Maps_icon_(2020).svg.png" alt="Google Maps" className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google-maps.webp" alt="Google Maps" className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 View on Google Maps
               </a>
               <a 
@@ -150,7 +150,7 @@ export default function GoogleReviews() {
               </p>
 
               <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2">
-                 <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-icon-logo-svgrepo-com.svg" alt="Google" className="w-4 h-4" />
+                 <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-4 h-4" />
                  <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Posted on Google</span>
               </div>
             </div>
