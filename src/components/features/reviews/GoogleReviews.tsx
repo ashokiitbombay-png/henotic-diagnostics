@@ -59,37 +59,36 @@ export default function GoogleReviews() {
             fetchPriority="high" decoding="sync" />
             
             {/* Floating Google Profile Badge */}
-            <div className="absolute -bottom-6 -right-6 md:-right-8 z-20 bg-white p-2 rounded-2xl shadow-2xl border border-slate-100 flex items-center justify-center transform transition-transform duration-300 hover:scale-110">
-              <img width="96" height="96" loading="lazy" decoding="async" 
+            <div className="absolute -bottom-8 -right-8 md:-right-10 z-20 bg-white p-3 rounded-3xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.25)] border-2 border-slate-100 flex items-center justify-center transform transition-all duration-300 hover:scale-110 hover:shadow-[0_25px_60px_-10px_rgba(59,130,246,0.3)]">
+              <img width="128" height="128" loading="lazy" decoding="async" 
                 src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
                 alt="Google Business Profile" 
-                className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover"
+                className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover"
                 onError={(e) => {
-                  // Fallback if the Google profile image URL is invalid or blocked
                   e.currentTarget.src = "https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-my-business-profile-icon.webp";
                 }}
               />
-              <img width="36" height="36" loading="lazy" decoding="async" 
+              <img width="48" height="48" loading="lazy" decoding="async" 
                 src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" 
                 alt="Google Icon" 
-                className="absolute -top-3 -left-3 w-8 h-8 bg-white rounded-full p-1 shadow-md"
+                className="absolute -top-4 -left-4 w-11 h-11 bg-white rounded-full p-1.5 shadow-lg border-2 border-white object-contain drop-shadow-md"
               />
             </div>
           </div>
 
           {/* Right Side: Rating Info & Actions */}
           <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
-            <div className="flex items-center gap-3 mb-2">
-               <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-8 h-8 object-contain" />
+            <div className="flex items-center gap-4 mb-3">
+               <img width="48" height="48" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-12 h-12 object-contain drop-shadow-md" />
                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800">Henotic Diagnostics</h3>
             </div>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
               <span className="text-6xl font-black text-slate-900 drop-shadow-md">4.9</span>
               <div className="flex flex-col items-center sm:items-start">
-                <div className="flex gap-1 mb-1">
+                <div className="flex gap-1.5 mb-1">
                   {[...Array(5)].map((_, i) => (
-                    <img width="36" height="36" loading="lazy" decoding="async" key={i} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp" alt="Star" className="w-6 h-6 object-contain md:w-8 md:h-8 drop-shadow-sm transform hover:scale-110 transition-transform duration-200" />
+                    <img width="48" height="48" loading="lazy" decoding="async" key={i} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp" alt="Star" className="w-8 h-8 md:w-10 md:h-10 object-contain drop-shadow-md transform hover:scale-125 hover:-translate-y-1 transition-all duration-200" />
                   ))}
                 </div>
                 <span className="text-slate-500 font-bold text-sm">Based on (1,030) Reviews</span>
@@ -103,7 +102,7 @@ export default function GoogleReviews() {
                 rel="noreferrer"
                 className="flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-blue-100 hover:border-blue-300 hover:bg-blue-50 text-blue-800 font-bold rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 group"
               >
-                <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google-maps.webp" alt="Google Maps" className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <img width="48" height="48" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google-maps.webp" alt="Google Maps" className="w-7 h-7 object-contain drop-shadow-sm group-hover:scale-115 transition-transform" />
                 View on Google Maps
               </a>
               <a 
@@ -139,9 +138,9 @@ export default function GoogleReviews() {
                 </div>
               </div>
 
-              <div className="flex gap-1 mb-4">
+              <div className="flex gap-1.5 mb-4">
                 {[...Array(review.rating)].map((_, i) => (
-                  <img width="36" height="36" loading="lazy" decoding="async" key={i} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp" alt="Star" className="w-4 h-4 drop-shadow-sm" />
+                  <img width="36" height="36" loading="lazy" decoding="async" key={i} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp" alt="Star" className="w-6 h-6 object-contain drop-shadow-md" />
                 ))}
               </div>
 
@@ -149,8 +148,8 @@ export default function GoogleReviews() {
                 "{review.text}"
               </p>
 
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2">
-                 <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-4 h-4" />
+              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2.5">
+                 <img width="36" height="36" loading="lazy" decoding="async" src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-6 h-6 object-contain drop-shadow-sm" />
                  <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Posted on Google</span>
               </div>
             </div>
