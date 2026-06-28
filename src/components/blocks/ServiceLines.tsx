@@ -8,6 +8,19 @@ const services = [
   { id: "pathology", title: "Clinical Pathology", desc: "Automated analyzers for blood, hormone, and infection markers.", img: "https://storage.googleapis.com/wp-media-henoticbucket/Laboratory/laboratory-henotic-diagnostics-ct-scan-dexa-bone-scan-mri-scan-sonography-ultrasound-pet-scan-dopa-scan-kharghar-navi-mumbai.webp", link: "/services/blood-test" }
 ];
 
+const GALLERY_IMAGES = [
+  { src: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-reception-waiting-area_hero.webp", alt: "Premium Reception & Waiting Area" },
+  { src: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/mri-scan-henotic-diagnostics_hero.webp", alt: "3T MRI Scanner Suite" },
+  { src: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/reception-desk-henotic-diagnostics_hero.webp", alt: "Patient Service Desk" },
+  { src: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-pet-scan_hero.webp", alt: "PET-CT Imaging Center" },
+];
+
+const MODALITIES = [
+  "Pathology", "Ultrasound & Color Doppler", "CT Scan", "MRI", "PET-CT",
+  "Nuclear Medicine", "Digital X-Ray", "Mammography", "DEXA",
+  "Cardiology", "Preventive Health Checkups", "Genetic Testing"
+];
+
 export default function ServiceLines() {
   return (
     <section className="py-24 bg-white relative">
@@ -39,6 +52,193 @@ export default function ServiceLines() {
             </Link>
           ))}
         </div>
+
+        {/* ═══════════════════════════════════════════════════════════════════
+            🏥 PREMIUM FACILITY SHOWCASE & TRUST SIGNAL CARD
+            ═══════════════════════════════════════════════════════════════════ */}
+        <div
+          className="mt-20 rounded-[2.5rem] p-1 shadow-[0_30px_80px_-15px_rgba(99,102,241,0.35),0_10px_30px_-5px_rgba(219,39,119,0.2)]"
+          style={{ background: "linear-gradient(to right, #3b82f6, #6366f1, #db2777)" }}
+        >
+          <div className="bg-white rounded-[2.3rem] p-6 sm:p-8 md:p-12">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+
+              {/* LEFT: Image Gallery */}
+              <div className="space-y-4">
+                {/* Hero Image */}
+                <div
+                  className="relative group rounded-2xl overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.25)]"
+                  style={{
+                    border: "4px solid transparent",
+                    backgroundImage: "linear-gradient(white, white), linear-gradient(to right, #3b82f6, #6366f1, #db2777)",
+                    backgroundOrigin: "border-box",
+                    backgroundClip: "padding-box, border-box",
+                  }}
+                >
+                  <img
+                    src="https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-main-entrance_hero.webp"
+                    alt="Henotic Diagnostics Corporate Building — Main Entrance"
+                    width="800" height="450"
+                    className="w-full h-[220px] sm:h-[280px] md:h-[340px] object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy" decoding="async"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 sm:p-6">
+                    <span className="text-white font-black text-sm sm:text-base drop-shadow-lg">
+                      Henotic Diagnostics — Corporate Center
+                    </span>
+                  </div>
+                </div>
+
+                {/* 4 Facility Thumbnails */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                  {GALLERY_IMAGES.map((img, i) => (
+                    <div
+                      key={i}
+                      className="relative group rounded-xl overflow-hidden shadow-[0_10px_30px_-8px_rgba(0,0,0,0.2)] hover:shadow-[0_15px_40px_-8px_rgba(99,102,241,0.35)] transition-all duration-500 hover:-translate-y-1"
+                      style={{
+                        border: "3px solid transparent",
+                        backgroundImage: "linear-gradient(white, white), linear-gradient(to right, #3b82f6, #6366f1, #db2777)",
+                        backgroundOrigin: "border-box",
+                        backgroundClip: "padding-box, border-box",
+                      }}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        width="300" height="200"
+                        className="w-full h-[100px] sm:h-[120px] object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy" decoding="async"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2">
+                        <span className="text-white text-[10px] sm:text-xs font-bold drop-shadow-md">
+                          {img.alt}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* RIGHT: Text Content & Google Reviews */}
+              <div className="flex flex-col justify-center">
+                {/* Heading */}
+                <div className="mb-6">
+                  <span
+                    className="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-4 text-white shadow-md"
+                    style={{ background: "linear-gradient(to right, #3b82f6, #6366f1, #db2777)" }}
+                  >
+                    Multi-Specialty Diagnostics
+                  </span>
+                  <h3 className="text-3xl sm:text-4xl font-black text-blue-950 leading-tight mb-2">
+                    Core Modalities
+                  </h3>
+                  <div
+                    className="w-20 h-1.5 rounded-full"
+                    style={{ background: "linear-gradient(to right, #3b82f6, #6366f1, #db2777)" }}
+                  />
+                </div>
+
+                {/* Description */}
+                <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-medium mb-6 text-justify">
+                  Henotic Diagnostics is a trusted multi-specialty diagnostic center offering accurate,
+                  affordable, and advanced healthcare services under one roof. Our comprehensive
+                  diagnostics include Pathology, Ultrasound &amp; Color Doppler, CT Scan, MRI, PET-CT,
+                  Nuclear Medicine, Digital X-Ray, Mammography, DEXA, Cardiology, Preventive Health
+                  Checkups, and Genetic Testing. Supported by accredited partner laboratories and
+                  imaging centers, we deliver reliable reports, advanced technology, and patient-focused
+                  care with the highest quality standards.
+                </p>
+
+                {/* Modality Tags */}
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {MODALITIES.map((mod, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1.5 rounded-full text-xs font-bold border border-slate-200 text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-700 transition-colors duration-200"
+                    >
+                      {mod}
+                    </span>
+                  ))}
+                </div>
+
+                {/* ⭐ Google Reviews Trust Badge */}
+                <div className="rounded-2xl p-5 sm:p-6 border border-slate-100 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.08)] bg-gradient-to-br from-white to-slate-50">
+                  <div className="flex flex-col sm:flex-row items-center gap-5">
+                    {/* Google Business Profile Image */}
+                    <div className="relative shrink-0">
+                      <img
+                        width="80" height="80" loading="lazy" decoding="async"
+                        src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-my-business-profile-icon.webp"
+                        alt="Google Business Profile"
+                        className="w-20 h-20 rounded-2xl object-cover shadow-[0_10px_30px_-8px_rgba(0,0,0,0.3)] border-2 border-white"
+                      />
+                      <img
+                        width="32" height="32" loading="lazy" decoding="async"
+                        src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp"
+                        alt="Google"
+                        className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full p-1 shadow-lg border-2 border-white object-contain"
+                      />
+                    </div>
+
+                    {/* Rating */}
+                    <div className="flex-1 text-center sm:text-left">
+                      <div className="flex items-center justify-center sm:justify-start gap-3 mb-2">
+                        <img
+                          width="36" height="36" loading="lazy" decoding="async"
+                          src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp"
+                          alt="Google"
+                          className="w-9 h-9 object-contain drop-shadow-md"
+                        />
+                        <span className="text-slate-800 font-extrabold text-lg">Google Reviews</span>
+                      </div>
+                      <div className="flex items-center justify-center sm:justify-start gap-3 mb-2">
+                        <span className="text-4xl font-black text-slate-900 drop-shadow-sm">4.9</span>
+                        <div className="flex gap-1">
+                          {[...Array(5)].map((_, i) => (
+                            <img
+                              key={i} width="40" height="40" loading="lazy" decoding="async"
+                              src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp"
+                              alt="Star"
+                              className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-md hover:scale-125 hover:-translate-y-1 transition-all duration-200"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <span className="text-slate-500 font-bold text-sm">(1,030) Patient Reviews</span>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3 mt-5 pt-5 border-t border-slate-100">
+                    <a
+                      href="https://maps.google.com/?cid=11779150789147957572"
+                      target="_blank" rel="noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2.5 px-5 py-3.5 bg-white border-2 border-blue-100 hover:border-blue-300 hover:bg-blue-50 text-blue-800 font-bold rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 group"
+                    >
+                      <img
+                        width="40" height="40" loading="lazy" decoding="async"
+                        src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google-maps.webp"
+                        alt="Google Maps"
+                        className="w-7 h-7 object-contain drop-shadow-sm group-hover:scale-110 transition-transform"
+                      />
+                      View on Maps
+                    </a>
+                    <a
+                      href="https://share.google/IcBtvtVjwozCBFMPp"
+                      target="_blank" rel="noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+                      style={{ background: "linear-gradient(to right, #3b82f6, #6366f1, #db2777)" }}
+                    >
+                      Write a Review
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
