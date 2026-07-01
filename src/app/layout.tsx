@@ -20,14 +20,36 @@ const SiteFooter = dynamic(() => import("@/components/layout/SiteFooter"));
 const WhatsAppWidget = dynamic(() => import('@/components/ui/WhatsAppWidget'));
 const StickyMobileCTA = dynamic(() => import('@/components/ui/StickyMobileCTA'));
 const SocialProofNotification = dynamic(() => import('@/components/ui/SocialProofNotification'));
+const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent'));
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL('https://www.henoticdiagnostics.com'),
   title: {
     default: 'Henotic Diagnostics | Premier Diagnostic Center',
     template: '%s | Henotic Diagnostics'
   },
   description: "Mumbai & Navi Mumbai's premier diagnostic center featuring advanced 3.0T MRI, low-dose CT, and automated pathology. NABH Accredited.",
+  verification: {
+    google: 'YOUR_GOOGLE_SEARCH_CONSOLE_CODE',
+    other: {
+      'google-adsense-account': 'ca-pub-2224247495448831',
+      'msvalidate.01': 'YOUR_BING_VERIFICATION_CODE',
+    },
+  },
+  alternates: {
+    canonical: 'https://www.henoticdiagnostics.com',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large' as const,
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
@@ -68,6 +90,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <ThirdPartyScripts />
           <MedicalClinicSchema />
+          {/* WebSite Schema for Sitelinks Search Box */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Henotic Diagnostics',
+              url: 'https://www.henoticdiagnostics.com',
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: 'https://www.henoticdiagnostics.com/services?q={search_term_string}',
+                'query-input': 'required name=search_term_string',
+              },
+            }) }}
+          />
           <SiteHeader />
           
           <main className="flex-grow">
@@ -79,6 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <WhatsAppWidget />
           <StickyMobileCTA />
           <SocialProofNotification />
+          <CookieConsent />
           <Analytics />
         </Providers>
         </body>

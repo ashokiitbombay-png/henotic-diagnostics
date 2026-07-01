@@ -4,11 +4,14 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import ServiceHero from '@/components/blocks/ServiceHero';
 import ServiceSchema from "@/components/seo/ServiceSchema";
+import ProductSchema from "@/components/seo/ProductSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PricingTable from "@/components/blocks/PricingTable";
 import ServiceFAQ from "@/components/blocks/ServiceFAQ";
 import { getFAQsForService } from "@/config/faqs";
+import { getPricingForService } from "@/config/pricing";
 
 interface ServiceTemplateProps {
   service: string;
@@ -23,10 +26,16 @@ export default function ServiceTemplate({
 }: ServiceTemplateProps) {
   const context = { serviceName: formattedService };
   const faqs = getFAQsForService(service, formattedService);
+  const pricing = getPricingForService(service);
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       <ServiceHero service={service} />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: '/' },
+        { name: 'Services', url: '/services' },
+        { name: formattedService, url: `/services/${service}` },
+      ]} />
       <div className="max-w-5xl mx-auto px-0 sm:px-4 lg:px-8">
         
         <Link href="/services" className="inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors mb-6 mx-4 sm:mx-0 mt-8">
@@ -86,6 +95,15 @@ export default function ServiceTemplate({
 
       {/* Enhanced Schema */}
       <ServiceSchema serviceName={formattedService} serviceSlug={service} />
+      {pricing && (
+        <ProductSchema
+          serviceName={formattedService}
+          serviceSlug={service}
+          price={pricing.henoticPrice}
+          marketPrice={pricing.marketPrice}
+          category={pricing.category}
+        />
+      )}
 
       {/* Related Services */}
       <RelatedServices currentService={service} />

@@ -5,6 +5,7 @@ import LocalSEOMastery from "@/components/seo/LocalSEOMastery";
 import SchemaMarkup from "@/components/seo/SchemaMarkup";
 import ServiceSchema from "@/components/seo/ServiceSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import CrossLocationLinks from "@/components/seo/CrossLocationLinks";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PricingTable from "@/components/blocks/PricingTable";
@@ -57,6 +58,13 @@ export default function LocationTemplate({
         region={region} 
         location={location}
       />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: '/' },
+        { name: 'Services', url: '/services' },
+        { name: formattedService, url: `/services/${service}` },
+        { name: formattedRegion, url: `/services/${service}/${region}` },
+        { name: formattedLocation, url: `/services/${service}/${region}/${location}` },
+      ]} />
 
       {/* 2. DYNAMIC CONTENT & STICKY SIDEBAR SPLIT */}
       <section className="max-w-7xl mx-auto px-0 sm:px-4 md:px-8 -mt-16 relative z-20">
