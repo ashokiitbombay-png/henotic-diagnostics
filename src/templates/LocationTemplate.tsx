@@ -39,7 +39,7 @@ export default function LocationTemplate({
   const locationReviews = REAL_LOCATION_REVIEWS[location];
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24 overflow-hidden">
+    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
       <SchemaMarkup service={formattedService} location={formattedLocation} />
       <ServiceSchema
         serviceName={formattedService}
@@ -59,11 +59,11 @@ export default function LocationTemplate({
       />
 
       {/* 2. DYNAMIC CONTENT & STICKY SIDEBAR SPLIT */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 -mt-16 relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <section className="max-w-7xl mx-auto px-0 sm:px-4 md:px-8 -mt-16 relative z-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 sm:gap-10">
           
           {/* Left Column: WordPress CMS Content */}
-          <div className="lg:col-span-2 bg-white rounded-[3rem] p-8 md:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border-[6px] border-white relative overflow-hidden group">
+          <div className="lg:col-span-2 bg-white sm:rounded-[3rem] px-4 py-8 sm:p-8 md:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] sm:border-[6px] border-white relative overflow-visible group">
             <div className="absolute top-0 right-0 w-40 h-40 bg-blue-50 rounded-bl-full -z-10 transition-transform duration-700 group-hover:scale-110"></div>
             
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 pb-6 border-b border-slate-100 flex items-center gap-4">

@@ -25,15 +25,15 @@ export default function ServiceTemplate({
   const faqs = getFAQsForService(service, formattedService);
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] py-12">
+    <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       <ServiceHero service={service} />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto px-0 sm:px-4 lg:px-8">
         
-        <Link href="/services" className="inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors mb-8">
+        <Link href="/services" className="inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors mb-6 mx-4 sm:mx-0 mt-8">
           <ArrowLeft size={18} /> Back to All Services
         </Link>
 
-        <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden">
+        <div className="bg-white sm:rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] sm:border border-slate-200 overflow-visible">
           
           {/* Header Section */}
           <div className="bg-gradient-to-r from-blue-950 to-blue-900 p-8 md:p-12 text-white relative overflow-hidden">
@@ -45,7 +45,7 @@ export default function ServiceTemplate({
           </div>
 
           {/* Render WP Content using our Block/Widget Architecture Bridge */}
-          <div className="p-8 md:p-12">
+          <div className="px-4 py-6 sm:p-8 md:p-12">
             {content ? (
               <div className="wp-content-wrapper text-slate-700 font-medium leading-relaxed space-y-6">
                 <WordPressRenderer content={content} context={context} />

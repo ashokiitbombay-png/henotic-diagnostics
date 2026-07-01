@@ -73,7 +73,7 @@ footer, .below-fold-section {
 /* ═══════════════════════════════════════════════════════════════════════════════ */
 
 .wp-content-wrapper {
-  @apply max-w-5xl mx-auto w-full;
+  @apply w-full;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -140,16 +140,45 @@ footer, .below-fold-section {
 
 @media (max-width: 640px) {
   .wp-content-wrapper img {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(-50vw + 50%) !important;
+    width: calc(100% + 2rem) !important;
+    max-width: calc(100% + 2rem) !important;
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
     border-radius: 0 !important;
     border-left: none !important;
     border-right: none !important;
     border-top: 4px solid #ffffff !important;
     border-bottom: 4px solid #ffffff !important;
-    margin-top: 2rem !important;
-    margin-bottom: 2rem !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .wp-content-wrapper figure,
+  .wp-content-wrapper .wp-block-image,
+  .wp-content-wrapper .wp-block-gallery,
+  .wp-content-wrapper .wp-block-cover {
+    width: calc(100% + 2rem) !important;
+    max-width: calc(100% + 2rem) !important;
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+  }
+
+  .wp-content-wrapper figure img,
+  .wp-content-wrapper .wp-block-image img,
+  .wp-content-wrapper .wp-block-gallery img {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+  }
+
+  .wp-content-wrapper table {
+    width: calc(100% + 2rem) !important;
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+    border-radius: 0 !important;
   }
 }
 
