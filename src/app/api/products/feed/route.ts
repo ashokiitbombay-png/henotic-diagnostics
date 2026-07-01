@@ -1,32 +1,54 @@
+import { GMC_PRODUCTS } from '@/config/gmc-products';
 import { NextResponse } from 'next/server';
-import { SERVICE_PRICING } from '@/config/pricing';
+
+// Helper to escape XML special characters
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
 
 export async function GET() {
-  const products = SERVICE_PRICING.map((item) => ({
-    id: item.serviceSlug,
-    title: item.serviceName,
-    description: `${item.serviceName} at Henotic Diagnostics — NABL & ISO accredited diagnostic center in Navi Mumbai`,
-    link: `https://www.henoticdiagnostics.com/services/${item.serviceSlug}`,
-    price: {
-      value: item.henoticPrice.toString(),
-      currency: 'INR',
-    },
-    availability: 'in_stock',
-    condition: 'new',
-    brand: 'Henotic Diagnostics',
-    google_product_category: 'Health > Health Care',
-    custom_labels: [item.category],
-    image_link:
-      'https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp',
-  }));
+  const baseUrl = 'https://www.henoticdiagnostics.com';
 
-  return NextResponse.json(
-    { products },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=86400',
-      },
-    }
-  );
+  const items = GMC_PRODUCTS.map(product => `
+    <item>
+      <g:id>${escapeXml(product.id)}</g:id>
+      <title>${escapeXml(product.title)}</title>
+      <description>${escapeXml(product.description)}</description>
+      <link>${baseUrl}/gmc/${product.slug}</link>
+      <g:image_link>${escapeXml(product.imageUrl)}</g:image_link>
+      <g:availability>${product.availability}</g:availability>
+      <g:price>${product.price.toFixed(2)} ${product.currency}</g:price>
+      <g:sale_price>${product.price.toFixed(2)} ${product.currency}</g:sale_price>
+      <g:condition>${product.condition}</g:condition>
+      <g:brand>${escapeXml(product.brand)}</g:brand>
+      <g:google_product_category>${escapeXml(product.googleProductCategory)}</g:google_product_category>
+      <g:product_type>${escapeXml(product.category)}</g:product_type>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:custom_label_0>${escapeXml(product.category)}</g:custom_label_0>
+      <g:custom_label_1>Navi Mumbai</g:custom_label_1>
+      <g:custom_label_2>NABL Accredited</g:custom_label_2>
+    </item>`).join('\n');
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+  <channel>
+    <title>Henotic Diagnostics — Medical Diagnostic Services</title>
+    <link>${baseUrl}</link>
+    <description>Premium medical diagnostic services at Henotic Diagnostics, Navi Mumbai. NABL &amp; ISO accredited.</description>
+${items}
+  </channel>
+</rss>`;
+
+  return new NextResponse(xml, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+    },
+  });
 }
