@@ -130,6 +130,14 @@ export default function PartnerLogos() {
           animation: marqueeRight 20s linear infinite;
           will-change: transform;
         }
+        @media (max-width: 768px) {
+          .animate-marquee-left {
+            animation: marqueeLeft 8s linear infinite;
+          }
+          .animate-marquee-right {
+            animation: marqueeRight 9s linear infinite;
+          }
+        }
       `}} />
     </section>
   );
