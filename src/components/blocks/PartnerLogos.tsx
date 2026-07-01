@@ -123,11 +123,11 @@ export default function PartnerLogos() {
           100% { transform: translateX(0); }
         }
         .animate-marquee-left {
-          animation: marqueeLeft 40s linear infinite;
+          animation: marqueeLeft 18s linear infinite;
           will-change: transform;
         }
         .animate-marquee-right {
-          animation: marqueeRight 45s linear infinite;
+          animation: marqueeRight 20s linear infinite;
           will-change: transform;
         }
       `}} />
