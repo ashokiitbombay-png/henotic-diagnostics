@@ -12,9 +12,10 @@ export default function MedicalClinicSchema() {
     ],
     "image": "https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw",
     "@id": "https://www.henoticdiagnostics.com/#clinic",
-    "url": "https://share.google/IcBtvtVjwozCBFMPp",
+    "url": "https://www.henoticdiagnostics.com",
     "telephone": "08879327184",
     "priceRange": "500-15000",
+    "hasMap": "https://maps.app.goo.gl/w5sBPF89Pf4nYQW97",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Second floor, Millennium Empire, Business Park, Plot No 47, D Mart Rd",
@@ -42,13 +43,14 @@ export default function MedicalClinicSchema() {
       "closes": "23:59"
     },
     "sameAs": [
+      "https://share.google/aG0qwzCP4qUDMMDzQ",
+      "https://maps.app.goo.gl/w5sBPF89Pf4nYQW97",
       "https://www.facebook.com/henoticdiagnostics2019/",
       "https://x.com/henoticservices",
       "https://www.instagram.com/henoticdiagnostics2019/",
       "https://www.youtube.com/@HenoticDiagnostics",
       "https://www.linkedin.com/company/14610097/admin/page-posts/published/",
       "https://in.pinterest.com/henoticdiagnostics2019/",
-      "https://github.com/ashokiitbombay-png/headless-henotics",
       "https://www.tumblr.com/henotichealthcare",
       "https://www.henoticdiagnostics.com/"
     ] 

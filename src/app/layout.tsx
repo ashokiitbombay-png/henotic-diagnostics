@@ -30,10 +30,8 @@ export const metadata: Metadata = {
   },
   description: "Mumbai & Navi Mumbai's premier diagnostic center featuring advanced 3.0T MRI, low-dose CT, and automated pathology. NABH Accredited.",
   verification: {
-    google: 'YOUR_GOOGLE_SEARCH_CONSOLE_CODE',
     other: {
       'google-adsense-account': 'ca-pub-2224247495448831',
-      'msvalidate.01': 'YOUR_BING_VERIFICATION_CODE',
     },
   },
   alternates: {
