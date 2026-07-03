@@ -149,7 +149,7 @@ export default function SiteFooter() {
             <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Development</h4>
             <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
               <li><a href="https://github.com/ashokiitbombay-png/headless-henotics" target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><GithubIcon size={14}/> Open Source</a></li>
-              <li><Link href="/sitemap.xml" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> XML Sitemap</Link></li>
+              <li><Link href="/sitemap/0.xml" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> XML Sitemap</Link></li>
               <li><a href={`mailto:${siteConfig.contact.email}`} className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Mail size={14}/> Support Email</a></li>
             </ul>
           </div>

@@ -3,13 +3,12 @@ import { services } from '@/config/services';
 import { REGION_LOCATIONS } from '@/config/locations';
 
 const baseUrl = 'https://www.henoticdiagnostics.com';
-const HERO_IMAGE = 'https://storage.googleapis.com/wp-media-henoticbucket/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
 const CHUNK_SIZE = 20;
 
 /**
  * Next.js App Router dynamic sitemap segmentation.
- * Enhanced with image sitemap entries and priority tuning.
- * Now includes: /conditions, /doctors, /blog, /services/category routes.
+ * Enhanced with priority tuning for PSEO pages.
+ * Includes: /conditions, /doctors, /blog, /services/category, /gmc routes.
  */
 export async function generateSitemaps() {
   const totalChunks = Math.ceil(services.length / CHUNK_SIZE);
@@ -22,7 +21,14 @@ export async function generateSitemaps() {
   return sitemaps;
 }
 
-export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
+/**
+ * Next.js 16 BREAKING CHANGE: `id` is now a Promise<string> (was number).
+ * Must await the id and convert to number.
+ */
+export default async function sitemap(props: {
+  id: Promise<string>;
+}): Promise<MetadataRoute.Sitemap> {
+  const id = Number(await props.id);
   const currentDate = new Date().toISOString().split('T')[0];
 
   // 1. Sitemap ID 0: Core Static Pages + New Section Pages
@@ -74,7 +80,21 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
       priority: 0.8,
     }));
 
-    return [...staticRoutes, ...baseServiceRoutes, ...categoryRoutes];
+    // GMC product landing pages
+    const gmcSlugs = [
+      'mri-brain-plain', 'ct-brain-plain', 'pet-ct-whole-body',
+      'cbc-test', 'hba1c-test', 'crp-test', 'digital-mammography',
+      'bmd-dexa-scan', 'nt-scan', 'anomaly-scan', 'abdomen-ultrasound',
+      'fetal-2d-echo', '2d-echo-test'
+    ];
+    const gmcRoutes = gmcSlugs.map((slug) => ({
+      url: `${baseUrl}/gmc/${slug}`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }));
+
+    return [...staticRoutes, ...baseServiceRoutes, ...categoryRoutes, ...gmcRoutes];
   }
 
   // 2. Sitemap ID >= 1: Segmented chunks of regional/location combinations
