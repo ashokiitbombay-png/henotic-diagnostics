@@ -3,15 +3,13 @@
 import { useEffect } from 'react';
 
 /**
- * Microsoft Clarity Heatmaps & Session Recordings
- * Set NEXT_PUBLIC_CLARITY_ID in .env.local to enable.
- * Get your ID from https://clarity.microsoft.com → Settings → Setup
+ * Microsoft Clarity — Heatmaps & Session Recordings
+ * Project ID: xh9b7w1rv6
+ * Dashboard: https://clarity.microsoft.com
  */
 export default function ClarityScript() {
-  const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
-
   useEffect(() => {
-    if (!clarityId) return;
+    if ((window as any).clarity) return;
 
     (function (c: any, l: Document, a: string, r: string, i: string) {
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
@@ -20,9 +18,8 @@ export default function ClarityScript() {
       t.src = 'https://www.clarity.ms/tag/' + i;
       const y = l.getElementsByTagName(r)[0];
       y?.parentNode?.insertBefore(t, y);
-    })(window, document, 'clarity', 'script', clarityId);
-  }, [clarityId]);
+    })(window, document, 'clarity', 'script', 'xh9b7w1rv6');
+  }, []);
 
-  if (!clarityId) return null;
   return null;
 }
