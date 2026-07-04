@@ -6,7 +6,19 @@ import { useEffect } from 'react';
  * Tawk.to Live Chat Widget — Henotic Diagnostics
  * Property: 6a492d5fb271bd1d477eafc0
  * Widget: 1jsmtig1n
- * Position: Bottom-LEFT (WhatsApp + Call are bottom-right)
+ * Position: Bottom-RIGHT, stacked ABOVE WhatsApp + Call buttons
+ *
+ * Layout (right side):
+ *   ┌─────────┐
+ *   │  Tawk   │  ← yOffset pushes it above WhatsApp stack
+ *   └─────────┘
+ *       gap
+ *   ┌─────────┐
+ *   │  Call    │  ← 60px button
+ *   └─────────┘
+ *   ┌─────────┐
+ *   │WhatsApp │  ← 60px button, bottom-6 desktop / bottom-[76px] mobile
+ *   └─────────┘
  */
 export default function TawkToChat() {
   useEffect(() => {
@@ -17,11 +29,13 @@ export default function TawkToChat() {
     const Tawk_API: any = ((window as any).Tawk_API = (window as any).Tawk_API || {});
     (window as any).Tawk_LoadStart = new Date();
 
-    // Position widget on the LEFT side to avoid overlap with WhatsApp/Call (right side)
+    // Position: bottom-RIGHT, above the WhatsApp + Call stack
+    // Desktop: WhatsApp stack ends at ~156px from bottom → place Tawk at 170px
+    // Mobile: WhatsApp stack ends at ~208px from bottom → place Tawk at 220px
     Tawk_API.customStyle = {
       visibility: {
-        desktop: { position: 'bl', xOffset: 20, yOffset: 20 },   // bottom-left
-        mobile:  { position: 'bl', xOffset: 10, yOffset: 70 },   // above StickyMobileCTA
+        desktop: { position: 'br', xOffset: 20, yOffset: 170 },
+        mobile:  { position: 'br', xOffset: 10, yOffset: 220 },
       },
     };
 
