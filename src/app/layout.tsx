@@ -22,6 +22,11 @@ const StickyMobileCTA = dynamic(() => import('@/components/ui/StickyMobileCTA'))
 const SocialProofNotification = dynamic(() => import('@/components/ui/SocialProofNotification'));
 const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent'));
 
+// 📊 Monitoring & Tracking (lazy-loaded, env-gated)
+const TawkToChat = dynamic(() => import('@/components/ui/TawkToChat'));
+const ClarityScript = dynamic(() => import('@/components/monitoring/ClarityScript'));
+const MetaPixel = dynamic(() => import('@/components/monitoring/MetaPixel'));
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.henoticdiagnostics.com'),
   title: {
@@ -76,6 +81,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+          {/* PWA */}
+          <link rel="manifest" href="/manifest.json" />
+          <meta name="theme-color" content="#1e3a5f" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="default" />
           {/* Preload LCP hero image — direct from GCS CDN, no /_next/image proxy */}
           <link
             rel="preload"
@@ -86,6 +96,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </head>
       <body suppressHydrationWarning className={`${systemFontClass} flex flex-col min-h-screen bg-gray-50`}>
         <Providers>
+          {/* ♿ Skip to Content — Accessibility */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:bg-blue-600 focus:text-white focus:px-6 focus:py-3 focus:rounded-xl focus:font-bold focus:shadow-2xl focus:outline-none"
+          >
+            Skip to main content
+          </a>
+
           <ThirdPartyScripts />
           <MedicalClinicSchema />
           {/* WebSite Schema for Sitelinks Search Box */}
@@ -105,7 +123,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
           <SiteHeader />
           
-          <main className="flex-grow">
+          <main id="main-content" className="flex-grow">
             {children}
           </main>
           
@@ -115,6 +133,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <StickyMobileCTA />
           <SocialProofNotification />
           <CookieConsent />
+          <TawkToChat />
+          <ClarityScript />
+          <MetaPixel />
           <Analytics />
         </Providers>
         </body>

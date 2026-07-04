@@ -20,3 +20,27 @@ export interface ShortcodeContext {
   regionName?: string;
   [key: string]: any;
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Blog Post Types (WordPress WPGraphQL)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content?: string;
+  date: string;
+  featuredImage?: { node: { sourceUrl: string; altText: string } };
+  categories: { nodes: Array<{ name: string; slug: string }> };
+  author: { node: { name: string; avatar?: { url: string } } };
+  tags?: { nodes: Array<{ name: string }> };
+}
+
+export interface BlogPostsResponse {
+  posts: {
+    pageInfo: { hasNextPage: boolean; endCursor: string };
+    nodes: BlogPost[];
+  };
+}

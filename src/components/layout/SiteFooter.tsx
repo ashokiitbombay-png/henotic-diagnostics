@@ -1,4 +1,5 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { 
   MapPin, Phone, Mail, Clock, ExternalLink, 
@@ -6,6 +7,8 @@ import {
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { routesConfig } from "@/config/routes";
+
+const NewsletterSignup = dynamic(() => import('@/components/ui/NewsletterSignup'));
 
 /* --- BULLETPROOF INLINE BRAND ICONS --- */
 const FacebookIcon = ({ size = 18 }) => (
@@ -238,6 +241,19 @@ export default function SiteFooter() {
           </div>
           <div className="text-[10px] font-bold text-white/60 tracking-widest uppercase text-center md:text-right hidden md:block">
             ISO 9001:2015 Certified Center
+          </div>
+        </div>
+
+        {/* ================= NEWSLETTER SIGNUP ================= */}
+        <div className="mb-8 border-t border-white/20 pt-8 relative z-20 w-full">
+          <div className="max-w-md mx-auto md:mx-0">
+            <h4 className="font-extrabold uppercase tracking-widest text-xs mb-4 text-white/90 drop-shadow-sm flex items-center gap-2">
+              <Mail size={14} className="text-blue-300" /> Stay Updated
+            </h4>
+            <p className="text-xs font-medium text-white/60 mb-4">
+              Subscribe to our newsletter for health tips, diagnostic insights, and exclusive offers.
+            </p>
+            <NewsletterSignup variant="compact" />
           </div>
         </div>
 

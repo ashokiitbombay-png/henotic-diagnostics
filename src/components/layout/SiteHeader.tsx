@@ -47,7 +47,7 @@ export default function SiteHeader() {
           </Link>
 
           {/* DESKTOP NAV */}
-          <nav className="hidden lg:flex items-center justify-center gap-8 text-white font-bold text-sm flex-grow">
+          <nav role="navigation" aria-label="Main navigation" className="hidden lg:flex items-center justify-center gap-8 text-white font-bold text-sm flex-grow">
             <Link href={routesConfig.home} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">Home</Link>
             <Link href={routesConfig.aboutUs} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">About Us</Link>
             
@@ -88,7 +88,7 @@ export default function SiteHeader() {
           </div>
 
           {/* MOBILE TOGGLE */}
-          <button aria-label="Toggle Mobile Menu" className="lg:hidden text-white z-50 p-2 shrink-0 flex items-center justify-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+          <button aria-label="Toggle Mobile Menu" aria-expanded={isOpen} className="lg:hidden text-white z-50 p-2 shrink-0 flex items-center justify-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
