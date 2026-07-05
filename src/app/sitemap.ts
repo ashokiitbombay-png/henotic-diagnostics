@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { services } from '@/config/services';
 import { REGION_LOCATIONS } from '@/config/locations';
 import { CITIES } from '@/config/cities';
+import { COMPARISONS } from '@/config/comparisons';
 
 const baseUrl = 'https://www.henoticdiagnostics.com';
 const CHUNK_SIZE = 20;
@@ -109,7 +110,21 @@ export default async function sitemap(props: {
       priority: 0.85,
     }));
 
-    return [...staticRoutes, ...baseServiceRoutes, ...categoryRoutes, ...gmcRoutes, ...cityListingRoute, ...cityRoutes];
+    // Comparison pages ("X vs Y" SEO pages)
+    const compareListingRoute = [{
+      url: `${baseUrl}/compare`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    }];
+    const compareRoutes = COMPARISONS.map((c) => ({
+      url: `${baseUrl}/compare/${c.slug}`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    }));
+
+    return [...staticRoutes, ...baseServiceRoutes, ...categoryRoutes, ...gmcRoutes, ...cityListingRoute, ...cityRoutes, ...compareListingRoute, ...compareRoutes];
   }
 
   // 2. Sitemap ID >= 1: Segmented chunks of regional/location combinations
