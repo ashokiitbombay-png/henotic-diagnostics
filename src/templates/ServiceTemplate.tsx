@@ -4,10 +4,12 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import ServiceHero from '@/components/blocks/ServiceHero';
 import ServiceSchema from "@/components/seo/ServiceSchema";
+import MedicalProcedureSchema from "@/components/seo/MedicalProcedureSchema";
 import ProductSchema from "@/components/seo/ProductSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import RelatedServices from "@/components/seo/RelatedServices";
+import PeopleAlsoSearchFor from "@/components/seo/PeopleAlsoSearchFor";
 import PricingTable from "@/components/blocks/PricingTable";
 import ServiceFAQ from "@/components/blocks/ServiceFAQ";
 import { getFAQsForService } from "@/config/faqs";
@@ -95,6 +97,27 @@ export default function ServiceTemplate({
 
       {/* Enhanced Schema */}
       <ServiceSchema serviceName={formattedService} serviceSlug={service} />
+      <MedicalProcedureSchema
+        procedureName={formattedService}
+        procedureSlug={service}
+        bodyLocation={
+          service.includes('brain') ? 'Brain / Head' :
+          service.includes('spine') ? 'Spine / Back' :
+          service.includes('chest') || service.includes('hrct') || service.includes('pulmonary') ? 'Chest / Thorax' :
+          service.includes('abdomen') || service.includes('liver') || service.includes('kidney') || service.includes('fibroscan') ? 'Abdomen' :
+          service.includes('knee') ? 'Knee' :
+          service.includes('shoulder') ? 'Shoulder' :
+          service.includes('cardiac') || service.includes('echo') || service.includes('ecg') || service.includes('tmt') || service.includes('coronary') || service.includes('holter') ? 'Heart / Cardiovascular' :
+          service.includes('thyroid') ? 'Thyroid / Neck' :
+          service.includes('breast') || service.includes('mammography') ? 'Breast' :
+          service.includes('pelvic') || service.includes('transvaginal') || service.includes('follicular') ? 'Pelvis' :
+          service.includes('carotid') ? 'Carotid Artery / Neck' :
+          service.includes('renal') ? 'Kidneys' :
+          service.includes('bone') || service.includes('dexa') ? 'Skeletal System' :
+          service.includes('fetal') || service.includes('pregnancy') || service.includes('anomaly') || service.includes('nt-scan') || service.includes('growth') || service.includes('nipt') ? 'Uterus / Fetal' :
+          undefined
+        }
+      />
       {pricing && (
         <ProductSchema
           serviceName={formattedService}
@@ -105,7 +128,8 @@ export default function ServiceTemplate({
         />
       )}
 
-      {/* Related Services */}
+      {/* Internal Linking */}
+      <PeopleAlsoSearchFor currentServiceSlug={service} />
       <RelatedServices currentService={service} />
 
     </main>

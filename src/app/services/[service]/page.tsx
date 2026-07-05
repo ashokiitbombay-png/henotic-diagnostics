@@ -17,7 +17,23 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     keywords: `${serviceName}, best ${serviceName} centers, ${serviceName} cost`,
     alternates: {
       canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`
-    }
+    },
+    openGraph: {
+      title: `${serviceName} — Henotic Diagnostics`,
+      description: `Book ${serviceName} at Henotic Diagnostics. NABL certified, same-day reports, 24/7 availability.`,
+      url: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`,
+      images: [{
+        url: `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(serviceName)}&subtitle=${encodeURIComponent('NABL Certified Diagnostic Center')}`,
+        width: 1200,
+        height: 630,
+        alt: `${serviceName} at Henotic Diagnostics`,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${serviceName} — Henotic Diagnostics`,
+      images: [`https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(serviceName)}&subtitle=${encodeURIComponent('Book Online • Same-Day Reports')}`],
+    },
   };
 } 
 

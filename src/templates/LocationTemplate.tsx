@@ -8,8 +8,10 @@ import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import CrossLocationLinks from "@/components/seo/CrossLocationLinks";
 import RelatedServices from "@/components/seo/RelatedServices";
+import PeopleAlsoSearchFor from "@/components/seo/PeopleAlsoSearchFor";
 import PricingTable from "@/components/blocks/PricingTable";
 import ServiceFAQ from "@/components/blocks/ServiceFAQ";
+import LocationFAQ from "@/components/seo/LocationFAQ";
 import { getFAQsForService } from "@/config/faqs";
 import { getPricingForService } from "@/config/pricing";
 import { REAL_LOCATION_REVIEWS } from "@/config/locations";
@@ -37,6 +39,7 @@ export default function LocationTemplate({
 }: LocationTemplateProps) {
   const context = { locationName: formattedLocation, serviceName: formattedService, regionName: formattedRegion };
   const faqs = getFAQsForService(service, formattedService, formattedLocation);
+  const pricing = getPricingForService(service);
   const locationReviews = REAL_LOCATION_REVIEWS[location];
 
   return (
@@ -122,10 +125,20 @@ export default function LocationTemplate({
       {/* 4. FAQ SECTION WITH RICH SNIPPETS */}
       <ServiceFAQ faqs={faqs} serviceName={formattedService} />
 
+      {/* 4b. LOCATION-SPECIFIC PROGRAMMATIC FAQs */}
+      <LocationFAQ
+        serviceName={formattedService}
+        serviceSlug={service}
+        locationName={formattedLocation}
+        regionName={formattedRegion}
+        price={pricing?.henoticPrice}
+      />
+
       {/* 5. CROSS-LOCATION LINKS */}
       <CrossLocationLinks service={service} region={region} currentLocation={location} />
 
       {/* 6. RELATED SERVICES — Internal Linking */}
+      <PeopleAlsoSearchFor currentServiceSlug={service} />
       <RelatedServices currentService={service} region={region} location={location} />
 
       {/* 7. LOCAL SEO MASTERY COMPONENT SECTION */}

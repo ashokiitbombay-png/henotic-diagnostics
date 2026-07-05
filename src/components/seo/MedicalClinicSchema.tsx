@@ -53,7 +53,14 @@ export default function MedicalClinicSchema() {
       "https://in.pinterest.com/henoticdiagnostics2019/",
       "https://www.tumblr.com/henotichealthcare",
       "https://www.henoticdiagnostics.com/"
-    ] 
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "1030",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
   };
 
   return (
