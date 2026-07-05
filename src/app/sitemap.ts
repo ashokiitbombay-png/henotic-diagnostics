@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { services } from '@/config/services';
 import { REGION_LOCATIONS } from '@/config/locations';
+import { CITIES } from '@/config/cities';
 
 const baseUrl = 'https://www.henoticdiagnostics.com';
 const CHUNK_SIZE = 20;
@@ -8,7 +9,7 @@ const CHUNK_SIZE = 20;
 /**
  * Next.js App Router dynamic sitemap segmentation.
  * Enhanced with priority tuning for PSEO pages.
- * Includes: /conditions, /doctors, /blog, /services/category, /gmc routes.
+ * Includes: /conditions, /doctors, /blog, /services/category, /gmc, /city routes.
  */
 export async function generateSitemaps() {
   const totalChunks = Math.ceil(services.length / CHUNK_SIZE);
@@ -94,7 +95,21 @@ export default async function sitemap(props: {
       priority: 0.6,
     }));
 
-    return [...staticRoutes, ...baseServiceRoutes, ...categoryRoutes, ...gmcRoutes];
+    // City hub pages
+    const cityListingRoute = [{
+      url: `${baseUrl}/city`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    }];
+    const cityRoutes = CITIES.map((city) => ({
+      url: `${baseUrl}/city/${city.slug}`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    }));
+
+    return [...staticRoutes, ...baseServiceRoutes, ...categoryRoutes, ...gmcRoutes, ...cityListingRoute, ...cityRoutes];
   }
 
   // 2. Sitemap ID >= 1: Segmented chunks of regional/location combinations
