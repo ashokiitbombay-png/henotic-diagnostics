@@ -43,6 +43,11 @@ export default function NewsletterSignup({ variant = 'full' }: NewsletterSignupP
       await new Promise((r) => setTimeout(r, 800));
 
       try {
+        // TODO: Integrate with Mailchimp/SendGrid API here for actual submission
+        if (process.env.NODE_ENV === 'development') {
+          console.info('ℹ️ [Newsletter] Storing subscriber in localStorage mode:', trimmed);
+        }
+
         const existing: string[] = JSON.parse(
           localStorage.getItem(STORAGE_KEY) || '[]'
         );

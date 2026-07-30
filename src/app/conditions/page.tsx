@@ -7,7 +7,12 @@ import { CONDITIONS } from '@/config/conditions';
 export const metadata: Metadata = {
   title: 'Medical Conditions & Symptoms Guide | Henotic Diagnostics',
   description: 'Find the right diagnostic tests for your symptoms. Browse 80+ medical conditions with recommended NABL-accredited tests.',
-  alternates: { canonical: 'https://www.henoticdiagnostics.com/conditions' }
+  alternates: { canonical: 'https://www.henoticdiagnostics.com/conditions' },
+  openGraph: {
+    title: 'Medical Conditions & Symptoms Guide | Henotic Diagnostics',
+    description: 'Find the right diagnostic tests for your symptoms. Browse 80+ medical conditions with recommended NABL-accredited tests.',
+    images: [{ url: 'https://storage.googleapis.com/wp-media-henoticbucket/PATHOLOGY/Hero/henotic-diagnostics-pathology-lab-panvel.webp', width: 1200, height: 630, alt: 'Medical Conditions & Symptoms Guide | Henotic Diagnostics' }],
+  },
 };
 
 const BODY_SYSTEMS = [

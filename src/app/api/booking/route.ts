@@ -13,8 +13,17 @@ export async function POST(req: Request) {
     // WHATSAPP API CONFIGURATION
     // In production, store these in your .env.local file
     // ==========================================
-    const WA_API_URL = process.env.WHATSAPP_API_URL || "https://graph.facebook.com/v17.0/YOUR_PHONE_NUMBER_ID/messages";
-    const WA_BEARER_TOKEN = process.env.WHATSAPP_API_TOKEN || "YOUR_ACCESS_TOKEN";
+    const WA_API_URL = process.env.WHATSAPP_API_URL;
+    const WA_BEARER_TOKEN = process.env.WHATSAPP_API_TOKEN;
+
+    if (!WA_API_URL || !WA_BEARER_TOKEN) {
+      console.warn("⚠️ [DEV MODE] WhatsApp API credentials missing. Simulating WhatsApp success.");
+      console.log(`✅ [DEV MODE] Automated WhatsApp Triggered for ${phone}: "Hi ${name}, your ${service} at ${location || 'our center'} is confirmed."`);
+      return NextResponse.json({ 
+        success: true, 
+        message: "Booking confirmed! (Simulated WhatsApp message)" 
+      });
+    }
 
     // This payload is structured for the Official Meta WhatsApp Cloud API
     // It triggers a pre-approved template message: "Hi {{1}}, your {{2}} at {{3}} is confirmed."
@@ -40,8 +49,6 @@ export async function POST(req: Request) {
       }
     };
 
-    /* 
-    // UNCOMMENT THIS BLOCK ONCE YOUR META/INTERAKT API KEYS ARE READY
     const response = await fetch(WA_API_URL, {
       method: "POST",
       headers: {
@@ -55,7 +62,6 @@ export async function POST(req: Request) {
     if (!response.ok) {
       throw new Error(`WhatsApp API Error: ${responseData.error?.message}`);
     }
-    */
 
     // Simulated Success Logging for Development
     console.log(`✅ [DEV MODE] Automated WhatsApp Triggered for ${phone}: "Hi ${name}, your ${service} at ${location || 'our center'} is confirmed."`);

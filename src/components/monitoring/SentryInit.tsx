@@ -19,29 +19,15 @@ export default function SentryInit() {
 
   useEffect(() => {
     if (!dsn) {
-      console.log('ℹ️ [Sentry] No DSN configured. Error tracking disabled.');
+      if (process.env.NODE_ENV === 'development') {
+        console.info('ℹ️ [Sentry] NEXT_PUBLIC_SENTRY_DSN not set. Error tracking disabled.');
+      }
       return;
     }
 
-    // Dynamic import to avoid bundling Sentry when not configured
-    // @ts-ignore — @sentry/nextjs may not be installed; catch() handles this
-    import('@sentry/nextjs')
-      .then((Sentry) => {
-        if (!Sentry.isInitialized()) {
-          Sentry.init({
-            dsn,
-            tracesSampleRate: 0.1, // 10% of transactions
-            replaysSessionSampleRate: 0.05, // 5% of sessions
-            replaysOnErrorSampleRate: 1.0, // 100% of error sessions
-            environment: process.env.NODE_ENV,
-          });
-          console.log('✅ [Sentry] Error tracking initialized.');
-        }
-      })
-      .catch(() => {
-        // @sentry/nextjs not installed — that's fine
-        console.log('ℹ️ [Sentry] Package not installed. Run: npm install @sentry/nextjs');
-      });
+    // A simple no-op when sentry is not installed since it's removed.
+    // If you want actual Sentry, you'd add the script or install it.
+    console.info('✅ [Sentry] DSN configured, but client package not installed. Skipping init.');
   }, [dsn]);
 
   return null;

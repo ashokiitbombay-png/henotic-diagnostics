@@ -21,7 +21,17 @@ import { useEffect } from 'react';
  *   └─────────┘
  */
 export default function TawkToChat() {
+  const tawkId = process.env.NEXT_PUBLIC_TAWKTO_ID;
+  const widgetId = process.env.NEXT_PUBLIC_TAWKTO_WIDGET_ID || '1jsmtig1n';
+
   useEffect(() => {
+    if (!tawkId) {
+      if (process.env.NODE_ENV === 'development') {
+        console.info('ℹ️ [TawkToChat] NEXT_PUBLIC_TAWKTO_ID not set. Widget disabled.');
+      }
+      return;
+    }
+
     // Prevent duplicate loading
     if ((window as any).__tawk_loaded) return;
     (window as any).__tawk_loaded = true;
@@ -41,7 +51,7 @@ export default function TawkToChat() {
 
     const s1 = document.createElement('script');
     s1.async = true;
-    s1.src = 'https://embed.tawk.to/6a492d5fb271bd1d477eafc0/1jsmtig1n';
+    s1.src = `https://embed.tawk.to/${tawkId}/${widgetId}`;
     s1.charset = 'UTF-8';
     s1.setAttribute('crossorigin', '*');
 

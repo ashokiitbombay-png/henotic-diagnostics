@@ -12,10 +12,11 @@ export interface DoctorProfile {
   linkedServices: string[]; // service slugs from services.ts
   education: string[];
   memberships: string[];
-  image: string; // placeholder URL
+  image?: string; // placeholder URL
+  imageUrl?: string;
 }
 
-const DOCTOR_IMAGE = 'https://storage.googleapis.com/wp-media-henoticbucket/Doctors/doctor-placeholder.webp';
+const DOCTOR_IMAGE = 'https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp';
 
 export const DOCTORS: DoctorProfile[] = [
   // ────────────────────────────────────
@@ -47,7 +48,7 @@ export const DOCTORS: DoctorProfile[] = [
       'Radiological Society of North America (RSNA)',
       'Indian Society of Neuroradiology (ISNR)'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
   {
     id: 'dr-priya-menon',
@@ -76,7 +77,7 @@ export const DOCTORS: DoctorProfile[] = [
       'Indian Society of Breast Surgeons (Association Member)',
       'European Society of Breast Imaging (EUSOBI)'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
   {
     id: 'dr-vikram-desai',
@@ -105,7 +106,7 @@ export const DOCTORS: DoctorProfile[] = [
       'Indian Society of Musculoskeletal Radiology (ISMSKR)',
       'Association of Medical Consultants (AMC), Mumbai'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
   {
     id: 'dr-anita-kulkarni',
@@ -134,7 +135,7 @@ export const DOCTORS: DoctorProfile[] = [
       'Maharashtra State Branch – IRIA',
       'Indian Medical Association (IMA)'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
 
   // ────────────────────────────────────
@@ -167,7 +168,7 @@ export const DOCTORS: DoctorProfile[] = [
       'Association of Clinical Biochemists of India (ACBI)',
       'Quality Council of India (QCI) – NABL Assessor'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
   {
     id: 'dr-kavita-joshi',
@@ -195,7 +196,7 @@ export const DOCTORS: DoctorProfile[] = [
       'International Academy of Cytology (IAC)',
       'Indian Society of Oncology (ISO)'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
 
   // ────────────────────────────────────
@@ -231,7 +232,7 @@ export const DOCTORS: DoctorProfile[] = [
       'European Society of Cardiology (ESC)',
       'American Society of Echocardiography (ASE)'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
   {
     id: 'dr-neha-kapoor',
@@ -260,7 +261,7 @@ export const DOCTORS: DoctorProfile[] = [
       'WomenHeart — National Coalition for Women with Heart Disease',
       'Association of Physicians of India (API)'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
 
   // ────────────────────────────────────
@@ -295,7 +296,7 @@ export const DOCTORS: DoctorProfile[] = [
       'European Association of Nuclear Medicine (EANM)',
       'Indian Association of Surgical Oncology (IASO) — Imaging Division'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
 
   // ────────────────────────────────────
@@ -334,7 +335,7 @@ export const DOCTORS: DoctorProfile[] = [
       'International Society of Ultrasound in Obstetrics & Gynecology (ISUOG)',
       'Federation of Obstetric and Gynaecological Societies of India (FOGSI)'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
 
   // ────────────────────────────────────
@@ -370,7 +371,7 @@ export const DOCTORS: DoctorProfile[] = [
       'European Society of Human Genetics (ESHG)',
       'Society for Genetic Counsellors, India'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   },
 
   // ────────────────────────────────────
@@ -409,7 +410,7 @@ export const DOCTORS: DoctorProfile[] = [
       'Research Society for the Study of Diabetes in India (RSSDI)',
       'International Osteoporosis Foundation (IOF)'
     ],
-    image: DOCTOR_IMAGE
+    imageUrl: DOCTOR_IMAGE
   }
 ];
 

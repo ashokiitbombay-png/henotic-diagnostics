@@ -26,9 +26,10 @@ async function sendBookingEmail(data: BookingData, appointmentId: string) {
   const host = process.env.SMTP_HOST;
   const port = parseInt(process.env.SMTP_PORT || "587");
   const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASSWORD;
+  const pass = process.env.SMTP_PASS || process.env.SMTP_PASSWORD;
 
   const emailSubject = `🚨 NEW PRIORITY BOOKING - ${data.name} (${data.service})`;
+  // HTML template omitted for brevity in variables below, kept in the file
   const emailHtml = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; rounded-2xl;">
       <h2 style="color: #0f172a; margin-bottom: 20px;">New Appointment Booking Details</h2>
@@ -79,10 +80,7 @@ async function sendBookingEmail(data: BookingData, appointmentId: string) {
   `;
 
   if (!host || !user || !pass) {
-    console.log(`📧 [MOCK EMAIL SERVICE] SMTP credentials not set in .env.local.`);
-    console.log(`   Simulating sending email to: ashokiitbombay@gmail.com`);
-    console.log(`   Subject: "${emailSubject}"`);
-    console.log(`   Content Preview: Name: ${data.name}, Phone: ${data.phone}, Test: ${data.service}, ID: ${appointmentId}`);
+    console.warn(`⚠️ [EMAIL SERVICE] SMTP credentials not fully configured in .env.local. Skipping email sending.`);
     return { success: true, mocked: true };
   }
 

@@ -2,7 +2,7 @@
 // Cache-first for static assets, Network-first for pages
 
 const CACHE_NAME = 'henotic-v1';
-const APP_SHELL = ['/', '/services', '/contact', '/about-us'];
+const APP_SHELL = ['/', '/contact', '/about-us'];
 
 const OFFLINE_HTML = `<!DOCTYPE html>
 <html lang="en">

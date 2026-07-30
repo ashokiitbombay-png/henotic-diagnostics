@@ -7,6 +7,7 @@ export async function fetchAvailableSlots(date: string, locationId: string, serv
 
   // Fallback to mock slot generator in development or if environment variables are not configured
   if (!CRM_API_KEY || !CRM_API_URL) {
+    console.warn(`⚠️ [CRM CLIENT] CRM API credentials not configured. Using Mock Data.`);
     console.log(`ℹ️ [CRM CLIENT] Mocking slots for date "${date}", location "${locationId}", service "${serviceId}"`);
     return [
       { id: "slot_09_00", time: "09:00 AM", available: true },
@@ -42,6 +43,7 @@ export async function createCrmAppointment(payload: CrmAppointmentPayload): Prom
 
   // Fallback to mock appointment booking in development
   if (!CRM_API_KEY || !CRM_API_URL) {
+    console.warn("⚠️ [CRM CLIENT] CRM API credentials not configured. Using Mock Data for appointments.");
     console.log("ℹ️ [CRM CLIENT] Mocking appointment booking payload:", payload);
     return {
       success: true,

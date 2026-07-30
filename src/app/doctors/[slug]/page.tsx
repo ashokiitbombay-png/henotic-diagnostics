@@ -30,9 +30,13 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       <section className="bg-gradient-to-br from-slate-900 to-blue-950 py-20 px-4 md:px-8">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
-          <div className="w-40 h-40 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-5xl font-black shadow-2xl shrink-0 border-4 border-white/20">
-            {doc.name.charAt(0)}
-          </div>
+          {doc.imageUrl ? (
+            <img src={doc.imageUrl} alt={doc.name} className="w-40 h-40 rounded-full shadow-2xl shrink-0 border-4 border-white/20 object-cover" />
+          ) : (
+            <div className="w-40 h-40 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-5xl font-black shadow-2xl shrink-0 border-4 border-white/20">
+              {doc.name.charAt(0)}
+            </div>
+          )}
           <div className="text-center md:text-left">
             <h1 className="text-3xl md:text-5xl font-black text-white mb-2">{doc.name}</h1>
             <p className="text-blue-300 font-bold text-lg mb-1">{doc.designation}</p>

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AppointmentReminder, getRemindersStore } from '@/config/reminders';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  console.warn('⚠️ [WARNING] Reminders are currently stored in-memory. This should be replaced with a database (e.g., PostgreSQL or MongoDB) for production.');
   const store = getRemindersStore();
   const searchParams = request.nextUrl.searchParams;
   const dateFilter = searchParams.get('date');
@@ -38,16 +39,30 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    if (
+      typeof patientName !== 'string' ||
+      typeof patientPhone !== 'string' ||
+      typeof serviceName !== 'string' ||
+      typeof appointmentDate !== 'string' ||
+      typeof appointmentTime !== 'string' ||
+      typeof location !== 'string'
+    ) {
+      return NextResponse.json(
+        { error: 'Invalid data types for appointment reminder fields' },
+        { status: 400 }
+      );
+    }
+
     const store = getRemindersStore();
     const newReminder: AppointmentReminder = {
       id: crypto.randomUUID(),
-      patientName,
-      patientPhone,
-      patientEmail: patientEmail || undefined,
-      serviceName,
+      patientName: patientName.trim(),
+      patientPhone: patientPhone.trim(),
+      patientEmail: patientEmail ? String(patientEmail).trim() : undefined,
+      serviceName: serviceName.trim(),
       appointmentDate,
       appointmentTime,
-      location,
+      location: location.trim(),
       status: 'scheduled',
       createdAt: new Date().toISOString(),
     };
@@ -61,10 +76,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       },
       { status: 201 }
     );
-  } catch {
+  } catch (error: any) {
+    console.error("❌ Reminder API Error:", error.message);
     return NextResponse.json(
-      { error: 'Invalid JSON request body' },
-      { status: 400 }
+      { error: 'Failed to process request or invalid JSON' },
+      { status: 500 }
     );
   }
 }
@@ -110,7 +126,8 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
       message: 'Reminder cancelled successfully',
       reminder,
     });
-  } catch {
+  } catch (error: any) {
+    console.error("❌ Reminder API DELETE Error:", error.message);
     return NextResponse.json(
       { error: 'Failed to process cancellation request' },
       { status: 500 }

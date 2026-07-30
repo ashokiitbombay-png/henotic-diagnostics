@@ -163,6 +163,8 @@ export default function ReportPortalPage() {
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
 
+  const HAS_BACKEND = process.env.NEXT_PUBLIC_HAS_REPORT_BACKEND === 'true';
+
   /* ── Step 1: Send OTP (mock) ──────────────────────────────────────────── */
   const handleSendOTP = useCallback((e: React.FormEvent) => {
     e.preventDefault();
@@ -277,6 +279,18 @@ export default function ReportPortalPage() {
                   </p>
                 </div>
 
+                {!HAS_BACKEND && (
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center shadow-inner">
+                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-600 mb-3">
+                      <Clock size={24} />
+                    </div>
+                    <h3 className="text-lg font-black text-slate-900 mb-2">Service Coming Soon</h3>
+                    <p className="text-sm font-medium text-slate-600 leading-relaxed">
+                      Online report download is launching soon. For now, please collect your reports at our center or call <a href="tel:08879327184" className="text-[#4568dc] font-bold">08879327184</a>.
+                    </p>
+                  </div>
+                )}
+
                 <div className="relative">
                   <div className="flex items-stretch rounded-2xl bg-white/90 backdrop-blur-xl border-2 border-slate-200 shadow-sm focus-within:border-[#4568dc] focus-within:ring-4 focus-within:ring-[#4568dc]/15 transition-all overflow-hidden">
                     {/* Country code */}
@@ -297,6 +311,7 @@ export default function ReportPortalPage() {
                       maxLength={10}
                       inputMode="numeric"
                       autoFocus
+                      disabled={!HAS_BACKEND}
                       aria-label="Phone number"
                     />
                   </div>
@@ -310,7 +325,8 @@ export default function ReportPortalPage() {
 
                 <button
                   type="submit"
-                  className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[#4568dc] to-[#b06ab3] px-8 py-5 text-lg font-black text-white shadow-[0_15px_35px_-5px_rgba(69,104,220,0.4)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-5px_rgba(69,104,220,0.5)] border border-white/10"
+                  disabled={!HAS_BACKEND}
+                  className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[#4568dc] to-[#b06ab3] px-8 py-5 text-lg font-black text-white shadow-[0_15px_35px_-5px_rgba(69,104,220,0.4)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-5px_rgba(69,104,220,0.5)] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 border border-white/10"
                 >
                   <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   <span className="relative z-10 flex items-center justify-center gap-3">
@@ -335,12 +351,7 @@ export default function ReportPortalPage() {
 
                 <OTPInput value={otp} onChange={(val) => { setOtp(val); setError(''); }} />
 
-                {/* Dev hint */}
-                <div className="rounded-xl bg-amber-50/80 border border-amber-200/60 p-3 text-center">
-                  <p className="text-xs font-bold text-amber-700">
-                    🧪 Demo Mode — Use OTP: <code className="bg-amber-100 px-2 py-0.5 rounded-md text-amber-900 font-black">123456</code>
-                  </p>
-                </div>
+
 
                 {error && (
                   <div className="flex items-center gap-2 text-red-600 text-sm font-bold animate-pulse">

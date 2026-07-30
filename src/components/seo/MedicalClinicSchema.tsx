@@ -49,7 +49,7 @@ export default function MedicalClinicSchema() {
       "https://x.com/henoticservices",
       "https://www.instagram.com/henoticdiagnostics2019/",
       "https://www.youtube.com/@HenoticDiagnostics",
-      "https://www.linkedin.com/company/14610097/admin/page-posts/published/",
+      "https://www.linkedin.com/company/14610097/",
       "https://in.pinterest.com/henoticdiagnostics2019/",
       "https://www.tumblr.com/henotichealthcare",
       "https://www.henoticdiagnostics.com/"

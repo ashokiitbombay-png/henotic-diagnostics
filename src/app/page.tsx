@@ -12,10 +12,12 @@ const CorporateVideo = dynamic(() => import("@/components/blocks/CorporateVideo"
 const Accreditations = dynamic(() => import("@/components/blocks/Accreditations"));
 const GoogleReviews = dynamic(() => import('@/components/features/reviews/GoogleReviews'));
 const PartnerLogos = dynamic(() => import("@/components/blocks/PartnerLogos"));
+const HomeFAQSection = dynamic(() => import("@/components/blocks/HomeFAQSection"));
 
 export const metadata = {
   title: "Henotic Diagnostics | Premier Diagnostic Center in Mumbai",
   description: "Book highly accurate, NABL-accredited imaging and pathology tests with same-day reports. Find your nearest center in Mumbai & Navi Mumbai.",
+  alternates: { canonical: 'https://www.henoticdiagnostics.com' },
 };
 
 export default function HomePage() {
@@ -39,6 +41,7 @@ export default function HomePage() {
       
       <CorporateVideo />
       <Accreditations />
+      <HomeFAQSection />
     </main>
   );
 }

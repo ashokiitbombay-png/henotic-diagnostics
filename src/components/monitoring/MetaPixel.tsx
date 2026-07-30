@@ -11,7 +11,12 @@ export default function MetaPixel() {
   const pixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
 
   useEffect(() => {
-    if (!pixelId) return;
+    if (!pixelId) {
+      if (process.env.NODE_ENV === 'development') {
+        console.info('ℹ️ [MetaPixel] NEXT_PUBLIC_FB_PIXEL_ID not set. Tracking disabled.');
+      }
+      return;
+    }
     if (typeof window === 'undefined') return;
 
     // Load Meta Pixel base code

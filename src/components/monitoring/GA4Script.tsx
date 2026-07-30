@@ -14,9 +14,12 @@ import { useEffect } from 'react';
  */
 export default function GA4Script() {
   const measurementId = process.env.NEXT_PUBLIC_GA4_ID;
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
   useEffect(() => {
     if (!measurementId) return;
+    // Skip GA4 if GTM is configured to avoid duplicate tracking
+    if (gtmId) return;
     if ((window as any).gtag) return;
 
     // Load gtag.js
