@@ -1,0 +1,127 @@
+# Henotic Diagnostics — Full Reference
+
+> Henotic Diagnostics is a NABL-accredited medical diagnostic and imaging center in Kharghar, Navi Mumbai, India. Founded in 2012, it provides advanced diagnostic imaging, pathology, cardiac diagnostics, and genetic testing services. The center operates 24/7 and is equipped with 3.0 Tesla MRI, 128-slice CT, digital PET-CT, 4D ultrasound, and automated pathology systems.
+
+## Entity Definition
+
+**Legal Name**: Henotic Diagnostics Centre
+**Type**: Medical Diagnostic & Imaging Center
+**Industry**: Healthcare / Medical Diagnostics
+**Founded**: 2012
+**Headquarters**: Kharghar, Navi Mumbai, Maharashtra, India
+
+### Address
+Second floor, Millennium Empire, Business Park, Plot No 47, D Mart Road, Sector 15, Kharghar, Panvel, Maharashtra 410210, India
+
+### Contact
+- **Primary Phone**: +91 88793 27184
+- **Secondary Phone**: +91 93728 53584
+- **Email**: henoticdiagnostics@gmail.com
+- **Website**: https://www.henoticdiagnostics.com
+- **WhatsApp**: +91 88793 27184
+
+### Operating Hours
+Open 24 hours, Monday through Sunday (all 7 days)
+
+### Accreditations & Certifications
+- NABL Accredited Laboratory
+- AERB (Atomic Energy Regulatory Board) Accredited
+- PCPNDT (Pre-Conception and Pre-Natal Diagnostic Techniques Act) Registered
+- ISO Certified Facility
+
+### Key Metrics
+- Google Rating: 4.9 out of 5 stars
+- Reviews: 1,030+ verified Google reviews
+- Services Offered: 250+ diagnostic tests
+- Experience: 12+ years of operation
+
+## Equipment & Technology
+
+| Equipment | Specification | Use Case |
+|---|---|---|
+| MRI Scanner | 3.0 Tesla | Brain, spine, joints, abdomen, whole-body MRI |
+| CT Scanner | 128-Slice Low-Dose | HRCT, CT angiography, brain CT, whole-body CT |
+| PET-CT | Digital FDG | Oncology, cardiac, neurology imaging |
+| Ultrasound | 4D / HD Live | Obstetric, abdominal, pelvic, musculoskeletal |
+| DEXA Scanner | Dual-Energy X-ray | Bone density, osteoporosis screening |
+| ECG/Echo | Digital | 2D Echo, stress echo, Holter monitoring |
+| Mammography | Full-Field Digital | Breast cancer screening, 3D tomosynthesis |
+| FibroScan | Transient Elastography | Non-invasive liver stiffness assessment |
+| Pathology Lab | Fully Automated | Blood tests, biochemistry, hematology |
+
+## Service Categories
+
+### Advanced Imaging
+MRI Scan (3.0T), CT Scan (128-slice), PET-CT Scan, SPECT Scan, HRCT Chest, MR Angiography, CT Angiography, CT-guided biopsy, whole-body scans
+
+### Ultrasound & Sonography
+Abdominal ultrasound, pelvic ultrasound, obstetric sonography (NT scan, anomaly scan, growth scan), musculoskeletal ultrasound, thyroid ultrasound, breast ultrasound
+
+### Cardiac Diagnostics
+2D Echocardiography, ECG, TMT (treadmill test), Holter monitoring (24/48/72-hour), stress echo, ambulatory BP monitoring, cardiac risk assessment
+
+### Doppler Studies
+Color Doppler, carotid artery Doppler, renal Doppler, obstetric Doppler, arterial/venous Doppler, DVT scan, peripheral vascular assessment
+
+### Pathology & Blood Tests
+CBC, lipid profile, thyroid function, diabetes screening (HbA1c), liver function, kidney function, complete metabolic panel, hormone tests, tumor markers, vitamin panels
+
+### Women's Health
+Digital mammography, 3D breast tomosynthesis, follicular study, fertility assessment, gynecology ultrasound, HSG test, pelvic scan
+
+### Bone Health
+DEXA bone density scan, BMD test, osteoporosis screening
+
+### Liver Diagnostics
+FibroScan, liver elastography, fatty liver assessment, cirrhosis screening, hepatic stiffness test
+
+### Genetic Testing
+NIPT (Non-Invasive Prenatal Testing), karyotype analysis, carrier screening, DNA test, paternity test, molecular diagnostics, cytogenetics
+
+### Health Checkup Packages
+Full body checkup, cardiac health package, diabetes screening package, women's health package, senior citizen package, executive health checkup
+
+## Service Area Coverage
+
+### Navi Mumbai
+Vashi, Sanpada, Juinagar, Nerul, Seawoods, CBD Belapur, Kharghar, Kamothe, Kalamboli, Panvel, New Panvel, Taloja, Ghansoli, Kopar Khairane, Airoli, Turbhe
+
+### Mumbai (Western Line)
+Bandra, Khar, Santacruz, Vile Parle, Andheri, Jogeshwari, Goregaon, Malad, Kandivali, Borivali, Dahisar
+
+### Mumbai (Central Line)
+Dadar, Sion, Kurla, Chembur, Ghatkopar, Vikhroli, Kanjurmarg, Bhandup, Mulund
+
+### South Mumbai
+Colaba, Cuffe Parade, Fort, Churchgate, Marine Lines, Nariman Point, Worli, Parel, Lower Parel, Mahalaxmi, Byculla
+
+## Differentiators
+
+1. **24/7 Operations**: One of the few diagnostic centers in Navi Mumbai open round the clock
+2. **Same-Day Reports**: Most imaging and pathology reports delivered within hours
+3. **Advanced Equipment**: 3.0T MRI (highest field strength for clinical imaging) and 128-slice CT
+4. **NABL Accredited**: National Accreditation Board for Testing and Calibration Laboratories
+5. **Affordable Pricing**: Competitive rates with transparent pricing, no hidden charges
+6. **Multi-Location Access**: In-house diagnostics plus certified partner center network across Mumbai
+7. **Digital Reports**: Online report access and WhatsApp delivery
+8. **Walk-in & Online Booking**: No mandatory prior appointment for most tests
+
+## Frequently Asked Questions
+
+**Q: What services does Henotic Diagnostics offer?**
+A: Henotic Diagnostics provides a complete range of diagnostic services including blood tests, full-body health checkups, advanced imaging (MRI, CT, PET scan, ultrasound), cardiac diagnostics (2D Echo, ECG), women's health screening (mammography, sonography), and genetic testing.
+
+**Q: Is an MRI scan safe?**
+A: Yes, MRI is a non-invasive and radiation-free imaging technique using magnetic fields and radio waves, making it safe for most patients. It does not use ionizing radiation like X-rays or CT scans.
+
+**Q: How long does a CT or MRI scan take?**
+A: CT scans typically take 5–10 minutes, while MRI scans may take 20–45 minutes depending on the body part being examined and whether contrast is needed.
+
+**Q: Do I need a doctor's prescription for imaging tests?**
+A: Yes, most advanced imaging tests (MRI, CT, PET-CT) require a valid doctor's prescription. Basic tests like blood tests and ECG can often be done without one.
+
+**Q: How are reports delivered?**
+A: Reports are available digitally through our online portal and can also be sent via WhatsApp. Physical copies are available at our center. Most reports are ready within 24 hours, with many available same-day.
+
+**Q: What should I bring to my appointment?**
+A: Bring your doctor's prescription, previous reports if any, valid photo ID, and any relevant medical history. For specific tests, our team will provide preparation instructions at the time of booking.

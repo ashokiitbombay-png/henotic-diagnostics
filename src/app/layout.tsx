@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import MedicalClinicSchema from '@/components/seo/MedicalClinicSchema';
+import { OrganizationSchema } from '@/components/seo/OrganizationSchema';
 import { Analytics } from '@vercel/analytics/next';
 import ThirdPartyScripts from '@/components/seo/ThirdPartyScripts';
 import SiteHeader from "@/components/layout/SiteHeader";
@@ -109,6 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <ThirdPartyScripts />
           <MedicalClinicSchema />
+          <OrganizationSchema />
           {/* WebSite Schema for Sitelinks Search Box */}
           <script
             type="application/ld+json"
