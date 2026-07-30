@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, ArrowRight, User } from "lucide-react";
+import { Calendar, ArrowRight, User, Clock } from "lucide-react";
 import type { BlogPost } from "@/types/cms";
 
 interface BlogCardProps {
@@ -23,10 +23,62 @@ function formatDate(iso: string): string {
   });
 }
 
+/** Rough reading time estimate (~200 wpm). */
+function readingTime(html: string): number {
+  const words = html.replace(/<[^>]*>/g, "").split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+/**
+ * Extracts the first image URL from HTML content.
+ * Falls back through: <img src="">, <img srcset="">, background-image url().
+ */
+function extractFirstImageUrl(html: string | undefined): string | null {
+  if (!html) return null;
+
+  // Try <img src="...">
+  const imgSrcMatch = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (imgSrcMatch?.[1]) return imgSrcMatch[1];
+
+  // Try <img srcset="..."> (take the first URL)
+  const srcsetMatch = html.match(/<img[^>]+srcset=["']([^\s"']+)/i);
+  if (srcsetMatch?.[1]) return srcsetMatch[1];
+
+  // Try background-image: url("...")
+  const bgMatch = html.match(/background-image:\s*url\(["']?([^"')]+)["']?\)/i);
+  if (bgMatch?.[1]) return bgMatch[1];
+
+  return null;
+}
+
+/** Domains whitelisted in next.config.js for next/image optimization. */
+const OPTIMIZED_DOMAINS = [
+  "storage.googleapis.com",
+  "cms.henoticdiagnostics.com",
+  "secure.gravatar.com",
+];
+
+/** Check if a URL's domain is in the optimized whitelist. */
+function isOptimizedDomain(url: string): boolean {
+  try {
+    const hostname = new URL(url).hostname;
+    return OPTIMIZED_DOMAINS.some((d) => hostname === d || hostname.endsWith("." + d));
+  } catch {
+    return false;
+  }
+}
+
 export default function BlogCard({ post }: BlogCardProps) {
   const category = post.categories?.nodes?.[0];
   const authorName = post.author?.node?.name ?? "Henotic Team";
   const avatarUrl = post.author?.node?.avatar?.url;
+  const minutes = post.content ? readingTime(post.content) : null;
+
+  // 3-tier image resolution: featuredImage → first image in content → null
+  const featuredSrc = post.featuredImage?.node?.sourceUrl ?? null;
+  const contentImageSrc = extractFirstImageUrl(post.content);
+  const imageSrc = featuredSrc || contentImageSrc;
+  const imageAlt = post.featuredImage?.node?.altText || post.title;
 
   return (
     <Link
@@ -34,15 +86,25 @@ export default function BlogCard({ post }: BlogCardProps) {
       className="group flex flex-col bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-md overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2"
     >
       {/* ── Image / Gradient Placeholder ─────────────────────────────── */}
-      <div className="relative w-full aspect-[16/10] overflow-hidden">
-        {post.featuredImage?.node?.sourceUrl ? (
-          <Image
-            src={post.featuredImage.node.sourceUrl}
-            alt={post.featuredImage.node.altText || post.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-          />
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100">
+        {imageSrc ? (
+          isOptimizedDomain(imageSrc) ? (
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+          ) : (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+          )
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 flex items-center justify-center">
             <span className="text-5xl font-black text-white/20 select-none">H</span>
@@ -53,6 +115,13 @@ export default function BlogCard({ post }: BlogCardProps) {
         {category && (
           <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-widest bg-white/90 backdrop-blur-md text-blue-700 shadow-lg border border-white/60">
             {category.name}
+          </span>
+        )}
+
+        {/* Reading time badge */}
+        {minutes && (
+          <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-bold bg-black/50 backdrop-blur-md text-white flex items-center gap-1">
+            <Clock size={11} /> {minutes} min
           </span>
         )}
 

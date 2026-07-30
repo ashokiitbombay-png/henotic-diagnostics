@@ -21,6 +21,7 @@ const GET_BLOG_POSTS = gql`
         id
         title
         slug
+        content
         excerpt
         date
         featuredImage {
