@@ -7,6 +7,7 @@ import BookingForm from "@/components/forms/BookingForm";
 import Modal from "@/components/ui/Modal";
 import { siteConfig } from "@/config/site";
 import { routesConfig } from "@/config/routes";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export default function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,7 +75,8 @@ export default function SiteHeader() {
           </nav>
 
           {/* DESKTOP CTA */}
-          <div className="hidden lg:flex items-center gap-4 shrink-0">
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
+            <ThemeToggle />
             <a href={siteConfig.contact.phonePrimaryRaw} className="flex items-center justify-center gap-2 text-white border border-white/40 hover:bg-white/20 px-5 py-2.5 rounded-full font-bold text-sm transition-colors duration-200 shadow-sm">
               <Phone size={16} /> {siteConfig.contact.phonePrimary}
             </a>
@@ -99,6 +101,10 @@ export default function SiteHeader() {
               <Link href={routesConfig.home} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Home</Link>
               <Link href={routesConfig.aboutUs} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>About Us</Link>
               <Link href={routesConfig.contact} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Contact</Link>
+              <div className="py-4 border-b border-gray-100 flex items-center justify-between">
+                <span>Theme</span>
+                <ThemeToggle />
+              </div>
               <div className="mt-8 flex flex-col gap-4 w-full">
                 <a href={siteConfig.contact.phonePrimaryRaw} className="w-full flex justify-center items-center gap-2 py-4 rounded-full border-2 border-blue-200 text-blue-600 font-bold transition-colors hover:bg-blue-50">
                   <Phone size={20} /> Call {siteConfig.contact.phonePrimary}

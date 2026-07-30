@@ -26,6 +26,9 @@ const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent'));
 const TawkToChat = dynamic(() => import('@/components/ui/TawkToChat'));
 const ClarityScript = dynamic(() => import('@/components/monitoring/ClarityScript'));
 const MetaPixel = dynamic(() => import('@/components/monitoring/MetaPixel'));
+const ServiceWorkerRegister = dynamic(() => import('@/components/ui/ServiceWorkerRegister'));
+const GA4Script = dynamic(() => import('@/components/monitoring/GA4Script'));
+const SentryInit = dynamic(() => import('@/components/monitoring/SentryInit'));
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.henoticdiagnostics.com'),
@@ -136,7 +139,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <TawkToChat />
           <ClarityScript />
           <MetaPixel />
+          <GA4Script />
+          <SentryInit />
           <Analytics />
+          <ServiceWorkerRegister />
         </Providers>
         </body>
     </html>
