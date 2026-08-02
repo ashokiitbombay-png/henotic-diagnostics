@@ -35,7 +35,7 @@ export default function MedicalProcedureSchema({
       "availableIn": {
         "@type": "MedicalClinic",
         "name": "Henotic Diagnostics",
-        "telephone": "+918879327184"
+        "telephone": "+91-8879327184"
       }
     }
   };

@@ -27,7 +27,7 @@ export default function ContactUs() {
       <div className="pt-20 pb-12 text-center px-4 md:px-8 relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-400/20 rounded-full blur-[100px] pointer-events-none"></div>
         <h1 className="text-4xl font-black text-slate-900 sm:text-6xl drop-shadow-sm tracking-tight mb-6 relative z-10">
-          Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4568dc] to-[#b06ab3]">Touch</span>
+          Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4568dc] to-[#b06ab3]">Henotic Diagnostics</span>
         </h1>
         <p className="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 font-medium relative z-10">
           At Henotic Diagnostics, we are committed to delivering accurate, accessible, and patient-focused healthcare services.
@@ -106,7 +106,7 @@ export default function ContactUs() {
                  <div className="bg-pink-100 p-2 rounded-full text-[#E55D87] shrink-0 mt-1"><MapPin size={20}/></div>
                  <div>
                    <p className="text-slate-900 font-black text-sm">Navi Mumbai Headquarters</p>
-                   <p className="text-xs font-bold text-slate-500 mt-1 leading-relaxed">Shop 1-4, Ground Floor, Near Railway Station.</p>
+                   <p className="text-xs font-bold text-slate-500 mt-1 leading-relaxed">Second Floor, Millennium Empire, Plot No 47, D Mart Rd, Sector 15, Kharghar, 410210</p>
                  </div>
               </div>
             </div>

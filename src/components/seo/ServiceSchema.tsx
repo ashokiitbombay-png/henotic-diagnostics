@@ -53,7 +53,7 @@ export default function ServiceSchema({
       "@type": "MedicalClinic",
       "name": "Henotic Diagnostics",
       "url": baseUrl,
-      "telephone": "+918879327184",
+      "telephone": "+91-8879327184",
       "medicalSpecialty": "Diagnostic Radiology"
     }
   });
@@ -67,7 +67,7 @@ export default function ServiceSchema({
       "name": `Henotic Diagnostics - ${formatName(locationName)}`,
       "description": `${serviceName} center in ${formatName(locationName)}, ${formatName(regionName)}. NABL & ISO certified.`,
       "url": url,
-      "telephone": "+918879327184",
+      "telephone": "+91-8879327184",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": formatName(locationName),
@@ -80,20 +80,12 @@ export default function ServiceSchema({
         "reviewCount": reviewCount,
         "bestRating": "5"
       },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-          "opens": "07:00",
-          "closes": "22:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Sunday",
-          "opens": "08:00",
-          "closes": "18:00"
-        }
-      ],
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
       "priceRange": "₹₹"
     });
   }

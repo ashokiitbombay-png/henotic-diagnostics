@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     default: 'Henotic Diagnostics | Premier Diagnostic Center',
     template: '%s | Henotic Diagnostics'
   },
-  description: "Mumbai & Navi Mumbai's premier diagnostic center featuring advanced 3.0T MRI, low-dose CT, and automated pathology. NABH Accredited.",
+  description: "Mumbai & Navi Mumbai's premier diagnostic center featuring advanced 3.0T MRI, low-dose CT, and automated pathology. NABL Accredited.",
   verification: {
     other: {
       'google-adsense-account': 'ca-pub-2224247495448831',

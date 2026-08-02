@@ -131,10 +131,28 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       "@type": "Organization",
       name: "Henotic Diagnostics",
       url: "https://www.henoticdiagnostics.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.henoticdiagnostics.com/icon-512.png",
+      },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `https://www.henoticdiagnostics.com/blog/${post.slug}`,
+    },
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": "https://www.henoticdiagnostics.com/#website",
+      name: "Henotic Diagnostics",
+    },
+    reviewedBy: {
+      "@type": "Organization",
+      name: "Henotic Diagnostics",
+      url: "https://www.henoticdiagnostics.com",
+    },
+    audience: {
+      "@type": "MedicalAudience",
+      audienceType: "Patient",
     },
   };
 

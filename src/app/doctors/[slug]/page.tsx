@@ -116,7 +116,7 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
         "name": doc.name,
         "description": doc.bio,
         "url": `https://www.henoticdiagnostics.com/doctors/${slug}`,
-        "telephone": "+918879327184",
+        "telephone": "+91-8879327184",
         "medicalSpecialty": doc.specializations,
         "jobTitle": doc.designation,
         "qualifications": doc.credentials,
@@ -125,7 +125,7 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
           "@type": "MedicalOrganization",
           "name": "Henotic Diagnostics",
           "url": "https://www.henoticdiagnostics.com",
-          "telephone": "+918879327184"
+          "telephone": "+91-8879327184"
         },
         "memberOf": doc.memberships.map(m => ({ "@type": "Organization", "name": m })),
         "availableService": doc.linkedServices.map(s => ({

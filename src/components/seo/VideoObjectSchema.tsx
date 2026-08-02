@@ -36,7 +36,7 @@ export default function VideoObjectSchema({
       "name": "Henotic Diagnostics",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.henoticdiagnostics.com/logo.png"
+        "url": "https://www.henoticdiagnostics.com/icon-512.png"
       }
     }
   };

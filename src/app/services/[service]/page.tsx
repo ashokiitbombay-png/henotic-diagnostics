@@ -14,7 +14,6 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   return {
     title: `Best ${serviceName} | Book Online | Henotic Diagnostics`,
     description: `Looking for a reliable ${serviceName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology.`,
-    keywords: `${serviceName}, best ${serviceName} centers, ${serviceName} cost`,
     alternates: {
       canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`
     },

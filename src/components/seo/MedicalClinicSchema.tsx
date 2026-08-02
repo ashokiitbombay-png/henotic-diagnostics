@@ -13,7 +13,7 @@ export default function MedicalClinicSchema() {
     "image": "https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw",
     "@id": "https://www.henoticdiagnostics.com/#clinic",
     "url": "https://www.henoticdiagnostics.com",
-    "telephone": "08879327184",
+    "telephone": "+91-8879327184",
     "priceRange": "500-15000",
     "hasMap": "https://maps.app.goo.gl/w5sBPF89Pf4nYQW97",
     "address": {

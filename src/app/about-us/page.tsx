@@ -79,7 +79,7 @@ export default function AboutUsPage() {
             <div className="space-y-6">
               <span className="bg-blue-900 text-white text-xs md:text-sm font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm">Our Story</span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-blue-950 leading-tight tracking-tight">
-                🏥 About Henotic Diagnostics
+                About Henotic Diagnostics
               </h1>
               <h2 className="text-xl md:text-2xl font-semibold text-blue-800">Who We Are</h2>
               <div className="text-base md:text-lg text-slate-700 leading-relaxed space-y-4 font-medium">
@@ -98,7 +98,7 @@ export default function AboutUsPage() {
       {/* 🏢 Technology & Infrastructure (Responsive Carousel) */}
       <section className="py-16 md:py-24 overflow-hidden bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 md:mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-blue-950 mb-4 md:mb-6">🏢 Technology & Infrastructure</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-blue-950 mb-4 md:mb-6">Technology & Infrastructure</h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto font-medium">Equipped with advanced diagnostic technology and modern infrastructure to ensure precise and efficient results.</p>
         </div>
         <div className="w-full relative h-[300px] md:h-[400px] py-6 md:py-8 overflow-hidden flex items-center">
@@ -121,7 +121,7 @@ export default function AboutUsPage() {
 
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-blue-950 mb-4 md:mb-6 text-center">❓ Frequently Asked Questions</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-blue-950 mb-4 md:mb-6 text-center">Frequently Asked Questions</h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto font-medium text-center mb-12">Get answers to common questions about our diagnostic services.</p>
           <AboutFaqAccordion faqs={faqs} />
         </div>

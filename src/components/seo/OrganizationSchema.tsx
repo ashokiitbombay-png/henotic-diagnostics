@@ -76,6 +76,36 @@ export function OrganizationSchema() {
       "ECG",
       "Pathology",
       "Cardiac Diagnostics"
+    ],
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Accreditation",
+        "name": "NABL Accredited Laboratory",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "National Accreditation Board for Testing and Calibration Laboratories"
+        }
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Certification",
+        "name": "AERB Accredited",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "Atomic Energy Regulatory Board"
+        }
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Registration",
+        "name": "PCPNDT Registered"
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Certification",
+        "name": "ISO Certified Facility"
+      }
     ]
   };
 

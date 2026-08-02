@@ -161,6 +161,35 @@ export default function ServicesIndexPage() {
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
       
+      {/* 🤖 SSR ItemList Schema — helps AI systems enumerate all diagnostic services */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "Diagnostic Services at Henotic Diagnostics",
+          "description": "Complete directory of 250+ diagnostic tests including MRI, CT scan, PET-CT, ultrasound, blood tests, and health checkup packages.",
+          "numberOfItems": mappedServices.length,
+          "itemListElement": mappedServices.slice(0, 50).map((service, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "name": service.title,
+            "url": `https://www.henoticdiagnostics.com/services/${service.id}`,
+          })),
+        }) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.henoticdiagnostics.com" },
+            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://www.henoticdiagnostics.com/services" },
+          ],
+        }) }}
+      />
+
       {/* 🌟 Premium Service Hero with Breadcrumbs & Accreditations */}
       <ServiceHero isServicesIndex />
 
