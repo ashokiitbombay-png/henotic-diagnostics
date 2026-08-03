@@ -30,10 +30,12 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:pseo": "playwright test tests/pseo-regression.spec.ts"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.2.7",
+    "@playwright/test": "^1.62.1",
     "@types/node": "25.9.1",
     "@types/nodemailer": "^6.4.24",
     "@types/react": "19.2.16",

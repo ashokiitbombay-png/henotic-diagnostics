@@ -35,7 +35,6 @@ const nextConfig = {
   experimental: {
     webpackBuildWorker: true,
     optimizePackageImports: ['lucide-react', '@apollo/client', 'framer-motion'],
-    turbopack: {},
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
