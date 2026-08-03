@@ -39,6 +39,8 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   };
 }
 
+import { filterShardParams } from '@/lib/seo/shard-helper';
+
 // ==========================================
 // 2. STATIC PARAMETERS GENERATOR (PRE-RENDERING)
 // ==========================================
@@ -58,7 +60,7 @@ export async function generateStaticParams() {
       paths.push({ service, region });
     });
   });
-  return paths;
+  return filterShardParams(paths);
 }
 
 // ==========================================

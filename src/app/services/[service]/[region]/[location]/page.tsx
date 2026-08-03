@@ -2,6 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import LocationTemplate from "@/templates/LocationTemplate";
 import { getService } from "@/lib/wordpress/getService";
+import { filterShardParams } from "@/lib/seo/shard-helper";
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -70,7 +71,7 @@ export async function generateStaticParams() {
       });
     });
   });
-  return paths;
+  return filterShardParams(paths);
 }
 
 // ==========================================

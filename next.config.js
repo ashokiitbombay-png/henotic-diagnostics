@@ -2,6 +2,9 @@
 const nextConfig = {
   trailingSlash: false,
   reactStrictMode: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     qualities: [75, 80, 95],
@@ -30,7 +33,38 @@ const nextConfig = {
     ],
   },
   experimental: {
+    webpackBuildWorker: true,
     optimizePackageImports: ['lucide-react', '@apollo/client', 'framer-motion'],
+    turbopack: {},
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            framework: {
+              name: 'framework',
+              chunks: 'all',
+              test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-sync-external-store)[\\/]/,
+              priority: 40,
+              enforce: true,
+            },
+            lib: {
+              test: /[\\/]node_modules[\\/](lucide-react|@apollo\/client|graphql)[\\/]/,
+              name: 'commons',
+              priority: 30,
+              minChunks: 1,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      };
+    }
+    return config;
   },
   async rewrites() {
     return [

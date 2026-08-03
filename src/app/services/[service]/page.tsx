@@ -36,6 +36,8 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   };
 } 
 
+import { filterShardParams } from '@/lib/seo/shard-helper';
+
 // Pre-render the top 20 most popular services at build time for instant loading
 export async function generateStaticParams() {
   const topServices = [
@@ -60,7 +62,7 @@ export async function generateStaticParams() {
     "angiography",
     "angioplasty"
   ];
-  return topServices.map(service => ({ service }));
+  return filterShardParams(topServices.map(service => ({ service })));
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ service: string }> }) {

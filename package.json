@@ -25,7 +25,8 @@
   "scripts": {
     "dev": "next dev",
     "generate:sitemaps": "tsx scripts/generate-sitemaps.ts",
-    "build": "npm run generate:sitemaps && next build",
+    "build": "npm run generate:sitemaps && next build --webpack",
+    "build:shard": "tsx scripts/shard-build.ts",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
