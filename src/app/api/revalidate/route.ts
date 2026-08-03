@@ -1,6 +1,8 @@
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { getClientIP } from '@/lib/rate-limit';
+import { timingSafeCompare } from '@/lib/webhook/security';
+import { revalidateRateLimit } from '@/lib/webhook/rate-limiter';
 import { wpCacheInvalidate, wpCachePurgeByPrefix } from '@/lib/cache/wp-cache';
 import { REGION_NAMES } from '@/config/locations';
 
@@ -19,21 +21,22 @@ import { REGION_NAMES } from '@/config/locations';
  */
 export async function POST(request: NextRequest) {
   try {
-    // Rate limit: 10 revalidation requests per minute per IP
+    // Rate limit: Redis-backed distributed limiter (30 req/min)
     const ip = getClientIP(request);
-    const limiter = rateLimit(`revalidate:${ip}`, 10, 60_000);
-    if (!limiter.success) {
+    const rateLimitResult = await revalidateRateLimit(ip);
+    if (!rateLimitResult.success) {
       return NextResponse.json(
         { message: 'Rate limit exceeded for revalidation requests.' },
-        { status: 429, headers: { 'Retry-After': String(Math.ceil((limiter.resetTime - Date.now()) / 1000)) } }
+        { status: 429, headers: { 'Retry-After': String(rateLimitResult.resetSeconds) } }
       );
     }
 
     const body = await request.json();
     const { secret, path, service, post, purge } = body;
 
-    // Security: Verify revalidation secret
-    if (secret !== process.env.REVALIDATION_SECRET) {
+    // Security: Timing-safe secret verification
+    const expectedSecret = process.env.REVALIDATION_SECRET;
+    if (!expectedSecret || !secret || !timingSafeCompare(secret, expectedSecret)) {
       return NextResponse.json({ message: "Invalid secret token" }, { status: 401 });
     }
 
