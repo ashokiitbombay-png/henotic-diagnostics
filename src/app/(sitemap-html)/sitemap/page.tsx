@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { services } from '@/config/services';
 import { REGION_LOCATIONS, REGION_NAMES } from '@/config/locations';
+import { SERVICE_CATEGORIES } from '@/config/categories';
 import { GMC_PRODUCTS } from '@/config/gmc-products';
 import { Map, FileText, Stethoscope, MapPin, ShoppingBag, Scale, BookOpen } from 'lucide-react';
 
@@ -12,26 +13,41 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.henoticdiagnostics.com/sitemap' },
 };
 
-const formatSlug = (slug: string) =>
-  slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+const formatSlug = (slug: string) => {
+  const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna", "ngs", "rna", "fapi", "dota", "dopa", "psma", "als", "bls", "icu", "dvt", "hsg", "ssg", "bpp"];
+  return slug.split('-').map(w => {
+    const lower = w.toLowerCase();
+    if (acronyms.includes(lower)) return lower.toUpperCase();
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(' ');
+};
 
-// Group services by category (first ~35 chars of each line comment in services.ts)
-const SERVICE_CATEGORIES: Record<string, string[]> = {};
-const categoryMap: [string, number, number][] = [
-  ['Diagnostic Centers & Health Screening', 0, 35],
-  ['Pathology & Lab Tests', 36, 60],
-  ['Ultrasound & Sonography', 61, 94],
-  ['Pregnancy & Fetal Medicine', 95, 125],
-  ['Doppler Studies', 126, 146],
-  ["Women's Health & Breast Imaging", 147, 167],
-  ['MRI Services', 168, 206],
-  ['CT Scan Services', 207, 235],
-  ['PET-CT & Nuclear Medicine', 236, 264],
-  ['Bone Health & DEXA', 265, services.length - 1],
-];
+// Category emoji icons for visual distinction in the sitemap
+const CATEGORY_ICONS: Record<string, string> = {
+  "diagnostic-center": "🏥",
+  "pathology": "🧪",
+  "ultrasound": "📡",
+  "pregnancy": "🤰",
+  "doppler": "🩺",
+  "womens-health": "💗",
+  "mri": "🧲",
+  "ct-scan": "🔬",
+  "pet-ct": "☢️",
+  "bone-health": "🦴",
+  "cardiology": "❤️",
+  "liver": "🫁",
+  "genetics": "🧬",
+  "genomic-sequencing": "🧬",
+  "microbiome": "🦠",
+  "urology": "🏥",
+  "ambulance": "🚑",
+};
 
-categoryMap.forEach(([name, start, end]) => {
-  SERVICE_CATEGORIES[name] = services.slice(start, Math.min(end + 1, services.length));
+// Build grouped map from the authoritative categories config
+const SITEMAP_CATEGORIES: Record<string, string[]> = {};
+SERVICE_CATEGORIES.forEach(cat => {
+  const icon = CATEGORY_ICONS[cat.id] || "📋";
+  SITEMAP_CATEGORIES[`${icon} ${cat.title}`] = cat.services;
 });
 
 export default function HTMLSitemap() {
@@ -115,7 +131,7 @@ export default function HTMLSitemap() {
             <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center"><Stethoscope size={20} className="text-purple-600" /></div>
             All Services ({services.length})
           </h2>
-          {Object.entries(SERVICE_CATEGORIES).map(([category, slugs]) => (
+          {Object.entries(SITEMAP_CATEGORIES).map(([category, slugs]) => (
             <div key={category} className="mb-8">
               <h3 className="text-lg font-bold text-slate-800 mb-3 pb-2 border-b border-slate-200">{category} ({slugs.length})</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
