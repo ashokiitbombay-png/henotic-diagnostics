@@ -17,6 +17,7 @@ import {
   getComparisonBySlug,
   getRelatedComparisons,
 } from '@/config/comparisons';
+import MedicalPseoSchema from '@/components/seo/MedicalPseoSchema';
 
 const formatText = (t: string) =>
   t
@@ -117,6 +118,7 @@ export default async function ComparisonPage({
 
   return (
     <main className="min-h-screen font-sans mt-[80px]">
+      <MedicalPseoSchema type="compare" compareSlug={slug} />
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-[#1e1b4b] py-20 md:py-28 px-4 md:px-8">
         {/* Decorative orbs */}

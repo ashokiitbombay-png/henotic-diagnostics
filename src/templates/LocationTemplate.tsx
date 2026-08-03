@@ -17,6 +17,7 @@ import { getPricingForService } from "@/config/pricing";
 import { REAL_LOCATION_REVIEWS } from "@/config/locations";
 import { Activity, CheckCircle2, Calendar } from "lucide-react";
 import ServiceHero from '@/components/blocks/ServiceHero';
+import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 
 interface LocationTemplateProps {
   service: string;
@@ -44,6 +45,15 @@ export default function LocationTemplate({
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
+      <MedicalPseoSchema
+        type="service"
+        serviceSlug={service}
+        serviceName={formattedService}
+        regionSlug={region}
+        locationSlug={location}
+        wpContent={content}
+      />
+      <ServiceHero service={service} region={region} location={location} />
       <SchemaMarkup service={formattedService} location={formattedLocation} />
       <ServiceSchema
         serviceName={formattedService}

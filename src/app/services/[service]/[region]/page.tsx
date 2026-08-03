@@ -14,6 +14,7 @@ import { REGION_LOCATIONS } from '@/config/locations';
 import { optimizeWordPressHTML } from '@/lib/utils';
 import { getService } from '@/lib/wordpress/getService';
 import PartnerCenters from '@/components/blocks/PartnerCenters';
+import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -82,6 +83,13 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+      <MedicalPseoSchema
+        type="service"
+        serviceSlug={resolvedParams.service}
+        serviceName={serviceName}
+        regionSlug={resolvedParams.region}
+        wpContent={wpContent}
+      />
       {/* 🌟 Premium Service Hero with Breadcrumbs & Accreditations */}
       <ServiceHero 
         service={resolvedParams.service} 

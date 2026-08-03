@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ArrowRight, AlertCircle, Activity, Stethoscope } from 'lucide-react';
 import { CONDITIONS } from '@/config/conditions';
 
+import MedicalPseoSchema from '@/components/seo/MedicalPseoSchema';
+
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
 function getCondition(slug: string) {
@@ -37,6 +39,7 @@ export default async function ConditionPage({ params }: { params: Promise<{ cond
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+      <MedicalPseoSchema type="condition" conditionId={condition} />
       {/* Hero */}
       <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-[#1e1b4b] py-20 px-4 md:px-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E55D87] rounded-full mix-blend-screen filter blur-[120px] opacity-15"></div>

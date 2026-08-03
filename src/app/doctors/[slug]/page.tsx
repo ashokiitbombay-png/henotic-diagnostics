@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Award, BookOpen, GraduationCap, ArrowRight, Users, Stethoscope } from 'lucide-react';
 import { DOCTORS } from '@/config/doctors';
+import MedicalPseoSchema from '@/components/seo/MedicalPseoSchema';
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
@@ -28,6 +29,7 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+      <MedicalPseoSchema type="doctor" doctorId={slug} />
       <section className="bg-gradient-to-br from-slate-900 to-blue-950 py-20 px-4 md:px-8">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
           {doc.imageUrl ? (

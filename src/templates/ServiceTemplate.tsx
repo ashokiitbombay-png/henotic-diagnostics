@@ -8,6 +8,7 @@ import MedicalProcedureSchema from "@/components/seo/MedicalProcedureSchema";
 import ProductSchema from "@/components/seo/ProductSchema";
 import FAQSchema from "@/components/seo/FAQSchema";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
+import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PeopleAlsoSearchFor from "@/components/seo/PeopleAlsoSearchFor";
 import PricingTable from "@/components/blocks/PricingTable";
@@ -32,6 +33,12 @@ export default function ServiceTemplate({
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+      <MedicalPseoSchema
+        type="service"
+        serviceSlug={service}
+        serviceName={formattedService}
+        wpContent={content}
+      />
       <ServiceHero service={service} />
       <BreadcrumbSchema items={[
         { name: 'Home', url: '/' },
