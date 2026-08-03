@@ -2,18 +2,17 @@ import { Metadata } from 'next';
 import React from "react";
 import ServiceTemplate from '@/templates/ServiceTemplate';
 import { getService } from '@/lib/wordpress/getService';
+import { formatSlug } from '@/lib/utils';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
-const formatText = (text: string) => text.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-
 export async function generateMetadata({ params }: { params: Promise<{ service: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
-  const serviceName = formatText(resolvedParams.service);
+  const serviceName = formatSlug(resolvedParams.service);
 
   return {
     title: `Best ${serviceName} | Book Online | Henotic Diagnostics`,
-    description: `Looking for a reliable ${serviceName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology.`,
+    description: `Looking for a reliable ${serviceName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`,
     alternates: {
       canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`
     },
@@ -68,7 +67,7 @@ export async function generateStaticParams() {
 export default async function ServicePage({ params }: { params: Promise<{ service: string }> }) {
   const resolvedParams = await params;
   let wpContent: any = null;
-  let wpTitle: string = formatText(resolvedParams.service);
+  let wpTitle: string = formatSlug(resolvedParams.service);
 
   try {
     const serviceData = await getService(resolvedParams.service);

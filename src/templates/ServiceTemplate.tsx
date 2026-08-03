@@ -51,16 +51,7 @@ export default function ServiceTemplate({
           <ArrowLeft size={18} /> Back to All Services
         </Link>
 
-        <div className="bg-white sm:rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] sm:border border-slate-200 overflow-visible">
-          
-          {/* Header Section */}
-          <div className="bg-gradient-to-r from-blue-950 to-blue-900 p-8 md:p-12 text-white relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
-             <div className="absolute bottom-[-10%] left-[-10%] w-48 h-48 bg-[#E55D87] rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
-             <h1 className="text-3xl md:text-5xl font-extrabold relative z-10 capitalize tracking-tight drop-shadow-md">
-               {formattedService}
-             </h1>
-          </div>
+        <div className="bg-white sm:rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] sm:border border-slate-200 overflow-visible mt-4">
 
           {/* Render WP Content using our Block/Widget Architecture Bridge */}
           <div className="px-4 py-6 sm:p-8 md:p-12">

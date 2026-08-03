@@ -53,7 +53,6 @@ export default function LocationTemplate({
         locationSlug={location}
         wpContent={content}
       />
-      <ServiceHero service={service} region={region} location={location} />
       <SchemaMarkup service={formattedService} location={formattedLocation} />
       <ServiceSchema
         serviceName={formattedService}

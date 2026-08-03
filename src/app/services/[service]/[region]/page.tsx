@@ -11,31 +11,49 @@ import PricingTable from "@/components/blocks/PricingTable";
 import ServiceFAQ from "@/components/blocks/ServiceFAQ";
 import { getFAQsForService } from "@/config/faqs";
 import { REGION_LOCATIONS } from '@/config/locations';
-import { optimizeWordPressHTML } from '@/lib/utils';
+import { optimizeWordPressHTML, formatSlug } from '@/lib/utils';
 import { getService } from '@/lib/wordpress/getService';
 import PartnerCenters from '@/components/blocks/PartnerCenters';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
-// Helper to format URL slugs (e.g., "navi-mumbai" -> "Navi Mumbai")
-const formatText = (text: string) => text.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-
 // ==========================================
 // 1. DYNAMIC SEO METADATA GENERATOR
 // ==========================================
 export async function generateMetadata({ params }: { params: Promise<{ service: string, region: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
-  const serviceName = formatText(resolvedParams.service);
-  const regionName = formatText(resolvedParams.region);
+  const serviceName = formatSlug(resolvedParams.service);
+  const regionName = formatSlug(resolvedParams.region);
+
+  const title = `Best ${serviceName} in ${regionName} | Book Online | Henotic Diagnostics`;
+  const description = `Looking for a reliable ${serviceName} in ${regionName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`;
 
   return {
-    title: `Best ${serviceName} in ${regionName} | Book Online | Henotic Diagnostics`,
-    description: `Looking for a reliable ${serviceName} in ${regionName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology.`,
-    keywords: `${serviceName} in ${regionName}, best ${serviceName} centers ${regionName}, ${serviceName} cost ${regionName}`,
+    title,
+    description,
+    keywords: `${serviceName} in ${regionName}, best ${serviceName} centers ${regionName}, ${serviceName} cost ${regionName}, diagnostic center in ${regionName}`,
     alternates: {
       canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}`
-    }
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}`,
+      images: [{
+        url: `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(serviceName)}&subtitle=${encodeURIComponent(`Premier Centers in ${regionName}`)}`,
+        width: 1200,
+        height: 630,
+        alt: `${serviceName} in ${regionName} | Henotic Diagnostics`,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(serviceName)}&subtitle=${encodeURIComponent(`Premier Centers in ${regionName}`)}`],
+    },
   };
 }
 
@@ -70,8 +88,8 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
   const resolvedParams = await params;
   let wpContent: any = null;
   
-  const serviceName = formatText(resolvedParams.service);
-  const regionName = formatText(resolvedParams.region);
+  const serviceName = formatSlug(resolvedParams.service);
+  const regionName = formatSlug(resolvedParams.region);
   
   // Get the list of specific locations for this region to build the SEO grid
   const locations = REGION_LOCATIONS[resolvedParams.region] || [];
@@ -116,7 +134,7 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
                   href={`/services/${resolvedParams.service}/${resolvedParams.region}/${loc}`}
                   className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all group"
                 >
-                  <span className="font-bold text-slate-700 group-hover:text-blue-700">{formatText(loc)}</span>
+                  <span className="font-bold text-slate-700 group-hover:text-blue-700">{formatSlug(loc)}</span>
                   <ArrowRight size={16} className="text-slate-500 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all" />
                 </Link>
               ))}

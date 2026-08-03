@@ -5,6 +5,65 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * 🧠 Medical-Aware Slug Formatter
+ * Formats slugs cleanly for SEO Titles, Meta Descriptions, and UI Headings.
+ * Converts medical acronyms (MRI, CT, PET-CT, 2D, HbA1c, DEXA) and location names properly.
+ */
+export function formatSlug(slug: string): string {
+  if (!slug) return "";
+
+  // Special overrides for compound terms
+  const overrides: Record<string, string> = {
+    "pet-scan": "PET-CT Scan",
+    "pet-ct-scan": "PET-CT Scan",
+    "whole-body-pet-ct": "Whole Body PET-CT",
+    "mri-scan": "MRI Scan",
+    "ct-scan": "CT Scan",
+    "2d-echo": "2D Echo",
+    "3d-4d-ultrasound": "3D/4D Ultrasound",
+    "dexa-bone-scan": "DEXA Bone Scan",
+    "dexa-scan": "DEXA Scan",
+    "full-body-check-up": "Full Body Checkup",
+    "full-body-checkup": "Full Body Checkup",
+    "corporate-health-checkup": "Corporate Health Checkup",
+    "navi-mumbai": "Navi Mumbai",
+    "western-suburbs": "Western Suburbs",
+    "central-suburbs": "Central Suburbs",
+    "south-mumbai": "South Mumbai",
+    "eastern-suburbs": "Eastern Suburbs",
+    "mumbai-suburban": "Mumbai Suburban",
+    "cbd-belapur": "CBD Belapur",
+    "kopar-khairane": "Kopar Khairane",
+    "thane-west": "Thane West",
+    "pune-city": "Pune City"
+  };
+
+  const lowerSlug = slug.toLowerCase().trim();
+  if (overrides[lowerSlug]) {
+    return overrides[lowerSlug];
+  }
+
+  const acronyms = [
+    "mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c",
+    "2d", "3d", "4d", "nipt", "nips", "nippt", "dna", "dexa", "bmd", "tmt",
+    "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti",
+    "tavr", "cbd", "hrct", "mrcp", "pns", "ec"
+  ];
+
+  return slug
+    .split("-")
+    .map(word => {
+      const lowerWord = word.toLowerCase();
+      if (acronyms.includes(lowerWord)) {
+        if (lowerWord === "hba1c") return "HbA1c";
+        return word.toUpperCase();
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
 export function optimizeWordPressHTML(htmlContent: string): string {
   if (!htmlContent) return "";
 
