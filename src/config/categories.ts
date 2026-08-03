@@ -11,10 +11,10 @@ export interface ServiceCategory {
 
 export const SERVICE_CATEGORIES: ServiceCategory[] = [
   {
-    id: "diagnostic-center",
-    title: "Diagnostic Center & Health Screening",
+    id: "diagnostic-services",
+    title: "Diagnostic Services",
     description:
-      "Comprehensive diagnostic center services including full body health checkups, preventive screening packages, executive wellness programs, and corporate health assessments. NABL-accredited labs with advanced medical imaging and pathology under one roof.",
+      "NABL-accredited diagnostic center services including medical imaging, radiology, pathology labs, and comprehensive diagnostic imaging infrastructure for accurate disease detection and monitoring.",
     icon: "Building2",
     services: [
       "diagnostic-center",
@@ -27,6 +27,15 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
       "diagnostic-imaging",
       "medical-imaging",
       "radiology-services",
+    ],
+  },
+  {
+    id: "health-checkups",
+    title: "Health Checkups & Screening",
+    description:
+      "Comprehensive health checkup and preventive screening packages including full body checkups, executive wellness programs, corporate health assessments, gender-specific and age-specific screening, cardiac risk evaluation, diabetes screening, and cancer detection packages.",
+    icon: "HeartPulse",
+    services: [
       "health-checkup",
       "full-body-check-up",
       "master-health-checkup",
@@ -203,11 +212,11 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     ],
   },
   {
-    id: "womens-health",
-    title: "Women's Health & Breast Imaging",
+    id: "breast-imaging",
+    title: "Breast Imaging",
     description:
-      "Dedicated women's health diagnostics including digital and 3D mammography, sonomammography, breast cancer screening, follicular study, fertility monitoring, ovulation tracking, HSG test, and comprehensive reproductive health assessment.",
-    icon: "Heart",
+      "Advanced breast imaging services including digital mammography, 3D mammography (tomosynthesis), sonomammography, breast cancer screening, and comprehensive breast diagnostics for early detection and monitoring.",
+    icon: "Ribbon",
     services: [
       "mammography",
       "digital-mammography",
@@ -219,6 +228,15 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
       "breast-diagnostics",
       "digital-breast-tomosynthesis",
       "3d-breast-imaging",
+    ],
+  },
+  {
+    id: "womens-fertility",
+    title: "Women's Health & Fertility Services",
+    description:
+      "Comprehensive women's health and fertility diagnostics including follicular study, fertility monitoring, ovulation tracking, HSG test, SSG test, gynecology ultrasound, and reproductive health screening for family planning and fertility assessment.",
+    icon: "Heart",
+    services: [
       "follicular-study",
       "fertility-scan",
       "fertility-assessment",

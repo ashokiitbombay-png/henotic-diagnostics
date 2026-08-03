@@ -24,17 +24,19 @@ const formatSlug = (slug: string) => {
 
 // Category emoji icons for visual distinction in the sitemap
 const CATEGORY_ICONS: Record<string, string> = {
-  "diagnostic-center": "🏥",
+  "diagnostic-services": "🔍",
+  "health-checkups": "❤️",
   "pathology": "🧪",
   "ultrasound": "📡",
   "pregnancy": "🤰",
   "doppler": "🩺",
-  "womens-health": "💗",
+  "breast-imaging": "🎀",
+  "womens-fertility": "👩",
   "mri": "🧲",
   "ct-scan": "🔬",
   "pet-ct": "☢️",
   "bone-health": "🦴",
-  "cardiology": "❤️",
+  "cardiology": "❤️‍🔥",
   "liver": "🫁",
   "genetics": "🧬",
   "genomic-sequencing": "🧬",

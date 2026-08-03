@@ -39,9 +39,11 @@ const LOCATIONS = Object.entries(REGION_LOCATIONS).map(([regionSlug, cities]) =>
 
 // --- SLUGS CATEGORY MAP FOR DYNAMIC GROUPING ---
 const CATEGORY_SLUGS: Record<string, string[]> = {
-  "Diagnostic Center & Health Screening": [
+  "Diagnostic Services": [
     "diagnostic-center", "medical-imaging-center", "radiology-center", "pathology-lab", "diagnostic-lab", 
-    "diagnostic-services", "medical-diagnostics", "diagnostic-imaging", "medical-imaging", "radiology-services", 
+    "diagnostic-services", "medical-diagnostics", "diagnostic-imaging", "medical-imaging", "radiology-services"
+  ],
+  "Health Checkups & Screening": [
     "health-checkup", "full-body-check-up", "master-health-checkup", "executive-health-checkup", "executive-health-screening", 
     "preventive-health-checkup", "preventive-health-screening", "annual-health-checkup", "corporate-health-checkup", 
     "employee-health-checkup", "pre-employment-health-checkup", "wellness-screening", "health-screening", 
@@ -82,10 +84,13 @@ const CATEGORY_SLUGS: Record<string, string[]> = {
     "middle-cerebral-artery-doppler", "lower-limb-doppler", "upper-limb-doppler", "peripheral-arterial-doppler", 
     "venous-insufficiency-scan", "deep-vein-thrombosis-scan", "dvt-doppler"
   ],
-  "Women's Health & Breast Imaging": [
+  "Breast Imaging": [
     "mammography", "digital-mammography", "3d-mammography", "sonomammography", "breast-imaging", 
     "breast-screening", "breast-cancer-screening", "breast-diagnostics", "digital-breast-tomosynthesis", 
-    "3d-breast-imaging", "follicular-study", "fertility-scan", "fertility-assessment", "fertility-monitoring", 
+    "3d-breast-imaging"
+  ],
+  "Women's Health & Fertility": [
+    "follicular-study", "fertility-scan", "fertility-assessment", "fertility-monitoring", 
     "ovulation-study", "ovulation-monitoring", "reproductive-health-screening", "gynecology-ultrasound", 
     "pelvic-scan-for-fertility", "hsg-test", "ssg-test"
   ],
