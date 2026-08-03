@@ -16,7 +16,7 @@ export const services = [
   // CT SCAN SERVICES
   "ct-scan", "hrct-scan", "hrct-chest", "ct-brain", "brain-ct-scan", "ct-neck", "ct-face", "ct-orbit", "ct-pns", "ct-temporal-bone", "ct-spine", "chest-ct-scan", "abdomen-ct-scan", "ct-abdomen-pelvis", "ct-kub", "cardiac-ct-scan", "ct-angiography", "coronary-ct-angiography", "ct-coronary-angiography", "ct-pulmonary-angiography", "ct-enterography", "ct-colonography", "ct-urology", "ct-guided-biopsy", "ct-guided-fnac", "whole-body-ct-scan", "contrast-ct-scan", "low-dose-ct", "lung-cancer-screening-ct",
   // PET CT & NUCLEAR MEDICINE
-  "pet-scan", "pet-ct", "whole-body-pet-ct", "whole-body-pet-scan", "fdg-pet-ct", "oncology-pet-ct", "cardiac-pet-ct", "neurology-pet-ct", "cancer-pet-scan", "pet-cancer-screening", "spect-scan", "nuclear-medicine", "dtpa-scan", "ec-scan", "renal-scan", "renal-function-scan", "ec-renal-scan", "mag3-scan", "bone-scan", "bone-scintigraphy", "thyroid-scan", "thyroid-scintigraphy", "thyroid-uptake-scan", "parathyroid-scan", "gfr-test", "myocardial-perfusion-scan", "lung-perfusion-scan", "gastric-emptying-study", "hepatobiliary-scan",
+  "pet-scan", "pet-ct", "whole-body-pet-ct", "whole-body-pet-scan", "fdg-pet-ct", "oncology-pet-ct", "cardiac-pet-ct", "neurology-pet-ct", "cancer-pet-scan", "pet-cancer-screening", "spect-scan", "nuclear-medicine", "dtpa-scan", "ec-scan", "renal-scan", "renal-function-scan", "ec-renal-scan", "mag3-scan", "bone-scan", "bone-scintigraphy", "thyroid-scan", "thyroid-scintigraphy", "thyroid-uptake-scan", "parathyroid-scan", "gfr-test", "myocardial-perfusion-scan", "lung-perfusion-scan", "gastric-emptying-study", "hepatobiliary-scan", "fapi-pet-ct", "fapi-pet-scan", "dota-pet-ct", "dota-pet-scan", "dopa-scan", "dopa-pet-ct", "psma-pet-scan",
   // BONE HEALTH & DEXA
   "dexa-bone-scan", "bone-density-test", "bmd-test", "osteoporosis-screening",
   // CARDIOLOGY DIAGNOSTICS
@@ -26,7 +26,15 @@ export const services = [
   // FIBROSCAN & LIVER DIAGNOSTICS
   "fibroscan", "fibroscan-test", "liver-fibroscan", "liver-elastography", "hepatic-elastography", "fatty-liver-assessment", "fatty-liver-screening", "fatty-liver-scan", "liver-health-assessment", "liver-screening", "liver-fibrosis-assessment", "liver-stiffness-test", "cirrhosis-screening", "chronic-liver-disease-screening",
   // GENETIC TESTING
-  "prenatal-test", "prenatal-genetic-testing", "nipt-test", "nips-test", "nippt", "karyotype-test", "chromosomal-analysis", "chromosomal-testing", "chromosome-analysis", "genetic-test", "genetic-screening", "genetic-counselling", "genetic-counselling-service", "carrier-screening", "carrier-testing", "dna-test", "dna-analysis", "paternity-test", "relationship-dna-test", "molecular-diagnostics", "cytogenetics", "fertility-genetic-test", "fertility-genetic-screening", "reproductive-genetics", "fetal-genetic-testing"
+  "prenatal-test", "prenatal-genetic-testing", "nipt-test", "nips-test", "nippt", "karyotype-test", "chromosomal-analysis", "chromosomal-testing", "chromosome-analysis", "genetic-test", "genetic-screening", "genetic-counselling", "genetic-counselling-service", "carrier-screening", "carrier-testing", "dna-test", "dna-analysis", "paternity-test", "relationship-dna-test", "molecular-diagnostics", "cytogenetics", "fertility-genetic-test", "fertility-genetic-screening", "reproductive-genetics", "fetal-genetic-testing",
+  // GENOMIC SEQUENCING
+  "whole-exome-sequencing", "whole-genome-sequencing", "clinical-exome-sequencing", "targeted-gene-panel", "next-generation-sequencing", "trio-whole-exome-sequencing", "rna-sequencing", "transcriptome-sequencing", "exome-plus-sequencing", "mitochondrial-genome-sequencing", "long-read-genome-sequencing", "copy-number-variation-analysis", "chromosomal-microarray", "whole-transcriptome-sequencing", "metagenomic-sequencing", "16s-rrna-sequencing", "cell-free-dna-sequencing", "liquid-biopsy-ngs", "somatic-tumor-sequencing", "germline-sequencing",
+  // MICROBIOME TESTING
+  "gut-microbiome-test", "gut-health-test", "stool-microbiome-analysis", "gut-dysbiosis-test", "gut-flora-analysis", "microbiome-dna-sequencing",
+  // UROLOGY
+  "uroflowmetry", "urodynamic-study", "complete-urodynamic-study", "video-urodynamic-study", "cystometry", "pressure-flow-study", "post-void-residual-urine", "urethral-pressure-profile", "leak-point-pressure-test", "pelvic-floor-electromyography",
+  // AMBULANCE SERVICES
+  "emergency-ambulance", "24x7-ambulance-service", "ambulance-booking", "icu-ambulance", "als-ambulance", "bls-ambulance", "ventilator-ambulance", "cardiac-ambulance", "oxygen-ambulance", "neonatal-ambulance", "pediatric-ambulance", "patient-transport-ambulance", "hospital-transfer-ambulance", "long-distance-ambulance", "wheelchair-ambulance", "stretcher-ambulance", "air-ambulance", "event-medical-ambulance", "dead-body-ambulance", "mortuary-ambulance", "freezer-box-service"
 ];
 
 

@@ -16,7 +16,7 @@ import { CERTIFICATE_MAP } from "@/config/certificates";
 import { triggerGCRSurvey } from "@/components/monitoring/GoogleCustomerReviews";
 
 const formatSlug = (slug: string) => {
-  const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", "tavr", "cbd", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna"];
+  const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", "tavr", "cbd", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna", "ngs", "rna", "fapi", "dota", "dopa", "psma", "als", "bls", "icu"];
   return slug.split('-').map(word => {
     const lower = word.toLowerCase();
     if (acronyms.includes(lower)) {
@@ -112,7 +112,8 @@ const CATEGORY_SLUGS: Record<string, string[]> = {
     "nuclear-medicine", "dtpa-scan", "ec-scan", "renal-scan", "renal-function-scan", "ec-renal-scan", 
     "mag3-scan", "bone-scan", "bone-scintigraphy", "thyroid-scan", "thyroid-scintigraphy", 
     "thyroid-uptake-scan", "parathyroid-scan", "gfr-test", "myocardial-perfusion-scan", 
-    "lung-perfusion-scan", "gastric-emptying-study", "hepatobiliary-scan"
+    "lung-perfusion-scan", "gastric-emptying-study", "hepatobiliary-scan",
+    "fapi-pet-ct", "fapi-pet-scan", "dota-pet-ct", "dota-pet-scan", "dopa-scan", "dopa-pet-ct", "psma-pet-scan"
   ],
   "Bone Health & DEXA": [
     "dexa-bone-scan", "bone-density-test", "bmd-test", "osteoporosis-screening"
@@ -140,6 +141,31 @@ const CATEGORY_SLUGS: Record<string, string[]> = {
     "carrier-testing", "dna-test", "dna-analysis", "paternity-test", "relationship-dna-test", 
     "molecular-diagnostics", "cytogenetics", "fertility-genetic-test", "fertility-genetic-screening", 
     "reproductive-genetics", "fetal-genetic-testing"
+  ],
+  "Genomic Sequencing": [
+    "whole-exome-sequencing", "whole-genome-sequencing", "clinical-exome-sequencing", "targeted-gene-panel",
+    "next-generation-sequencing", "trio-whole-exome-sequencing", "rna-sequencing", "transcriptome-sequencing",
+    "exome-plus-sequencing", "mitochondrial-genome-sequencing", "long-read-genome-sequencing",
+    "copy-number-variation-analysis", "chromosomal-microarray", "whole-transcriptome-sequencing",
+    "metagenomic-sequencing", "16s-rrna-sequencing", "cell-free-dna-sequencing", "liquid-biopsy-ngs",
+    "somatic-tumor-sequencing", "germline-sequencing"
+  ],
+  "Microbiome Testing": [
+    "gut-microbiome-test", "gut-health-test", "stool-microbiome-analysis", "16s-rrna-sequencing",
+    "metagenomic-sequencing", "gut-dysbiosis-test", "gut-flora-analysis", "microbiome-dna-sequencing"
+  ],
+  "Urology Diagnostics": [
+    "uroflowmetry", "urodynamic-study", "complete-urodynamic-study", "video-urodynamic-study",
+    "cystometry", "pressure-flow-study", "post-void-residual-urine", "urethral-pressure-profile",
+    "leak-point-pressure-test", "pelvic-floor-electromyography"
+  ],
+  "Ambulance Services": [
+    "emergency-ambulance", "24x7-ambulance-service", "ambulance-booking", "icu-ambulance",
+    "als-ambulance", "bls-ambulance", "ventilator-ambulance", "cardiac-ambulance", "oxygen-ambulance",
+    "neonatal-ambulance", "pediatric-ambulance", "patient-transport-ambulance",
+    "hospital-transfer-ambulance", "long-distance-ambulance", "wheelchair-ambulance",
+    "stretcher-ambulance", "air-ambulance", "event-medical-ambulance", "dead-body-ambulance",
+    "mortuary-ambulance", "freezer-box-service"
   ]
 };
 
