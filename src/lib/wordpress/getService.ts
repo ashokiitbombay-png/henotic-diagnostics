@@ -3,24 +3,34 @@ import { cache } from "react";
 import { GET_SERVICE_BY_SLUG } from "@/lib/wordpress/queries";
 import type { WordPressService, GetServiceResponse } from "@/types/cms";
 import { getFailsafeData, saveFailsafeData } from "@/lib/wordpress/failsafeStore";
+import { wpCacheThrough } from "@/lib/cache/wp-cache";
 
 /**
  * Fetches dynamic service custom post type content from WordPress by its slug.
+ * Uses Redis cache-through to prevent redundant GraphQL calls across
+ * serverless function invocations.
  * 
  * @param slug The service slug (e.g. "mri-scan", "ct-scan")
  */
 async function _getService(slug: string): Promise<WordPressService | null> {
   try {
-    const client = getClient();
-    const { data } = await client.query<GetServiceResponse>({
-      query: GET_SERVICE_BY_SLUG,
-      variables: { slug },
-      fetchPolicy: "no-cache"
-    });
+    const service = await wpCacheThrough<WordPressService | null>(
+      'service',
+      slug,
+      async () => {
+        const client = getClient();
+        const { data } = await client.query<GetServiceResponse>({
+          query: GET_SERVICE_BY_SLUG,
+          variables: { slug },
+          fetchPolicy: "no-cache"
+        });
+        return data?.service ?? null;
+      }
+    );
 
-    if (data?.service) {
-      saveFailsafeData(slug, { title: data.service.title, content: data.service.content });
-      return data.service;
+    if (service) {
+      saveFailsafeData(slug, { title: service.title, content: service.content });
+      return service;
     }
 
     // Check fallback if service data is missing

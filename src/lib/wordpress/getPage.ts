@@ -3,24 +3,33 @@ import { cache } from "react";
 import { GET_PAGE_BY_URI } from "@/lib/wordpress/queries";
 import type { WordPressPage, GetPageResponse } from "@/types/cms";
 import { getFailsafeData, saveFailsafeData } from "@/lib/wordpress/failsafeStore";
+import { wpCacheThrough } from "@/lib/cache/wp-cache";
 
 /**
  * Fetches generic static page content from WordPress by URI/slug.
+ * Uses Redis cache-through to avoid redundant GraphQL calls.
  * 
  * @param uri The page path (e.g. "/about-us", "/privacy")
  */
 async function _getPage(uri: string): Promise<WordPressPage | null> {
   try {
-    const client = getClient();
-    const { data } = await client.query<GetPageResponse>({
-      query: GET_PAGE_BY_URI,
-      variables: { uri },
-      fetchPolicy: "no-cache"
-    });
+    const page = await wpCacheThrough<WordPressPage | null>(
+      'page',
+      uri,
+      async () => {
+        const client = getClient();
+        const { data } = await client.query<GetPageResponse>({
+          query: GET_PAGE_BY_URI,
+          variables: { uri },
+          fetchPolicy: "no-cache"
+        });
+        return data?.page ?? null;
+      }
+    );
 
-    if (data?.page) {
-      saveFailsafeData(uri, { title: data.page.title, content: data.page.content });
-      return data.page;
+    if (page) {
+      saveFailsafeData(uri, { title: page.title, content: page.content });
+      return page;
     }
     
     // Check fallback if page data is missing
