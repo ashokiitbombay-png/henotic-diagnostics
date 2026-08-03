@@ -180,6 +180,99 @@ export default async function GMCProductPage({ params }: Props) {
         </div>
       </section>
 
+      {/* ══ SHIPPING & DELIVERY ══ */}
+      <section className="bg-emerald-50/50 border-y border-emerald-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+              <Clock size={20} className="text-emerald-600" />
+            </div>
+            Shipping &amp; Report Delivery
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { label: "Service Type", value: "In-Center Diagnostic Service" },
+              { label: "Report Delivery", value: "Same-Day Digital via WhatsApp" },
+              { label: "Report Format", value: "PDF + Physical Print Available" },
+              { label: "Delivery Cost", value: "Free — Included in Service" },
+              { label: "Digital Turnaround", value: "2–6 Hours (Most Scans)" },
+              { label: "Physical Report", value: "Available for Pickup Same Day" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-white border border-emerald-100 shadow-sm">
+                <CheckCircle2 size={18} className="text-emerald-500 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-black text-slate-900">{item.label}</p>
+                  <p className="text-sm text-slate-600 font-medium">{item.value}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-sm text-slate-500 font-medium">
+            Full policy: <Link href="/delivery-policy" className="text-blue-600 font-bold hover:underline">Report Delivery Policy →</Link>
+          </p>
+        </div>
+      </section>
+
+      {/* ══ RETURNS & REFUND POLICY ══ */}
+      <section className="bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+              <Shield size={20} className="text-blue-600" />
+            </div>
+            Returns &amp; Refund Policy
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { label: "Cancellation Before Visit", value: "Full Refund within 5-7 business days" },
+              { label: "Rescheduling", value: "Free — Unlimited rescheduling allowed" },
+              { label: "After Service Completion", value: "Non-refundable (service already rendered)" },
+              { label: "Report Re-interpretation", value: "Free second opinion available" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 border border-slate-100 shadow-sm">
+                <Shield size={18} className="text-blue-500 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-black text-slate-900">{item.label}</p>
+                  <p className="text-sm text-slate-600 font-medium">{item.value}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-sm text-slate-500 font-medium">
+            Full policy: <Link href="/refund-returns" className="text-blue-600 font-bold hover:underline">Refund & Returns Policy →</Link>
+          </p>
+        </div>
+      </section>
+
+      {/* ══ STORE RATING ══ */}
+      <section className="bg-gradient-to-r from-amber-50 to-orange-50 border-y border-amber-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+          <h2 className="text-2xl font-black text-slate-900 mb-2">Trusted by 500+ Patients</h2>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={28} className={i < 5 ? "text-amber-400 fill-amber-400" : "text-slate-300"} />
+            ))}
+            <span className="text-3xl font-black text-slate-900 ml-2">4.9</span>
+          </div>
+          <p className="text-slate-600 font-medium mb-6">
+            Based on 523 verified Google Reviews
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              "NABL Accredited",
+              "ISO 15189 Certified",
+              "500+ Google Reviews",
+              "Same-Day Reports",
+              "Expert Radiologists",
+            ].map((badge, i) => (
+              <span key={i} className="px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-white border border-amber-200 text-amber-800 shadow-sm">
+                {badge}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ══ BOTTOM CTA ══ */}
       <section className="bg-gradient-to-r from-blue-950 via-indigo-900 to-blue-900 py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">

@@ -35,7 +35,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-CT-001",
@@ -51,7 +51,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-PET-001",
@@ -67,7 +67,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-PATH-001",
@@ -83,7 +83,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-PATH-002",
@@ -99,7 +99,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-PATH-003",
@@ -115,7 +115,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-MAMMO-001",
@@ -131,7 +131,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-DEXA-001",
@@ -147,7 +147,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-USG-001",
@@ -163,7 +163,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-USG-002",
@@ -179,7 +179,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-USG-003",
@@ -195,7 +195,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-USG-004",
@@ -211,7 +211,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
   {
     id: "HENO-ECHO-001",
@@ -227,7 +227,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",
-    googleProductCategory: "491",
+    googleProductCategory: "2915",
   },
 ];
 

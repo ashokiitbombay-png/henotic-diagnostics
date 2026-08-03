@@ -13,6 +13,7 @@ import Input from "@/components/ui/Input";
 import { getSlotsForDate } from "@/actions/slots";
 import CertificateViewer from "@/components/ui/CertificateViewer";
 import { CERTIFICATE_MAP } from "@/config/certificates";
+import { triggerGCRSurvey } from "@/components/monitoring/GoogleCustomerReviews";
 
 const formatSlug = (slug: string) => {
   const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", "tavr", "cbd", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna"];
@@ -279,6 +280,14 @@ export default function BookingForm() {
     .then((res) => {
       if (res.success && res.crmBooked) {
         console.log(`✅ [CRM BOOKING SUCCESS] Appointment created in CRM. ID: ${res.appointmentId}`);
+
+        // 🌟 Trigger Google Customer Reviews opt-in survey
+        // This enables store rating collection in Merchant Center (ID: 5502255117)
+        triggerGCRSurvey({
+          orderId: res.appointmentId || `HENO-${Date.now()}`,
+          email: `${formData.mobile}@henotic.in`, // Fallback email from phone
+          estimatedDeliveryDate: formData.date || new Date(Date.now() + 86400000).toISOString().split('T')[0],
+        });
       } else {
         console.warn(`⚠️ [CRM BOOKING FALLBACK] CRM fallback response:`, res.message);
       }

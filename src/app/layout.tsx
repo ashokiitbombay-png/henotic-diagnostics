@@ -30,6 +30,7 @@ const MetaPixel = dynamic(() => import('@/components/monitoring/MetaPixel'));
 const ServiceWorkerRegister = dynamic(() => import('@/components/ui/ServiceWorkerRegister'));
 const GA4Script = dynamic(() => import('@/components/monitoring/GA4Script'));
 const SentryInit = dynamic(() => import('@/components/monitoring/SentryInit'));
+const GoogleCustomerReviews = dynamic(() => import('@/components/monitoring/GoogleCustomerReviews'));
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.henoticdiagnostics.com'),
@@ -145,6 +146,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <MetaPixel />
           <GA4Script />
           <SentryInit />
+          <GoogleCustomerReviews />
           <Analytics />
           <ServiceWorkerRegister />
         </Providers>
