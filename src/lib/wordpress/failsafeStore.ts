@@ -37,6 +37,9 @@ const fallbackDatabase: Record<string, { title: string; content: string }> = {
   }
 };
 
+// Maximum number of entries to hold in the file cache to prevent unbounded memory growth
+const MAX_CACHE_ENTRIES = 200;
+
 // In-memory cache layer to avoid reading/writing to disk on every single request
 let fileCache: Record<string, { title: string; content: string }> | null = null;
 
@@ -87,6 +90,13 @@ export function saveFailsafeData(key: string, data: { title: string; content: st
 
     // Update in-memory cache
     cache[key] = data;
+
+    // LRU-style eviction: remove oldest entries when cache exceeds limit
+    const keys = Object.keys(cache);
+    if (keys.length > MAX_CACHE_ENTRIES) {
+      const keysToRemove = keys.slice(0, keys.length - MAX_CACHE_ENTRIES);
+      keysToRemove.forEach(k => delete cache[k]);
+    }
 
     const cachePath = path.join(process.cwd(), 'src/lib/wordpress/failsafe-cache.json');
     // Create directory if not exists

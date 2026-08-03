@@ -1,4 +1,5 @@
 import { getClient } from "@/lib/apollo-client";
+import { cache } from "react";
 import { gql } from "@apollo/client";
 import type { BlogPost, BlogPostsResponse } from "@/types/cms";
 
@@ -97,7 +98,7 @@ const GET_BLOG_POST = gql`
  * @param first  Number of posts to fetch (default 12)
  * @param after  Cursor for pagination
  */
-export async function getBlogPosts(
+async function _getBlogPosts(
   first: number = 12,
   after?: string
 ): Promise<BlogPostsResponse["posts"] | null> {
@@ -116,12 +117,14 @@ export async function getBlogPosts(
   }
 }
 
+export const getBlogPosts = cache(_getBlogPosts);
+
 /**
  * Fetches a single blog post by its slug from WordPress.
  *
  * @param slug  The post slug (e.g. "understanding-mri-scans")
  */
-export async function getBlogPost(slug: string): Promise<BlogPost | null> {
+async function _getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
     const client = getClient();
     const { data } = await client.query<{ post: BlogPost }>({
@@ -136,3 +139,5 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     return null;
   }
 }
+
+export const getBlogPost = cache(_getBlogPost);

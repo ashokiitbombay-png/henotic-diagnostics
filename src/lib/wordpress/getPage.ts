@@ -1,4 +1,5 @@
 import { getClient } from "@/lib/apollo-client";
+import { cache } from "react";
 import { gql } from "@apollo/client";
 import { WordPressPage } from "@/types/cms";
 import { getFailsafeData, saveFailsafeData } from "@/lib/wordpress/failsafeStore";
@@ -17,7 +18,7 @@ const GET_PAGE_BY_URI = gql`
  * 
  * @param uri The page path (e.g. "/about-us", "/privacy")
  */
-export async function getPage(uri: string): Promise<WordPressPage | null> {
+async function _getPage(uri: string): Promise<WordPressPage | null> {
   try {
     const client = getClient();
     const { data } = await client.query<any>({
@@ -48,3 +49,5 @@ export async function getPage(uri: string): Promise<WordPressPage | null> {
     return null;
   }
 }
+
+export const getPage = cache(_getPage);

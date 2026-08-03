@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /reports/
-Sitemap: https://www.henoticdiagnostics.com/sitemap.xml

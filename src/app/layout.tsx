@@ -93,6 +93,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <meta name="theme-color" content="#1e3a5f" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+          {/* Hreflang for multi-language SEO */}
+          <link rel="alternate" hrefLang="en-IN" href="https://www.henoticdiagnostics.com" />
+          <link rel="alternate" hrefLang="hi-IN" href="https://www.henoticdiagnostics.com" />
+          <link rel="alternate" hrefLang="mr-IN" href="https://www.henoticdiagnostics.com" />
+          <link rel="alternate" hrefLang="x-default" href="https://www.henoticdiagnostics.com" />
           {/* Preload LCP hero image — direct from GCS CDN, no /_next/image proxy */}
           <link
             rel="preload"

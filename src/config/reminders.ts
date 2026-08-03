@@ -112,6 +112,9 @@ const initialReminders: AppointmentReminder[] = [
   },
 ];
 
+/** Maximum number of reminders to hold in memory. FIFO eviction when exceeded. */
+const MAX_REMINDERS_STORE_SIZE = 1000;
+
 declare global {
   // eslint-disable-next-line no-var
   var __remindersStore: AppointmentReminder[] | undefined;
@@ -122,4 +125,14 @@ export const getRemindersStore = (): AppointmentReminder[] => {
     globalThis.__remindersStore = [...initialReminders];
   }
   return globalThis.__remindersStore;
+};
+
+/** Add a reminder with FIFO eviction to prevent unbounded memory growth. */
+export const addReminder = (reminder: AppointmentReminder): void => {
+  const store = getRemindersStore();
+  store.push(reminder);
+  // FIFO eviction: remove oldest entries when exceeding max size
+  while (store.length > MAX_REMINDERS_STORE_SIZE) {
+    store.shift();
+  }
 };

@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
+import { rateLimit, getClientIP } from '@/lib/rate-limit';
 
 export async function POST(req: Request) {
   try {
+    // Rate limit: 5 bookings per minute per IP
+    const ip = getClientIP(req);
+    const limiter = rateLimit(`booking:${ip}`, 5, 60_000);
+    if (!limiter.success) {
+      return NextResponse.json(
+        { success: false, error: 'Too many booking requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(Math.ceil((limiter.resetTime - Date.now()) / 1000)) } }
+      );
+    }
     const body = await req.json();
     const { name, phone, service, location } = body;
 

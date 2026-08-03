@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AppointmentReminder, getRemindersStore } from '@/config/reminders';
+import { AppointmentReminder, getRemindersStore, addReminder } from '@/config/reminders';
+import { rateLimit, getClientIP } from '@/lib/rate-limit';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   console.warn('⚠️ [WARNING] Reminders are currently stored in-memory. This should be replaced with a database (e.g., PostgreSQL or MongoDB) for production.');
@@ -21,6 +22,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    // Rate limit: 10 reminder requests per minute per IP
+    const ip = getClientIP(request);
+    const limiter = rateLimit(`reminders:${ip}`, 10, 60_000);
+    if (!limiter.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(Math.ceil((limiter.resetTime - Date.now()) / 1000)) } }
+      );
+    }
     const body = await request.json();
     const {
       patientName,
@@ -53,7 +63,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const store = getRemindersStore();
     const newReminder: AppointmentReminder = {
       id: crypto.randomUUID(),
       patientName: patientName.trim(),
@@ -67,7 +76,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       createdAt: new Date().toISOString(),
     };
 
-    store.push(newReminder);
+    addReminder(newReminder);
 
     return NextResponse.json(
       {
