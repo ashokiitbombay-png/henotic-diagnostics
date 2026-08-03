@@ -1,3 +1,5 @@
+import React from "react";
+import Image from "next/image";
 import { CheckCircle } from "lucide-react";
 
 export default function MedicalTechnology() {
@@ -7,7 +9,16 @@ export default function MedicalTechnology() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-pink-500 rounded-3xl rotate-3 opacity-20 group-hover:rotate-6 transition-transform duration-500 blur-lg"></div>
-            <img width="36" height="36" src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/1a401b0d-henotic-diagnostics-mri-scan-ct-scan-pet-scan-dopa-scan-dtpa-scan.webp" alt="Siemens MRI Machine" className="relative rounded-3xl shadow-2xl z-10 w-full border-4 border-white" fetchPriority="high" decoding="sync" />
+            <Image
+              width={700}
+              height={450}
+              src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/1a401b0d-henotic-diagnostics-mri-scan-ct-scan-pet-scan-dopa-scan-dtpa-scan.webp"
+              alt="Siemens MRI Machine at Henotic Diagnostics"
+              className="relative rounded-3xl shadow-2xl z-10 w-full border-4 border-white object-cover"
+              loading="lazy"
+              quality={80}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
             <div className="absolute -bottom-6 -right-6 bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-xl border border-white/50 z-20 hidden md:block">
               <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-pink-500 mb-1">3 Tesla</div>
               <div className="text-xs font-extrabold text-slate-700 uppercase tracking-widest">Silent Scan Tech</div>

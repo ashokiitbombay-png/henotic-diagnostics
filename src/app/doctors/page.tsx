@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import { DOCTORS } from '@/config/doctors';
 
 export const metadata: Metadata = {
@@ -32,7 +33,7 @@ export default function DoctorsPage() {
             <Link key={doc.id} href={`/doctors/${doc.id}`}
               className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
               {doc.imageUrl ? (
-                <img src={doc.imageUrl} alt={doc.name} className="w-20 h-20 rounded-full mb-6 shadow-lg object-cover" />
+                <Image width={80} height={80} src={doc.imageUrl} alt={doc.name} className="w-20 h-20 rounded-full mb-6 shadow-lg object-cover" loading="lazy" />
               ) : (
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-3xl font-black mb-6 shadow-lg">
                   {doc.name.charAt(0)}

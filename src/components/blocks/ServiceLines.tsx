@@ -1,5 +1,7 @@
+import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Star } from "lucide-react";
 
 const services = [
   { id: "radiology", title: "Advanced Radiology", desc: "3T MRI, 128-Slice CT, and Digital X-Ray with low-radiation protocols.", img: "https://storage.googleapis.com/wp-media-henoticbucket/Miscellaneous%20Section%20Images/934e91ce-ct-scan-kharghar-01-scaled.webp", link: "/services/mri-scan" },
@@ -48,7 +50,15 @@ export default function ServiceLines() {
           {services.map((s) => (
             <Link key={s.id} href={s.link} className="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-[350px]">
               <div className="absolute inset-0">
-                <img width="36" height="36" src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-40" fetchPriority="high" decoding="sync" />
+                <Image
+                  fill
+                  src={s.img}
+                  alt={s.title}
+                  className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-40"
+                  loading="lazy"
+                  quality={80}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-900/60 to-transparent"></div>
               </div>
               <div className="absolute bottom-0 left-0 p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
@@ -62,9 +72,7 @@ export default function ServiceLines() {
           ))}
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            🏥 PREMIUM FACILITY SHOWCASE & TRUST SIGNAL CARD
-            ═══════════════════════════════════════════════════════════════════ */}
+        {/* 🏥 PREMIUM FACILITY SHOWCASE & TRUST SIGNAL CARD */}
         <div
           className="mt-20 rounded-[2.5rem] p-1 shadow-[0_30px_80px_-15px_rgba(99,102,241,0.35),0_10px_30px_-5px_rgba(219,39,119,0.2)]"
           style={{ background: "linear-gradient(to right, #3b82f6, #6366f1, #db2777)" }}
@@ -84,12 +92,15 @@ export default function ServiceLines() {
                     backgroundClip: "padding-box, border-box",
                   }}
                 >
-                  <img
+                  <Image
                     src="https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-main-entrance_hero.webp"
                     alt="Henotic Diagnostics Corporate Building — Main Entrance"
-                    width="800" height="450"
+                    width={800}
+                    height={450}
                     className="w-full h-[220px] sm:h-[280px] md:h-[340px] object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy" decoding="async"
+                    loading="lazy"
+                    quality={80}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 sm:p-6">
                     <span className="text-white font-black text-sm sm:text-base drop-shadow-lg">
@@ -111,12 +122,15 @@ export default function ServiceLines() {
                         backgroundClip: "padding-box, border-box",
                       }}
                     >
-                      <img
+                      <Image
                         src={img.src}
                         alt={img.alt}
-                        width="300" height="200"
+                        width={300}
+                        height={200}
                         className="w-full h-[100px] sm:h-[120px] object-cover transition-transform duration-500 group-hover:scale-110"
-                        loading="lazy" decoding="async"
+                        loading="lazy"
+                        quality={80}
+                        sizes="25vw"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2">
                         <span className="text-white text-[10px] sm:text-xs font-bold drop-shadow-md">
@@ -176,41 +190,42 @@ export default function ServiceLines() {
                   <div className="flex flex-col sm:flex-row items-center gap-5">
                     {/* Google Business Profile Image */}
                     <div className="relative shrink-0">
-                      <img
-                        width="80" height="80" loading="lazy" decoding="async"
+                      <Image
+                        width={80}
+                        height={80}
                         src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-my-business-profile-icon.webp"
                         alt="Google Business Profile"
                         className="w-20 h-20 rounded-2xl object-cover shadow-[0_10px_30px_-8px_rgba(0,0,0,0.3)] border-2 border-white"
+                        loading="lazy"
                       />
-                      <img
-                        width="32" height="32" loading="lazy" decoding="async"
+                      <Image
+                        width={32}
+                        height={32}
                         src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp"
                         alt="Google"
                         className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full p-1 shadow-lg border-2 border-white object-contain"
+                        loading="lazy"
                       />
                     </div>
 
                     {/* Rating */}
                     <div className="flex-1 text-center sm:text-left">
                       <div className="flex items-center justify-center sm:justify-start gap-3 mb-2">
-                        <img
-                          width="36" height="36" loading="lazy" decoding="async"
+                        <Image
+                          width={36}
+                          height={36}
                           src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp"
                           alt="Google"
                           className="w-9 h-9 object-contain drop-shadow-md"
+                          loading="lazy"
                         />
                         <span className="text-slate-800 font-extrabold text-lg">Google Reviews</span>
                       </div>
                       <div className="flex items-center justify-center sm:justify-start gap-3 mb-2">
                         <span className="text-4xl font-black text-slate-900 drop-shadow-sm">4.9</span>
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 text-amber-400">
                           {[...Array(5)].map((_, i) => (
-                            <img
-                              key={i} width="40" height="40" loading="lazy" decoding="async"
-                              src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/yellow-star.webp"
-                              alt="Star"
-                              className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-md hover:scale-125 hover:-translate-y-1 transition-all duration-200"
-                            />
+                            <Star key={i} size={24} className="fill-amber-400 text-amber-400 drop-shadow-sm" />
                           ))}
                         </div>
                       </div>
@@ -225,11 +240,13 @@ export default function ServiceLines() {
                       target="_blank" rel="noreferrer"
                       className="flex-1 flex items-center justify-center gap-2.5 px-5 py-3.5 bg-white border-2 border-blue-100 hover:border-blue-300 hover:bg-blue-50 text-blue-800 font-bold rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 group"
                     >
-                      <img
-                        width="40" height="40" loading="lazy" decoding="async"
+                      <Image
+                        width={28}
+                        height={28}
                         src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google-maps.webp"
                         alt="Google Maps"
                         className="w-7 h-7 object-contain drop-shadow-sm group-hover:scale-110 transition-transform"
+                        loading="lazy"
                       />
                       View on Maps
                     </a>

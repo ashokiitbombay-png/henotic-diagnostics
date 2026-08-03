@@ -1,5 +1,6 @@
 import React from "react";
-import { Clock, Building2, ChevronRight, Sparkles, Award } from "lucide-react";
+import Image from "next/image";
+import { Clock, Building2, Sparkles, Award } from "lucide-react";
 
 const TEAM_DATA = [
   { name: "Dr. Esha Batra", qualifications: "MD, DNB, Radiology", experience: "14+ years experience", current: "Apollo & MGM", imageUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Doctors/dr-priyanka-patil-best-cardiologist-navi-mnumbai-henotic-diagnostics_team.webp", bgColor: "bg-[#FFF9F5]", primaryCircle: "bg-[#FDF2F0]", accent: "text-[#C2410C]", btnColor: "bg-[#C2410C]" },
@@ -21,7 +22,15 @@ export default function DoctorsTrustSignals() {
               <div className={`relative h-[300px] w-full ${doctor.bgColor} overflow-hidden flex items-center justify-center`}>
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20200%20200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cfilter%20id%3D%22noise%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.80%22%20numOctaves%3D%223%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url(%23noise)%22%2F%3E%3C%2Fsvg%3E')] opacity-20 mix-blend-overlay"></div>
                 <div className={`absolute w-[200px] h-[200px] rounded-full ${doctor.primaryCircle} border border-white shadow-inner flex items-center justify-center`}></div>
-                <img width="36" height="36" loading="lazy" decoding="async" src={doctor.imageUrl} alt={doctor.name} className="relative z-10 h-[90%] w-auto object-contain mt-auto transition-transform duration-700 group-hover:scale-110" />
+                <Image
+                  width={280}
+                  height={320}
+                  src={doctor.imageUrl}
+                  alt={doctor.name}
+                  className="relative z-10 h-[90%] w-auto object-contain mt-auto transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
                 <div className="absolute top-6 left-6 z-20 flex items-center gap-1 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-sm border border-white"><Award size={12} className={doctor.accent} /><span className="text-[9px] font-black uppercase tracking-widest text-slate-700">Verified</span></div>
               </div>
               <div className="p-8 flex flex-col flex-grow bg-slate-50/50">

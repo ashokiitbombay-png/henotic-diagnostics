@@ -82,10 +82,14 @@ export default function SiteFooter() {
           {/* GOOGLE MAP & GBP PROFILE (Right Column - Spans 7) */}
           <div className="lg:col-span-7 flex flex-col gap-4 lg:gap-6 h-full relative z-20">
              <div className="flex flex-col sm:flex-row gap-4 bg-white/10 p-4 rounded-3xl border border-white/20 backdrop-blur-md shadow-xl">
-                 <img width="36" height="36" src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
+                 <Image
+                   width={128}
+                   height={128}
+                   src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
                    alt="Henotic Diagnostics Facility" 
                    className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
-                 loading="lazy" decoding="async" />
+                   loading="lazy"
+                 />
                  <div className="flex flex-col justify-center">
                    <h5 className="font-bold text-lg mb-1">Highly Rated on Google</h5>
                    <p className="text-xs text-white/80 mb-3 max-w-sm">Experience world-class diagnostic imaging and pathology in Navi Mumbai.</p>
@@ -176,7 +180,7 @@ export default function SiteFooter() {
                 { name: "Paypal", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/3ffff106-paypal-banking-henotic-diagnostics.webp" }
               ].map((pay, i) => (
                 <div key={i} className="bg-white rounded-xl w-20 h-12 md:w-28 md:h-14 flex items-center justify-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 px-2">
-                  <img width="36" height="36" decoding="async" src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" />
+                  <Image width={72} height={28} src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" loading="lazy" />
                 </div>
               ))}
            </div>

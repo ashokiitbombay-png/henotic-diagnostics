@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import FAQSchema from '@/components/seo/FAQSchema';
@@ -89,7 +90,7 @@ export default function AboutUsPage() {
             </div>
             <div className="relative mt-8 lg:mt-0 group">
               <div className="absolute inset-0 bg-blue-600 rounded-3xl transform rotate-3 opacity-15 transition-transform duration-500 group-hover:rotate-6 blur-lg"></div>
-              <img width="36" height="36" src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" alt="Henotic Diagnostics MRI Scan" className="relative rounded-[2.5rem] shadow-2xl object-cover h-[350px] md:h-[450px] lg:h-[500px] w-full border-[6px] border-white transition-transform hover:scale-[1.02] duration-500 z-10" fetchPriority="high" decoding="sync" />
+              <Image width={600} height={500} src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" alt="Henotic Diagnostics MRI Scan" className="relative rounded-[2.5rem] shadow-2xl object-cover h-[350px] md:h-[450px] lg:h-[500px] w-full border-[6px] border-white transition-transform hover:scale-[1.02] duration-500 z-10" loading="lazy" sizes="(max-width: 1024px) 100vw, 50vw" />
             </div>
           </div>
         </div>
@@ -105,12 +106,12 @@ export default function AboutUsPage() {
           <div className="animate-marquee">
             {techImages.map((src, index) => (
               <div key={index} className="w-[80vw] sm:w-[320px] md:w-[350px] lg:w-[400px] flex-shrink-0 px-3 md:px-4">
-                <img width="36" height="36" src={src} className="w-full h-56 md:h-80 object-cover rounded-3xl deep-shadow border-4 border-white" alt="Technology" fetchPriority="high" decoding="sync" />
+                <Image width={400} height={320} src={src} className="w-full h-56 md:h-80 object-cover rounded-3xl deep-shadow border-4 border-white" alt="Technology" loading="lazy" sizes="400px" />
               </div>
             ))}
             {techImages.map((src, index) => (
               <div key={`dup-${index}`} className="w-[80vw] sm:w-[320px] md:w-[350px] lg:w-[400px] flex-shrink-0 px-3 md:px-4">
-                <img width="36" height="36" src={src} className="w-full h-56 md:h-80 object-cover rounded-3xl deep-shadow border-4 border-white" alt="Technology" fetchPriority="high" decoding="sync" />
+                <Image width={400} height={320} src={src} className="w-full h-56 md:h-80 object-cover rounded-3xl deep-shadow border-4 border-white" alt="Technology" loading="lazy" sizes="400px" />
               </div>
             ))}
           </div>
