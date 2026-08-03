@@ -1,92 +1,7 @@
 import { getClient } from "@/lib/apollo-client";
 import { cache } from "react";
-import { gql } from "@apollo/client";
-import type { BlogPost, BlogPostsResponse } from "@/types/cms";
-
-// ─────────────────────────────────────────────────────────────────────────────
-// GraphQL Queries
-// ─────────────────────────────────────────────────────────────────────────────
-
-const GET_BLOG_POSTS = gql`
-  query GetBlogPosts($first: Int, $after: String) {
-    posts(
-      first: $first
-      after: $after
-      where: { status: PUBLISH, orderby: { field: DATE, order: DESC } }
-    ) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      nodes {
-        id
-        title
-        slug
-        content
-        excerpt
-        date
-        featuredImage {
-          node {
-            sourceUrl
-            altText
-          }
-        }
-        categories {
-          nodes {
-            name
-            slug
-          }
-        }
-        author {
-          node {
-            name
-            avatar {
-              url
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const GET_BLOG_POST = gql`
-  query GetBlogPost($slug: ID!) {
-    post(id: $slug, idType: SLUG) {
-      id
-      title
-      slug
-      content
-      excerpt
-      date
-      featuredImage {
-        node {
-          sourceUrl
-          altText
-        }
-      }
-      categories {
-        nodes {
-          name
-          slug
-        }
-      }
-      author {
-        node {
-          name
-          avatar {
-            url
-          }
-        }
-      }
-      tags {
-        nodes {
-          name
-        }
-      }
-    }
-  }
-`;
+import { GET_BLOG_POSTS, GET_BLOG_POST } from "@/lib/wordpress/queries";
+import type { BlogPost, BlogPostCard, GetBlogPostsResponse, GetBlogPostResponse } from "@/types/cms";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Data Fetchers
@@ -94,6 +9,7 @@ const GET_BLOG_POST = gql`
 
 /**
  * Fetches a paginated list of published blog posts from WordPress.
+ * Returns BlogPostCard[] (no `content` field) for optimized list views.
  *
  * @param first  Number of posts to fetch (default 12)
  * @param after  Cursor for pagination
@@ -101,10 +17,10 @@ const GET_BLOG_POST = gql`
 async function _getBlogPosts(
   first: number = 12,
   after?: string
-): Promise<BlogPostsResponse["posts"] | null> {
+): Promise<GetBlogPostsResponse["posts"] | null> {
   try {
     const client = getClient();
-    const { data } = await client.query<BlogPostsResponse>({
+    const { data } = await client.query<GetBlogPostsResponse>({
       query: GET_BLOG_POSTS,
       variables: { first, after: after || null },
       fetchPolicy: "no-cache",
@@ -121,13 +37,14 @@ export const getBlogPosts = cache(_getBlogPosts);
 
 /**
  * Fetches a single blog post by its slug from WordPress.
+ * Returns full BlogPost with content + tags for detail views.
  *
  * @param slug  The post slug (e.g. "understanding-mri-scans")
  */
 async function _getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
     const client = getClient();
-    const { data } = await client.query<{ post: BlogPost }>({
+    const { data } = await client.query<GetBlogPostResponse>({
       query: GET_BLOG_POST,
       variables: { slug },
       fetchPolicy: "no-cache",

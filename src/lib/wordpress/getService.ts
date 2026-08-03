@@ -1,17 +1,8 @@
 import { getClient } from "@/lib/apollo-client";
 import { cache } from "react";
-import { gql } from "@apollo/client";
-import { WordPressService } from "@/types/cms";
+import { GET_SERVICE_BY_SLUG } from "@/lib/wordpress/queries";
+import type { WordPressService, GetServiceResponse } from "@/types/cms";
 import { getFailsafeData, saveFailsafeData } from "@/lib/wordpress/failsafeStore";
-
-const GET_SERVICE_BY_SLUG = gql`
-  query GetServiceContent($slug: ID!) {
-    service(id: $slug, idType: SLUG) {
-      title
-      content
-    }
-  }
-`;
 
 /**
  * Fetches dynamic service custom post type content from WordPress by its slug.
@@ -21,7 +12,7 @@ const GET_SERVICE_BY_SLUG = gql`
 async function _getService(slug: string): Promise<WordPressService | null> {
   try {
     const client = getClient();
-    const { data } = await client.query<any>({
+    const { data } = await client.query<GetServiceResponse>({
       query: GET_SERVICE_BY_SLUG,
       variables: { slug },
       fetchPolicy: "no-cache"

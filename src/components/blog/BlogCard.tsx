@@ -2,10 +2,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight, User, Clock } from "lucide-react";
-import type { BlogPost } from "@/types/cms";
+import type { BlogPostCard } from "@/types/cms";
 
 interface BlogCardProps {
-  post: BlogPost;
+  post: BlogPostCard & { content?: string };
 }
 
 /** Strips HTML tags and truncates to a given character limit. */
