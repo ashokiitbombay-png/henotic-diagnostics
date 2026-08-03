@@ -35,10 +35,6 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap-index',
-      },
-      {
         source: '/media-cdn/:path*',
         destination: 'https://storage.googleapis.com/wp-media-henoticbucket/:path*',
       },
