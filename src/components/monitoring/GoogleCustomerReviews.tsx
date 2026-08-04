@@ -121,7 +121,7 @@ export default function GoogleCustomerReviews() {
         if (window.merchantwidget) {
           window.merchantwidget.start({
             merchant_id: MERCHANT_ID,
-            position: "BOTTOM_RIGHT",
+            position: "BOTTOM_LEFT",
             region: "IN",
           });
         }

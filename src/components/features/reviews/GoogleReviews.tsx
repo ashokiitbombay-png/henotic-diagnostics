@@ -71,7 +71,7 @@ export default function GoogleReviews() {
               <Image 
                 width={128} 
                 height={128}
-                src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
+                src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp" 
                 alt="Google Business Profile" 
                 className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover"
                 loading="lazy"

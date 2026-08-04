@@ -10,7 +10,7 @@ export default function MedicalClinicSchema() {
       "DiagnosticImaging",
       "Cardiology"
     ],
-    "image": "https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=s1360-w1360-h1020-rw",
+    "image": "https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp",
     "@id": "https://www.henoticdiagnostics.com/#clinic",
     "url": "https://www.henoticdiagnostics.com",
     "telephone": "+91-8879327184",

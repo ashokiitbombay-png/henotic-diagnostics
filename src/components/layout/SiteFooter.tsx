@@ -85,7 +85,7 @@ export default function SiteFooter() {
                  <Image
                    width={128}
                    height={128}
-                   src="https://lh3.googleusercontent.com/p/AF1QipNNi77McpTFT3ksGjloBcqV3he235QDZfbaYiCv=w200-h200-p-k-no" 
+                   src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp" 
                    alt="Henotic Diagnostics Facility" 
                    className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
                    loading="lazy"

@@ -28,7 +28,7 @@ export default function WhatsAppWidget() {
   const callUrl = `tel:+${phoneNumber}`;
 
   return (
-    <div className="fixed bottom-[76px] md:bottom-6 right-3 md:right-6 z-[90] flex flex-col gap-3 items-center">
+    <div className="fixed bottom-[80px] md:bottom-8 right-4 md:right-6 z-[90] flex flex-col gap-3.5 items-center">
 
       {/* 🟢 WhatsApp */}
       <a
