@@ -68,16 +68,15 @@ function isOptimizedDomain(url: string): boolean {
   }
 }
 
+import { getBlogImageUrl } from "@/lib/blog-image-helper";
+
 export default function BlogCard({ post }: BlogCardProps) {
   const category = post.categories?.nodes?.[0];
   const authorName = post.author?.node?.name ?? "Henotic Team";
   const avatarUrl = post.author?.node?.avatar?.url;
   const minutes = post.content ? readingTime(post.content) : null;
 
-  // 3-tier image resolution: featuredImage → first image in content → null
-  const featuredSrc = post.featuredImage?.node?.sourceUrl ?? null;
-  const contentImageSrc = extractFirstImageUrl(post.content);
-  const imageSrc = featuredSrc || contentImageSrc;
+  const imageSrc = getBlogImageUrl(post);
   const imageAlt = post.featuredImage?.node?.altText || post.title;
 
   return (
@@ -85,30 +84,24 @@ export default function BlogCard({ post }: BlogCardProps) {
       href={`/blog/${post.slug}`}
       className="group flex flex-col bg-white/80 backdrop-blur-sm rounded-2xl border border-white/60 shadow-md overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2"
     >
-      {/* ── Image / Gradient Placeholder ─────────────────────────────── */}
+      {/* ── Image Container ─────────────────────────────── */}
       <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100">
-        {imageSrc ? (
-          isOptimizedDomain(imageSrc) ? (
-            <Image
-              src={imageSrc}
-              alt={imageAlt}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-          ) : (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={imageSrc}
-              alt={imageAlt}
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-          )
+        {isOptimizedDomain(imageSrc) ? (
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+          />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 flex items-center justify-center">
-            <span className="text-5xl font-black text-white/20 select-none">H</span>
-          </div>
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
         )}
 
         {/* Category Badge */}

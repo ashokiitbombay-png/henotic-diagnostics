@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { getBlogPost, getBlogPosts } from "@/lib/wordpress/getBlogPosts";
+import { getBlogImageUrl } from "@/lib/blog-image-helper";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -247,18 +248,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* ── Main Article ─────────────────────────────────────────── */}
           <article>
             {/* Featured Image */}
-            {post.featuredImage?.node?.sourceUrl && (
-              <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden mb-10 shadow-xl shadow-blue-500/10 border-4 border-white">
-                <Image
-                  src={post.featuredImage.node.sourceUrl}
-                  alt={post.featuredImage.node.altText || post.title}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 720px"
-                  className="object-cover"
-                />
-              </div>
-            )}
+            <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden mb-10 shadow-xl shadow-blue-500/10 border-4 border-white">
+              <Image
+                src={getBlogImageUrl(post)}
+                alt={post.featuredImage?.node?.altText || post.title}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 720px"
+                className="object-cover"
+              />
+            </div>
 
             {/* WordPress Content */}
             <div
@@ -313,18 +312,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         className="group flex gap-3 items-start"
                       >
                         {/* Thumbnail */}
-                        <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border border-slate-100">
-                          {rp.featuredImage?.node?.sourceUrl ? (
-                            <Image
-                              src={rp.featuredImage.node.sourceUrl}
-                              alt={rp.featuredImage.node.altText || rp.title}
-                              fill
-                              sizes="64px"
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500" />
-                          )}
+                        <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border border-slate-100 bg-slate-100">
+                          <Image
+                            src={getBlogImageUrl(rp)}
+                            alt={rp.featuredImage?.node?.altText || rp.title}
+                            fill
+                            sizes="64px"
+                            className="object-cover"
+                          />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-bold text-slate-800 leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
