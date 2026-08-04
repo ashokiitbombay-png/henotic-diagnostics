@@ -181,13 +181,27 @@ export default function HTMLSitemap() {
             <p className="text-sm text-slate-500 font-medium mb-4">
               These machine-readable XML sitemaps are used by Google, Bing, and other search engines to discover all pages on this website.
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-              <a href="/sitemap.xml" className="px-3 py-2 rounded-lg bg-blue-50 border border-blue-100 text-xs font-bold text-blue-700 hover:bg-blue-100 transition-all text-center">
-                📋 Index
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="px-3 py-2.5 rounded-xl bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 hover:bg-blue-100 transition-all text-center flex flex-col items-center justify-center gap-0.5">
+                <span>📋 Master Index</span>
+                <span className="text-[10px] text-blue-500 font-normal">5 Sitemaps</span>
               </a>
-              {Array.from({ length: 18 }, (_, i) => (
-                <a key={i} href={`/sitemap/${i}.xml`} className="px-3 py-2 rounded-lg bg-slate-50 border border-slate-100 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-all text-center">
-                  Segment {i}
+              {[
+                { id: 1, urls: "10,000 URLs" },
+                { id: 2, urls: "10,000 URLs" },
+                { id: 3, urls: "10,000 URLs" },
+                { id: 4, urls: "10,000 URLs" },
+                { id: 5, urls: "5,084 URLs" },
+              ].map(segment => (
+                <a
+                  key={segment.id}
+                  href={`/sitemaps/sitemap-${segment.id}.xml`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 hover:border-blue-300 hover:text-blue-600 hover:bg-white hover:shadow-sm transition-all text-center flex flex-col items-center justify-center gap-0.5"
+                >
+                  <span>Segment {segment.id}</span>
+                  <span className="text-[10px] text-slate-400 font-normal">{segment.urls}</span>
                 </a>
               ))}
             </div>

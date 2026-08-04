@@ -71,6 +71,18 @@ const nextConfig = {
         source: '/media-cdn/:path*',
         destination: 'https://storage.googleapis.com/wp-media-henoticbucket/:path*',
       },
+      {
+        source: '/sitemap/0.xml',
+        destination: '/sitemaps/sitemap-1.xml',
+      },
+      {
+        source: '/sitemap/:id.xml',
+        destination: '/sitemaps/sitemap-:id.xml',
+      },
+      {
+        source: '/sitemap-:id.xml',
+        destination: '/sitemaps/sitemap-:id.xml',
+      },
     ];
   },
   async headers() {
