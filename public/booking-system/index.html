@@ -351,39 +351,42 @@
                     <form id="appointmentForm" class="space-y-6" onsubmit="event.preventDefault();">
                         
                         <!-- SECTION 1: PATIENT DEMOGRAPHICS -->
-                        <div class="space-y-3">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-user-gear"></i> 1. Patient Demographics
-                            </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between border-b border-indigo-100 dark:border-indigo-950 pb-2">
+                                <h3 class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
+                                    <i class="fa-solid fa-id-card text-indigo-500"></i> 1. Patient Demographics
+                                </h3>
+                                <span class="text-[11px] font-bold text-indigo-500 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800">Step 1 of 4</span>
+                            </div>
                             
                             <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
                                 <!-- Name (AUTO CAPITAL LETTERS) -->
                                 <div class="sm:col-span-6">
-                                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                                        Patient Name <span class="text-rose-500">*</span> <span class="text-[10px] text-indigo-500 font-bold uppercase">(CAPITAL LETTERS)</span>
+                                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-100 mb-1.5">
+                                        Patient Name <span class="text-rose-500">*</span> <span class="text-xs text-indigo-500 font-extrabold uppercase">(CAPITAL LETTERS)</span>
                                     </label>
                                     <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-base">
                                             <i class="fa-regular fa-user"></i>
                                         </div>
-                                        <input type="text" id="patientName" required class="custom-input w-full pl-10 pr-4 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold uppercase tracking-wide text-slate-800 dark:text-slate-100 placeholder-slate-400 outline-none" placeholder="e.g. JAGDISHCHANDRA BHATT">
+                                        <input type="text" id="patientName" required class="custom-input w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base font-bold uppercase tracking-wide text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-2xs" placeholder="e.g. JAGDISHCHANDRA BHATT">
                                     </div>
                                 </div>
 
                                 <!-- Age -->
                                 <div class="sm:col-span-3">
-                                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-100 mb-1.5">
                                         Age (Years) <span class="text-rose-500">*</span>
                                     </label>
-                                    <input type="number" id="patientAge" required min="1" max="120" class="custom-input w-full px-3.5 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 outline-none" placeholder="e.g. 58">
+                                    <input type="number" id="patientAge" required min="1" max="120" class="custom-input w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base font-bold text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-2xs" placeholder="e.g. 58">
                                 </div>
 
                                 <!-- Gender -->
                                 <div class="sm:col-span-3">
-                                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-100 mb-1.5">
                                         Gender <span class="text-rose-500">*</span>
                                     </label>
-                                    <select id="patientGender" required class="custom-input w-full px-3.5 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-800 dark:text-slate-100 outline-none cursor-pointer">
+                                    <select id="patientGender" required class="custom-input w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base font-bold text-slate-900 dark:text-white outline-none cursor-pointer focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-2xs">
                                         <option value="Male">MALE</option>
                                         <option value="Female">FEMALE</option>
                                         <option value="Other">OTHER</option>
@@ -395,86 +398,82 @@
                             <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
                                 <div class="sm:col-span-6">
                                     <div class="flex items-center justify-between mb-1.5">
-                                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                        <label class="block text-sm font-bold text-slate-800 dark:text-slate-100">
                                             WhatsApp Mobile Number (10 Digits) <span class="text-rose-500">*</span>
                                         </label>
-                                        <span id="phoneCountBadge" class="text-[10px] font-bold text-slate-400">0/10 Digits</span>
+                                        <span id="phoneCountBadge" class="text-xs font-bold text-slate-400">0/10 Digits</span>
                                     </div>
-                                    <div class="relative flex rounded-xl shadow-sm">
-                                        <span class="inline-flex items-center px-3.5 rounded-l-xl border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold shrink-0">
-                                            <i class="fa-brands fa-whatsapp text-emerald-500 mr-1.5 text-base"></i> +91
+                                    <div class="relative flex rounded-xl shadow-2xs">
+                                        <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-black shrink-0">
+                                            <i class="fa-brands fa-whatsapp text-emerald-500 mr-2 text-lg"></i> +91
                                         </span>
-                                        <input type="tel" id="patientPhone" required maxlength="15" class="custom-input flex-1 min-w-0 px-4 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-r-xl text-sm font-semibold text-slate-800 dark:text-slate-100 placeholder-slate-400 outline-none" placeholder="Enter 10-digit mobile number (e.g. 9769312962)">
+                                        <input type="tel" id="patientPhone" required maxlength="15" class="custom-input flex-1 min-w-0 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-r-xl text-base font-bold text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" placeholder="Enter 10-digit mobile (e.g. 9769312962)">
                                     </div>
                                 </div>
 
                                 <div class="sm:col-span-6">
-                                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                                        Referring Doctor / Clinic <span class="text-[10px] text-slate-400 lowercase">(optional)</span>
+                                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-100 mb-1.5">
+                                        Referring Doctor / Clinic <span class="text-xs font-normal text-slate-400 lowercase">(optional)</span>
                                     </label>
                                     <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-xs">
+                                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-sm">
                                             <i class="fa-solid fa-user-doctor"></i>
                                         </div>
-                                        <input type="text" id="referringDoctor" class="custom-input w-full pl-9 pr-3 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-100 outline-none" placeholder="e.g. Self / Dr. Charan Reddy">
+                                        <input type="text" id="referringDoctor" class="custom-input w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all shadow-2xs" placeholder="e.g. Self / Dr. Charan Reddy">
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <!-- SECTION 2: CENTER & DIAGNOSTIC TESTS -->
-                        <div class="space-y-4 pt-4 border-t border-slate-200/60 dark:border-slate-800">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-microscope"></i> 2. Diagnostic Center & Tests
-                            </h3>
+                        <div class="space-y-4 pt-5 border-t border-slate-200/80 dark:border-slate-800">
+                            <div class="flex items-center justify-between border-b border-indigo-100 dark:border-indigo-950 pb-2">
+                                <h3 class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
+                                    <i class="fa-solid fa-microscope text-indigo-500"></i> 2. Diagnostic Center & Tests
+                                </h3>
+                                <span class="text-[11px] font-bold text-indigo-500 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800">Step 2 of 4</span>
+                            </div>
 
                             <!-- Location Select -->
                             <div>
-                                <div class="flex items-center justify-between mb-1.5">
-                                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-100">
                                         Partner Center / Diagnostic Branch <span class="text-rose-500">*</span>
                                     </label>
-                                    <span class="text-[10px] font-bold text-indigo-500">20 Certified Centers</span>
+                                    <span class="text-xs font-black text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950 px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800">25 Certified Centers</span>
                                 </div>
 
                                 <!-- Region Filter Pills -->
-                                <div class="flex items-center gap-1 overflow-x-auto pb-1.5 mb-2 text-[10px] font-bold">
-                                    <span class="text-slate-400 uppercase shrink-0">Filter City:</span>
-                                    <button type="button" onclick="filterPartnerRegion('ALL')" class="partner-region-btn px-2 py-0.5 rounded-md bg-indigo-600 text-white shrink-0 shadow-xs">All (20)</button>
-                                    <button type="button" onclick="filterPartnerRegion('Kharghar')" class="partner-region-btn px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">Kharghar</button>
-                                    <button type="button" onclick="filterPartnerRegion('Panvel')" class="partner-region-btn px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">Panvel</button>
-                                    <button type="button" onclick="filterPartnerRegion('Sanpada')" class="partner-region-btn px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">Sanpada</button>
-                                    <button type="button" onclick="filterPartnerRegion('Chembur')" class="partner-region-btn px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">Chembur / Ghatkopar</button>
-                                    <button type="button" onclick="filterPartnerRegion('Belapur')" class="partner-region-btn px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">Belapur / Vashi</button>
+                                <div class="flex items-center gap-1.5 overflow-x-auto pb-2 mb-2 text-xs font-bold">
+                                    <span class="text-slate-400 uppercase text-[11px] font-extrabold shrink-0 mr-1">Filter City:</span>
+                                    <button type="button" onclick="filterPartnerRegion('ALL', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-indigo-600 text-white shrink-0 font-extrabold shadow-xs text-xs">All (25)</button>
+                                    <button type="button" onclick="filterPartnerRegion('Kharghar', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Kharghar</button>
+                                    <button type="button" onclick="filterPartnerRegion('Panvel', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Panvel</button>
+                                    <button type="button" onclick="filterPartnerRegion('Sanpada', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Sanpada / Vashi</button>
+                                    <button type="button" onclick="filterPartnerRegion('Chembur', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Chembur / Ghatkopar</button>
+                                    <button type="button" onclick="filterPartnerRegion('Belapur', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Belapur / Nerul</button>
+                                    <button type="button" onclick="filterPartnerRegion('Kalyan', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Kalyan / Thane</button>
                                 </div>
 
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-indigo-500 text-sm">
-                                        <i class="fa-solid fa-location-dot"></i>
-                                    </div>
-                                    <select id="partnerSelect" required onchange="onPartnerChange()" class="custom-input w-full pl-10 pr-10 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-100 outline-none cursor-pointer appearance-none">
-                                        <!-- Populated via JS -->
-                                    </select>
-                                    <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
-                                        <i class="fa-solid fa-chevron-down text-xs"></i>
-                                    </div>
-                                </div>
-                                
-                                <!-- Dedicated Google Maps Location & Dynamic Partner Logo Box in Form -->
-                                <div id="centerInfoBox" class="mt-2.5 p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-slate-900/80 border border-indigo-100 dark:border-indigo-950 text-xs space-y-3 shadow-sm">
-                                    <div class="flex items-center justify-between gap-3">
-                                        <div class="flex items-start gap-2">
-                                            <i class="fa-solid fa-building-user text-indigo-600 dark:text-indigo-400 mt-0.5 text-sm"></i>
-                                            <span id="centerAddressText" class="text-slate-700 dark:text-slate-300 font-semibold leading-relaxed">--</span>
+                                <select id="partnerSelect" onchange="onPartnerChange()" required class="custom-input w-full px-4 py-3.5 bg-white dark:bg-slate-900 border-2 border-indigo-200 dark:border-indigo-900 rounded-xl text-base font-extrabold text-slate-900 dark:text-white outline-none cursor-pointer focus:ring-2 focus:ring-indigo-500 shadow-sm">
+                                    <!-- Options populated dynamically in JS -->
+                                </select>
+
+                                <!-- Active Center Info Card -->
+                                <div id="activeCenterCard" class="mt-3 p-3.5 bg-slate-50 dark:bg-slate-900/80 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fa-solid fa-building-circle-check text-indigo-600 dark:text-indigo-400 text-sm shrink-0 mt-0.5"></i>
+                                            <span id="centerAddressText" class="text-slate-800 dark:text-slate-200 font-bold leading-relaxed">--</span>
                                         </div>
+                                    </div>
+                                    <div class="flex items-center justify-between pt-1 border-t border-slate-200/60 dark:border-slate-800">
                                         <div class="flex items-center gap-1.5 overflow-hidden">
                                             <i class="fa-solid fa-map-location-dot text-emerald-600 dark:text-emerald-400 text-xs"></i>
                                             <span class="font-extrabold text-[10px] uppercase tracking-wider text-slate-500">Google Maps:</span>
-                                            <span id="centerMapUrlText" class="font-mono text-[11px] font-bold text-indigo-600 dark:text-indigo-400 truncate">--</span>
+                                            <span id="centerMapUrlText" class="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400 truncate max-w-[200px] sm:max-w-[300px]">--</span>
                                         </div>
-                                        <a id="centerMapBtn" href="#" target="_blank" class="shrink-0 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] flex items-center gap-1.5 shadow-sm transition-all">
+                                        <a id="centerMapBtn" href="#" target="_blank" class="shrink-0 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs flex items-center gap-1.5 shadow-sm transition-all">
                                             <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Location
                                         </a>
                                     </div>
@@ -482,54 +481,54 @@
                             </div>
 
                             <!-- Test Selector Container -->
-                            <div class="bg-indigo-50/50 dark:bg-slate-900/70 p-4 sm:p-5 rounded-2xl border border-indigo-100 dark:border-indigo-950">
+                            <div class="bg-indigo-50/60 dark:bg-slate-900/80 p-4 sm:p-5 rounded-2xl border-2 border-indigo-100 dark:border-indigo-950">
                                 <div class="flex items-center justify-between mb-2">
-                                    <label id="testSelectLabel" onclick="toggleDropdown(event)" class="block text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                                    <label id="testSelectLabel" onclick="toggleDropdown(event)" class="block text-sm font-bold text-slate-800 dark:text-slate-200 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                                         Select Tests / Scans (Max 3) <span class="text-rose-500">*</span>
                                     </label>
-                                    <span id="testCounterBadge" class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">
+                                    <span id="testCounterBadge" class="text-xs font-black px-2.5 py-1 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
                                         0 / 3 Selected
                                     </span>
                                 </div>
 
                                 <!-- Selected Tags Pills -->
-                                <div id="selectedTagsContainer" onclick="toggleDropdown(event)" class="mb-3 min-h-[36px] flex flex-wrap gap-2 p-1.5 rounded-xl bg-white/60 dark:bg-slate-950/60 border border-slate-200/50 dark:border-slate-800 cursor-pointer hover:border-indigo-300 transition-colors">
-                                    <span class="text-xs text-slate-400 font-normal self-center px-2 py-1 italic" id="emptyTagsHint">No tests added yet. Click dropdown below to select...</span>
+                                <div id="selectedTagsContainer" onclick="toggleDropdown(event)" class="mb-3 min-h-[44px] flex flex-wrap gap-2 p-2 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 cursor-pointer hover:border-indigo-400 transition-colors">
+                                    <span class="text-xs sm:text-sm text-slate-400 font-medium self-center px-2 py-1 italic" id="emptyTagsHint">No tests added yet. Click dropdown below to select...</span>
                                 </div>
 
                                 <!-- Custom Searchable Dropdown -->
                                 <div class="relative" id="customDropdown">
-                                    <div id="dropdownButton" onclick="toggleDropdown(event)" class="w-full px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm text-sm font-medium flex justify-between items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-all select-none">
+                                    <div id="dropdownButton" onclick="toggleDropdown(event)" class="w-full px-4 py-3.5 bg-white dark:bg-slate-900 border-2 border-slate-300 dark:border-slate-700 rounded-xl shadow-sm text-base font-bold flex justify-between items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-all select-none">
                                         <span id="dropdownPlaceholder" class="text-slate-400">Search and select tests...</span>
-                                        <i class="fa-solid fa-chevron-down text-indigo-500 text-xs transition-transform duration-200" id="dropdownArrow"></i>
+                                        <i class="fa-solid fa-chevron-down text-indigo-500 text-sm transition-transform duration-200" id="dropdownArrow"></i>
                                     </div>
                                     
                                     <!-- Dropdown Menu -->
-                                    <div id="dropdownMenu" class="absolute z-50 w-full mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl hidden max-h-80 flex-col overflow-hidden left-0 right-0">
+                                    <div id="dropdownMenu" class="absolute z-50 w-full mt-2 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl hidden max-h-96 flex-col overflow-hidden left-0 right-0">
                                         <!-- Search Header -->
                                         <div class="p-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/90 sticky top-0 z-20 space-y-2">
                                             <div class="flex items-center justify-between gap-2">
                                                 <div class="relative flex-1">
-                                                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                                                    <input type="text" id="testSearch" class="w-full pl-8 pr-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" placeholder="Type test name (e.g. PET, MRI, CT, Blood, PCPNDT)...">
+                                                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                                                    <input type="text" id="testSearch" class="w-full pl-9 pr-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" placeholder="Type test name (e.g. EEG, PET, MRI, CT, Blood)...">
                                                 </div>
-                                                <button type="button" onclick="closeDropdown()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shrink-0 shadow-xs flex items-center gap-1 transition-all">
-                                                    <i class="fa-solid fa-check text-[10px]"></i> Done
+                                                <button type="button" onclick="closeDropdown()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-extrabold shrink-0 shadow-xs flex items-center gap-1 transition-all">
+                                                    <i class="fa-solid fa-check text-xs"></i> Done
                                                 </button>
                                             </div>
                                             <!-- Category Chips -->
-                                            <div class="flex items-center gap-1 overflow-x-auto pb-1 text-[10px] font-semibold text-slate-600 dark:text-slate-400">
-                                                <button type="button" onclick="filterCategory('ALL', this)" class="cat-chip px-2 py-0.5 rounded-md bg-indigo-600 text-white shrink-0 font-bold shadow-xs">All</button>
-                                                <button type="button" onclick="filterCategory('BLOOD', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Blood / Checkup</button>
-                                                <button type="button" onclick="filterCategory('CARDIAC', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Cardiac & Angio</button>
-                                                <button type="button" onclick="filterCategory('USG', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">USG & Doppler</button>
-                                                <button type="button" onclick="filterCategory('PREG', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Pregnancy & NIPT</button>
-                                                <button type="button" onclick="filterCategory('CT', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">CT Scan</button>
-                                                <button type="button" onclick="filterCategory('MRI', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">MRI Scan</button>
-                                                <button type="button" onclick="filterCategory('PET', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">PET Scan</button>
-                                                <button type="button" onclick="filterCategory('NEURO', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Neuro (EEG/EMG/NCV)</button>
-                                                <button type="button" onclick="filterCategory('XRAY', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">DEXA & Bone</button>
-                                                <button type="button" onclick="filterCategory('MAMMO', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Mammography</button>
+                                            <div class="flex items-center gap-1 overflow-x-auto pb-1 text-xs font-bold text-slate-600 dark:text-slate-400">
+                                                <button type="button" onclick="filterCategory('ALL', this)" class="cat-chip px-2.5 py-1 rounded-md bg-indigo-600 text-white shrink-0 font-bold shadow-xs">All</button>
+                                                <button type="button" onclick="filterCategory('BLOOD', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Blood / Checkup</button>
+                                                <button type="button" onclick="filterCategory('CARDIAC', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Cardiac & Angio</button>
+                                                <button type="button" onclick="filterCategory('USG', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">USG & Doppler</button>
+                                                <button type="button" onclick="filterCategory('PREG', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Pregnancy & NIPT</button>
+                                                <button type="button" onclick="filterCategory('CT', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">CT Scan</button>
+                                                <button type="button" onclick="filterCategory('MRI', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">MRI Scan</button>
+                                                <button type="button" onclick="filterCategory('PET', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">PET Scan</button>
+                                                <button type="button" onclick="filterCategory('NEURO', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Neuro (EEG/EMG/NCV)</button>
+                                                <button type="button" onclick="filterCategory('XRAY', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">DEXA & Bone</button>
+                                                <button type="button" onclick="filterCategory('MAMMO', this)" class="cat-chip px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Mammography</button>
                                             </div>
                                         </div>
 
@@ -540,7 +539,7 @@
 
                                         <!-- Sticky Bottom Close Button -->
                                         <div class="p-2 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 sticky bottom-0 text-center">
-                                            <button type="button" onclick="closeDropdown()" class="w-full py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-lg transition-all flex items-center justify-center gap-1">
+                                            <button type="button" onclick="closeDropdown()" class="w-full py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-1">
                                                 <i class="fa-solid fa-xmark text-rose-500 text-xs"></i> Close Menu
                                             </button>
                                         </div>
@@ -556,58 +555,63 @@
                         </div>
 
                         <!-- SECTION 3: DATE & TIME BLOCK -->
-                        <div class="space-y-3 pt-4 border-t border-slate-200/60 dark:border-slate-800">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
-                                <i class="fa-regular fa-calendar-check"></i> 3. Schedule & Slot
-                            </h3>
+                        <div class="space-y-4 pt-5 border-t border-slate-200/80 dark:border-slate-800">
+                            <div class="flex items-center justify-between border-b border-indigo-100 dark:border-indigo-950 pb-2">
+                                <h3 class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
+                                    <i class="fa-regular fa-calendar-check text-indigo-500"></i> 3. Schedule & Slot
+                                </h3>
+                                <span class="text-[11px] font-bold text-indigo-500 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950 px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800">Step 3 of 4</span>
+                            </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <!-- Date Picker -->
                                 <div>
                                     <div class="flex items-center justify-between mb-1.5">
-                                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                        <label class="block text-sm font-bold text-slate-800 dark:text-slate-100">
                                             Appointment Date <span class="text-rose-500">*</span>
                                         </label>
                                         <!-- Quick Date Pills -->
                                         <div class="flex gap-1">
-                                            <button type="button" onclick="setQuickDate(0)" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white transition-colors">Today</button>
-                                            <button type="button" onclick="setQuickDate(1)" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white transition-colors">Tomorrow</button>
-                                            <button type="button" onclick="setQuickDate(2)" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white transition-colors">+2 Days</button>
+                                            <button type="button" onclick="setQuickDate(0)" class="text-xs font-bold px-2 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-600 hover:text-white transition-colors">Today</button>
+                                            <button type="button" onclick="setQuickDate(1)" class="text-xs font-bold px-2 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-600 hover:text-white transition-colors">Tomorrow</button>
+                                            <button type="button" onclick="setQuickDate(2)" class="text-xs font-bold px-2 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-600 hover:text-white transition-colors">+2 Days</button>
                                         </div>
                                     </div>
-                                    <input type="date" id="aptDate" required class="custom-input w-full px-3.5 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-800 dark:text-slate-100 outline-none">
+                                    <input type="date" id="aptDate" required class="custom-input w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base font-bold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-2xs">
                                 </div>
 
                                 <!-- Time Window -->
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-100 mb-1.5">
                                         Time Slot / Window <span class="text-rose-500">*</span>
                                     </label>
-                                    <div class="grid grid-cols-2 gap-2 mb-2">
-                                        <input type="time" id="aptTimeStart" required class="custom-input w-full px-2.5 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-100 outline-none">
-                                        <input type="time" id="aptTimeEnd" class="custom-input w-full px-2.5 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-100 outline-none">
+                                    <div class="grid grid-cols-2 gap-2 mb-2.5">
+                                        <input type="time" id="aptTimeStart" required class="custom-input w-full px-3 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <input type="time" id="aptTimeEnd" class="custom-input w-full px-3 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500">
                                     </div>
                                     
-                                    <!-- 1-Click Smart Time Slot Pills -->
-                                    <div class="flex flex-wrap items-center gap-1">
-                                        <span class="text-[9px] font-bold text-slate-400 uppercase mr-1">Slots:</span>
-                                        <button type="button" onclick="setTimeSlot('09:00', '10:00')" class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-[10px] font-bold text-slate-600 dark:text-slate-300 transition-colors">🌅 09:00 AM</button>
-                                        <button type="button" onclick="setTimeSlot('12:00', '13:00')" class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-[10px] font-bold text-slate-600 dark:text-slate-300 transition-colors">☀️ 12:00 PM</button>
-                                        <button type="button" onclick="setTimeSlot('15:00', '16:00')" class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-[10px] font-bold text-slate-600 dark:text-slate-300 transition-colors">🌤️ 03:00 PM</button>
-                                        <button type="button" onclick="setTimeSlot('18:00', '19:00')" class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-[10px] font-bold text-slate-600 dark:text-slate-300 transition-colors">🌆 06:00 PM</button>
-                                        <button type="button" onclick="setTimeSlot('20:00', '21:00')" class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-[10px] font-bold text-slate-600 dark:text-slate-300 transition-colors">🌃 08:00 PM</button>
+                                    <!-- 1-Click Color-Coded Time Slot Pills -->
+                                    <div class="space-y-1">
+                                        <span class="block text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Select Preset Time Slot:</span>
+                                        <div class="flex flex-wrap items-center gap-1.5">
+                                            <button type="button" onclick="setTimeSlot('09:00', '10:00')" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-black shadow-xs shadow-amber-500/20 active:scale-95 transition-all flex items-center gap-1">🌅 09:00 AM</button>
+                                            <button type="button" onclick="setTimeSlot('12:00', '13:00')" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white text-xs font-black shadow-xs shadow-yellow-500/20 active:scale-95 transition-all flex items-center gap-1">☀️ 12:00 PM</button>
+                                            <button type="button" onclick="setTimeSlot('15:00', '16:00')" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white text-xs font-black shadow-xs shadow-sky-500/20 active:scale-95 transition-all flex items-center gap-1">🌤️ 03:00 PM</button>
+                                            <button type="button" onclick="setTimeSlot('18:00', '19:00')" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-black shadow-xs shadow-purple-500/20 active:scale-95 transition-all flex items-center gap-1">🌆 06:00 PM</button>
+                                            <button type="button" onclick="setTimeSlot('20:00', '21:00')" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-700 hover:from-indigo-700 hover:to-violet-800 text-white text-xs font-black shadow-xs shadow-indigo-500/20 active:scale-95 transition-all flex items-center gap-1">🌃 08:00 PM</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- SECTION 4: FINANCIALS & PRICING CALCULATOR (OPTIONAL) -->
-                        <div class="space-y-3 pt-4 border-t border-slate-200/60 dark:border-slate-800">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-indian-rupee-sign"></i> 4. Pricing & Discount Calculator <span class="text-[10px] font-normal text-slate-400 lowercase">(optional)</span>
+                        <div class="space-y-4 pt-5 border-t border-slate-200/80 dark:border-slate-800">
+                            <div class="flex items-center justify-between border-b border-indigo-100 dark:border-indigo-950 pb-2">
+                                <h3 class="text-sm sm:text-base font-extrabold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
+                                    <i class="fa-solid fa-indian-rupee-sign text-indigo-500"></i> 4. Pricing & Discount Calculator <span class="text-xs font-normal text-slate-400 lowercase">(optional)</span>
                                 </h3>
-                                <span id="discountPercentageBadge" class="hidden px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-extrabold text-[11px] border border-emerald-300 dark:border-emerald-800">
+                                <span id="discountPercentageBadge" class="hidden px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-black text-xs border border-emerald-300 dark:border-emerald-800">
                                     SAVE 0%
                                 </span>
                             </div>
@@ -615,63 +619,65 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <!-- MRP Price -->
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Standard MRP (₹)</label>
+                                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-100 mb-1.5">Standard MRP (₹)</label>
                                     <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs font-bold">₹</div>
-                                        <input type="number" id="mrpPrice" oninput="calculateDiscount()" class="custom-input w-full pl-8 pr-3 py-2.5 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-400 line-through outline-none" placeholder="16000">
+                                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 text-base font-black">₹</div>
+                                        <input type="number" id="mrpPrice" oninput="calculateDiscount()" class="custom-input w-full pl-9 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-base font-extrabold text-slate-400 line-through outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs" placeholder="16000">
                                     </div>
                                 </div>
 
                                 <!-- Final Payable Price (Optional) -->
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                                        Final Price (₹) <span class="text-[10px] font-normal text-slate-400">(Leave blank to omit)</span>
+                                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-100 mb-1.5">
+                                        Final Price (₹) <span class="text-xs font-normal text-slate-400">(Leave blank to omit)</span>
                                     </label>
                                     <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-600 text-sm font-extrabold">₹</div>
-                                        <input type="number" id="finalPrice" oninput="calculateDiscount()" class="custom-input w-full pl-8 pr-3 py-2.5 bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 rounded-xl text-sm font-extrabold text-emerald-700 dark:text-emerald-300 outline-none" placeholder="Optional final amount">
+                                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-emerald-600 dark:text-emerald-400 text-base font-black">₹</div>
+                                        <input type="number" id="finalPrice" oninput="calculateDiscount()" class="custom-input w-full pl-9 pr-4 py-3 bg-emerald-50/80 dark:bg-emerald-950/40 border-2 border-emerald-400 dark:border-emerald-700 rounded-xl text-lg font-black text-emerald-700 dark:text-emerald-300 outline-none focus:ring-2 focus:ring-emerald-500 shadow-2xs" placeholder="Optional final amount">
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Quick Preset Discount Buttons -->
-                            <div class="flex items-center gap-1.5 pt-1">
-                                <span class="text-[10px] font-bold text-slate-400 uppercase">Apply Discount:</span>
-                                <button type="button" onclick="applyPresetDiscount(10)" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-emerald-600 hover:text-white transition-colors">-10%</button>
-                                <button type="button" onclick="applyPresetDiscount(20)" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-emerald-600 hover:text-white transition-colors">-20%</button>
-                                <button type="button" onclick="applyPresetDiscount(30)" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-emerald-600 hover:text-white transition-colors">-30%</button>
-                                <button type="button" onclick="applyPresetDiscount(50)" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-emerald-600 hover:text-white transition-colors">-50%</button>
+                            <!-- Color-Coded Preset Discount Buttons -->
+                            <div class="space-y-1">
+                                <span class="block text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Quick Apply Preset Discount:</span>
+                                <div class="flex items-center gap-2">
+                                    <button type="button" onclick="applyPresetDiscount(10)" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs shadow-xs active:scale-95 transition-all">-10%</button>
+                                    <button type="button" onclick="applyPresetDiscount(20)" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-xs active:scale-95 transition-all">-20%</button>
+                                    <button type="button" onclick="applyPresetDiscount(30)" class="px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-black text-xs shadow-xs active:scale-95 transition-all">-30%</button>
+                                    <button type="button" onclick="applyPresetDiscount(50)" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-rose-500 via-pink-600 to-rose-600 hover:from-rose-600 hover:to-pink-700 text-white font-black text-xs shadow-md shadow-rose-500/30 active:scale-95 transition-all flex items-center gap-1">🔥 -50% SUPER OFF</button>
+                                </div>
                             </div>
                         </div>
 
                         <!-- SECTION 5: PREPARATION NOTES -->
-                        <div class="space-y-2 pt-4 border-t border-slate-200/60 dark:border-slate-800">
+                        <div class="space-y-3 pt-5 border-t border-slate-200/80 dark:border-slate-800">
                             <div class="flex items-center justify-between mb-1">
-                                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                <label class="block text-sm sm:text-base font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                                     <i class="fa-solid fa-list-check text-indigo-500"></i> Important Patient Guidelines (Auto-filled)
                                 </label>
                                 <div class="flex items-center gap-2">
-                                    <button type="button" onclick="speakPrepNotes()" class="text-[11px] font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 bg-amber-50 dark:bg-amber-950/60 px-2.5 py-1 rounded-lg border border-amber-200 dark:border-amber-900 transition-colors flex items-center gap-1">
-                                        <i class="fa-solid fa-volume-high text-amber-500 animate-pulse"></i> Voice Read Aloud
+                                    <button type="button" onclick="speakPrepNotes()" class="text-xs font-extrabold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/80 px-3 py-1 rounded-xl border border-amber-300 dark:border-amber-800 hover:bg-amber-200 transition-colors flex items-center gap-1.5 shadow-2xs">
+                                        <i class="fa-solid fa-volume-high text-amber-600 animate-pulse"></i> Voice Read Aloud
                                     </button>
-                                    <span class="text-[11px] font-medium text-slate-400">
+                                    <span class="text-xs font-bold text-slate-400">
                                         <i class="fa-solid fa-pen text-indigo-400"></i> Fully Editable
                                     </span>
                                 </div>
                             </div>
-                            <!-- Quick helper buttons -->
-                            <div class="flex flex-wrap gap-1 mb-2">
-                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- PLEASE CARRY ORIGINAL DOCTOR PRESCRIPTION FOR APPOINTMENT.')" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-purple-50 dark:bg-purple-950/80 hover:bg-purple-600 hover:text-white text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800 transition-colors">+ Prescription</button>
-                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- DO COME WITH OLD MEDICAL HISTORY REPORTS LIKE USG, XRAY, CT SCAN AND MRI ETC.')" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/80 hover:bg-indigo-600 hover:text-white text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-colors">+ Old Reports</button>
-                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- 4-6 HOURS FASTING REQUIRED BEFORE APPOINTMENT. PLAIN WATER ALLOWED.')" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/80 hover:bg-amber-600 hover:text-white text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 transition-colors">+ 6h Fasting</button>
-                                <button type="button" onclick="appendNoteSnippet('*NOTE* :- NO FASTING REQUIRED. CONTINUE REGULAR MEDICINES.')" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/80 hover:bg-emerald-600 hover:text-white text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 transition-colors">+ No Fasting</button>
-                                <button type="button" onclick="appendNoteSnippet('*NOTE* :- DRINK 3-4 GLASSES OF WATER BEFORE SCAN. COME WITH A COMFORTABLY FULL BLADDER.')" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/80 hover:bg-blue-600 hover:text-white text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800 transition-colors">+ Full Bladder</button>
-                                <button type="button" onclick="appendNoteSnippet('*NOTE* :- DO NOT WEAR AND CARRY ANY METALLIC ELEMENT LIKE (JEWELLERY, BELTS, WATCH, COINS ETC)')" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/80 hover:bg-indigo-600 hover:text-white text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-colors">+ No Metals</button>
-                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- CARRY LATEST SERUM CREATININE BLOOD REPORT FOR CONTRAST / SCAN.')" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-rose-50 dark:bg-rose-950/80 hover:bg-rose-600 hover:text-white text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800 transition-colors">+ Serum Creatinine</button>
-                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- 1 PERSON IS MANDATORY WITH PATIENT.')" class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/80 hover:bg-indigo-600 hover:text-white text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-colors">+ 1 Attendant</button>
+                            <!-- Quick helper snippet buttons -->
+                            <div class="flex flex-wrap gap-1.5 mb-2">
+                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- PLEASE CARRY ORIGINAL DOCTOR PRESCRIPTION FOR APPOINTMENT.')" class="text-xs font-bold px-2.5 py-1 rounded-xl bg-purple-100 dark:bg-purple-950/80 hover:bg-purple-600 hover:text-white text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800 transition-colors">+ Prescription</button>
+                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- DO COME WITH OLD MEDICAL HISTORY REPORTS LIKE USG, XRAY, CT SCAN AND MRI ETC.')" class="text-xs font-bold px-2.5 py-1 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 hover:bg-indigo-600 hover:text-white text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-colors">+ Old Reports</button>
+                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- 4-6 HOURS FASTING REQUIRED BEFORE APPOINTMENT. PLAIN WATER ALLOWED.')" class="text-xs font-bold px-2.5 py-1 rounded-xl bg-amber-100 dark:bg-amber-950/80 hover:bg-amber-600 hover:text-white text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 transition-colors">+ 6h Fasting</button>
+                                <button type="button" onclick="appendNoteSnippet('*NOTE* :- NO FASTING REQUIRED. CONTINUE REGULAR MEDICINES.')" class="text-xs font-bold px-2.5 py-1 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 hover:bg-emerald-600 hover:text-white text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 transition-colors">+ No Fasting</button>
+                                <button type="button" onclick="appendNoteSnippet('*NOTE* :- DRINK 3-4 GLASSES OF WATER BEFORE SCAN. COME WITH A COMFORTABLY FULL BLADDER.')" class="text-xs font-bold px-2.5 py-1 rounded-xl bg-blue-100 dark:bg-blue-950/80 hover:bg-blue-600 hover:text-white text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800 transition-colors">+ Full Bladder</button>
+                                <button type="button" onclick="appendNoteSnippet('*NOTE* :- DO NOT WEAR AND CARRY ANY METALLIC ELEMENT LIKE (JEWELLERY, BELTS, WATCH, COINS ETC)')" class="text-xs font-bold px-2.5 py-1 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 hover:bg-indigo-600 hover:text-white text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-colors">+ No Metals</button>
+                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- CARRY LATEST SERUM CREATININE BLOOD REPORT FOR CONTRAST / SCAN.')" class="text-xs font-bold px-2.5 py-1 rounded-xl bg-rose-100 dark:bg-rose-950/80 hover:bg-rose-600 hover:text-white text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800 transition-colors">+ Serum Creatinine</button>
+                                <button type="button" onclick="appendNoteSnippet('*IMPORTANT* :- 1 PERSON IS MANDATORY WITH PATIENT.')" class="text-xs font-bold px-2.5 py-1 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 hover:bg-indigo-600 hover:text-white text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-colors">+ 1 Attendant</button>
                             </div>
-                            <textarea id="prepNotes" rows="5" class="custom-input w-full p-3 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-200 outline-none leading-relaxed" placeholder="Instructions auto-populate based on scan selection..."></textarea>
-                        </div>
+                            <textarea id="prepNotes" rows="5" class="custom-input w-full p-3.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-800 dark:text-slate-100 outline-none leading-relaxed focus:ring-2 focus:ring-indigo-500 shadow-2xs" placeholder="Instructions auto-populate based on scan selection..."></textarea>
+                        </div>                    </div>
 
                     </form>
 
@@ -2177,22 +2183,36 @@
             showToast(`Time slot set to ${format12HourTime(start)} - ${format12HourTime(end)}`, "success");
         }
 
-        function filterPartnerRegion(region) {
+        function filterPartnerRegion(region, btnElement) {
             const btns = document.querySelectorAll('.partner-region-btn');
             btns.forEach(btn => {
-                if ((region === 'ALL' && btn.textContent.includes('All')) || btn.textContent.includes(region)) {
-                    btn.className = "partner-region-btn px-2 py-0.5 rounded-md bg-indigo-600 text-white shrink-0 shadow-xs";
-                } else {
-                    btn.className = "partner-region-btn px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0";
-                }
+                btn.className = "partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs font-bold";
             });
+            if (btnElement) {
+                btnElement.className = "partner-region-btn px-3 py-1 rounded-lg bg-indigo-600 text-white shrink-0 font-extrabold shadow-xs text-xs";
+            } else {
+                btns.forEach(btn => {
+                    if ((region === 'ALL' && btn.textContent.includes('All')) || (region !== 'ALL' && btn.textContent.includes(region))) {
+                        btn.className = "partner-region-btn px-3 py-1 rounded-lg bg-indigo-600 text-white shrink-0 font-extrabold shadow-xs text-xs";
+                    }
+                });
+            }
 
             const partnerSelect = formEls.partner;
             partnerSelect.innerHTML = '';
             
-            const filteredPartners = region === 'ALL' 
-                ? partners 
-                : partners.filter(p => p.name.toLowerCase().includes(region.toLowerCase()) || p.address.toLowerCase().includes(region.toLowerCase()));
+            let filteredPartners = partners;
+            if (region !== 'ALL') {
+                const searchRegion = region.toLowerCase();
+                filteredPartners = partners.filter(p => {
+                    const text = (p.name + ' ' + p.address).toLowerCase();
+                    if (searchRegion === 'sanpada') return text.includes('sanpada') || text.includes('vashi') || text.includes('turbhe');
+                    if (searchRegion === 'belapur') return text.includes('belapur') || text.includes('nerul') || text.includes('seawoods');
+                    if (searchRegion === 'chembur') return text.includes('chembur') || text.includes('ghatkopar') || text.includes('vidyavihar');
+                    if (searchRegion === 'kalyan') return text.includes('kalyan') || text.includes('thane');
+                    return text.includes(searchRegion);
+                });
+            }
             
             filteredPartners.forEach(p => {
                 const opt = document.createElement('option');
