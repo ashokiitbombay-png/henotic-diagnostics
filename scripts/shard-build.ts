@@ -63,7 +63,7 @@ function main() {
     execSync('npm run generate:sitemaps', { stdio: 'inherit', env, shell: '/bin/sh' });
 
     console.log('🏗️ Launching Next.js build...');
-    execSync('npx --yes next build --webpack', { stdio: 'inherit', env, shell: '/bin/sh' });
+    execSync('npx --yes next build', { stdio: 'inherit', env, shell: '/bin/sh' });
 
     console.log('✅ Sharded build completed successfully!');
   } catch (err) {
