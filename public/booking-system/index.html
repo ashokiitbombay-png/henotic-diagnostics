@@ -63,6 +63,44 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        /* Edge-to-Edge Fluid Responsive Reset */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
+        }
+        *, *:before, *:after {
+            box-sizing: border-box !important;
+        }
+
+        .full-edge-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        @media (min-width: 640px) {
+            .full-edge-container {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
+        @media (min-width: 1024px) {
+            .full-edge-container {
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+            }
+        }
+        @media (min-width: 1536px) {
+            .full-edge-container {
+                padding-left: 3rem !important;
+                padding-right: 3rem !important;
+            }
+        }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(8px);
@@ -248,8 +286,8 @@
     </div>
 
     <!-- MAIN HEADER (VIBRANT INDIGO-PURPLE-PINK GRADIENT BACKGROUND) -->
-    <header class="sticky top-0 z-40 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white backdrop-blur-2xl border-b border-white/20 shadow-2xl shadow-purple-900/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header class="sticky top-0 z-40 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white backdrop-blur-2xl border-b border-white/20 shadow-2xl shadow-purple-900/30 w-full">
+        <div class="w-full full-edge-container h-20 flex items-center justify-between">
             
             <!-- Brand Logo & Title (Henotic Diagnostics Logo with Solid White Background Container) -->
             <div class="flex items-center gap-3.5">
@@ -300,11 +338,11 @@
     </header>
 
     <!-- MAIN BODY CONTENT -->
-    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="flex-grow w-full full-edge-container py-6">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8 w-full">
             
             <!-- LEFT COLUMN: FORM ENGINE (7 COLS) -->
-            <div class="lg:col-span-7 space-y-6">
+            <div class="xl:col-span-7 space-y-6">
                 
                 <!-- Main Form Card (VIBRANT GRADIENT CONTAINER) -->
                 <div class="bg-gradient-to-br from-white via-indigo-50/80 to-purple-50/90 dark:from-slate-900 dark:via-indigo-950/80 dark:to-slate-950 rounded-3xl p-6 sm:p-8 shadow-2xl relative transition-all border border-indigo-200/80 dark:border-indigo-900/60 backdrop-blur-xl">
@@ -686,7 +724,7 @@
             </div>
 
             <!-- RIGHT COLUMN: LIVE WHATSAPP DISPATCH SUITE (5 COLS) -->
-            <div class="lg:col-span-5 flex flex-col space-y-4">
+            <div class="xl:col-span-5 flex flex-col space-y-4">
                 
                 <div class="sticky top-20 space-y-4">
                     
@@ -801,13 +839,13 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-auto py-4 bg-white/50 dark:bg-slate-900/50 border-t border-slate-200/50 dark:border-slate-800/50 text-center text-xs text-slate-500 dark:text-slate-400">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <footer class="mt-auto py-4 bg-white/50 dark:bg-slate-900/50 border-t border-slate-200/50 dark:border-slate-800/50 text-center text-xs text-slate-500 dark:text-slate-400 w-full">
+        <div class="w-full full-edge-container flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-2 text-left">
                 <img src="https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp" alt="Henotic Diagnostics" class="h-6 w-auto object-contain bg-white p-1 rounded-lg">
                 <div>
                     <span class="font-black text-slate-800 dark:text-slate-100 block">Henotic Diagnostics</span>
-                    <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 italic block">(Medical Imaging Booking Partner)</span>
+                    <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 italic block">(Your Medical Imaging Booking Partner)</span>
                 </div>
             </div>
             <div class="flex items-center gap-4 text-[11px] shrink-0">
