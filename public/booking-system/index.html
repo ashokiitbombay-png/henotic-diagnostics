@@ -527,6 +527,7 @@
                                                 <button type="button" onclick="filterCategory('CT', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">CT Scan</button>
                                                 <button type="button" onclick="filterCategory('MRI', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">MRI Scan</button>
                                                 <button type="button" onclick="filterCategory('PET', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">PET Scan</button>
+                                                <button type="button" onclick="filterCategory('NEURO', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Neuro (EEG/EMG/NCV)</button>
                                                 <button type="button" onclick="filterCategory('XRAY', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">DEXA & Bone</button>
                                                 <button type="button" onclick="filterCategory('MAMMO', this)" class="cat-chip px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 shrink-0 font-semibold">Mammography</button>
                                             </div>
@@ -1226,6 +1227,46 @@
                 map: "https://maps.app.goo.gl/XqZ8C4u4tE8Uq9DdA", 
                 phone: "09769312962",
                 logo: "https://storage.googleapis.com/wp-media-henoticbucket/Partners-Logos/wecare-diagnostics.webp"
+            },
+            { 
+                id: "aarogyam_kharghar", 
+                name: "Aarogyam Comprehensive Neuro Care Centre - Kharghar", 
+                address: "Third floor, 316, Aarogyam comprehensive neuro care centre, The Pacific, 317, Shilp Chowk, Block G, Sector 13, Kharghar, Panvel, Maharashtra 410210", 
+                map: "https://maps.app.goo.gl/afb9HJjuVkq2SHMY8", 
+                phone: "09372384308",
+                logo: "https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp"
+            },
+            { 
+                id: "cranium_nerul", 
+                name: "Cranium Neurocare Clinic - Nerul East", 
+                address: "Moreshwar Plaza, Shop no 2, Cranium Neurocare Clinic, next to Indian Bank, Nerul East, Sector 29, Nerul, Navi Mumbai, Maharashtra 400706", 
+                map: "https://maps.app.goo.gl/g9ZZrZZaCTeeTXE86", 
+                phone: "08879327184",
+                logo: "https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp"
+            },
+            { 
+                id: "vishwalata_koparkhairane", 
+                name: "Vishwalata NeuroConnect - Koparkhairane", 
+                address: "16, Ground Floor, Shree Ravechi Apartments, Shop No, Sector 20, Kopar Khairane, Navi Mumbai, Maharashtra 400709", 
+                map: "https://maps.app.goo.gl/CtEiFo8neqA5BD3f8", 
+                phone: "09321221492",
+                logo: "https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp"
+            },
+            { 
+                id: "vishwalata_vashi", 
+                name: "Vishwalata NeuroConnect - Vashi", 
+                address: "3rd floor, Raikar Bhavan, A-305, near Navaratna Hotel, Sector 17, Vashi, Navi Mumbai, Maharashtra 400703", 
+                map: "https://maps.app.goo.gl/ZyFv6E7FGtRkMonN6", 
+                phone: "09321221492",
+                logo: "https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp"
+            },
+            { 
+                id: "ndc_kalyan", 
+                name: "NDC Diagnostic Centre - Kalyan", 
+                address: "Charms Star Building, 1st Floor Next to Sanai Mangal Marriage Hall, Above HDFC Bank, Kalyan West, Maharashtra 421301", 
+                map: "https://maps.app.goo.gl/f3t27gWqtUePTLXMA", 
+                phone: "08657017320",
+                logo: "https://storage.googleapis.com/wp-media-henoticbucket/Partners-Logos/ndc-diagnostics.webp"
             }
         ];
 
@@ -1675,7 +1716,15 @@
             { id: "amb_event", category: "AMBULANCE", parentCategory: "🚑 Ambulance Services (21)", name: "Event Medical Ambulance", prep: "On-site standby ambulance." },
             { id: "amb_dead_body", category: "AMBULANCE", parentCategory: "🚑 Ambulance Services (21)", name: "Dead Body Ambulance", prep: "Respectful deceased transport." },
             { id: "amb_mortuary", category: "AMBULANCE", parentCategory: "🚑 Ambulance Services (21)", name: "Mortuary Ambulance", prep: "Cold storage transport." },
-            { id: "amb_freezer_box", category: "AMBULANCE", parentCategory: "🚑 Ambulance Services (21)", name: "Freezer Box Service", prep: "Doorstep delivery of freezer box." }
+            { id: "amb_freezer_box", category: "AMBULANCE", parentCategory: "🚑 Ambulance Services (21)", name: "Freezer Box Service", prep: "Doorstep delivery of freezer box." },
+
+            // 🧠 NEURO INVESTIGATIONS (6)
+            { id: "eeg_test", category: "NEURO", parentCategory: "🧠 Neuro Investigations (6)", name: "EEG (Electroencephalogram)", prep: "Clean, washed hair without oil or spray. Good sleep prior to test." },
+            { id: "emg_test", category: "NEURO", parentCategory: "🧠 Neuro Investigations (6)", name: "EMG (Electromyography)", prep: "Avoid lotions/creams on limbs. Wear comfortable loose clothing." },
+            { id: "ncv_test", category: "NEURO", parentCategory: "🧠 Neuro Investigations (6)", name: "NCV (Nerve Conduction Velocity)", prep: "Keep limbs warm. Avoid skin oils or body lotions." },
+            { id: "nerve_conduction_study", category: "NEURO", parentCategory: "🧠 Neuro Investigations (6)", name: "NCS (Nerve Conduction Study)", prep: "Inform doctor if you have a pacemaker. Keep skin clean." },
+            { id: "bera_test", category: "NEURO", parentCategory: "🧠 Neuro Investigations (6)", name: "BERA (Brainstem Evoked Response Audiometry)", prep: "Wash hair thoroughly. Infant/child may require light sedation as advised." },
+            { id: "vemp_test", category: "NEURO", parentCategory: "🧠 Neuro Investigations (6)", name: "VAMP / VEMP (Vestibular Evoked Myogenic Potential)", prep: "Clean forehead and neck area. Bring corrective glasses if worn." }
         ];
 
         // State variables
@@ -1930,6 +1979,7 @@
                     if (activeCategoryFilter === 'CT') return t.category === 'CT';
                     if (activeCategoryFilter === 'MRI') return t.category === 'MRI';
                     if (activeCategoryFilter === 'PET') return t.category === 'PET';
+                    if (activeCategoryFilter === 'NEURO') return t.category === 'NEURO';
                     if (activeCategoryFilter === 'XRAY') return t.category === 'XRAY';
                     if (activeCategoryFilter === 'MAMMO') return t.category === 'MAMMO';
                     return t.category === activeCategoryFilter;
@@ -1954,6 +2004,7 @@
                 case 'USG': return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800';
                 case 'PREG': return 'bg-pink-100 text-pink-700 dark:bg-pink-950 dark:text-pink-300 border border-pink-200 dark:border-pink-800';
                 case 'PET': return 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800';
+                case 'NEURO': return 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800';
                 case 'BLOOD': case 'PATHOLOGY': return 'bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-300 border border-teal-200 dark:border-teal-800';
                 case 'CARDIAC': return 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300 border border-rose-200 dark:border-rose-800';
                 case 'MAMMO': return 'bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-950 dark:text-fuchsia-300 border border-fuchsia-200 dark:border-fuchsia-800';
