@@ -1826,7 +1826,9 @@
             } catch (e) {}
             updateHistoryBadge();
 
-            // Populate Partners Dropdown
+            // Populate Partners Dropdown (Guaranteed A-Z Alphabetical Order)
+            partners.sort((a, b) => a.name.localeCompare(b.name));
+            formEls.partner.innerHTML = '';
             partners.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p.id;
@@ -2255,6 +2257,7 @@
                 });
             }
             
+            filteredPartners.sort((a, b) => a.name.localeCompare(b.name));
             filteredPartners.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p.id;
