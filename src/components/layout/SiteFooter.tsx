@@ -104,19 +104,19 @@ export default function SiteFooter() {
                  </div>
              </div>
 
-             <div className="flex-grow bg-white/10 p-2 rounded-3xl border border-white/20 w-full shadow-2xl relative group overflow-hidden backdrop-blur-sm min-h-[250px]">
-               <iframe title="Google Maps Location" 
-                 src="https://maps.google.com/maps?q=19.04313094481506,73.07794905888657&z=15&output=embed"
+             <div className="bg-white/10 p-2 rounded-3xl border border-white/20 w-full shadow-2xl relative group overflow-hidden backdrop-blur-sm h-[220px] sm:h-[250px]">
+               <iframe title="Henotic Diagnostics Google Map Location" 
+                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.4687576643887!2d73.07795039999999!3d19.043116999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3812919666b%3A0xa377f33beeed1944!2sHenotic%20Diagnostics!5e0!3m2!1sen!2sin!4v1786048629791!5m2!1sen!2sin"
                  width="100%" 
                  height="100%" 
                  style={{ border: 0 }} 
                  allowFullScreen 
                  loading="lazy" 
                  referrerPolicy="no-referrer-when-downgrade"
-                 className="rounded-2xl w-full h-full opacity-90 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0"
+                 className="rounded-2xl w-full h-full opacity-95 group-hover:opacity-100 transition-opacity duration-300"
                ></iframe>
                <div className="absolute inset-0 pointer-events-none rounded-2xl ring-1 ring-inset ring-white/20"></div>
-               <a href="https://maps.google.com/?cid=11779150789147957572" target="_blank" rel="noreferrer" className="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/20 shadow-xl flex items-center gap-2 hover:bg-black transition">
+               <a href="https://maps.google.com/?cid=11779150789147957572" target="_blank" rel="noreferrer" className="absolute bottom-4 left-4 bg-black/80 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/20 shadow-xl flex items-center gap-2 hover:bg-black transition cursor-pointer">
                  <Navigation size={14} className="text-blue-400" /> Get Directions
                </a>
             </div>

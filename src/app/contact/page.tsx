@@ -98,20 +98,21 @@ export default function ContactUs() {
             </div>
 
             {/* 3D Google Maps Container */}
-            <div className="relative group w-full h-[400px] sm:h-[450px] rounded-[3rem] overflow-hidden bg-white shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)] transform hover:-translate-y-4 transition-all duration-700 ease-out border-[8px] border-white">
+            <div className="relative group w-full h-[320px] sm:h-[360px] rounded-[2.5rem] overflow-hidden bg-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] transform hover:-translate-y-2 transition-all duration-500 ease-out border-[6px] border-white">
               <iframe 
-                src="https://maps.google.com/maps?q=Henotic%20Diagnostics,%20Kharghar&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                className="w-full h-full border-0 grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.4687576643887!2d73.07795039999999!3d19.043116999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3812919666b%3A0xa377f33beeed1944!2sHenotic%20Diagnostics!5e0!3m2!1sen!2sin!4v1786048629791!5m2!1sen!2sin" 
+                className="w-full h-full border-0 transition-all duration-500"
                 allowFullScreen
                 loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
                 title="Henotic Diagnostics Location"
               ></iframe>
               {/* Floating Address Badge */}
-              <div className="absolute top-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl flex items-start gap-3 pointer-events-none">
-                 <div className="bg-pink-100 p-2 rounded-full text-[#E55D87] shrink-0 mt-1"><MapPin size={20}/></div>
+              <div className="absolute top-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl flex items-start gap-3 pointer-events-none">
+                 <div className="bg-pink-100 p-2 rounded-full text-[#E55D87] shrink-0 mt-0.5"><MapPin size={18}/></div>
                  <div>
                    <p className="text-slate-900 font-black text-sm">Navi Mumbai Headquarters</p>
-                   <p className="text-xs font-bold text-slate-500 mt-1 leading-relaxed">Second Floor, Millennium Empire, Plot No 47, D Mart Rd, Sector 15, Kharghar, 410210</p>
+                   <p className="text-xs font-bold text-slate-500 mt-0.5 leading-relaxed">Second Floor, Millennium Empire, Plot No 47, D Mart Rd, Sector 15, Kharghar, 410210</p>
                  </div>
               </div>
             </div>

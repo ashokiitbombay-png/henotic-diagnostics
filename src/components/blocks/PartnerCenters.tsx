@@ -30,7 +30,7 @@ const centersData: Center[] = [
     hours: "Open 24 hours",
     gbpUrl: "https://share.google/cfhShzzofe7LmgiPN",
     mapsUrl: "https://maps.google.com/?cid=11779150789147957572",
-    embedUrl: "https://maps.google.com/maps?q=19.04313094481506,73.07794905888657&z=15&output=embed",
+    embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.4687576643887!2d73.07795039999999!3d19.043116999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3812919666b%3A0xa377f33beeed1944!2sHenotic%20Diagnostics!5e0!3m2!1sen!2sin!4v1786048629791!5m2!1sen!2sin",
     services: ["blood-test", "ultrasound", "pet-scan", "mri-scan", "ct-scan", "2d-echo", "ecg", "tmt"],
     regionGroup: "navi-mumbai"
   },
