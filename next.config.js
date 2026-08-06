@@ -36,6 +36,10 @@ const nextConfig = {
     webpackBuildWorker: true,
     optimizePackageImports: ['lucide-react', '@apollo/client', 'framer-motion'],
   },
+  // Turbopack is the default bundler in Next.js 16+.
+  // Empty config tells Next.js to use Turbopack defaults while keeping
+  // the webpack config below for any webpack-specific builds.
+  turbopack: {},
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.optimization = {
