@@ -2,6 +2,7 @@ import ServiceHero from '@/components/blocks/ServiceHero';
 import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from 'next/navigation';
 import { ArrowRight, Activity } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
 import ServiceSchema from "@/components/seo/ServiceSchema";
@@ -15,6 +16,7 @@ import { optimizeWordPressHTML, formatSlug } from '@/lib/utils';
 import { getService } from '@/lib/wordpress/getService';
 import PartnerCenters from '@/components/blocks/PartnerCenters';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
+import { isValidServiceSlug, isValidRegionSlug } from '@/lib/seo/slug-validator';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -57,28 +59,15 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   };
 }
 
-import { filterShardParams } from '@/lib/seo/shard-helper';
+import { getRegionPriorities } from '@/lib/seo/build-priorities';
 
 // ==========================================
 // 2. STATIC PARAMETERS GENERATOR (PRE-RENDERING)
 // ==========================================
+// Pre-render top priority service×region combos from the ISR manifest.
+// Remaining combos render on-demand via ISR (dynamicParams = true).
 export async function generateStaticParams() {
-  const topServices = [
-    "mri-scan", "ct-scan", "pet-scan", "ultrasound", "blood-test",
-    "2d-echo", "dexa-bone-scan", "full-body-check-up", "mammography",
-    "pregnancy-sonography", "ecg", "hrct-scan", "whole-body-pet-ct",
-    "cardiac-ct-scan", "fibroscan", "color-doppler", "thyroid-test",
-    "liver-function-test", "kidney-function-test", "tmt-test"
-  ];
-  const topRegions = ["navi-mumbai", "western-suburbs", "central-suburbs", "south-mumbai", "eastern-suburbs", "thane", "pune", "raigad", "mumbai-suburban"];
-
-  const paths: { service: string; region: string }[] = [];
-  topServices.forEach((service) => {
-    topRegions.forEach((region) => {
-      paths.push({ service, region });
-    });
-  });
-  return filterShardParams(paths);
+  return getRegionPriorities();
 }
 
 // ==========================================
@@ -86,6 +75,12 @@ export async function generateStaticParams() {
 // ==========================================
 export default async function ServiceRegionPage({ params }: { params: Promise<{ service: string, region: string }> }) {
   const resolvedParams = await params;
+
+  // Slug validation: prevent CDN cache pollution from invalid URLs
+  if (!isValidServiceSlug(resolvedParams.service) || !isValidRegionSlug(resolvedParams.region)) {
+    notFound();
+  }
+
   let wpContent: any = null;
   
   const serviceName = formatSlug(resolvedParams.service);

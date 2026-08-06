@@ -1,10 +1,12 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { ArrowRight, AlertCircle, Activity, Stethoscope } from 'lucide-react';
 import { CONDITIONS } from '@/config/conditions';
 
 import MedicalPseoSchema from '@/components/seo/MedicalPseoSchema';
+import { isValidConditionSlug } from '@/lib/seo/slug-validator';
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
@@ -22,12 +24,22 @@ export async function generateMetadata({ params }: { params: Promise<{ condition
   };
 }
 
+import { getConditionPriorities } from '@/lib/seo/build-priorities';
+
+// Pre-render top priority conditions from the ISR manifest.
+// Remaining conditions render on-demand via ISR (dynamicParams = true).
 export async function generateStaticParams() {
-  return CONDITIONS.slice(0, 30).map(c => ({ condition: c.id }));
+  return getConditionPriorities();
 }
 
 export default async function ConditionPage({ params }: { params: Promise<{ condition: string }> }) {
   const { condition } = await params;
+
+  // Slug validation: prevent CDN cache pollution from invalid condition URLs
+  if (!isValidConditionSlug(condition)) {
+    notFound();
+  }
+
   const cond = getCondition(condition);
   if (!cond) return <div className="min-h-screen flex items-center justify-center mt-[80px]"><p>Condition not found.</p></div>;
 

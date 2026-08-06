@@ -25,6 +25,7 @@
   "scripts": {
     "dev": "next dev",
     "generate:sitemaps": "tsx scripts/generate-sitemaps.ts",
+    "generate:priorities": "tsx scripts/generate-build-priorities.ts",
     "build": "npm run generate:sitemaps && next build",
     "build:shard": "tsx scripts/shard-build.ts",
     "start": "next start",

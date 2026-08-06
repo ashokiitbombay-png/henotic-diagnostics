@@ -1,9 +1,10 @@
 import React from "react";
 import { Metadata } from "next";
+import { notFound } from 'next/navigation';
 import LocationTemplate from "@/templates/LocationTemplate";
 import { getService } from "@/lib/wordpress/getService";
-import { filterShardParams } from "@/lib/seo/shard-helper";
 import { formatSlug } from "@/lib/utils";
+import { isValidServiceSlug, isValidLocationForRegion } from '@/lib/seo/slug-validator';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -51,42 +52,12 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
 // ==========================================
 // 2. STATIC PARAMETERS GENERATOR (PRE-RENDERING)
 // ==========================================
-export async function generateStaticParams() {
-  const topServices = ["mri-scan", "ct-scan", "pet-scan", "ultrasound", "blood-test", "2d-echo", "full-body-check-up", "mammography", "pregnancy-sonography", "ecg"];
-  const topLocations = [
-    { city: "kharghar", region: "navi-mumbai" },
-    { city: "panvel", region: "navi-mumbai" },
-    { city: "vashi", region: "navi-mumbai" },
-    { city: "nerul", region: "navi-mumbai" },
-    { city: "cbd-belapur", region: "navi-mumbai" },
-    { city: "kamothe", region: "navi-mumbai" },
-    { city: "kalamboli", region: "navi-mumbai" },
-    { city: "taloja", region: "navi-mumbai" },
-    { city: "kopar-khairane", region: "navi-mumbai" },
-    { city: "airoli", region: "navi-mumbai" },
-    { city: "thane-west", region: "thane" },
-    { city: "dombivli", region: "thane" },
-    { city: "kalyan", region: "thane" },
-    { city: "andheri", region: "western-suburbs" },
-    { city: "bandra", region: "western-suburbs" },
-    { city: "borivali", region: "western-suburbs" },
-    { city: "ghatkopar", region: "central-suburbs" },
-    { city: "pune-city", region: "pune" },
-    { city: "hinjewadi", region: "pune" },
-    { city: "hadapsar", region: "pune" },
-  ];
+// Pre-render top priority service×location combos from the ISR manifest.
+// Remaining combos render on-demand via ISR (dynamicParams = true).
+import { getLocationPriorities } from '@/lib/seo/build-priorities';
 
-  const paths: { service: string; region: string; location: string }[] = [];
-  topServices.forEach((service) => {
-    topLocations.forEach((loc) => {
-      paths.push({
-        service,
-        region: loc.region,
-        location: loc.city
-      });
-    });
-  });
-  return filterShardParams(paths);
+export async function generateStaticParams() {
+  return getLocationPriorities();
 }
 
 // ==========================================
@@ -94,6 +65,12 @@ export async function generateStaticParams() {
 // ==========================================
 export default async function ServiceLocationPage({ params }: { params: Promise<{ service: string, region: string, location: string }> }) {
   const resolvedParams = await params;
+
+  // Slug validation: prevent CDN cache pollution + cross-region injection
+  if (!isValidServiceSlug(resolvedParams.service) || !isValidLocationForRegion(resolvedParams.region, resolvedParams.location)) {
+    notFound();
+  }
+
   let wpContent: any = null;
   
   const serviceName = formatSlug(resolvedParams.service);

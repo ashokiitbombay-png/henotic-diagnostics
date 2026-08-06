@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import React from "react";
+import { notFound } from 'next/navigation';
 import ServiceTemplate from '@/templates/ServiceTemplate';
 import { getService } from '@/lib/wordpress/getService';
 import { formatSlug } from '@/lib/utils';
+import { isValidServiceSlug } from '@/lib/seo/slug-validator';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -35,37 +37,22 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   };
 } 
 
-import { filterShardParams } from '@/lib/seo/shard-helper';
+import { getServicePriorities } from '@/lib/seo/build-priorities';
 
-// Pre-render the top 20 most popular services at build time for instant loading
+// Pre-render top priority services at build time from the ISR manifest.
+// Remaining 490k+ services render on-demand via ISR (dynamicParams = true).
 export async function generateStaticParams() {
-  const topServices = [
-    "mri-scan",
-    "ct-scan",
-    "pet-scan",
-    "ultrasound",
-    "blood-test",
-    "2d-echo",
-    "dexa-bone-scan",
-    "full-body-check-up",
-    "nipt-test",
-    "ecg",
-    "tmt-test",
-    "holter-monitoring",
-    "mammography",
-    "pregnancy-sonography",
-    "anomaly-scan",
-    "nt-scan",
-    "color-doppler",
-    "fibroscan",
-    "angiography",
-    "angioplasty"
-  ];
-  return filterShardParams(topServices.map(service => ({ service })));
+  return getServicePriorities();
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ service: string }> }) {
   const resolvedParams = await params;
+
+  // Slug validation: prevent CDN cache pollution from invalid URLs
+  if (!isValidServiceSlug(resolvedParams.service)) {
+    notFound();
+  }
+
   let wpContent: any = null;
   let wpTitle: string = formatSlug(resolvedParams.service);
 
