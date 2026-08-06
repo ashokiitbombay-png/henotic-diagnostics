@@ -886,6 +886,9 @@
             DOM.date.value = new Date().toISOString().split('T')[0];
             DOM.time.value = "20:00";
             DOM.center.value = "wecare_kharghar";
+            selectedTestIds = ["mri_brain"];
+            renderSelectedTests();
+            updatePrepNotes();
             
             updateCenterInfo();
             generatePreview();
@@ -1268,8 +1271,10 @@ Call 08879327184 or simply reply to this WhatsApp chat.
 *HENOTIC DIAGNOSTICS*
 _(Your Medical Imaging Booking Partner)_`;
 
-            const lang = document.querySelector('input[name="lang"]:checked').value;
-            const tpl = document.querySelector('input[name="tpl"]:checked').value;
+            const langEl = document.querySelector('input[name="lang"]:checked');
+            const lang = langEl ? langEl.value : 'en';
+            const tplEl = document.querySelector('input[name="tpl"]:checked');
+            const tpl = tplEl ? tplEl.value : 'standard';
             
             let txt = '';
             if (lang === 'hi') {
@@ -1388,17 +1393,36 @@ ${tagline}`;
             });
         }
 
-        function sendWhatsApp() {
-            if (!DOM.name.value.trim()) { showToast("Patient name required", "error"); DOM.name.focus(); return; }
-            if (getCleanDigits().length !== 10) { showToast("Valid 10-digit phone required", "error"); DOM.phone.focus(); return; }
-            if (selectedTestIds.length === 0) { showToast("Select at least 1 test", "error"); DOM.testSearch.focus(); return; }
+        function sendWhatsApp(mode = 'api') {
+            if (!DOM.name || !DOM.name.value.trim()) { showToast("Patient name required", "error"); if(DOM.name) DOM.name.focus(); return; }
+            const digits = getCleanDigits();
+            if (digits.length !== 10) { showToast("Valid 10-digit phone required", "error"); if(DOM.phone) DOM.phone.focus(); return; }
+            if (selectedTestIds.length === 0) { showToast("Select at least 1 test from search", "error"); if(DOM.testSearch) DOM.testSearch.focus(); return; }
 
             saveToHistory();
             const text = generatePreview();
-            const phone = '91' + getCleanDigits();
-            const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(text)}`;
-            showToast(`Opening WhatsApp for +91 ${getCleanDigits()}...`, "success");
-            window.location.href = url;
+            const fullPhone = '91' + digits;
+            const encodedText = encodeURIComponent(text);
+
+            let url = "";
+            if (mode === 'web') {
+                url = `https://web.whatsapp.com/send?phone=${fullPhone}&text=${encodedText}`;
+            } else if (mode === 'wame') {
+                url = `https://wa.me/${fullPhone}?text=${encodedText}`;
+            } else {
+                url = `https://api.whatsapp.com/send?phone=${fullPhone}&text=${encodedText}`;
+            }
+
+            showToast(`Opening WhatsApp for +91 ${digits}...`, "success");
+
+            try {
+                const win = window.open(url, '_blank');
+                if (!win || win.closed || typeof win.closed === 'undefined') {
+                    window.location.href = url;
+                }
+            } catch(e) {
+                window.location.href = url;
+            }
         }
 
         function saveToHistory() {
