@@ -11,15 +11,24 @@ import { execSync } from 'child_process';
  */
 function parseShardArg(): { shardIndex: number; shardTotal: number } | null {
   const args = process.argv.slice(2);
-  const shardArg = args.find(arg => arg.startsWith('--shard='));
+  let shardArg = args.find(arg => arg.startsWith('--shard='));
 
-  if (!shardArg) {
+  let value = '';
+  if (shardArg) {
+    value = shardArg.replace('--shard=', '').trim();
+  } else if (process.env.BUILD_SHARD) {
+    value = process.env.BUILD_SHARD.trim();
+  } else if (process.env.BUILD_SHARD_INDEX !== undefined && process.env.BUILD_SHARD_TOTAL !== undefined) {
+    const idx = parseInt(process.env.BUILD_SHARD_INDEX, 10);
+    const tot = parseInt(process.env.BUILD_SHARD_TOTAL, 10);
+    if (!isNaN(idx) && !isNaN(tot) && idx >= 0 && idx < tot) {
+      return { shardIndex: idx, shardTotal: tot };
+    }
+  } else {
     return null;
   }
 
-  const value = shardArg.replace('--shard=', '').trim();
   const parts = value.split('/');
-
   if (parts.length !== 2) {
     console.error('❌ Invalid --shard argument format. Use --shard=INDEX/TOTAL (e.g. --shard=0/4)');
     process.exit(1);
@@ -51,10 +60,10 @@ function main() {
 
   try {
     console.log('🗺️ Generating XML sitemaps...');
-    execSync('npx tsx scripts/generate-sitemaps.ts', { stdio: 'inherit', env });
+    execSync('npm run generate:sitemaps', { stdio: 'inherit', env });
 
     console.log('🏗️ Launching Next.js build...');
-    execSync('npx next build --webpack', { stdio: 'inherit', env });
+    execSync('npx --yes next build --webpack', { stdio: 'inherit', env });
 
     console.log('✅ Sharded build completed successfully!');
   } catch (err) {

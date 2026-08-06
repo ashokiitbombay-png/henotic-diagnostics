@@ -39,6 +39,10 @@ jobs:
       - name: Run Sharded Build (Worker ${{ matrix.shard }}/4)
         run: npm run build:shard -- --shard=${{ matrix.shard }}/4
         env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+          BUILD_SHARD: "${{ matrix.shard }}/4"
+          BUILD_SHARD_INDEX: "${{ matrix.shard }}"
+          BUILD_SHARD_TOTAL: "4"
           NEXT_PUBLIC_SITE_URL: https://www.henoticdiagnostics.com
           NEXT_PUBLIC_WORDPRESS_API_URL: https://cms.henoticdiagnostics.com/graphql
           WORDPRESS_API_URL: https://cms.henoticdiagnostics.com/graphql
