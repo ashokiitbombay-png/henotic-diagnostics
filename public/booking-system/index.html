@@ -1810,6 +1810,14 @@
         const previewEl = document.getElementById('messagePreview');
         const clockEl = document.getElementById('currentTime');
 
+        // HTML escaping for XSS prevention when rendering localStorage data
+        function escapeHtml(str) {
+            if (typeof str !== 'string') return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
         // Initialization
         function init() {
             // Check Theme Preference
@@ -2723,19 +2731,19 @@ ${partnerTagline}`;
                 card.innerHTML = `
                     <div class="space-y-1">
                         <div class="font-black text-slate-900 dark:text-slate-100 text-sm flex items-center gap-2">
-                            ${item.name} 
-                            <span class="px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-[10px] font-mono font-bold">${item.id}</span>
+                            ${escapeHtml(item.name)} 
+                            <span class="px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-[10px] font-mono font-bold">${escapeHtml(item.id)}</span>
                         </div>
-                        <div class="text-indigo-600 dark:text-indigo-400 font-bold text-xs"><i class="fa-solid fa-microscope text-[10px] mr-1"></i>${item.tests}</div>
+                        <div class="text-indigo-600 dark:text-indigo-400 font-bold text-xs"><i class="fa-solid fa-microscope text-[10px] mr-1"></i>${escapeHtml(item.tests)}</div>
                         <div class="text-slate-500 dark:text-slate-400 text-[11px] flex flex-wrap items-center gap-x-3 gap-y-1">
-                            <span><i class="fa-solid fa-hospital text-[10px] mr-1"></i>${item.center || 'Henotic Center'}</span>
-                            <span><i class="fa-regular fa-calendar text-[10px] mr-1"></i>${item.date}</span>
-                            <span class="font-extrabold text-emerald-600 dark:text-emerald-400">${priceDisplay}</span>
-                            <span><i class="fa-brands fa-whatsapp text-emerald-500 text-[10px] mr-1"></i>${item.phone}</span>
+                            <span><i class="fa-solid fa-hospital text-[10px] mr-1"></i>${escapeHtml(item.center || 'Henotic Center')}</span>
+                            <span><i class="fa-regular fa-calendar text-[10px] mr-1"></i>${escapeHtml(item.date)}</span>
+                            <span class="font-extrabold text-emerald-600 dark:text-emerald-400">${escapeHtml(priceDisplay)}</span>
+                            <span><i class="fa-brands fa-whatsapp text-emerald-500 text-[10px] mr-1"></i>${escapeHtml(item.phone)}</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 self-end sm:self-center shrink-0">
-                        <button type="button" onclick="reloadHistoryItem('${item.id}')" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[11px] shadow-sm transition-all flex items-center gap-1">
+                        <button type="button" onclick="reloadHistoryItem('${escapeHtml(item.id).replace(/'/g, '&#39;')}')" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[11px] shadow-sm transition-all flex items-center gap-1">
                             <i class="fa-solid fa-rotate-left text-[10px]"></i> Re-load
                         </button>
                     </div>

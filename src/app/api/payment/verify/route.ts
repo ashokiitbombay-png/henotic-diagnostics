@@ -1,10 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { timingSafeCompare } from '@/lib/webhook/security';
+import { rateLimit, getClientIP } from '@/lib/rate-limit';
+
 
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit: 10 payment verifications per minute per IP
+    const ip = getClientIP(request);
+    const limiter = rateLimit(`payment-verify:${ip}`, 10, 60_000);
+    if (!limiter.success) {
+      return NextResponse.json(
+        { verified: false, message: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(Math.ceil((limiter.resetTime - Date.now()) / 1000)) } }
+      );
+    }
+
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = await request.json();
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
@@ -23,7 +36,7 @@ export async function POST(request: NextRequest) {
       .update(body)
       .digest('hex');
 
-    const verified = expectedSignature === razorpay_signature;
+    const verified = timingSafeCompare(expectedSignature, razorpay_signature);
 
     return NextResponse.json({
       verified,

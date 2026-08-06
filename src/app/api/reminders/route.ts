@@ -2,7 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AppointmentReminder, getRemindersStore, addReminder } from '@/config/reminders';
 import { rateLimit, getClientIP } from '@/lib/rate-limit';
 
+/** Verify API key for authenticated reminder endpoints */
+function verifyApiKey(request: NextRequest): boolean {
+  const apiKey = process.env.REMINDERS_API_KEY;
+  if (!apiKey) return false; // If no key configured, block all access
+  const provided = request.headers.get('x-api-key') || request.nextUrl.searchParams.get('apiKey');
+  return provided === apiKey;
+}
+
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  if (!verifyApiKey(request)) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Valid API key required.' },
+      { status: 401 }
+    );
+  }
   console.warn('⚠️ [WARNING] Reminders are currently stored in-memory. This should be replaced with a database (e.g., PostgreSQL or MongoDB) for production.');
   const store = getRemindersStore();
   const searchParams = request.nextUrl.searchParams;
@@ -96,6 +110,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
+    if (!verifyApiKey(request)) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Valid API key required.' },
+        { status: 401 }
+      );
+    }
     let id: string | null = null;
     
     // Check searchParams first

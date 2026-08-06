@@ -1,8 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRemindersStore, REMINDER_TEMPLATES, ReminderChannel } from '@/config/reminders';
+import { rateLimit, getClientIP } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    // Authentication check
+    const apiKey = process.env.REMINDERS_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'Reminder service not configured' }, { status: 503 });
+    }
+    const provided = request.headers.get('x-api-key');
+    if (provided !== apiKey) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Rate limit: 5 sends per minute per IP
+    const ip = getClientIP(request);
+    const limiter = rateLimit(`reminder-send:${ip}`, 5, 60_000);
+    if (!limiter.success) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(Math.ceil((limiter.resetTime - Date.now()) / 1000)) } }
+      );
+    }
+
     const body = await request.json();
     const { reminderId, channel } = body as { reminderId?: string; channel?: ReminderChannel };
 
