@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { MapPin, Phone, Clock, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { MapPin, Phone, Clock, ShieldCheck, CheckCircle2, Navigation } from 'lucide-react';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
 
@@ -108,12 +108,17 @@ export default function ContactUs() {
                 title="Henotic Diagnostics Location"
               ></iframe>
               {/* Floating Address Badge */}
-              <div className="absolute top-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl flex items-start gap-3 pointer-events-none">
-                 <div className="bg-pink-100 p-2 rounded-full text-[#E55D87] shrink-0 mt-0.5"><MapPin size={18}/></div>
-                 <div>
-                   <p className="text-slate-900 font-black text-sm">Navi Mumbai Headquarters</p>
-                   <p className="text-xs font-bold text-slate-500 mt-0.5 leading-relaxed">Second Floor, Millennium Empire, Plot No 47, D Mart Rd, Sector 15, Kharghar, 410210</p>
+              <div className="absolute top-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl flex items-start justify-between gap-3">
+                 <div className="flex items-start gap-3">
+                   <div className="bg-pink-100 p-2 rounded-full text-[#E55D87] shrink-0 mt-0.5"><MapPin size={18}/></div>
+                   <div>
+                     <p className="text-slate-900 font-black text-sm">Navi Mumbai Headquarters</p>
+                     <p className="text-xs font-bold text-slate-500 mt-0.5 leading-relaxed">Second Floor, Millennium Empire, Plot No 47, D Mart Rd, Sector 15, Kharghar, 410210</p>
+                   </div>
                  </div>
+                 <a href="https://maps.app.goo.gl/Ex2RG9afjvuEJp7y5" target="_blank" rel="noreferrer" className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-md flex items-center gap-1.5 transition">
+                   <Navigation size={14} /> Directions
+                 </a>
               </div>
             </div>
             

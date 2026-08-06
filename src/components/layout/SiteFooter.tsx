@@ -116,7 +116,7 @@ export default function SiteFooter() {
                  className="rounded-2xl w-full h-full opacity-95 group-hover:opacity-100 transition-opacity duration-300"
                ></iframe>
                <div className="absolute inset-0 pointer-events-none rounded-2xl ring-1 ring-inset ring-white/20"></div>
-               <a href="https://maps.google.com/?cid=11779150789147957572" target="_blank" rel="noreferrer" className="absolute bottom-4 left-4 bg-black/80 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/20 shadow-xl flex items-center gap-2 hover:bg-black transition cursor-pointer">
+               <a href="https://maps.app.goo.gl/Ex2RG9afjvuEJp7y5" target="_blank" rel="noreferrer" className="absolute bottom-4 left-4 bg-black/80 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/20 shadow-xl flex items-center gap-2 hover:bg-black transition cursor-pointer">
                  <Navigation size={14} className="text-blue-400" /> Get Directions
                </a>
             </div>
