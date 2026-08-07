@@ -1335,6 +1335,11 @@
 3. Verbal confirmation from doctor or patient is NOT valid under the PCPNDT Act.
 4. Sonography reports will be provided shortly after scan completion.`;
 
+        const PREP_DEXA = `1️⃣ DISCONTINUE CALCIUM SUPPLEMENTS AT LEAST 24 HOURS BEFORE THE SCAN.
+2️⃣ WEAR ANY TYPE OF LOOSE, COMFORTABLE CLOTHING TO ENSURE AN EASY CHANGE IF REQUIRED.
+3️⃣ DETAILED REPORTS WILL BE AVAILABLE SHORTLY AFTER THE SCAN IS COMPLETED.
+15MIN SCAN TIME: 15 MINUTES REPORTING`;
+
         // Expanded Comprehensive Diagnostic Tests Catalog with Parent Category Mapping
         const tests = [
             { id: "custom", category: "CUSTOM", parentCategory: "✨ Custom Services", name: "Custom Test (Type Manually)", prep: "" },
@@ -1622,10 +1627,10 @@
             { id: "pet_psma", category: "PET", parentCategory: "☢️ PET CT & Nuclear Medicine (36)", name: "PSMA PET Scan", prep: `6h Fasting. Serum Creatinine.` },
 
             // 🦴 BONE HEALTH & DEXA (4)
-            { id: "dexa_scan_gen", category: "XRAY", parentCategory: "🦴 Bone Health & DEXA (4)", name: "DEXA Bone Scan", prep: "Stop calcium supplements 24h prior." },
-            { id: "dexa_bone_density", category: "XRAY", parentCategory: "🦴 Bone Health & DEXA (4)", name: "Bone Density Test", prep: "Stop calcium supplements 24h prior." },
-            { id: "dexa_bmd", category: "XRAY", parentCategory: "🦴 Bone Health & DEXA (4)", name: "BMD Test", prep: "Stop calcium supplements 24h prior." },
-            { id: "dexa_osteo", category: "XRAY", parentCategory: "🦴 Bone Health & DEXA (4)", name: "Osteoporosis Screening", prep: "Stop calcium supplements 24h prior." },
+            { id: "dexa_scan_gen", category: "XRAY", parentCategory: "🦴 Bone Health & DEXA (4)", name: "DEXA Bone Scan", prep: PREP_DEXA },
+            { id: "dexa_bone_density", category: "XRAY", parentCategory: "🦴 Bone Health & DEXA (4)", name: "Bone Density Test", prep: PREP_DEXA },
+            { id: "dexa_bmd", category: "XRAY", parentCategory: "🦴 Bone Health & DEXA (4)", name: "BMD Test", prep: PREP_DEXA },
+            { id: "dexa_osteo", category: "XRAY", parentCategory: "🦴 Bone Health & DEXA (4)", name: "Osteoporosis Screening", prep: PREP_DEXA },
 
             // ❤️🔥 CARDIOLOGY DIAGNOSTICS (29)
             { id: "card_ecg", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "ECG", prep: "No fasting." },
