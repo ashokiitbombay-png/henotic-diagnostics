@@ -3,9 +3,9 @@ import { CACHE_TAGS } from "./tags";
 
 /**
  * Safely triggers an on-demand revalidation for a specific cache tag.
- * Used for webhook handlers when content is updated in the WordPress admin dashboard.
+ * Used for webhook handlers when content is updated in WordPress or Payload CMS.
  * 
- * @param tag The exact tag key to revalidate
+ * @param tag The exact tag key to revalidate (use CACHE_TAGS helpers for consistency)
  */
 export async function revalidateWordPressContent(tag: string): Promise<{ revalidated: boolean; tag: string }> {
   try {

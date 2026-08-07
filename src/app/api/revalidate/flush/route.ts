@@ -9,7 +9,7 @@ import { timingSafeCompare } from '@/lib/webhook/security';
  * NOT exposed to WordPress — protected by an internal secret.
  *
  * POST /api/revalidate/flush
- * Body: { type: "service" | "post" | "page", internalSecret: string }
+ * Body: { type: "service" | "post" | "page" | "condition", internalSecret: string }
  */
 export async function POST(request: NextRequest) {
   try {
@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    if (!type || !['service', 'post', 'page'].includes(type)) {
+    if (!type || !['service', 'post', 'page', 'condition'].includes(type)) {
       return NextResponse.json(
-        { message: 'Invalid type. Must be: service, post, or page' },
+        { message: 'Invalid type. Must be: service, post, page, or condition' },
         { status: 400 }
       );
     }

@@ -1,14 +1,14 @@
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { getRedis } from '@/lib/cache/redis';
 import { wpCacheInvalidate, wpCachePurgeByPrefix } from '@/lib/cache/wp-cache';
-import { REGION_NAMES } from '@/config/locations';
+import { CACHE_TAGS } from '@/lib/cache/tags';
 
 // ── Constants ────────────────────────────────────────────────────────────
 
 /** Deduplication window: collect slugs for this many seconds before flushing */
 const DEBOUNCE_SECONDS = 5;
 
-/** If more than this many unique slugs in a batch, do a full layout purge instead */
+/** If more than this many unique slugs in a batch, do a full purge instead */
 const FULL_PURGE_THRESHOLD = 50;
 
 /** Redis key prefixes for the queue sets */
@@ -26,7 +26,7 @@ const LOCK_KEY = (type: string) => `revalidate:lock:${type}`;
  *    as a safety net and return `shouldFlush: true` so the caller knows
  *    to schedule a flush.
  *
- * @param type  Content type ('service', 'post', 'page')
+ * @param type  Content type ('service', 'post', 'page', 'condition')
  * @param slug  The content slug to queue for revalidation
  * @returns { queued: boolean, shouldFlush: boolean, queueSize: number }
  */
@@ -66,17 +66,23 @@ export async function enqueueRevalidation(
 
 /**
  * Atomically read and clear the deduplication queue, then batch-process
- * all queued slugs.
+ * all queued slugs using tag-based revalidation.
+ *
+ * KEY ARCHITECTURE DECISION:
+ * Instead of calling revalidatePath for each path (O(n × regions × locations)),
+ * we use revalidateTag which invalidates ALL pages that fetched data with
+ * that tag — a single O(1) call per slug, regardless of how many PSEO
+ * pages (service/region/location combinations) exist.
  *
  * Uses a Redis lock to prevent concurrent flushes from racing.
  *
- * @param type  Content type ('service', 'post', 'page')
+ * @param type  Content type ('service', 'post', 'page', 'condition')
  * @returns Summary of what was processed
  */
 export async function flushAndProcess(type: string): Promise<{
   processed: number;
   slugs: string[];
-  mode: 'cascade' | 'full-purge' | 'empty' | 'skipped';
+  mode: 'tag-invalidate' | 'full-purge' | 'empty' | 'skipped';
 }> {
   const redis = getRedis();
 
@@ -108,42 +114,54 @@ export async function flushAndProcess(type: string): Promise<{
     // ── Smart Threshold Decision ─────────────────────────────────────
     if (type === 'service') {
       if (slugs.length >= FULL_PURGE_THRESHOLD) {
-        // Too many — full purge is cheaper
+        // Too many — full purge is cheaper than individual tag invalidations
         await wpCachePurgeByPrefix('service');
-        revalidatePath('/services', 'layout');
-        console.log(`✅ [Queue] Full service layout purge (${slugs.length} slugs exceeded threshold)`);
+        revalidateTag(CACHE_TAGS.servicesList, 'max');
+        console.log(`✅ [Queue] Full service tag purge (${slugs.length} slugs exceeded threshold)`);
         return { processed: slugs.length, slugs, mode: 'full-purge' };
       }
 
-      // Per-service cascade invalidation
+      // Per-service tag-based invalidation — O(1) per slug
       for (const slug of slugs) {
         await wpCacheInvalidate('service', slug);
-        revalidatePath(`/services/${slug}`, 'page');
-        for (const region of Object.keys(REGION_NAMES)) {
-          revalidatePath(`/services/${slug}/${region}`, 'page');
-        }
+        // This single call invalidates /services/[slug], /services/[slug]/[region],
+        // AND /services/[slug]/[region]/[location] — all pages that used this tag
+        revalidateTag(CACHE_TAGS.service(slug), 'max');
       }
-      console.log(`✅ [Queue] Cascade-invalidated ${slugs.length} service(s) × ${Object.keys(REGION_NAMES).length + 1} paths each`);
-      return { processed: slugs.length, slugs, mode: 'cascade' };
+      // Also invalidate the services list page
+      revalidateTag(CACHE_TAGS.servicesList, 'max');
+      console.log(`✅ [Queue] Tag-invalidated ${slugs.length} service(s) — all PSEO pages included`);
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
     }
 
     if (type === 'post') {
-      // Blog posts: purge list cache + invalidate each post
+      // Blog posts: purge list cache + invalidate each post tag
       await wpCachePurgeByPrefix('posts');
       for (const slug of slugs) {
         await wpCacheInvalidate('post', slug);
-        revalidatePath(`/blog/${slug}`, 'page');
+        revalidateTag(CACHE_TAGS.post(slug), 'max');
       }
-      revalidatePath('/blog', 'page');
-      return { processed: slugs.length, slugs, mode: 'cascade' };
+      revalidateTag(CACHE_TAGS.postsList, 'max');
+      console.log(`✅ [Queue] Tag-invalidated ${slugs.length} blog post(s)`);
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
     }
 
     if (type === 'page') {
       for (const slug of slugs) {
         await wpCacheInvalidate('page', `/${slug}`);
-        revalidatePath(`/${slug}`, 'page');
+        revalidateTag(CACHE_TAGS.page(`/${slug}`), 'max');
       }
-      return { processed: slugs.length, slugs, mode: 'cascade' };
+      console.log(`✅ [Queue] Tag-invalidated ${slugs.length} page(s)`);
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+    }
+
+    if (type === 'condition') {
+      for (const slug of slugs) {
+        revalidateTag(CACHE_TAGS.condition(slug), 'max');
+      }
+      revalidateTag(CACHE_TAGS.conditionsList, 'max');
+      console.log(`✅ [Queue] Tag-invalidated ${slugs.length} condition(s)`);
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
     }
 
     return { processed: 0, slugs, mode: 'skipped' };

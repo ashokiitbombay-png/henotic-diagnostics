@@ -35,6 +35,33 @@ export function verifyHMAC(
   return timingSafeCompare(providedSig, expectedSig);
 }
 
+// ── Payload CMS Signature Verification ───────────────────────────────────
+
+/**
+ * Verify a Payload CMS webhook signature.
+ *
+ * Payload CMS sends webhooks with a `payload-signature` header containing
+ * a hex-encoded HMAC-SHA256 digest of the raw request body.
+ *
+ * @param rawBody   The raw request body as a string
+ * @param signature The `payload-signature` header value
+ * @param secret    The Payload CMS webhook signing secret
+ * @returns true if signature is valid
+ */
+export function verifyPayloadCMSSignature(
+  rawBody: string,
+  signature: string | null,
+  secret: string
+): boolean {
+  if (!rawBody || !signature || !secret) return false;
+
+  const expectedSig = createHmac('sha256', secret)
+    .update(rawBody, 'utf8')
+    .digest('hex');
+
+  return timingSafeCompare(signature, expectedSig);
+}
+
 // ── Timing-Safe String Comparison ────────────────────────────────────────
 
 /**

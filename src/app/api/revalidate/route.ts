@@ -1,23 +1,25 @@
-import { revalidatePath } from "next/cache";
-import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath, revalidateTag } from 'next/cache';
+import { NextRequest, NextResponse } from 'next/server';
 import { getClientIP } from '@/lib/rate-limit';
 import { timingSafeCompare } from '@/lib/webhook/security';
 import { revalidateRateLimit } from '@/lib/webhook/rate-limiter';
 import { wpCacheInvalidate, wpCachePurgeByPrefix } from '@/lib/cache/wp-cache';
-import { REGION_NAMES } from '@/config/locations';
+import { CACHE_TAGS } from '@/lib/cache/tags';
 
 /**
  * Enhanced ISR Revalidation API
  * 
- * Supports three modes:
+ * Supports five modes:
  * 
- * 1. Single path:     POST { secret, path: "/services/mri-scan" }
- * 2. Service cascade: POST { secret, service: "mri-scan" }
- *    → Invalidates Redis key + ISR tag for service + all region/location pages
- * 3. Full purge:      POST { secret, purge: true }
- *    → Purges all Redis service keys + revalidates entire /services layout
- * 4. Blog revalidate: POST { secret, post: "understanding-mri" }
- *    → Invalidates single blog post Redis key + ISR path
+ * 1. Single path:      POST { secret, path: "/services/mri-scan" }
+ * 2. Service cascade:  POST { secret, service: "mri-scan" }
+ *    → Invalidates Redis key + revalidateTag for service (covers all PSEO pages)
+ * 3. Full purge:       POST { secret, purge: true }
+ *    → Purges all Redis service keys + revalidates all content tags
+ * 4. Blog revalidate:  POST { secret, post: "understanding-mri" }
+ *    → Invalidates single blog post Redis key + tag
+ * 5. Tag revalidate:   POST { secret, tag: "wp:service:mri-scan" }
+ *    → Directly revalidates a specific cache tag
  */
 export async function POST(request: NextRequest) {
   try {
@@ -32,12 +34,12 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { secret, path, service, post, purge } = body;
+    const { secret, path, service, post, purge, tag } = body;
 
     // Security: Timing-safe secret verification
     const expectedSecret = process.env.REVALIDATION_SECRET;
     if (!expectedSecret || !secret || !timingSafeCompare(secret, expectedSecret)) {
-      return NextResponse.json({ message: "Invalid secret token" }, { status: 401 });
+      return NextResponse.json({ message: 'Invalid secret token' }, { status: 401 });
     }
 
     // ── Mode 1: Full Purge ─────────────────────────────────────────────
@@ -47,8 +49,15 @@ export async function POST(request: NextRequest) {
       const deletedPages = await wpCachePurgeByPrefix('page');
       const deletedPostLists = await wpCachePurgeByPrefix('posts');
 
-      revalidatePath("/services", "layout");
-      revalidatePath("/blog", "layout");
+      // Tag-based purge — covers ALL PSEO pages without enumerating paths
+      revalidateTag(CACHE_TAGS.servicesList, 'max');
+      revalidateTag(CACHE_TAGS.postsList, 'max');
+      revalidateTag(CACHE_TAGS.conditionsList, 'max');
+      revalidateTag(CACHE_TAGS.siteConfig, 'max');
+
+      // Also revalidate layout paths for safety
+      revalidatePath('/services', 'layout');
+      revalidatePath('/blog', 'layout');
 
       return NextResponse.json({
         revalidated: true,
@@ -63,27 +72,21 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // ── Mode 2: Service Cascade ────────────────────────────────────────
+    // ── Mode 2: Service Cascade (Tag-Based) ───────────────────────────
     if (service) {
-      // Invalidate Redis cache for this service
       await wpCacheInvalidate('service', service);
 
-      // Revalidate specific paths (cascade across all regions)
-      const revalidatedPaths: string[] = [`/services/${service}`];
-      revalidatePath(`/services/${service}`, "page");
-
-      // Revalidate all region hub pages for this service
-      for (const region of Object.keys(REGION_NAMES)) {
-        const regionPath = `/services/${service}/${region}`;
-        revalidatePath(regionPath, "page");
-        revalidatedPaths.push(regionPath);
-      }
+      // Single tag call invalidates ALL pages using this service data:
+      // /services/[slug] + /services/[slug]/[region] + /services/[slug]/[region]/[location]
+      revalidateTag(CACHE_TAGS.service(service), 'max');
+      revalidateTag(CACHE_TAGS.servicesList, 'max');
 
       return NextResponse.json({
         revalidated: true,
-        mode: 'service-cascade',
+        mode: 'service-tag-cascade',
         service,
-        pathsInvalidated: revalidatedPaths.length,
+        tag: CACHE_TAGS.service(service),
+        message: 'All PSEO pages (service + region + location) invalidated via tag',
         redisPurged: true,
         now: Date.now()
       });
@@ -92,36 +95,48 @@ export async function POST(request: NextRequest) {
     // ── Mode 3: Blog Post ──────────────────────────────────────────────
     if (post) {
       await wpCacheInvalidate('post', post);
-      // Also purge blog list cache since it may contain stale data
       await wpCachePurgeByPrefix('posts');
-      revalidatePath(`/blog/${post}`, "page");
-      revalidatePath("/blog", "page");
+      revalidateTag(CACHE_TAGS.post(post), 'max');
+      revalidateTag(CACHE_TAGS.postsList, 'max');
 
       return NextResponse.json({
         revalidated: true,
-        mode: 'blog-post',
+        mode: 'blog-post-tag',
         post,
+        tag: CACHE_TAGS.post(post),
         now: Date.now()
       });
     }
 
-    // ── Mode 4: Single Path (original behavior) ────────────────────────
+    // ── Mode 4: Direct Tag Revalidation ────────────────────────────────
+    if (tag) {
+      revalidateTag(tag, 'max');
+      return NextResponse.json({
+        revalidated: true,
+        mode: 'direct-tag',
+        tag,
+        now: Date.now()
+      });
+    }
+
+    // ── Mode 5: Single Path (original behavior) ────────────────────────
     if (path) {
-      revalidatePath(path, "page");
+      revalidatePath(path, 'page');
       return NextResponse.json({ revalidated: true, mode: 'single-path', path, now: Date.now() });
     }
 
     // ── Fallback: Revalidate all services ──────────────────────────────
-    revalidatePath("/services", "layout");
+    revalidateTag(CACHE_TAGS.servicesList, 'max');
+    revalidatePath('/services', 'layout');
     return NextResponse.json({
       revalidated: true,
       mode: 'fallback',
-      message: "All services layout revalidated",
+      message: 'All services layout and tags revalidated',
       now: Date.now()
     });
 
   } catch (error) {
-    console.error("Revalidation Error:", error);
-    return NextResponse.json({ message: "Error processing revalidation request" }, { status: 500 });
+    console.error('Revalidation Error:', error);
+    return NextResponse.json({ message: 'Error processing revalidation request' }, { status: 500 });
   }
 }

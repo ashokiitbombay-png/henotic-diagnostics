@@ -1,37 +1,107 @@
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { getClientIP } from '@/lib/rate-limit';
-import { verifyHMAC, timingSafeCompare, verifyTimestamp, checkNonce } from '@/lib/webhook/security';
+import { verifyHMAC, verifyPayloadCMSSignature, timingSafeCompare, verifyTimestamp, checkNonce } from '@/lib/webhook/security';
 import { webhookRateLimit } from '@/lib/webhook/rate-limiter';
 import { enqueueRevalidation, flushAndProcess, FLUSH_DELAY_MS } from '@/lib/webhook/queue';
 import { wpCacheInvalidate, wpCachePurgeByPrefix } from '@/lib/cache/wp-cache';
+import { CACHE_TAGS } from '@/lib/cache/tags';
 import { getRedis } from '@/lib/cache/redis';
 
+// ── CMS Source Detection ─────────────────────────────────────────────────
+
+type CMSSource = 'wordpress' | 'payload' | 'unknown';
+
+interface NormalizedWebhookPayload {
+  source: CMSSource;
+  contentType: string | null;  // 'service' | 'post' | 'page' | 'condition' | null
+  slug: string | null;
+  action: string;
+}
+
 /**
- * WordPress Webhook Handler — Secure, Queued, Batch-Processing
+ * Detect the CMS source from request headers.
+ *
+ * WordPress:   X-Webhook-Signature or X-Revalidation-Secret
+ * Payload CMS: payload-signature
+ */
+function detectCMSSource(request: NextRequest): CMSSource {
+  if (request.headers.get('payload-signature')) return 'payload';
+  if (
+    request.headers.get('X-Webhook-Signature') ||
+    request.headers.get('X-Revalidation-Secret')
+  ) return 'wordpress';
+  return 'unknown';
+}
+
+/**
+ * Normalize a CMS webhook payload into a unified shape.
+ *
+ * WordPress sends:  { post_type, post_name, action, ID }
+ * Payload CMS sends: { collection, operation, doc: { slug, id, ... } }
+ */
+function normalizePayload(source: CMSSource, body: Record<string, unknown>): NormalizedWebhookPayload {
+  if (source === 'payload') {
+    const collection = body.collection as string | undefined;
+    const operation = (body.operation || 'update') as string;
+    const doc = body.doc as Record<string, unknown> | undefined;
+    const slug = (doc?.slug || doc?.id || '') as string;
+
+    // Map Payload CMS collections to our content types
+    const typeMap: Record<string, string> = {
+      services: 'service',
+      posts: 'post',
+      pages: 'page',
+      conditions: 'condition',
+      'blog-posts': 'post',
+    };
+
+    return {
+      source,
+      contentType: collection ? (typeMap[collection] || null) : null,
+      slug: slug || null,
+      action: operation,
+    };
+  }
+
+  // WordPress (default)
+  const postType = (body.post_type || body.postType) as string | undefined;
+  const postSlug = (body.post_name || body.postName || body.slug) as string | undefined;
+  const action = (body.action || body.status || 'update') as string;
+
+  const typeMap: Record<string, string> = {
+    service: 'service',
+    post: 'post',
+    page: 'page',
+    condition: 'condition',
+  };
+
+  return {
+    source,
+    contentType: postType ? (typeMap[postType] || null) : null,
+    slug: postSlug || null,
+    action,
+  };
+}
+
+// ── Main Handler ─────────────────────────────────────────────────────────
+
+/**
+ * Unified Webhook Handler — WordPress & Payload CMS
  *
  * Security layers:
  *   1. Rate limiting (Redis-backed distributed, 100 req/10s burst)
- *   2. Authentication (HMAC-SHA256 signature OR legacy secret — backward compatible)
+ *   2. Authentication (HMAC-SHA256 per CMS, or legacy secret fallback)
  *   3. Replay prevention (timestamp ±5 min + Redis nonce dedup)
  *
  * Bulk handling:
  *   - Each webhook enqueues its slug into a Redis Set (natural dedup)
  *   - First webhook in a batch triggers a 5-second flush timer
- *   - After 5s, all queued slugs are batch-processed in one pass
- *   - If ≥50 unique slugs → full layout purge (cheaper)
- *   - If <50 → per-service cascade invalidation (precise)
+ *   - After 5s, all queued slugs are batch-processed via revalidateTag
+ *   - If ≥50 unique slugs → full tag purge (cheaper)
+ *   - If <50 → per-slug tag invalidation (precise, O(1) per slug)
  *
  * POST /api/revalidate/webhook
- *
- * Headers:
- *   X-Webhook-Signature: sha256=<hmac>  (preferred)
- *   X-Revalidation-Secret: <token>       (legacy fallback)
- *   X-Webhook-Timestamp: <unix-seconds>  (replay prevention)
- *   X-Webhook-Delivery: <uuid>           (nonce dedup)
- *
- * Body:
- *   { post_type, post_name, action, ID }
  */
 export async function POST(request: NextRequest) {
   try {
@@ -61,41 +131,55 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Invalid JSON body' }, { status: 400 });
     }
 
-    // ── 3. Authentication ──────────────────────────────────────────────
-    // Support both HMAC signature (preferred) and legacy secret (backward compat)
-    const signatureHeader = request.headers.get('X-Webhook-Signature');
-    const legacySecret = request.headers.get('X-Revalidation-Secret') || (body.secret as string);
-    const signingSecret = process.env.WEBHOOK_SIGNING_SECRET || process.env.REVALIDATION_SECRET;
-    const revalidationSecret = process.env.REVALIDATION_SECRET;
-
+    // ── 3. Detect CMS Source & Authenticate ────────────────────────────
+    const cmsSource = detectCMSSource(request);
     let authenticated = false;
 
-    // Try HMAC-SHA256 first (more secure)
-    if (signatureHeader && signingSecret) {
-      authenticated = verifyHMAC(rawBody, signatureHeader, signingSecret);
-      if (!authenticated) {
-        console.warn(`[Webhook] HMAC verification failed from IP: ${ip}`);
-        return NextResponse.json({ message: 'Invalid signature' }, { status: 401 });
+    if (cmsSource === 'payload') {
+      // Payload CMS: verify payload-signature header
+      const payloadSecret = process.env.PAYLOAD_WEBHOOK_SECRET || process.env.WEBHOOK_SIGNING_SECRET;
+      const payloadSig = request.headers.get('payload-signature');
+
+      if (payloadSecret && payloadSig) {
+        authenticated = verifyPayloadCMSSignature(rawBody, payloadSig, payloadSecret);
+        if (!authenticated) {
+          console.warn(`[Webhook] Payload CMS HMAC verification failed from IP: ${ip}`);
+          return NextResponse.json({ message: 'Invalid Payload CMS signature' }, { status: 401 });
+        }
       }
-    }
-    // Fallback: legacy secret comparison (timing-safe)
-    else if (legacySecret && revalidationSecret) {
-      authenticated = timingSafeCompare(legacySecret, revalidationSecret);
-      if (!authenticated) {
-        console.warn(`[Webhook] Secret verification failed from IP: ${ip}`);
-        return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
+    } else {
+      // WordPress: HMAC signature or legacy secret
+      const signatureHeader = request.headers.get('X-Webhook-Signature');
+      const legacySecret = request.headers.get('X-Revalidation-Secret') || (body.secret as string);
+      const signingSecret = process.env.WEBHOOK_SIGNING_SECRET || process.env.REVALIDATION_SECRET;
+      const revalidationSecret = process.env.REVALIDATION_SECRET;
+
+      // Try HMAC-SHA256 first (more secure)
+      if (signatureHeader && signingSecret) {
+        authenticated = verifyHMAC(rawBody, signatureHeader, signingSecret);
+        if (!authenticated) {
+          console.warn(`[Webhook] WordPress HMAC verification failed from IP: ${ip}`);
+          return NextResponse.json({ message: 'Invalid signature' }, { status: 401 });
+        }
+      }
+      // Fallback: legacy secret comparison (timing-safe)
+      else if (legacySecret && revalidationSecret) {
+        authenticated = timingSafeCompare(legacySecret, revalidationSecret);
+        if (!authenticated) {
+          console.warn(`[Webhook] Secret verification failed from IP: ${ip}`);
+          return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
+        }
       }
     }
 
     if (!authenticated) {
       return NextResponse.json(
-        { message: 'Authentication required. Provide X-Webhook-Signature or X-Revalidation-Secret header.' },
+        { message: 'Authentication required. Provide X-Webhook-Signature, payload-signature, or X-Revalidation-Secret header.' },
         { status: 401 }
       );
     }
 
     // ── 4. Replay Prevention ───────────────────────────────────────────
-    // Timestamp validation (±5 minutes)
     const timestampHeader = request.headers.get('X-Webhook-Timestamp');
     if (timestampHeader) {
       const { valid, ageSeconds } = verifyTimestamp(timestampHeader);
@@ -108,8 +192,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Nonce deduplication (prevents replaying the exact same delivery)
-    const deliveryId = request.headers.get('X-Webhook-Delivery');
+    // Nonce deduplication
+    const deliveryId = request.headers.get('X-Webhook-Delivery') || request.headers.get('payload-delivery-id');
     if (deliveryId) {
       const redis = getRedis();
       if (redis) {
@@ -118,75 +202,70 @@ export async function POST(request: NextRequest) {
           console.log(`[Webhook] Duplicate delivery rejected: ${deliveryId}`);
           return NextResponse.json(
             { message: 'Duplicate webhook delivery', deliveryId },
-            { status: 200 } // 200 so WordPress doesn't retry
+            { status: 200 } // 200 so CMS doesn't retry
           );
         }
       }
     }
 
-    // ── 5. Parse Payload ───────────────────────────────────────────────
-    const postType = (body.post_type || body.postType) as string | undefined;
-    const postSlug = (body.post_name || body.postName || body.slug) as string | undefined;
-    const action = (body.action || body.status || 'update') as string;
+    // ── 5. Parse & Normalize Payload ───────────────────────────────────
+    const { contentType, slug, action, source } = normalizePayload(cmsSource, body);
 
-    if (!postType || !postSlug) {
+    if (!contentType || !slug) {
       return NextResponse.json(
-        { message: 'Missing post_type or post_name in webhook payload' },
+        { message: 'Missing content type or slug in webhook payload' },
         { status: 400 }
       );
     }
 
-    // Normalize type for queue
-    const queueType = postType === 'service' ? 'service'
-      : postType === 'post' ? 'post'
-      : postType === 'page' ? 'page'
-      : null;
-
-    if (!queueType) {
-      console.warn(`[Webhook] Unknown post type: ${postType}`);
-      return NextResponse.json({ ok: true, message: `Unknown post type: ${postType}` });
-    }
-
-    console.log(`📡 [Webhook] Received: ${action} ${queueType}/${postSlug} from ${ip}`);
+    console.log(`📡 [Webhook] Received: ${action} ${contentType}/${slug} from ${source} (IP: ${ip})`);
 
     // ── 6. Enqueue for Batch Processing ────────────────────────────────
-    const { queued, shouldFlush, queueSize } = await enqueueRevalidation(queueType, postSlug);
+    const { queued, shouldFlush, queueSize } = await enqueueRevalidation(contentType, slug);
 
     if (queued) {
-      // If this is the first item in a new batch, schedule the flush
       if (shouldFlush) {
-        scheduleFlush(queueType);
+        scheduleFlush(contentType);
       }
 
       return NextResponse.json({
         ok: true,
         queued: true,
+        source,
+        contentType,
+        slug,
         queueSize,
         message: `Queued for batch revalidation (window: ${FLUSH_DELAY_MS / 1000}s)`,
       }, { status: 202 });
     }
 
-    // ── 7. Fallback: Immediate Processing (no Redis) ───────────────────
-    // If Redis is unavailable, process immediately (same as before)
-    console.log(`[Webhook] No Redis — processing ${queueType}/${postSlug} immediately`);
+    // ── 7. Fallback: Immediate Tag-Based Processing (no Redis) ─────────
+    console.log(`[Webhook] No Redis — processing ${contentType}/${slug} immediately via tags`);
 
-    if (queueType === 'service') {
-      await wpCacheInvalidate('service', postSlug);
-      revalidatePath(`/services/${postSlug}`, 'page');
-    } else if (queueType === 'post') {
-      await wpCacheInvalidate('post', postSlug);
+    if (contentType === 'service') {
+      await wpCacheInvalidate('service', slug);
+      revalidateTag(CACHE_TAGS.service(slug), 'max');
+      revalidateTag(CACHE_TAGS.servicesList, 'max');
+    } else if (contentType === 'post') {
+      await wpCacheInvalidate('post', slug);
       await wpCachePurgeByPrefix('posts');
-      revalidatePath(`/blog/${postSlug}`, 'page');
-      revalidatePath('/blog', 'page');
-    } else if (queueType === 'page') {
-      await wpCacheInvalidate('page', `/${postSlug}`);
-      revalidatePath(`/${postSlug}`, 'page');
+      revalidateTag(CACHE_TAGS.post(slug), 'max');
+      revalidateTag(CACHE_TAGS.postsList, 'max');
+    } else if (contentType === 'page') {
+      await wpCacheInvalidate('page', `/${slug}`);
+      revalidateTag(CACHE_TAGS.page(`/${slug}`), 'max');
+    } else if (contentType === 'condition') {
+      revalidateTag(CACHE_TAGS.condition(slug), 'max');
+      revalidateTag(CACHE_TAGS.conditionsList, 'max');
     }
 
     return NextResponse.json({
       ok: true,
       queued: false,
-      message: 'Processed immediately (no queue available)',
+      source,
+      contentType,
+      slug,
+      message: 'Processed immediately via tag-based revalidation (no queue available)',
     });
 
   } catch (error) {
@@ -200,20 +279,10 @@ export async function POST(request: NextRequest) {
 /**
  * Schedule a flush of the dedup queue after the debounce window.
  *
- * In serverless (Vercel), we can't use setTimeout reliably because the
- * function may terminate. Instead, we:
- *   1. Wait the debounce period using a setTimeout
- *   2. Call flushAndProcess() directly within the same execution context
- *
- * For Vercel, this works because edge/serverless functions have a generous
- * execution timeout (10s default, 60s max on Pro). The 5s debounce window
- * fits well within this.
- *
- * Alternative: Use Vercel's waitUntil() or QStash for truly async flush.
+ * In serverless (Vercel), the function has a generous execution timeout
+ * (10s default, 60s max on Pro). The 5s debounce window fits within this.
  */
 function scheduleFlush(type: string): void {
-  // Fire-and-forget: schedule the flush after debounce window
-  // This runs within the serverless function's lifecycle
   setTimeout(async () => {
     try {
       const result = await flushAndProcess(type);
