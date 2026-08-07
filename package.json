@@ -33,7 +33,11 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:pseo": "playwright test tests/pseo-regression.spec.ts"
+    "test:pseo": "playwright test tests/pseo-regression.spec.ts",
+    "test:dataloader": "vitest run tests/dataloader.test.ts",
+    "test:cache-tags": "vitest run tests/cache-tags.test.ts",
+    "payload:preflight": "tsx scripts/payload-preflight.ts",
+    "payload:indexes": "tsx scripts/payload-create-indexes.ts"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.2.7",
