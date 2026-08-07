@@ -5,6 +5,7 @@ import { OrganizationSchema } from '@/components/seo/OrganizationSchema';
 import { Analytics } from '@vercel/analytics/next';
 import ThirdPartyScripts from '@/components/seo/ThirdPartyScripts';
 import SiteHeader from "@/components/layout/SiteHeader";
+import ClientWidgets from "@/components/layout/ClientWidgets";
 import Providers from '@/providers/Providers';
 import "./globals.css";
 
@@ -15,24 +16,9 @@ import "./globals.css";
  */
 const systemFontClass = 'font-system';
 
-// 🚀 Lazy-load below-fold components to reduce initial DOM + JS bundle
+// 🚀 Lazy-load below-fold server components
 const SecondFooter = dynamic(() => import("@/components/layout/SecondFooter"));
 const SiteFooter = dynamic(() => import("@/components/layout/SiteFooter"));
-// Client-only components that use browser APIs (window, localStorage, etc.). ssr: false prevents hydration mismatches.
-const WhatsAppWidget = dynamic(() => import('@/components/ui/WhatsAppWidget'), { ssr: false });
-const StickyMobileCTA = dynamic(() => import('@/components/ui/StickyMobileCTA'), { ssr: false });
-const SocialProofNotification = dynamic(() => import('@/components/ui/SocialProofNotification'), { ssr: false });
-const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent'), { ssr: false });
-
-// 📊 Monitoring & Tracking (lazy-loaded, env-gated)
-// Client-only components that use browser APIs. ssr: false prevents hydration mismatches.
-const TawkToChat = dynamic(() => import('@/components/ui/TawkToChat'), { ssr: false });
-const ClarityScript = dynamic(() => import('@/components/monitoring/ClarityScript'), { ssr: false });
-const MetaPixel = dynamic(() => import('@/components/monitoring/MetaPixel'), { ssr: false });
-const ServiceWorkerRegister = dynamic(() => import('@/components/ui/ServiceWorkerRegister'), { ssr: false });
-const GA4Script = dynamic(() => import('@/components/monitoring/GA4Script'), { ssr: false });
-const SentryInit = dynamic(() => import('@/components/monitoring/SentryInit'), { ssr: false });
-const GoogleCustomerReviews = dynamic(() => import('@/components/monitoring/GoogleCustomerReviews'), { ssr: false });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.henoticdiagnostics.com'),
@@ -144,18 +130,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           
           <SecondFooter />
           <SiteFooter />
-          <WhatsAppWidget />
-          <StickyMobileCTA />
-          <SocialProofNotification />
-          <CookieConsent />
-          <TawkToChat />
-          <ClarityScript />
-          <MetaPixel />
-          <GA4Script />
-          <SentryInit />
-          <GoogleCustomerReviews />
+          <ClientWidgets />
           <Analytics />
-          <ServiceWorkerRegister />
         </Providers>
         </body>
     </html>

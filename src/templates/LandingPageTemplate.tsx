@@ -1,17 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { ShieldCheck, Star, CheckCircle2, Phone, CalendarCheck, Sparkles, HeartPulse, Trophy } from "lucide-react";
-
-// 🛡️ Booking Engine Isolation — fully decoupled from landing page PSEO content
-const BookingForm = dynamic(() => import("@/components/forms/BookingForm"), {
-  ssr: false,
-  loading: () => (
-    <div className="animate-pulse bg-white/10 rounded-2xl h-[400px] flex items-center justify-center border border-white/10">
-      <p className="text-white/40 font-bold">Loading booking form...</p>
-    </div>
-  ),
-});
+// 🛡️ Booking Engine Isolation — Client Component wrapper handles dynamic({ ssr: false })
+import ClientBookingForm from "@/components/forms/ClientBookingForm";
 
 interface LandingPageTemplateProps {
   service: string;
@@ -129,7 +120,7 @@ export default function LandingPageTemplate({
           <div className="lg:col-span-5 relative">
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/25 to-pink-500/25 rounded-[3rem] blur-2xl -z-10"></div>
             <div className="bg-slate-900 border-4 border-slate-800 rounded-[3rem] p-1.5 shadow-2xl relative overflow-hidden">
-              <BookingForm />
+              <ClientBookingForm />
             </div>
           </div>
 
