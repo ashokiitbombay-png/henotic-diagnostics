@@ -1340,6 +1340,14 @@
 3️⃣ DETAILED REPORTS WILL BE AVAILABLE SHORTLY AFTER THE SCAN IS COMPLETED.
 15MIN SCAN TIME: 15 MINUTES REPORTING`;
 
+        const PREP_2D_ECHO = `🫀 2D ECHO TEST GUIDELINES
+
+✅ NO FASTING IS REQUIRED. CONTINUE YOUR REGULAR MEDICATIONS.
+
+✅ WEAR LOOSE, COMFORTABLE CLOTHING.
+
+✅ SCAN TIME: 15 MINUTES. HARDCOPY REPORTS WILL BE AVAILABLE.`;
+
         // Expanded Comprehensive Diagnostic Tests Catalog with Parent Category Mapping
         const tests = [
             { id: "custom", category: "CUSTOM", parentCategory: "✨ Custom Services", name: "Custom Test (Type Manually)", prep: "" },
@@ -1636,11 +1644,11 @@
             { id: "card_ecg", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "ECG", prep: "No fasting." },
             { id: "card_ecg_test", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "ECG Test", prep: "No fasting." },
             { id: "card_electro", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Electrocardiogram", prep: "No fasting." },
-            { id: "card_2d_echo", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "2d Echo", prep: "No fasting (light meal OK)." },
-            { id: "card_2d_echo_test", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "2d Echo Test", prep: "No fasting." },
-            { id: "card_echo_test", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Echo Test", prep: "No fasting." },
-            { id: "card_echocardio", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Echocardiography", prep: "No fasting." },
-            { id: "card_color_echo", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Color Echo", prep: "No fasting." },
+            { id: "card_2d_echo", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "2d Echo", prep: PREP_2D_ECHO },
+            { id: "card_2d_echo_test", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "2d Echo Test", prep: PREP_2D_ECHO },
+            { id: "card_echo_test", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Echo Test", prep: PREP_2D_ECHO },
+            { id: "card_echocardio", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Echocardiography", prep: PREP_2D_ECHO },
+            { id: "card_color_echo", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Color Echo", prep: PREP_2D_ECHO },
             { id: "card_stress_echo", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Stress Echo", prep: "Light meal 2h prior." },
             { id: "card_dobu_echo", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "Dobutamine Stress Echo", prep: "Fast 4h prior." },
             { id: "card_tmt_test", category: "CARDIAC", parentCategory: "❤️🔥 Cardiology Diagnostics (29)", name: "TMT Test", prep: "Wear sports shoes." },
