@@ -466,3 +466,6 @@ html.dark .lg\:hidden.fixed a { color: #e2e8f0; }
 .dark .wp-content-wrapper a { color: #60a5fa; }
 .dark .wp-content-wrapper blockquote { background: linear-gradient(135deg, #1e293b, #1e1b4b); }
 .dark .wp-content-wrapper ul li::before { background: linear-gradient(135deg, #22c55e, #16a34a); }
+
+/* Enable Native Smooth Scrolling */
+html { scroll-behavior: smooth !important; }
