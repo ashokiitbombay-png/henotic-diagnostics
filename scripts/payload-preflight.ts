@@ -67,10 +67,11 @@ async function main() {
   if (process.env.PAYLOAD_CMS_URL) {
     console.log('\n🌐 Payload CMS API:');
     try {
-      const url = `${process.env.PAYLOAD_CMS_URL}/api`;
-      const res = await fetch(url, { method: 'GET', signal: AbortSignal.timeout(5000) });
-      if (res.ok) {
-        console.log(`  ✅ Payload API responding at ${url} (${res.status})`);
+      const baseUrl = process.env.PAYLOAD_CMS_URL.replace(/\/+$/, '');
+      const url = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
+      const res = await fetch(url, { method: 'GET', signal: AbortSignal.timeout(8000) });
+      if (res.ok || res.status === 401 || res.status === 403 || res.status === 404) {
+        console.log(`  ✅ Payload API responding at ${url} (status ${res.status})`);
       } else {
         console.log(`  ⚠️  Payload API returned ${res.status} at ${url}`);
       }

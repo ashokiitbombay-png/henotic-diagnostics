@@ -42,3 +42,4 @@ project-tree.txt
 app-tree.txt
 .vercel
 .env*.local
+.env*

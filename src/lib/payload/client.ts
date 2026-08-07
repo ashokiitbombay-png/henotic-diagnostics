@@ -8,8 +8,13 @@ import { wpCacheThrough } from '@/lib/cache/wp-cache';
 
 // ── Configuration ────────────────────────────────────────────────────────────
 
-const PAYLOAD_URL = process.env.PAYLOAD_CMS_URL || '';
-const PAYLOAD_API_KEY = process.env.PAYLOAD_API_KEY || '';
+function getPayloadUrl(): string {
+  return process.env.PAYLOAD_CMS_URL?.replace(/\/+$/, '') || '';
+}
+
+function getPayloadApiKey(): string {
+  return process.env.PAYLOAD_API_KEY || '';
+}
 
 /** Maximum retry attempts for transient failures */
 const MAX_RETRIES = 3;
@@ -88,7 +93,8 @@ async function fetchWithRetry(
  * Build the full URL for a Payload REST API endpoint.
  */
 function buildUrl(collection: string, id?: string, params?: PayloadQueryParams): string {
-  const base = `${PAYLOAD_URL}/api/${collection}${id ? `/${id}` : ''}`;
+  const payloadUrl = getPayloadUrl();
+  const base = `${payloadUrl}/api/${collection}${id ? `/${id}` : ''}`;
   const url = new URL(base);
 
   if (params?.limit) url.searchParams.set('limit', String(params.limit));
@@ -110,8 +116,9 @@ function buildHeaders(): HeadersInit {
     'Content-Type': 'application/json',
   };
 
-  if (PAYLOAD_API_KEY) {
-    headers['Authorization'] = `Bearer ${PAYLOAD_API_KEY}`;
+  const apiKey = getPayloadApiKey();
+  if (apiKey) {
+    headers['Authorization'] = `Bearer ${apiKey}`;
   }
 
   return headers;
@@ -142,7 +149,8 @@ export async function payloadFind<T extends PayloadCollectionSlug>(
   params?: PayloadQueryParams,
   cacheTtl: number = 3600
 ): Promise<PayloadListResponse<PayloadCollectionMap[T]> | null> {
-  if (!PAYLOAD_URL) {
+  const payloadUrl = getPayloadUrl();
+  if (!payloadUrl) {
     console.warn('[Payload] PAYLOAD_CMS_URL not configured. Skipping fetch.');
     return null;
   }
@@ -185,7 +193,8 @@ export async function payloadFindByID<T extends PayloadCollectionSlug>(
   depth: number = 1,
   cacheTtl: number = 86400
 ): Promise<PayloadCollectionMap[T] | null> {
-  if (!PAYLOAD_URL) {
+  const payloadUrl = getPayloadUrl();
+  if (!payloadUrl) {
     console.warn('[Payload] PAYLOAD_CMS_URL not configured. Skipping fetch.');
     return null;
   }
@@ -228,7 +237,8 @@ export async function payloadFindBySlug<T extends PayloadCollectionSlug>(
   depth: number = 1,
   cacheTtl: number = 86400
 ): Promise<PayloadCollectionMap[T] | null> {
-  if (!PAYLOAD_URL) return null;
+  const payloadUrl = getPayloadUrl();
+  if (!payloadUrl) return null;
 
   return wpCacheThrough<PayloadCollectionMap[T] | null>(
     `payload:${collection}`,
