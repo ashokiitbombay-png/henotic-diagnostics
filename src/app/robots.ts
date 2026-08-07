@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/reports/'],
+        disallow: ['/api/', '/reports/', '/services/_trap/'],
       },
       // Explicitly allow AI crawlers for AEO/GEO/LLMO compliance
       {

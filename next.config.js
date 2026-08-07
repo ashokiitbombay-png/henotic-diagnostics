@@ -75,17 +75,10 @@ const nextConfig = {
         source: '/media-cdn/:path*',
         destination: 'https://storage.googleapis.com/wp-media-henoticbucket/:path*',
       },
+      // Legacy backward compat: /sitemap-1.xml → /sitemap/0.xml (new dynamic route)
       {
-        source: '/sitemap/0.xml',
-        destination: '/sitemaps/sitemap-1.xml',
-      },
-      {
-        source: '/sitemap/:id.xml',
-        destination: '/sitemaps/sitemap-:id.xml',
-      },
-      {
-        source: '/sitemap-:id.xml',
-        destination: '/sitemaps/sitemap-:id.xml',
+        source: '/sitemap-:id(\\d+).xml',
+        destination: '/sitemap/:id.xml',
       },
     ];
   },

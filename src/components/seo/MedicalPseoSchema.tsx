@@ -3,7 +3,9 @@ import {
   generateServiceSchemas,
   generateConditionSchema,
   generateDoctorSchema,
-  generateComparisonSchema
+  generateComparisonSchema,
+  generateMedicalTestSchema,
+  generateLocationClinicSchema
 } from '@/lib/seo/medical-schema-generator';
 
 export interface MedicalPseoSchemaProps {
@@ -20,8 +22,15 @@ export interface MedicalPseoSchemaProps {
 
 /**
  * 🤖 Medical PSEO Schema Component — Context-Aware JSON-LD Head Injector
- * Automatically selects and renders MedicalWebPage, DiagnosticProcedure,
- * MedicalCondition, Physician, BreadcrumbList, and FAQPage schemas.
+ * 
+ * Automatically selects and renders highly nested YMYL healthcare schemas:
+ * - MedicalWebPage + DiagnosticProcedure + MedicalTest + BreadcrumbList + FAQPage
+ * - MedicalClinic (per-location for hyper-local PSEO pages)
+ * - MedicalCondition + MedicalSymptom
+ * - Physician
+ * 
+ * Google's YMYL (Your Money or Your Life) algorithms give healthcare content
+ * higher scrutiny. These nested schemas signal medical authority to crawlers.
  */
 export default function MedicalPseoSchema({
   type,
@@ -34,10 +43,13 @@ export default function MedicalPseoSchema({
   compareSlug,
   wpContent
 }: MedicalPseoSchemaProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const schemasToRender: Record<string, any>[] = [];
 
   if (type === 'service' && serviceSlug) {
     const formattedName = serviceName || serviceSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    
+    // 1. Core schemas: DiagnosticProcedure + MedicalWebPage + Breadcrumbs + FAQ
     const serviceSchemas = generateServiceSchemas({
       serviceSlug,
       serviceName: formattedName,
@@ -52,6 +64,31 @@ export default function MedicalPseoSchema({
       schemasToRender.push(serviceSchemas.breadcrumbSchema);
       if (serviceSchemas.faqSchema) {
         schemasToRender.push(serviceSchemas.faqSchema);
+      }
+    }
+
+    // 2. MedicalTest schema — higher YMYL signal than DiagnosticProcedure
+    const medicalTestSchema = generateMedicalTestSchema({
+      serviceSlug,
+      serviceName: formattedName,
+      regionSlug,
+      locationSlug,
+      wpContent
+    });
+    if (medicalTestSchema) {
+      schemasToRender.push(medicalTestSchema);
+    }
+
+    // 3. Location-specific MedicalClinic for hyper-local PSEO pages
+    if (regionSlug && locationSlug) {
+      const clinicSchema = generateLocationClinicSchema({
+        regionSlug,
+        locationSlug,
+        serviceSlug,
+        serviceName: formattedName
+      });
+      if (clinicSchema) {
+        schemasToRender.push(clinicSchema);
       }
     }
   } else if (type === 'condition' && conditionId) {

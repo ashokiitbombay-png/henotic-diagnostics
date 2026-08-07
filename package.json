@@ -25,9 +25,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "generate:sitemaps": "tsx scripts/generate-sitemaps.ts",
+    "generate:sitemaps": "echo Sitemaps are now served dynamically via route handlers",
     "generate:priorities": "tsx scripts/generate-build-priorities.ts",
-    "build": "npm run generate:sitemaps && next build",
+    "build": "next build",
     "build:shard": "tsx scripts/shard-build.ts",
     "start": "next start",
     "lint": "next lint",
