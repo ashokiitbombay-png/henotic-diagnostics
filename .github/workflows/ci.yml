@@ -1,4 +1,4 @@
-name: CI
+name: CI — Lint, Typecheck & Build
 
 on:
   push:
@@ -6,8 +6,13 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint-and-typecheck:
+    name: Lint & Typecheck
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +25,7 @@ jobs:
       - run: npm run lint
 
   build:
+    name: Production Build
     needs: lint-and-typecheck
     runs-on: ubuntu-latest
     steps:
@@ -28,14 +34,25 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+
+      - name: Restore Next.js Build Cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
       - run: npm ci
       - run: npm run build
-    env:
-      NEXT_PUBLIC_SITE_URL: https://www.henoticdiagnostics.com
-      NEXT_PUBLIC_WORDPRESS_API_URL: https://cms.henoticdiagnostics.com/graphql
-      WORDPRESS_API_URL: https://cms.henoticdiagnostics.com/graphql
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+          NEXT_PUBLIC_SITE_URL: https://www.henoticdiagnostics.com
+          NEXT_PUBLIC_WORDPRESS_API_URL: https://cms.henoticdiagnostics.com/graphql
+          WORDPRESS_API_URL: https://cms.henoticdiagnostics.com/graphql
 
   test:
+    name: Unit Tests
     needs: lint-and-typecheck
     runs-on: ubuntu-latest
     steps:
