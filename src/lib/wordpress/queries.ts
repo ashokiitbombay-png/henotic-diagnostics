@@ -98,3 +98,66 @@ export const GET_BLOG_POST = gql`
     }
   }
 `;
+
+// ── Batch Service Queries (DataLoader) ───────────────────────────────────
+
+/**
+ * Batch query for DataLoader — fetches multiple services by slug array.
+ * WPGraphQL supports `slugIn` for the `services` root query.
+ * 
+ * Used by the DataLoader to collapse N concurrent getService() calls
+ * into a single GraphQL request during crawl storms.
+ */
+export const GET_SERVICES_BY_SLUGS = gql`
+  query GetServicesBySlugs($slugs: [String!]!) {
+    services(where: { slugIn: $slugs }, first: 50) {
+      nodes {
+        slug
+        title
+        content
+      }
+    }
+  }
+`;
+
+// ── Batch Page Queries (DataLoader) ──────────────────────────────────────
+
+/**
+ * Batch query for DataLoader — fetches multiple pages by URI array.
+ */
+export const GET_PAGES_BY_URIS = gql`
+  query GetPagesByUris($uris: [String!]!) {
+    pages(where: { nameIn: $uris }, first: 50) {
+      nodes {
+        uri
+        title
+        content
+      }
+    }
+  }
+`;
+
+// ── Cursor-Based Service Slug Discovery ──────────────────────────────────
+
+/**
+ * Paginated query to discover ALL service slugs from WordPress.
+ * Used by build scripts to regenerate build-priorities.json.
+ * Fetches 100 slugs per page using cursor-based pagination.
+ */
+export const GET_ALL_SERVICE_SLUGS = gql`
+  query GetAllServiceSlugs($first: Int!, $after: String) {
+    services(
+      first: $first
+      after: $after
+      where: { status: PUBLISH }
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        slug
+      }
+    }
+  }
+`;

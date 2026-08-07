@@ -107,3 +107,84 @@ export interface GetBlogPostResponse {
 
 /** @deprecated Use GetBlogPostsResponse instead. */
 export type BlogPostsResponse = GetBlogPostsResponse;
+
+/** Response shape for the batch services-by-slug query (DataLoader). */
+export interface GetServicesBySlugResponse {
+  services: {
+    nodes: (WordPressService & { slug: string })[];
+  };
+}
+
+/** Response shape for the batch pages-by-URI query (DataLoader). */
+export interface GetPagesByUriResponse {
+  pages: {
+    nodes: (WordPressPage & { uri: string })[];
+  };
+}
+
+/** Response shape for the all service slugs query. */
+export interface GetServiceSlugsResponse {
+  services: {
+    pageInfo: { hasNextPage: boolean; endCursor: string };
+    nodes: { slug: string }[];
+  };
+}
+
+// ── WordPress Extended Types ─────────────────────────────────────────────
+
+/** WPGraphQL Yoast SEO head fields */
+export interface WPYoastSEO {
+  title?: string;
+  metaDesc?: string;
+  canonical?: string;
+  opengraphTitle?: string;
+  opengraphDescription?: string;
+  opengraphImage?: { sourceUrl: string };
+}
+
+/** Extended service with SEO + ACF fields (for future WPGraphQL expansion) */
+export interface WordPressServiceFull extends WordPressContent {
+  slug: string;
+  uri: string;
+  seo?: WPYoastSEO;
+  serviceFields?: {
+    price?: number;
+    duration?: string;
+    preparation?: string;
+    category?: string;
+  };
+  modified: string;
+}
+
+
+// ── Branded Types (compile-time slug validation) ─────────────────────────
+
+export type ServiceSlug = string & { readonly __brand: unique symbol };
+export type RegionSlug = string & { readonly __brand: unique symbol };
+export type LocationSlug = string & { readonly __brand: unique symbol };
+
+/** Type guard: validate and narrow a string to ServiceSlug */
+export function isServiceSlug(slug: string): slug is ServiceSlug;
+/** Type guard: validate and narrow a string to RegionSlug */
+export function isRegionSlug(slug: string): slug is RegionSlug;
+/** Type guard: validate and narrow a string to LocationSlug */
+export function isLocationSlug(slug: string): slug is LocationSlug;
+
+// ── GraphQL Operation Types ──────────────────────────────────────────────
+
+/** Strongly-typed GraphQL operation result */
+export interface GraphQLOperationResult<TData = unknown> {
+  data: TData | null;
+  errors?: ReadonlyArray<{
+    message: string;
+    locations?: ReadonlyArray<{ line: number; column: number }>;
+    path?: ReadonlyArray<string | number>;
+    extensions?: Record<string, unknown>;
+  }>;
+}
+
+/** Cache metadata for data fetcher functions */
+export interface FetcherCacheConfig {
+  tags: string[];
+  revalidate?: number;
+}

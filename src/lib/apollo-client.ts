@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache, from } from '@apollo/client';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import { RetryLink } from '@apollo/client/link/retry';
 import { ErrorLink } from '@apollo/client/link/error';
 import { CombinedGraphQLErrors } from '@apollo/client/errors';
 
@@ -18,6 +19,20 @@ const errorLink = new ErrorLink(({ error, operation }) => {
   }
 });
 
+// ── Retry Link (Exponential Backoff) ─────────────────────────────────────
+
+const retryLink = new RetryLink({
+  delay: {
+    initial: 300,
+    max: 3000,
+    jitter: true,
+  },
+  attempts: {
+    max: 3,
+    retryIf: (error) => !!error && (error as unknown as Record<string, unknown>).statusCode !== 400,
+  },
+});
+
 // ── Singleton Client ─────────────────────────────────────────────────────
 
 let _client: ApolloClient | null = null;
@@ -33,8 +48,45 @@ export const getClient = () => {
     });
 
     _client = new ApolloClient({
-      link: from([errorLink, batchLink]),
-      cache: new InMemoryCache(),
+      link: from([errorLink, retryLink, batchLink]),
+      cache: new InMemoryCache({
+        typePolicies: {
+          Query: {
+            fields: {
+              // Merge paginated blog post results
+              posts: {
+                keyArgs: ['where'],
+                merge(existing, incoming) {
+                  if (!existing) return incoming;
+                  return {
+                    ...incoming,
+                    nodes: [...(existing.nodes || []), ...(incoming.nodes || [])],
+                  };
+                },
+              },
+              // Merge paginated service results
+              services: {
+                keyArgs: ['where'],
+                merge(existing, incoming) {
+                  if (!existing) return incoming;
+                  return {
+                    ...incoming,
+                    nodes: [...(existing.nodes || []), ...(incoming.nodes || [])],
+                  };
+                },
+              },
+            },
+          },
+          // Normalize service entities by slug for dedup
+          Service: {
+            keyFields: ['slug'],
+          },
+          // Normalize post entities by slug for dedup
+          Post: {
+            keyFields: ['slug'],
+          },
+        },
+      }),
       ssrMode: typeof window === 'undefined',
     });
   }
