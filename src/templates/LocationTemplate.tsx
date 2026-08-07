@@ -1,5 +1,5 @@
 import React from "react";
-import BookingForm from "@/components/forms/BookingForm";
+import dynamic from "next/dynamic";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import LocalSEOMastery from "@/components/seo/LocalSEOMastery";
 import SchemaMarkup from "@/components/seo/SchemaMarkup";
@@ -18,6 +18,18 @@ import { REAL_LOCATION_REVIEWS } from "@/config/locations";
 import { Activity, CheckCircle2, Calendar } from "lucide-react";
 import ServiceHero from '@/components/blocks/ServiceHero';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
+
+// 🛡️ Booking Engine Isolation — dynamically loaded client-only component.
+// Decoupled from static PSEO content to prevent hydration interference
+// and ensure zero JS bundle leakage into crawlbot-visible markup.
+const BookingForm = dynamic(() => import("@/components/forms/BookingForm"), {
+  ssr: false,
+  loading: () => (
+    <div className="animate-pulse bg-slate-100 rounded-2xl h-[400px] flex items-center justify-center">
+      <p className="text-slate-400 font-bold">Loading booking form...</p>
+    </div>
+  ),
+});
 
 interface LocationTemplateProps {
   service: string;

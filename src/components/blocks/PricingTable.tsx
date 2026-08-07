@@ -2,6 +2,21 @@ import React from 'react';
 import { BadgePercent, TrendingDown, IndianRupee } from 'lucide-react';
 import { getPricingForService } from '@/config/pricing';
 
+/**
+ * Deterministic Indian number formatter — avoids ICU locale hydration mismatches.
+ * Produces consistent output across Node.js and browser environments.
+ * Examples: 2500 → "2,500", 14000 → "14,000", 100000 → "1,00,000"
+ */
+function formatINR(num: number): string {
+  const str = Math.abs(num).toString();
+  // Indian numbering: first 3 digits from right, then groups of 2
+  if (str.length <= 3) return str;
+  const lastThree = str.slice(-3);
+  const remaining = str.slice(0, -3);
+  const formatted = remaining.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + lastThree;
+  return num < 0 ? '-' + formatted : formatted;
+}
+
 interface PricingTableProps {
   serviceSlug: string;
   serviceName: string;
@@ -38,13 +53,13 @@ export default function PricingTable({ serviceSlug, serviceName, locationName }:
               {/* Henotic Price */}
               <div className="bg-emerald-50 rounded-2xl p-5 border border-emerald-100 text-center">
                 <p className="text-emerald-600 text-xs font-black uppercase tracking-widest mb-2">Our Price</p>
-                <p className="text-3xl font-black text-emerald-700">₹{pricing.henoticPrice.toLocaleString('en-IN')}</p>
+                <p className="text-3xl font-black text-emerald-700">₹{formatINR(pricing.henoticPrice)}</p>
               </div>
 
               {/* Market Price */}
               <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 text-center">
                 <p className="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Market Avg</p>
-                <p className="text-3xl font-black text-slate-400 line-through">₹{pricing.marketPrice.toLocaleString('en-IN')}</p>
+                <p className="text-3xl font-black text-slate-400 line-through">₹{formatINR(pricing.marketPrice)}</p>
               </div>
 
               {/* Savings */}
@@ -61,7 +76,7 @@ export default function PricingTable({ serviceSlug, serviceName, locationName }:
             <div className="flex items-center gap-2 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
               <BadgePercent size={20} className="text-emerald-600 shrink-0" />
               <p className="text-emerald-700 text-sm font-bold">
-                Save ₹{(pricing.marketPrice - pricing.henoticPrice).toLocaleString('en-IN')} compared to market average. 
+                Save ₹{formatINR(pricing.marketPrice - pricing.henoticPrice)} compared to market average. 
                 NABL certified quality at transparent pricing.
               </p>
             </div>

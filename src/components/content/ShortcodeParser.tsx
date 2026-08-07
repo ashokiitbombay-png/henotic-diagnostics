@@ -46,7 +46,8 @@ export default function ShortcodeParser({ html, context }: ShortcodeParserProps)
     <>
       {parts.map((part, index) => {
         if (typeof part === 'string') {
-          return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+          {/* suppressHydrationWarning: WordPress HTML may be auto-corrected differently by browser vs server DOM parsers */}
+          return <div key={index} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: part }} />;
         }
         return part;
       })}

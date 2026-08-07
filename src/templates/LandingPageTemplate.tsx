@@ -1,7 +1,17 @@
 import React from "react";
 import Image from "next/image";
-import BookingForm from "@/components/forms/BookingForm";
+import dynamic from "next/dynamic";
 import { ShieldCheck, Star, CheckCircle2, Phone, CalendarCheck, Sparkles, HeartPulse, Trophy } from "lucide-react";
+
+// 🛡️ Booking Engine Isolation — fully decoupled from landing page PSEO content
+const BookingForm = dynamic(() => import("@/components/forms/BookingForm"), {
+  ssr: false,
+  loading: () => (
+    <div className="animate-pulse bg-white/10 rounded-2xl h-[400px] flex items-center justify-center border border-white/10">
+      <p className="text-white/40 font-bold">Loading booking form...</p>
+    </div>
+  ),
+});
 
 interface LandingPageTemplateProps {
   service: string;
@@ -130,7 +140,7 @@ export default function LandingPageTemplate({
       <footer className="bg-slate-950/80 border-t border-slate-900 py-10 px-6 backdrop-blur-md relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <p className="text-slate-500 text-sm font-bold">
-            © {new Date().getFullYear()} Henotic Diagnostics. All rights reserved. All tests conducted by licensed professionals.
+            © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Henotic Diagnostics. All rights reserved. All tests conducted by licensed professionals.
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-xs text-slate-400 font-bold">
             <span>NABL Certified</span>

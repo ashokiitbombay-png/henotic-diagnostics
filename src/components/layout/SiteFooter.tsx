@@ -264,7 +264,7 @@ export default function SiteFooter() {
         {/* ================= SECTION 6: COPYRIGHT (ENDING ROW) ================= */}
         <div className="border-t border-white/20 pt-6 flex flex-col items-center justify-center relative z-20 w-full">
           <div className="text-[11px] font-bold text-white/90 tracking-[0.25em] uppercase text-center drop-shadow-sm select-none">
-            © {new Date().getFullYear()} Henotic Diagnostics. All Rights Reserved.
+            © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Henotic Diagnostics. All Rights Reserved.
           </div>
         </div>
 

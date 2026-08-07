@@ -160,6 +160,7 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
           {wpContent ? (
             <div 
               className="wp-content-wrapper text-slate-700 font-medium leading-relaxed"
+              suppressHydrationWarning
               dangerouslySetInnerHTML={{ __html: optimizeWordPressHTML(wpContent) }} 
             />
           ) : (
