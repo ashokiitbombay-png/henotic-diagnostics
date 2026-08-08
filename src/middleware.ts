@@ -179,6 +179,6 @@ function addSecurityHeaders(response: NextResponse) {
 // Exclude static assets, API routes, sitemaps, and Next.js internals
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|icon.svg|robots.txt|sitemap.xml|sitemap/).*)',
+    '/((?!api|_next/static|_next/image|media-cdn|favicon.ico|icon.svg|robots.txt|sitemap.xml|sitemap/).*)',
   ],
 };

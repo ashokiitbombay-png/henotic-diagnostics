@@ -83,13 +83,15 @@ export function optimizeWordPressHTML(htmlContent: string): string {
     } catch (e) {
       console.error("Failed to decode image URL:", e);
     }
-    // Update the tag to use the direct decoded GCS URL or the proxied CDN URL
+    // Keep direct GCS URL — already whitelisted in CSP & remotePatterns.
+    // Using /media-cdn/ proxy caused rate-limiting & mobile loading failures.
     let finalSrc = decodedSrc;
     if (decodedSrc.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
-      const relativePath = decodedSrc.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
-      // Re-encode path segments to prevent broken URLs with unencoded spaces
+      const parts = decodedSrc.split("storage.googleapis.com/wp-media-henoticbucket/");
+      const relativePath = parts[1];
+      // Re-encode path segments for proper URL formatting
       const encodedPath = relativePath.split('/').map(seg => encodeURIComponent(seg)).join('/');
-      finalSrc = "/media-cdn/" + encodedPath;
+      finalSrc = "https://storage.googleapis.com/wp-media-henoticbucket/" + encodedPath;
     }
     updatedTag = updatedTag.replace(/src=["']([^"']+)["']/i, `src="${finalSrc}"`);
 
