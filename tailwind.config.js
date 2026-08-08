@@ -3,9 +3,26 @@ module.exports = {
   darkMode: 'class',
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./public/booking-system/index.html",
   ],
   theme: {
     extend: {
+      colors: {
+        brand: {
+          50: '#f0f5ff',
+          100: '#e0ebff',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        display: ['Outfit', 'sans-serif'],
+      },
       backgroundImage: {
         'body-gradient': 'linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)',
         /* Your new vibrant gradient applied here */
