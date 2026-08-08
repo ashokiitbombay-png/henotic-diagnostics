@@ -86,7 +86,10 @@ export function optimizeWordPressHTML(htmlContent: string): string {
     // Update the tag to use the direct decoded GCS URL or the proxied CDN URL
     let finalSrc = decodedSrc;
     if (decodedSrc.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
-      finalSrc = "/media-cdn/" + decodedSrc.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
+      const relativePath = decodedSrc.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
+      // Re-encode path segments to prevent broken URLs with unencoded spaces
+      const encodedPath = relativePath.split('/').map(seg => encodeURIComponent(seg)).join('/');
+      finalSrc = "/media-cdn/" + encodedPath;
     }
     updatedTag = updatedTag.replace(/src=["']([^"']+)["']/i, `src="${finalSrc}"`);
 

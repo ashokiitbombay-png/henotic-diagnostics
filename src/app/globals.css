@@ -151,6 +151,9 @@ footer, .below-fold-section {
     border-bottom: 4px solid #ffffff !important;
     margin-top: 1.5rem !important;
     margin-bottom: 1.5rem !important;
+    height: auto !important;
+    object-fit: cover !important;
+    display: block !important;
   }
 
   .wp-content-wrapper figure,
@@ -161,6 +164,7 @@ footer, .below-fold-section {
     max-width: calc(100% + 2rem) !important;
     margin-left: -1rem !important;
     margin-right: -1rem !important;
+    overflow: hidden !important;
   }
 
   .wp-content-wrapper figure img,
@@ -172,6 +176,19 @@ footer, .below-fold-section {
     margin-right: 0 !important;
     border-radius: 0 !important;
     border: none !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* ── TABLES: Edge-to-edge scrollable on mobile ── */
+  .wp-content-wrapper figure.wp-block-table,
+  .wp-content-wrapper .wp-block-table {
+    width: calc(100% + 2rem) !important;
+    max-width: calc(100% + 2rem) !important;
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   .wp-content-wrapper table {
@@ -179,6 +196,21 @@ footer, .below-fold-section {
     margin-left: -1rem !important;
     margin-right: -1rem !important;
     border-radius: 0 !important;
+    min-width: 480px;
+    table-layout: fixed;
+  }
+
+  .wp-content-wrapper th {
+    padding: 0.625rem 0.75rem !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap;
+  }
+
+  .wp-content-wrapper td {
+    padding: 0.625rem 0.75rem !important;
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
   }
 }
 
@@ -186,8 +218,16 @@ footer, .below-fold-section {
    3. PREMIUM GLASSMORPHISM TABLES — Frosted Glass Enterprise
    ───────────────────────────────────────────────────────────────────────────── */
 
+.wp-content-wrapper figure.wp-block-table,
+.wp-content-wrapper .wp-block-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .wp-content-wrapper table {
-  @apply w-full text-left border-collapse my-12 overflow-hidden;
+  @apply w-full text-left border-collapse my-12;
   background: rgba(255, 255, 255, 0.80);
   -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);

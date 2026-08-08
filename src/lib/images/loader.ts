@@ -12,7 +12,9 @@ export default function wordpressImageLoader({ src, width, quality }: ImageLoade
   // If the image is served from Google Cloud Storage, handle standard URL output
   if (src.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
     const relativePath = src.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
-    return `/media-cdn/${relativePath}?w=${width}&q=${quality || 75}`;
+    // Re-encode path segments to prevent broken URLs with unencoded spaces
+    const encodedPath = relativePath.split('/').map(seg => encodeURIComponent(seg)).join('/');
+    return `/media-cdn/${encodedPath}?w=${width}&q=${quality || 75}`;
   }
 
   // If the image is served from Google Cloud Storage generally, handle standard URL output
