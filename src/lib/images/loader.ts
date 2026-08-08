@@ -13,7 +13,16 @@ export default function wordpressImageLoader({ src, width, quality }: ImageLoade
   // GCS URLs are already whitelisted in CSP and Next.js remotePatterns.
   if (src.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
     const relativePath = src.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
-    const encodedPath = relativePath.split('/').map(seg => encodeURIComponent(seg)).join('/');
+    // Decode first to prevent double-encoding (%20 → %2520).
+    // WordPress URLs often arrive pre-encoded; decodeURIComponent normalizes them
+    // before re-encoding, so the final URL is always single-encoded.
+    const encodedPath = relativePath.split('/').map(seg => {
+      try {
+        return encodeURIComponent(decodeURIComponent(seg));
+      } catch {
+        return encodeURIComponent(seg);
+      }
+    }).join('/');
     return `https://storage.googleapis.com/wp-media-henoticbucket/${encodedPath}`;
   }
 

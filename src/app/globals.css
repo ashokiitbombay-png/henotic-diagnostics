@@ -180,17 +180,21 @@ footer, .below-fold-section {
     display: block !important;
   }
 
-  /* ── TABLES: Edge-to-edge scrollable on mobile ── */
+  /* ── TABLES: True edge-to-edge on mobile using viewport width ── */
   .wp-content-wrapper figure.wp-block-table,
   .wp-content-wrapper .wp-block-table,
   .wp-content-wrapper .table-scroll-wrapper {
-    width: calc(100% + 2rem) !important;
-    max-width: calc(100% + 2rem) !important;
-    margin-left: -1rem !important;
-    margin-right: -1rem !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    position: relative !important;
+    left: 50% !important;
+    right: 50% !important;
+    margin-left: -50vw !important;
+    margin-right: -50vw !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
     border-radius: 0 !important;
+    padding: 0 !important;
   }
 
   .wp-content-wrapper table {
@@ -198,20 +202,22 @@ footer, .below-fold-section {
     margin-left: 0 !important;
     margin-right: 0 !important;
     border-radius: 0 !important;
-    min-width: 420px;
+    min-width: 380px;
   }
 
   .wp-content-wrapper th {
-    padding: 0.65rem 0.6rem !important;
-    font-size: 0.68rem !important;
+    padding: 0.65rem 0.75rem !important;
+    font-size: 0.7rem !important;
     letter-spacing: 0.03em !important;
     line-height: 1.35 !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
   }
 
   .wp-content-wrapper td {
-    padding: 0.6rem 0.6rem !important;
-    font-size: 0.75rem !important;
-    line-height: 1.4 !important;
+    padding: 0.65rem 0.75rem !important;
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
   }
 }
 
@@ -417,9 +423,12 @@ footer, .below-fold-section {
    ───────────────────────────────────────────────────────────────────────────── */
 
 .wp-content-wrapper * {
-  @apply max-w-full;
   overflow-wrap: break-word;
   word-break: break-word;
+}
+/* max-w-full on all children EXCEPT table containers (which need to break out) */
+.wp-content-wrapper *:not(figure):not(.wp-block-table):not(.table-scroll-wrapper):not(table):not(thead):not(tbody):not(tr):not(th):not(td) {
+  @apply max-w-full;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════ */

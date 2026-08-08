@@ -107,7 +107,10 @@ self.addEventListener('fetch', (event) => {
         (cached) =>
           cached ||
           fetch(request).then((response) => {
-            if (response.ok) {
+            // Cache both normal (ok) and opaque (cross-origin) responses.
+            // Opaque responses (type === 'opaque') have status 0 and ok === false,
+            // but are valid — they're just not inspectable due to CORS.
+            if (response.ok || response.type === 'opaque') {
               const clone = response.clone();
               caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
             }

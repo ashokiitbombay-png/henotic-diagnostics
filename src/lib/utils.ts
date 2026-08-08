@@ -67,33 +67,54 @@ export function formatSlug(slug: string): string {
 export function optimizeWordPressHTML(htmlContent: string): string {
   if (!htmlContent) return "";
 
+  // Helper: normalise a single GCS image URL (decode-then-encode to prevent %2520)
+  function normalizeGCSUrl(rawUrl: string): string {
+    let decoded = rawUrl.replace(/&amp;/g, '&');
+    try {
+      decoded = decodeURIComponent(decoded);
+    } catch { /* already decoded */ }
+    if (decoded.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
+      const parts = decoded.split("storage.googleapis.com/wp-media-henoticbucket/");
+      const encodedPath = parts[1].split('/').map(seg => {
+        try {
+          return encodeURIComponent(decodeURIComponent(seg));
+        } catch {
+          return encodeURIComponent(seg);
+        }
+      }).join('/');
+      return "https://storage.googleapis.com/wp-media-henoticbucket/" + encodedPath;
+    }
+    return decoded;
+  }
+
   // Regular expression to match img tags and process them
   return htmlContent.replace(/<img([^>]+)>/gi, (match) => {
-    // 1. Extract src
+    // 1. Extract and fix src
     const srcMatch = match.match(/src=["']([^"']+)["']/i);
     if (!srcMatch) return match;
 
-    const originalSrc = srcMatch[1];
-    let updatedTag = match;
+    const finalSrc = normalizeGCSUrl(srcMatch[1]);
+    let updatedTag = match.replace(/src=["']([^"']+)["']/i, `src="${finalSrc}"`);
 
-    // 2. Resolve any HTML entities and decode URI to prevent double-encoding (%20 -> %2520)
-    let decodedSrc = originalSrc.replace(/&amp;/g, '&');
-    try {
-      decodedSrc = decodeURIComponent(decodedSrc);
-    } catch (e) {
-      console.error("Failed to decode image URL:", e);
+    // 2. Strip srcset for GCS images — GCS doesn't support dynamic resizing,
+    //    and stale WordPress srcset entries cause mobile 404s.
+    if (finalSrc.includes("storage.googleapis.com")) {
+      updatedTag = updatedTag.replace(/\s*srcset=["'][^"']*["']/gi, '');
+      // Also strip data-srcset from lazy-load plugins
+      updatedTag = updatedTag.replace(/\s*data-srcset=["'][^"']*["']/gi, '');
+    } else if (updatedTag.includes('srcset=')) {
+      // For non-GCS srcsets, normalize each URL entry
+      updatedTag = updatedTag.replace(/srcset=["']([^"']+)["']/i, (_m, srcsetVal: string) => {
+        const fixed = srcsetVal.split(',').map(entry => {
+          const parts = entry.trim().split(/\s+/);
+          if (parts.length >= 1) {
+            parts[0] = normalizeGCSUrl(parts[0]);
+          }
+          return parts.join(' ');
+        }).join(', ');
+        return `srcset="${fixed}"`;
+      });
     }
-    // Keep direct GCS URL — already whitelisted in CSP & remotePatterns.
-    // Using /media-cdn/ proxy caused rate-limiting & mobile loading failures.
-    let finalSrc = decodedSrc;
-    if (decodedSrc.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
-      const parts = decodedSrc.split("storage.googleapis.com/wp-media-henoticbucket/");
-      const relativePath = parts[1];
-      // Re-encode path segments for proper URL formatting
-      const encodedPath = relativePath.split('/').map(seg => encodeURIComponent(seg)).join('/');
-      finalSrc = "https://storage.googleapis.com/wp-media-henoticbucket/" + encodedPath;
-    }
-    updatedTag = updatedTag.replace(/src=["']([^"']+)["']/i, `src="${finalSrc}"`);
 
     // 3. Prevent CLS by forcing explicit width and height if missing
     if (!updatedTag.includes("width=") && !updatedTag.includes("height=")) {
