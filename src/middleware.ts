@@ -15,8 +15,8 @@ let lastCleanup = Date.now();
 const CLEANUP_INTERVAL_MS = 120_000; // 2 minutes
 
 const WINDOW_SIZE_MS = 60_000;
-const LIMIT_NORMAL = 60;
-const LIMIT_SUSPICIOUS = 10;
+const LIMIT_NORMAL = 200;       // Was 60 — too low with active service worker doubling requests
+const LIMIT_SUSPICIOUS = 40;    // Was 10 — SW fetch() omits Accept-Language, triggering this path
 
 // ── Bot Classification ────────────────────────────────────────────────────
 const GOOD_BOT_UAS = [
