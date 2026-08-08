@@ -1,7 +1,7 @@
-// Henotic Diagnostics — Service Worker v1
+// Henotic Diagnostics — Service Worker v2
 // Cache-first for static assets, Network-first for pages
 
-const CACHE_NAME = 'henotic-v1';
+const CACHE_NAME = 'henotic-v2';
 const APP_SHELL = ['/', '/contact', '/about-us'];
 
 const OFFLINE_HTML = `<!DOCTYPE html>
@@ -67,8 +67,8 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (request.method !== 'GET') return;
 
-  // Skip API routes — always network
-  if (url.pathname.startsWith('/api/')) return;
+  // Skip API routes & booking-system — always network
+  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/booking-system')) return;
 
   // Navigation requests — network-first with timeout
   if (request.mode === 'navigate') {
