@@ -332,271 +332,300 @@ export default function BookingForm() {
     window.open(`https://wa.me/918879327184?text=${message}`, '_blank');
   };
 
+  /* ─── SELECT FIELD SHARED CLASSES ─── */
+  const selectClasses = "w-full pl-12 sm:pl-14 pr-10 py-4 sm:py-[18px] rounded-xl sm:rounded-2xl bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-sm hover:shadow-md focus:shadow-lg focus:ring-2 focus:ring-violet-500/30 focus:border-violet-400 text-slate-900 font-semibold outline-none transition-all duration-200 appearance-none cursor-pointer text-base";
+
   return (
     <>
-    {/* 🌟 ZERO VERTICAL GAPS: m-0 p-0 block display */}
-    {/* LAYER 1 BACKGROUND: Full edge-to-edge section gradient */}
-    <section 
-      className="w-full m-0 p-0 relative overflow-hidden block"
-      style={{ backgroundImage: "linear-gradient(120deg, #a6c0fe 0%, #f68084 100%)" }}
-    >
-      {/* Dynamic Background Overlays for Depth */}
-      <div className="absolute inset-0 bg-[url('/patterns/cubes.png')] opacity-[0.2]"></div>
-      <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black/10 to-transparent pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
+    {/* ═══════════════════════════════════════════════════════════════ */}
+    {/* EDGE-TO-EDGE PREMIUM GRADIENT SECTION                         */}
+    {/* ═══════════════════════════════════════════════════════════════ */}
+    <section className="w-full m-0 p-0 relative overflow-hidden block">
 
-      {/* Internal Container: 100% width, edge-to-edge on mobile */}
-      <div className="w-full mx-auto px-0 sm:px-6 md:px-8 py-8 sm:py-16 md:py-24 relative z-10 max-w-7xl">
-        
-        {/* LAYER 2 BACKGROUND: Shadow Container wrapper */}
-        <div className="rounded-none sm:rounded-[2.5rem] p-0 sm:p-[6px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] w-full"
-             style={{ backgroundImage: "linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)" }}>
-             
-          {/* LAYER 3 BACKGROUND: Inner Form Box */}
-          <div className="rounded-none sm:rounded-[2.2rem] p-6 sm:p-12 w-full shadow-inner relative overflow-hidden"
-               style={{ backgroundImage: "linear-gradient(to top, #df89b5 0%, #bfd9fe 100%)" }}>
-            
-            {/* Soft inner glass overlay to ensure text is readable over the gradient */}
-            <div className="absolute inset-0 bg-white/20 backdrop-blur-[2px]"></div>
+      {/* ── PRIMARY GRADIENT BACKGROUND: Indigo → Violet → Pink ── */}
+      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500"></div>
 
-            <div className="relative z-10">
-              {/* TOP HEADER & TRUST SIGNALS */}
-              <div className="text-center mb-10 mt-4 sm:mt-0">
-                <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/50 border border-white/60 text-slate-800 text-xs font-black uppercase tracking-widest mb-6 shadow-sm backdrop-blur-md">
-                  <ShieldCheck size={18} className="text-[#d57eeb]" /> Official Booking Portal
-                </div>
-                <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight drop-shadow-sm">
-                  Excellence in <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(120deg, #d57eeb, #f68084)" }}>Diagnostics</span>
-                </h2>
-                <p className="text-slate-800 font-bold mb-6 md:text-lg drop-shadow-sm">12+ Years of precision. NABL Accredited. Trusted by leading specialists.</p>
-                
-                <div className="flex flex-wrap justify-center gap-3 text-xs md:text-sm font-extrabold text-slate-700">
-                  <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2 shadow-sm border border-white"><Award size={16} className="text-[#f68084]"/> AERB Accredited</span>
-                  <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2 shadow-sm border border-white"><FileCheck size={16} className="text-[#d57eeb]"/> PCPNDT Registered</span>
-                  <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2 shadow-sm border border-white"><Activity size={16} className="text-[#a6c0fe]"/> 3T MRI & 128-Slice CT</span>
-                  <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2 shadow-sm border border-white"><Clock size={16} className="text-[#fccb90]"/> Same Day Reports</span>
-                  <span className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2 shadow-sm border border-white"><MapPin size={16} className="text-[#df89b5]"/> Home Collection</span>
+      {/* ── DECORATIVE ANIMATED ORBS ── */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-20 -left-20 w-72 h-72 sm:w-96 sm:h-96 bg-indigo-400/30 rounded-full blur-[80px] animate-pulse"></div>
+        <div className="absolute top-1/2 right-[-10%] w-64 h-64 sm:w-80 sm:h-80 bg-pink-400/25 rounded-full blur-[60px] animate-[pulse_3s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-[-15%] left-1/3 w-56 h-56 sm:w-72 sm:h-72 bg-violet-300/20 rounded-full blur-[70px] animate-[pulse_4s_ease-in-out_infinite]"></div>
+      </div>
+
+      {/* ── SUBTLE NOISE TEXTURE ── */}
+      <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }}></div>
+
+      {/* ── CONTENT CONTAINER ── */}
+      <div className="relative z-10 w-full px-0 sm:px-4 md:px-6 lg:px-8 py-8 sm:py-12 md:py-16 lg:py-20">
+        <div className="w-full max-w-5xl mx-auto">
+
+          {/* ══════════════════════════════════════════════════════ */}
+          {/* FROSTED GLASS FORM CARD                               */}
+          {/* ══════════════════════════════════════════════════════ */}
+          <div className="rounded-none sm:rounded-3xl bg-white/[0.12] backdrop-blur-2xl border-0 sm:border border-white/20 shadow-2xl shadow-black/10 overflow-hidden">
+
+            {/* ── INNER WHITE CARD ── */}
+            <div className="bg-white/95 backdrop-blur-xl rounded-none sm:rounded-3xl m-0 sm:m-[3px]">
+
+              {/* ── TOP HERO BANNER (gradient strip) ── */}
+              <div className="bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500 px-4 sm:px-8 md:px-10 py-8 sm:py-10 md:py-12 text-center relative overflow-hidden">
+                {/* Subtle white overlay dots */}
+                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }}></div>
+                <div className="relative z-10">
+                  <div className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full bg-white/20 backdrop-blur-md text-white/90 text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] mb-4 sm:mb-5 border border-white/20">
+                    <ShieldCheck size={14} className="text-amber-300" /> Official Booking Portal
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3 sm:mb-4 tracking-tight leading-tight">
+                    Excellence in <span className="text-amber-200">Diagnostics</span>
+                  </h2>
+                  <p className="text-white/80 font-semibold text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
+                    12+ Years of precision. NABL Accredited. Trusted by leading specialists.
+                  </p>
+
+                  {/* Trust Badges Row */}
+                  <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-5 sm:mt-6">
+                    {[
+                      { icon: Award, label: "AERB Accredited" },
+                      { icon: FileCheck, label: "PCPNDT Registered" },
+                      { icon: Activity, label: "3T MRI & 128-Slice CT" },
+                      { icon: Clock, label: "Same Day Reports" },
+                      { icon: MapPin, label: "Home Collection" },
+                    ].map(({ icon: BadgeIcon, label }) => (
+                      <span key={label} className="bg-white/15 backdrop-blur-md px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-bold text-white/90 border border-white/15 whitespace-nowrap">
+                        <BadgeIcon size={13} className="text-amber-300 shrink-0" />{label}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* PROGRESS BAR */}
-              <div className="mb-10 bg-white/70 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white shadow-sm">
-                <div className="flex justify-between items-end mb-3">
-                  <div>
-                    <h3 className="text-xl font-black text-slate-900 tracking-tight">Secure Appointment</h3>
-                    <p className="text-sm font-bold text-slate-600">Complete details for priority confirmation.</p>
-                  </div>
-                  <span className="text-3xl font-black text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(120deg, #f68084, #d57eeb)" }}>
-                    {progress}%
-                  </span>
-                </div>
-                <div className="w-full bg-white/50 h-4 rounded-full overflow-hidden shadow-inner border border-white">
-                  <div 
-                    className="h-full rounded-full transition-all duration-700 ease-out shadow-[0_0_10px_rgba(246,128,132,0.6)]"
-                    style={{ 
-                      width: `${progress}%`,
-                      backgroundImage: "linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)"
-                    }}
-                  ></div>
-                </div>
-              </div>
+              {/* ── FORM BODY ── */}
+              <div className="px-4 sm:px-8 md:px-10 py-6 sm:py-8 md:py-10">
 
-              {/* HIGH END BOOKING FORM */}
-              <form onSubmit={handleSubmit} className="space-y-6 w-full">
-                
-                {/* 🌟 NEW INTERNAL TRUST SIGNALS 🌟 */}
-                <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 bg-white/40 backdrop-blur-md py-3 px-4 rounded-2xl border border-white shadow-sm mb-6">
-                  <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-slate-800 uppercase tracking-wide">
-                    <Lock size={16} className="text-[#d57eeb]" /> 256-Bit Secure
+                {/* ── PROGRESS BAR ── */}
+                <div className="mb-6 sm:mb-8 bg-slate-50 p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-100">
+                  <div className="flex justify-between items-end mb-2.5 sm:mb-3">
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">Secure Appointment</h3>
+                      <p className="text-xs sm:text-sm font-medium text-slate-500">Complete details for priority confirmation.</p>
+                    </div>
+                    <span className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500">
+                      {progress}%
+                    </span>
                   </div>
-                  <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-slate-400/50"></div>
-                  <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-slate-800 uppercase tracking-wide">
-                    <HeartPulse size={16} className="text-[#f68084]" /> Priority Care
-                  </div>
-                  <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-slate-400/50"></div>
-                  <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-slate-800 uppercase tracking-wide">
-                    <ShieldCheck size={16} className="text-[#a6c0fe]" /> No Hidden Fees
+                  <div className="w-full bg-slate-200/60 h-2.5 sm:h-3 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full rounded-full transition-all duration-700 ease-out bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500 shadow-[0_0_12px_rgba(139,92,246,0.5)]"
+                      style={{ width: `${progress}%` }}
+                    ></div>
                   </div>
                 </div>
 
-                {/* Form Fields - White frosted glass for readability */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                  <Input 
-                    type="text" 
-                    name="name" 
-                    value={formData.name} 
-                    onChange={handleChange} 
-                    required 
-                    placeholder="Patient Name" 
-                    icon={User} 
-                  />
-                  <Input 
-                    type="tel" 
-                    name="mobile" 
-                    value={formData.mobile} 
-                    onChange={handleChange} 
-                    required 
-                    placeholder="Mobile Number" 
-                    icon={Phone} 
-                  />
-                </div>
-
-                <div className="relative group w-full">
-                  <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                    <Activity className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
-                  </div>
-                  <select aria-label="Select Test Category" name="test" value={formData.test} onChange={handleChange} required className="w-full pl-14 pr-5 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all appearance-none cursor-pointer text-lg">
-                    <option value="" disabled className="text-slate-500">Select Test Name</option>
-                    {SERVICES.map((category, idx) => (
-                      <optgroup key={idx} label={category.category} className="font-bold text-slate-900 bg-slate-100">
-                        {category.items.map((test, i) => (
-                          <option key={i} value={test} className="font-medium text-slate-700 bg-white">{test}</option>
-                        ))}
-                      </optgroup>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
-                    <span className="text-slate-500">▼</span>
-                  </div>
-                </div>
-
-                <div className="relative group w-full">
-                  <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                    <MapPin className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
-                  </div>
-                  <select aria-label="Select Nearest Center" name="center" value={formData.center} onChange={handleChange} required className="w-full pl-14 pr-5 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all appearance-none cursor-pointer text-lg">
-                    <option value="" disabled className="text-slate-500">Select Nearest Center</option>
-                    {LOCATIONS.map((region, idx) => (
-                      <optgroup key={idx} label={region.region} className="font-bold text-slate-900 bg-slate-100">
-                        {region.cities.map((city, i) => (
-                          <option key={i} value={`${city}, ${region.region}`} className="font-medium text-slate-700 bg-white">{city}</option>
-                        ))}
-                      </optgroup>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
-                    <span className="text-slate-500">▼</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                  <Input 
-                    aria-label="Select Date" 
-                    type="date" 
-                    name="date" 
-                    value={formData.date} 
-                    onChange={handleChange} 
-                    required 
-                    icon={Calendar} 
-                    className="cursor-pointer"
-                  />
+                {/* ── BOOKING FORM ── */}
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 w-full">
                   
-                  {isPending ? (
-                    <div className="relative group w-full">
-                      <div className="w-full pl-5 pr-5 py-[22px] rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm text-slate-500 font-bold text-lg select-none animate-pulse">
-                        Loading available slots...
-                      </div>
+                  {/* Trust Signals Bar */}
+                  <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 bg-gradient-to-r from-indigo-50 via-violet-50 to-pink-50 py-3 px-4 rounded-xl sm:rounded-2xl border border-indigo-100/60">
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-black text-slate-700 uppercase tracking-wide">
+                      <Lock size={13} className="text-indigo-500" /> 256-Bit Secure
                     </div>
-                  ) : availableSlots.length > 0 ? (
-                    <div className="flex flex-col gap-6 w-full">
-                      <div className="relative group w-full">
-                        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                          <Clock className="text-slate-500 group-focus-within:text-[#d57eeb] transition-colors" size={22} />
-                        </div>
-                        <select 
-                          aria-label="Select Appointment Slot"
-                          name="slotId" 
-                          value={formData.slotId} 
-                          onChange={handleChange} 
-                          required 
-                          className="w-full pl-14 pr-10 py-5 rounded-2xl bg-white/80 backdrop-blur-xl border border-white shadow-sm focus:ring-4 focus:ring-[#d57eeb]/40 text-slate-900 font-bold outline-none transition-all appearance-none cursor-pointer text-lg"
-                        >
-                          <option value="" disabled>Select Time Slot</option>
-                          {availableSlots.map(slot => (
-                            <option key={slot.id} value={slot.id}>
-                              {slot.time}
-                            </option>
-                          ))}
-                          <option value="custom">Choose Custom Time...</option>
-                        </select>
-                        <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
-                          <span className="text-slate-500">▼</span>
-                        </div>
-                      </div>
+                    <div className="hidden sm:block w-1 h-1 rounded-full bg-violet-300"></div>
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-black text-slate-700 uppercase tracking-wide">
+                      <HeartPulse size={13} className="text-pink-500" /> Priority Care
+                    </div>
+                    <div className="hidden sm:block w-1 h-1 rounded-full bg-violet-300"></div>
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-black text-slate-700 uppercase tracking-wide">
+                      <ShieldCheck size={13} className="text-violet-500" /> No Hidden Fees
+                    </div>
+                  </div>
 
-                      {formData.slotId === "custom" && (
-                        <Input 
-                          aria-label="Select Custom Time" 
-                          type="time" 
-                          name="time" 
-                          value={formData.time} 
-                          onChange={handleChange} 
-                          required 
-                          icon={Clock} 
-                          className="cursor-pointer"
-                        />
-                      )}
-                    </div>
-                  ) : (
+                  {/* Name + Mobile Row: Vertical on mobile, horizontal on desktop */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 w-full">
                     <Input 
-                      aria-label="Select Time" 
-                      type="time" 
-                      name="time" 
-                      value={formData.time} 
+                      type="text" 
+                      name="name" 
+                      value={formData.name} 
                       onChange={handleChange} 
                       required 
-                      icon={Clock} 
+                      placeholder="Patient Name" 
+                      icon={User} 
+                    />
+                    <Input 
+                      type="tel" 
+                      name="mobile" 
+                      value={formData.mobile} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder="Mobile Number" 
+                      icon={Phone} 
+                    />
+                  </div>
+
+                  {/* Test Select */}
+                  <div className="relative group w-full">
+                    <div className="absolute inset-y-0 left-0 pl-4 sm:pl-5 flex items-center pointer-events-none z-10">
+                      <Activity className="text-slate-400 group-focus-within:text-violet-500 transition-colors duration-200" size={20} />
+                    </div>
+                    <select aria-label="Select Test Category" name="test" value={formData.test} onChange={handleChange} required className={selectClasses}>
+                      <option value="" disabled className="text-slate-400">Select Test Name</option>
+                      {SERVICES.map((category, idx) => (
+                        <optgroup key={idx} label={category.category} className="font-bold text-slate-900 bg-slate-50">
+                          {category.items.map((test, i) => (
+                            <option key={i} value={test} className="font-medium text-slate-700 bg-white">{test}</option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 pr-4 sm:pr-5 flex items-center pointer-events-none">
+                      <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                  </div>
+
+                  {/* Center Select */}
+                  <div className="relative group w-full">
+                    <div className="absolute inset-y-0 left-0 pl-4 sm:pl-5 flex items-center pointer-events-none z-10">
+                      <MapPin className="text-slate-400 group-focus-within:text-violet-500 transition-colors duration-200" size={20} />
+                    </div>
+                    <select aria-label="Select Nearest Center" name="center" value={formData.center} onChange={handleChange} required className={selectClasses}>
+                      <option value="" disabled className="text-slate-400">Select Nearest Center</option>
+                      {LOCATIONS.map((region, idx) => (
+                        <optgroup key={idx} label={region.region} className="font-bold text-slate-900 bg-slate-50">
+                          {region.cities.map((city, i) => (
+                            <option key={i} value={`${city}, ${region.region}`} className="font-medium text-slate-700 bg-white">{city}</option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 pr-4 sm:pr-5 flex items-center pointer-events-none">
+                      <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                  </div>
+
+                  {/* Date + Time Row */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 w-full">
+                    <Input 
+                      aria-label="Select Date" 
+                      type="date" 
+                      name="date" 
+                      value={formData.date} 
+                      onChange={handleChange} 
+                      required 
+                      icon={Calendar} 
                       className="cursor-pointer"
                     />
-                  )}
-                </div>
-
-                {/* PREMIUM WHATSAPP SUBMIT BUTTON */}
-                <button 
-                  type="submit" 
-                  className="w-full mt-6 py-5 px-6 rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-3 text-lg md:text-xl font-black text-white bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_20px_40px_-10px_rgba(37,211,102,0.6)] hover:shadow-[0_25px_50px_-10px_rgba(37,211,102,0.8)] hover:-translate-y-1 cursor-pointer border border-white/40"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white" className="w-7 h-7 drop-shadow-md">
-                    <path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.13 6.742 3.046 9.378L1.054 31.29l6.118-1.958A15.9 15.9 0 0016.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.336 22.594c-.39 1.1-1.932 2.012-3.182 2.278-.856.18-1.974.324-5.738-1.234-4.816-1.994-7.912-6.878-8.152-7.196-.232-.318-1.934-2.578-1.934-4.916s1.224-3.486 1.658-3.964c.434-.478.95-.598 1.266-.598.316 0 .63.004.906.016.29.014.68-.11 1.064.812.39.94 1.328 3.242 1.444 3.478.116.236.194.512.038.83-.156.318-.234.516-.468.796-.234.278-.492.622-.702.834-.234.236-.478.492-.206.964.274.472 1.216 2.006 2.61 3.25 1.792 1.6 3.304 2.096 3.774 2.33.47.234.746.196 1.02-.118.274-.316 1.178-1.374 1.492-1.846.316-.472.63-.39 1.064-.234.434.156 2.748 1.296 3.218 1.532.47.236.784.354.9.55.116.194.116 1.138-.274 2.236z"/>
-                  </svg>
-                  Confirm Appointment via WhatsApp
-                </button>
-              </form>
-
-              {/* ACCREDITATIONS GRID - DARK GLASS */}
-              <div 
-                className="mt-12 rounded-3xl p-8 border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.1)] relative overflow-hidden w-full"
-                style={{ background: "linear-gradient(135deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.9) 100%)", backdropFilter: "blur(12px)" }}
-              >
-                <div className="absolute inset-0 bg-[url('/patterns/cubes.png')] opacity-[0.1] pointer-events-none"></div>
-                
-                <h4 className="relative z-10 text-center text-white text-sm font-black uppercase tracking-[0.2em] mb-6 flex items-center justify-center gap-2 drop-shadow-sm">
-                  <CheckCircle2 size={18} className="text-[#fccb90]" /> Accredited by National Bodies
-                </h4>
-                <div className="relative z-10 flex flex-wrap justify-center gap-4 sm:gap-8">
-                  {ACCREDITATIONS.map((acc, index) => {
-                    const certUrl = CERTIFICATE_MAP[acc.title.toUpperCase()] || CERTIFICATE_MAP[acc.title];
-                    return (
-                      <button 
-                        key={index} 
-                        type="button"
-                        onClick={() => certUrl && setActiveCert({ url: certUrl, title: `${acc.title} Certificate — Henotic Diagnostics` })}
-                        className={`flex flex-col items-center group ${certUrl ? 'cursor-pointer' : 'cursor-default'}`}
-                        aria-label={certUrl ? `View ${acc.title} certificate` : acc.title}
-                        title={certUrl ? `Click to view ${acc.title} Certificate` : acc.title}
-                      >
-                        <div className="w-14 h-14 md:w-20 md:h-20 bg-white/90 backdrop-blur-md rounded-2xl flex items-center justify-center p-2.5 sm:p-3 mb-3 shadow-[0_10px_25px_rgba(0,0,0,0.3)] transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(59,130,246,0.4)] group-active:scale-95 border border-white">
-                          <Image width={56} height={56} src={acc.img} alt={acc.title} className="w-full h-full object-contain drop-shadow-sm" />
+                    
+                    {isPending ? (
+                      <div className="relative group w-full">
+                        <div className="w-full pl-4 sm:pl-5 pr-5 py-4 sm:py-[18px] rounded-xl sm:rounded-2xl bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-sm text-slate-400 font-semibold text-base select-none animate-pulse">
+                          Loading available slots...
                         </div>
-                        <span className="text-[10px] sm:text-xs font-black text-slate-200 tracking-wider uppercase group-hover:text-white transition-colors">{acc.title}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+                      </div>
+                    ) : availableSlots.length > 0 ? (
+                      <div className="flex flex-col gap-4 sm:gap-5 w-full">
+                        <div className="relative group w-full">
+                          <div className="absolute inset-y-0 left-0 pl-4 sm:pl-5 flex items-center pointer-events-none z-10">
+                            <Clock className="text-slate-400 group-focus-within:text-violet-500 transition-colors duration-200" size={20} />
+                          </div>
+                          <select 
+                            aria-label="Select Appointment Slot"
+                            name="slotId" 
+                            value={formData.slotId} 
+                            onChange={handleChange} 
+                            required 
+                            className={selectClasses}
+                          >
+                            <option value="" disabled>Select Time Slot</option>
+                            {availableSlots.map(slot => (
+                              <option key={slot.id} value={slot.id}>
+                                {slot.time}
+                              </option>
+                            ))}
+                            <option value="custom">Choose Custom Time...</option>
+                          </select>
+                          <div className="absolute inset-y-0 right-0 pr-4 sm:pr-5 flex items-center pointer-events-none">
+                            <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                          </div>
+                        </div>
 
+                        {formData.slotId === "custom" && (
+                          <Input 
+                            aria-label="Select Custom Time" 
+                            type="time" 
+                            name="time" 
+                            value={formData.time} 
+                            onChange={handleChange} 
+                            required 
+                            icon={Clock} 
+                            className="cursor-pointer"
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <Input 
+                        aria-label="Select Time" 
+                        type="time" 
+                        name="time" 
+                        value={formData.time} 
+                        onChange={handleChange} 
+                        required 
+                        icon={Clock} 
+                        className="cursor-pointer"
+                      />
+                    )}
+                  </div>
+
+                  {/* ── PREMIUM WHATSAPP SUBMIT BUTTON ── */}
+                  <button 
+                    type="submit" 
+                    className="w-full mt-4 sm:mt-6 py-4 sm:py-5 px-6 rounded-xl sm:rounded-2xl transform transition-all duration-300 flex items-center justify-center gap-2.5 sm:gap-3 text-base sm:text-lg md:text-xl font-black text-white bg-gradient-to-r from-[#25D366] to-[#1DA851] shadow-[0_12px_30px_-6px_rgba(37,211,102,0.5)] hover:shadow-[0_18px_40px_-6px_rgba(37,211,102,0.7)] hover:-translate-y-0.5 active:translate-y-0 cursor-pointer border border-emerald-400/30"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white" className="w-6 h-6 sm:w-7 sm:h-7 shrink-0 drop-shadow-md">
+                      <path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.13 6.742 3.046 9.378L1.054 31.29l6.118-1.958A15.9 15.9 0 0016.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.336 22.594c-.39 1.1-1.932 2.012-3.182 2.278-.856.18-1.974.324-5.738-1.234-4.816-1.994-7.912-6.878-8.152-7.196-.232-.318-1.934-2.578-1.934-4.916s1.224-3.486 1.658-3.964c.434-.478.95-.598 1.266-.598.316 0 .63.004.906.016.29.014.68-.11 1.064.812.39.94 1.328 3.242 1.444 3.478.116.236.194.512.038.83-.156.318-.234.516-.468.796-.234.278-.492.622-.702.834-.234.236-.478.492-.206.964.274.472 1.216 2.006 2.61 3.25 1.792 1.6 3.304 2.096 3.774 2.33.47.234.746.196 1.02-.118.274-.316 1.178-1.374 1.492-1.846.316-.472.63-.39 1.064-.234.434.156 2.748 1.296 3.218 1.532.47.236.784.354.9.55.116.194.116 1.138-.274 2.236z"/>
+                    </svg>
+                    Confirm Appointment via WhatsApp
+                  </button>
+                </form>
+
+                {/* ══════════════════════════════════════════════════ */}
+                {/* ACCREDITATIONS — PREMIUM DARK GLASS               */}
+                {/* ══════════════════════════════════════════════════ */}
+                <div className="mt-8 sm:mt-10 rounded-2xl sm:rounded-3xl overflow-hidden relative">
+                  {/* Dark gradient background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900"></div>
+                  {/* Subtle dot pattern */}
+                  <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
+                  
+                  <div className="relative z-10 p-6 sm:p-8">
+                    <h4 className="text-center text-white/90 text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] mb-5 sm:mb-6 flex items-center justify-center gap-2">
+                      <CheckCircle2 size={15} className="text-amber-400" /> Accredited by National Bodies
+                    </h4>
+                    <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
+                      {ACCREDITATIONS.map((acc, index) => {
+                        const certUrl = CERTIFICATE_MAP[acc.title.toUpperCase()] || CERTIFICATE_MAP[acc.title];
+                        return (
+                          <button 
+                            key={index} 
+                            type="button"
+                            onClick={() => certUrl && setActiveCert({ url: certUrl, title: `${acc.title} Certificate — Henotic Diagnostics` })}
+                            className={`flex flex-col items-center group ${certUrl ? 'cursor-pointer' : 'cursor-default'}`}
+                            aria-label={certUrl ? `View ${acc.title} certificate` : acc.title}
+                            title={certUrl ? `Click to view ${acc.title} Certificate` : acc.title}
+                          >
+                            <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white/95 rounded-xl sm:rounded-2xl flex items-center justify-center p-2 sm:p-2.5 md:p-3 mb-2 sm:mb-3 shadow-lg shadow-black/20 transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-xl group-hover:shadow-violet-500/20 group-active:scale-95 border border-white/50">
+                              <Image width={56} height={56} src={acc.img} alt={acc.title} className="w-full h-full object-contain" />
+                            </div>
+                            <span className="text-[9px] sm:text-[10px] md:text-xs font-black text-slate-400 tracking-wider uppercase group-hover:text-white transition-colors">{acc.title}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
