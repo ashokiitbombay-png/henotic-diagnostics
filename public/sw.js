@@ -1,8 +1,8 @@
-// Henotic Diagnostics — Service Worker v3
-// Cache-first for static assets, Network-first for pages
+// Henotic Diagnostics — Service Worker v4 (Purges all stale v1/v2/v3 caches)
+// Direct Network-First for Navigation, Cache-first for Static Assets
 
-const CACHE_NAME = 'henotic-v3';
-const APP_SHELL = ['/', '/contact', '/about-us'];
+const CACHE_NAME = 'henotic-v4';
+const APP_SHELL = ['/contact', '/about-us'];
 
 const OFFLINE_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -25,24 +25,24 @@ const OFFLINE_HTML = `<!DOCTYPE html>
   <div class="card">
     <div class="icon">📡</div>
     <h1>You're Offline</h1>
-    <p>Please check your internet connection and try again. Some pages may be available from cache.</p>
+    <p>Please check your internet connection and try again.</p>
     <button onclick="window.location.reload()">Try Again</button>
   </div>
 </body>
 </html>`;
 
-// Install — pre-cache app shell
+// Install — pre-cache offline fallback shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Pre-caching app shell');
-      return cache.addAll(APP_SHELL);
+      console.log('[SW v4] Pre-caching offline shell');
+      return cache.addAll(APP_SHELL).catch(() => {});
     })
   );
   self.skipWaiting();
 });
 
-// Activate — clean old caches
+// Activate — aggressively purge all legacy caches (v1, v2, v3, etc.)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) =>
@@ -50,13 +50,20 @@ self.addEventListener('activate', (event) => {
         cacheNames
           .filter((name) => name !== CACHE_NAME)
           .map((name) => {
-            console.log('[SW] Deleting old cache:', name);
+            console.log('[SW v4] Purging old stale cache:', name);
             return caches.delete(name);
           })
       )
     )
   );
   self.clients.claim();
+});
+
+// Message listener to trigger skipWaiting on demand
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Fetch — strategy based on request type
@@ -68,35 +75,33 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
 
   // Skip API routes, booking-system, & seo-image-optimizer — always network
-  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/booking-system') || url.pathname.startsWith('/seo-image-optimizer')) return;
+  if (
+    url.pathname.startsWith('/api/') ||
+    url.pathname.startsWith('/booking-system') ||
+    url.pathname.startsWith('/seo-image-optimizer')
+  ) {
+    return;
+  }
 
-  // Navigation requests — network-first with timeout
+  // Navigation requests — ALWAYS fetch fresh from Network when online. Never serve stale HTML.
   if (request.mode === 'navigate') {
     event.respondWith(
-      Promise.race([
-        fetch(request).then((response) => {
-          // Cache successful navigation responses
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          }
-          return response;
-        }),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000)),
-      ]).catch(() =>
-        caches.match(request).then(
-          (cached) =>
-            cached ||
-            new Response(OFFLINE_HTML, {
-              headers: { 'Content-Type': 'text/html' },
-            })
+      fetch(request)
+        .then((response) => response)
+        .catch(() =>
+          caches.match(request).then(
+            (cached) =>
+              cached ||
+              new Response(OFFLINE_HTML, {
+                headers: { 'Content-Type': 'text/html' },
+              })
+          )
         )
-      )
     );
     return;
   }
 
-  // Static assets — cache-first
+  // Static assets — cache-first with network fallback
   const isStaticAsset =
     url.pathname.match(/\.(js|css|webp|png|jpg|jpeg|svg|woff2|woff|ico)$/) ||
     url.pathname.startsWith('/_next/static/');
@@ -107,9 +112,6 @@ self.addEventListener('fetch', (event) => {
         (cached) =>
           cached ||
           fetch(request).then((response) => {
-            // Cache both normal (ok) and opaque (cross-origin) responses.
-            // Opaque responses (type === 'opaque') have status 0 and ok === false,
-            // but are valid — they're just not inspectable due to CORS.
             if (response.ok || response.type === 'opaque') {
               const clone = response.clone();
               caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
