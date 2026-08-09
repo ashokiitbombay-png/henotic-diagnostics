@@ -1,7 +1,7 @@
-// Henotic Diagnostics — Service Worker v2
+// Henotic Diagnostics — Service Worker v3
 // Cache-first for static assets, Network-first for pages
 
-const CACHE_NAME = 'henotic-v2';
+const CACHE_NAME = 'henotic-v3';
 const APP_SHELL = ['/', '/contact', '/about-us'];
 
 const OFFLINE_HTML = `<!DOCTYPE html>
