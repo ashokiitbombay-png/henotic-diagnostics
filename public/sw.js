@@ -67,8 +67,8 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (request.method !== 'GET') return;
 
-  // Skip API routes & booking-system — always network
-  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/booking-system')) return;
+  // Skip API routes, booking-system, & seo-image-optimizer — always network
+  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/booking-system') || url.pathname.startsWith('/seo-image-optimizer')) return;
 
   // Navigation requests — network-first with timeout
   if (request.mode === 'navigate') {

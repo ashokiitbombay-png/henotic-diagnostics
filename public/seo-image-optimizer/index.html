@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Henotic Diagnostics SEO Image Optimizer: Best-in-market ultra-fast PageSpeed image compressor, WebP & AVIF converter, zero CLS code generator for Google, AEO, LLMO & GEO search engines.">
+    <title>Henotic Diagnostics — SEO Image Optimizer</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            indigo: '#6366f1',
+                            purple: '#8b5cf6',
+                            pink: '#ec4899',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- JSZip CDN for batch zip download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <style>
+        /* Custom Styles & Visual Effects */
+        body {
+            background-color: #030712;
+            color: #f3f4f6;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .header-premium-bg {
+            background: linear-gradient(135deg, rgba(3, 7, 18, 0.95) 0%, rgba(15, 10, 33, 0.95) 50%, rgba(3, 7, 18, 0.95) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+        }
+
+        .shadow-glow-henotic {
+            box-shadow: 0 0 25px -5px rgba(236, 72, 153, 0.25), 0 0 10px -5px rgba(99, 102, 241, 0.25);
+        }
+
+        .henotic-btn-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .henotic-btn-gradient:hover {
+            box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* Comparison Slider Styles */
+        .comparison-container {
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .comparison-before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 50%;
+            overflow: hidden;
+            border-right: 2px solid #ec4899;
+            z-index: 10;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ec4899;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Top Navigation Header with Premium Gradient Background -->
+    <header class="w-full header-premium-bg sticky top-0 z-40 border-b border-pink-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo & Brand Title -->
+            <div class="flex items-center gap-4">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="p-2 rounded-2xl bg-slate-950/80 border border-pink-500/30 group-hover:border-pink-500/60 transition shadow-glow-henotic flex items-center justify-center">
+                        <img 
+                            src="https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp" 
+                            alt="Henotic Diagnostics Logo" 
+                            class="h-9 w-auto object-contain transition-transform group-hover:scale-105"
+                            onerror="this.onerror=null; this.src='https://via.placeholder.com/180x40/0f0a21/ec4899?text=Henotic+Diagnostics';"
+                        />
+                    </div>
+                    <div class="hidden sm:block">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-black tracking-tight text-white">Henotic Diagnostics</span>
+                            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-bold tracking-wider uppercase shadow-sm">SEO Optimizer</span>
+                        </div>
+                        <p class="text-xs text-slate-400">SEO • AEO • LLMO • GEO Search Engine Image Optimization Suite</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Target Metrics Chips -->
+            <div class="hidden lg:flex items-center gap-3 text-xs">
+                <div class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900/80 border border-indigo-500/30 shadow-sm" title="Target Largest Contentful Paint">
+                    <span class="text-indigo-400 font-bold">🖼️ LCP:</span>
+                    <span class="text-white font-mono font-semibold">1.5–2.0s</span>
+                </div>
+                <div class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900/80 border border-purple-500/30 shadow-sm" title="Cumulative Layout Shift">
+                    <span class="text-purple-400 font-bold">📐 CLS:</span>
+                    <span class="text-white font-mono font-semibold">0.00</span>
+                </div>
+                <div class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900/80 border border-pink-500/30 shadow-sm" title="First Contentful Paint">
+                    <span class="text-pink-400 font-bold">🎨 FCP:</span>
+                    <span class="text-white font-mono font-semibold">≤1.5s</span>
+                </div>
+                <div class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900/80 border border-pink-500/30 shadow-sm" title="Time To First Byte & Payload limit">
+                    <span class="text-emerald-400 font-bold">⚡ Payload:</span>
+                    <span class="text-white font-mono font-semibold">&lt;100KB</span>
+                </div>
+            </div>
+
+            <!-- Header Action Buttons -->
+            <div class="flex items-center gap-2">
+                <button id="guide-modal-btn" class="px-4 py-2 text-xs font-bold rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-pink-500/30 hover:border-pink-500/60 transition flex items-center gap-2 shadow-sm cursor-pointer">
+                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    SEO/GEO Spec Blueprint
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Gradient Divider Bar -->
+    <div class="h-1 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-glow-henotic"></div>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+        
+        <!-- Hero Tagline & Brand Header -->
+        <div class="text-center max-w-3xl mx-auto space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-pink-500/30 text-xs text-pink-300 font-semibold mb-1 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+                Henotic Diagnostics Diagnostic Optimizer Engine v2.0
+            </div>
+            
+            <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+                SEO Image Optimizer by <br>
+                <span class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    Henotic Diagnostics
+                </span>
+            </h2>
+            
+            <p class="text-slate-300 text-sm sm:text-base font-normal">
+                Strict PageSpeed target image optimizer. Auto-crop, convert to WebP & AVIF locally in your browser with zero latency, zero layout shifts, and full JSON-LD schema generation.
+            </p>
+            
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/80 text-indigo-300 border border-indigo-800/60">Google Lens AI Ready</span>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-950/80 text-purple-300 border border-purple-800/60">0.00 CLS Code Markup</span>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-pink-950/80 text-pink-300 border border-pink-800/60">JSON-LD Image Schema</span>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/80 text-slate-300 border border-slate-800">100% Client-Side Privacy</span>
+            </div>
+        </div>
+
+        <!-- Main Workspace Card -->
+        <div class="glass-panel rounded-3xl overflow-hidden shadow-2xl border border-pink-500/20">
+            
+            <!-- Upload Dropzone Area -->
+            <div class="p-6 sm:p-8 border-b border-purple-500/20 bg-slate-900/40">
+                <label for="file-input" id="drop-zone" tabindex="0" class="group relative border-2 border-dashed border-slate-700 hover:border-pink-500 rounded-2xl p-8 sm:p-12 transition-all duration-300 cursor-pointer bg-slate-900/60 hover:bg-slate-900/90 text-center flex flex-col items-center justify-center min-h-[220px] focus:outline-none focus:ring-4 focus:ring-pink-500/20">
+                    <input type="file" id="file-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="image/png, image/jpeg, image/jpg, image/webp, image/avif, image/svg+xml" multiple aria-label="Upload Images">
+                    
+                    <div class="relative mb-5">
+                        <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full blur-xl opacity-0 group-hover:opacity-80 transition-opacity duration-500"></div>
+                        <div class="relative w-18 h-18 sm:w-20 sm:h-20 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-glow-henotic">
+                            <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <p class="text-lg sm:text-xl font-bold text-white mb-1">Drag & drop your images here</p>
+                        <p class="text-sm sm:text-base text-slate-300">or <span class="text-pink-400 font-semibold group-hover:underline">browse files</span> from your device</p>
+                        <p class="text-xs text-slate-400 mt-3 font-mono tracking-wide uppercase">Supports JPG, PNG, WEBP, AVIF (Batch Processing)</p>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Settings & Configuration Controls Bar -->
+            <div id="controls-panel" class="hidden px-6 py-6 bg-slate-900/90 border-b border-purple-500/20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Output Format Selector -->
+                <div>
+                    <label for="format-select" class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-2">
+                        Target Output Format
+                    </label>
+                    <select id="format-select" class="w-full p-3 bg-slate-950 border border-slate-700 rounded-xl text-sm font-semibold text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <option value="image/webp" selected>WebP (Recommended • Standard SEO)</option>
+                        <option value="image/avif">AVIF (Next-Gen • Ultra ~20% Smaller)</option>
+                        <option value="image/jpeg">JPEG (High Compression Fallback)</option>
+                        <option value="image/png">PNG (Lossless / Transparency)</option>
+                    </select>
+                </div>
+
+                <!-- Aspect Ratio & Preset Dimensions Selector -->
+                <div>
+                    <label for="profile-select" class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-2">
+                        SEO Dimension Presets
+                    </label>
+                    <select id="profile-select" class="w-full p-3 bg-slate-950 border border-slate-700 rounded-xl text-sm font-semibold text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <option value="original">Keep Original Dimensions</option>
+                        <optgroup label="Standard Banners & Headers">
+                            <option value="hero">Hero Desktop Banner (1920 × 1080) - 16:9</option>
+                            <option value="hero_mobile">Hero Mobile Banner (750 × 1000) - 3:4</option>
+                            <option value="cta">Wide CTA Banner (1600 × 600) - 8:3</option>
+                        </optgroup>
+                        <optgroup label="Content & Articles">
+                            <option value="blog">Blog Featured (1200 × 630) - 1.91:1</option>
+                            <option value="service">Content Image (800 × 600) - 4:3</option>
+                        </optgroup>
+                        <optgroup label="Products & Thumbnails">
+                            <option value="product">Product / Gallery (1000 × 1000) - 1:1</option>
+                            <option value="team">Profile / Team (600 × 600) - 1:1</option>
+                            <option value="thumbnail">Grid Thumbnail (400 × 400) - 1:1</option>
+                        </optgroup>
+                        <option value="custom">Custom Dimensions...</option>
+                    </select>
+                </div>
+
+                <!-- Quality Slider & Strict Size Cap -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label for="quality-input" class="text-xs font-bold uppercase tracking-wider text-slate-300">
+                            Quality Level
+                        </label>
+                        <span id="quality-value" class="text-xs font-bold text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-2.5 py-0.5 rounded shadow-sm">75%</span>
+                    </div>
+                    <input type="range" id="quality-input" min="0.1" max="1.0" step="0.05" value="0.75" class="w-full accent-pink-500 cursor-pointer" aria-label="Quality Slider">
+                    
+                    <div class="flex items-center gap-2 mt-2">
+                        <input type="checkbox" id="strict-cap-checkbox" class="w-4 h-4 rounded bg-slate-950 border-slate-700 text-pink-500 focus:ring-pink-500 cursor-pointer">
+                        <label for="strict-cap-checkbox" class="text-xs text-slate-300 font-medium cursor-pointer">Strict LCP Target Size (&lt;100KB)</label>
+                    </div>
+                </div>
+
+                <!-- Page Priority & Strategy -->
+                <div>
+                    <label for="priority-select" class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-2">
+                        LCP / Loading Strategy
+                    </label>
+                    <select id="priority-select" class="w-full p-3 bg-slate-950 border border-slate-700 rounded-xl text-sm font-semibold text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <option value="hero">LCP Hero Image (fetchpriority="high")</option>
+                        <option value="content" selected>Body Content (loading="lazy", decoding="async")</option>
+                        <option value="below_fold">Below Fold / Gallery (loading="lazy")</option>
+                    </select>
+                </div>
+
+                <!-- Custom Dimensions Box (Hidden by default) -->
+                <div id="custom-dims-box" class="hidden col-span-full grid grid-cols-2 gap-4 p-4 bg-slate-950 rounded-2xl border border-purple-500/30">
+                    <div>
+                        <label class="text-xs text-slate-400 block mb-1">Custom Width (px)</label>
+                        <input type="number" id="custom-width" placeholder="1200" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-400 block mb-1">Custom Height (px)</label>
+                        <input type="number" id="custom-height" placeholder="800" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Queue Summary Statistics Banner -->
+            <div id="stats-banner" class="hidden px-6 py-4 bg-slate-950/80 border-b border-purple-500/20 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-6 text-sm">
+                    <div>
+                        <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Total Queue</span>
+                        <span id="total-count" class="text-xl sm:text-2xl font-black text-white">0</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Original Size</span>
+                        <span id="total-orig-size" class="text-xl sm:text-2xl font-black text-slate-300">0 MB</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Optimized Size</span>
+                        <span id="total-new-size" class="text-xl sm:text-2xl font-black text-emerald-400">0 MB</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 block uppercase tracking-wider font-bold">Savings</span>
+                        <span id="total-savings-pct" class="text-xl sm:text-2xl font-black text-pink-400">0%</span>
+                    </div>
+                </div>
+
+                <!-- CWV Impact Estimate Pill -->
+                <div class="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-indigo-950/80 via-purple-950/80 to-pink-950/80 border border-pink-500/30 flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
+                    <div class="text-xs">
+                        <span class="text-slate-200 font-semibold">PageSpeed CWV Score Gain:</span>
+                        <span id="cwv-gain-text" class="text-emerald-300 font-extrabold ml-1">+15 to +35 pts (LCP ~1.6s)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Processing List -->
+            <div id="file-list-container" class="hidden max-h-[500px] overflow-y-auto bg-slate-950/50 p-4 sm:p-6 space-y-3">
+                <div id="file-list" class="space-y-3">
+                    <!-- File items injected by JS -->
+                </div>
+            </div>
+
+            <!-- Action Buttons Footer -->
+            <div id="action-bar" class="hidden px-6 py-5 bg-slate-900/90 border-t border-purple-500/20 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <button id="reset-btn" class="px-5 py-2.5 text-xs font-bold text-slate-400 hover:text-red-400 hover:bg-red-950/30 rounded-xl transition border border-slate-800 hover:border-red-900/50 cursor-pointer">
+                    Clear Queue
+                </button>
+
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <button id="convert-btn" class="flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm text-white henotic-btn-gradient flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-pink-500 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        Crop & Convert All
+                    </button>
+                    <button id="download-zip-btn" disabled class="flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white transition shadow-lg flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Download Batch ZIP
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full border-t border-purple-500/20 py-8 bg-slate-950/80 text-center text-xs text-slate-400 space-y-2">
+        <div class="flex justify-center items-center gap-3">
+            <img src="https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp" alt="Henotic Diagnostics" class="h-6 w-auto opacity-70">
+        </div>
+        <p>© 2026 Henotic Diagnostics. SEO Image Optimizer — Built for Google Core Web Vitals, AEO, LLMO & GEO Dominance.</p>
+    </footer>
+
+    <!-- BEFORE / AFTER COMPARISON MODAL -->
+    <div id="compare-modal" class="fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-pink-500/30 rounded-3xl max-w-4xl w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-purple-500/20 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    Henotic Diagnostic Quality Inspector (Before vs After)
+                </h3>
+                <button id="close-compare-btn" class="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 cursor-pointer">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Comparison Container -->
+            <div class="relative w-full h-[380px] sm:h-[450px] bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 comparison-container select-none" id="comparison-box">
+                <img id="comp-after-img" class="absolute inset-0 w-full h-full object-contain pointer-events-none" alt="Optimized Image">
+                <div id="comp-before-wrap" class="comparison-before">
+                    <img id="comp-before-img" class="absolute top-0 left-0 h-full object-contain pointer-events-none max-w-none" alt="Original Image">
+                </div>
+                
+                <!-- Divider handle -->
+                <div id="comp-handle" class="absolute top-0 bottom-0 w-1 bg-pink-500 cursor-ew-resize flex items-center justify-center shadow-glow-henotic" style="left: 50%;">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-2 border-white flex items-center justify-center text-white text-xs font-black shadow-lg">
+                        ↔
+                    </div>
+                </div>
+
+                <div class="absolute top-3 left-3 bg-slate-950/80 px-3 py-1 rounded-lg text-xs font-bold text-white border border-slate-800">Original</div>
+                <div class="absolute top-3 right-3 bg-slate-950/80 px-3 py-1 rounded-lg text-xs font-bold text-pink-400 border border-slate-800">Optimized</div>
+            </div>
+
+            <div class="flex justify-between items-center text-xs text-slate-400">
+                <p>Drag slider horizontally to inspect image quality side-by-side.</p>
+                <div id="comp-stats-pill" class="font-mono text-pink-400 font-bold bg-pink-950/60 px-3 py-1 rounded-lg border border-pink-800"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CODE & SCHEMA GENERATOR MODAL -->
+    <div id="code-modal" class="fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-pink-500/30 rounded-3xl max-w-3xl w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-purple-500/20 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                    Henotic SEO, AEO & LLMO Markup Generator
+                </h3>
+                <button id="close-code-btn" class="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 cursor-pointer">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Code Tabs -->
+            <div class="flex border-b border-slate-800 gap-2">
+                <button id="tab-html-btn" class="px-4 py-2 text-xs font-bold text-pink-400 border-b-2 border-pink-500 cursor-pointer">
+                    Zero-CLS HTML Markup
+                </button>
+                <button id="tab-schema-btn" class="px-4 py-2 text-xs font-bold text-slate-400 hover:text-white border-b-2 border-transparent cursor-pointer">
+                    JSON-LD Image Schema (GEO/LLMO)
+                </button>
+                <button id="tab-alt-btn" class="px-4 py-2 text-xs font-bold text-slate-400 hover:text-white border-b-2 border-transparent cursor-pointer">
+                    AEO / AI Vision Alt Guide
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="tab-html-content" class="space-y-2">
+                <div class="relative">
+                    <pre><code id="code-html-box" class="block p-4 bg-slate-950 rounded-xl text-xs font-mono text-pink-300 overflow-x-auto border border-slate-800 max-h-[250px]"></code></pre>
+                    <button onclick="window.copyToClipboard('code-html-box')" class="absolute top-2 right-2 px-3 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-white rounded-md border border-slate-700 cursor-pointer">Copy Code</button>
+                </div>
+                <p class="text-[11px] text-slate-400">Includes explicit <code class="text-pink-300">width</code> & <code class="text-pink-300">height</code> attributes to guarantee <b>CLS = 0.00</b>.</p>
+            </div>
+
+            <div id="tab-schema-content" class="space-y-2 hidden">
+                <div class="relative">
+                    <pre><code id="code-schema-box" class="block p-4 bg-slate-950 rounded-xl text-xs font-mono text-purple-300 overflow-x-auto border border-slate-800 max-h-[250px]"></code></pre>
+                    <button onclick="window.copyToClipboard('code-schema-box')" class="absolute top-2 right-2 px-3 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-white rounded-md border border-slate-700 cursor-pointer">Copy Schema</button>
+                </div>
+                <p class="text-[11px] text-slate-400">Structured Data schema helps Google SGE, Perplexity, and ChatGPT index image assets for Generative Engine Optimization.</p>
+            </div>
+
+            <div id="tab-alt-content" class="space-y-3 hidden text-xs text-slate-300">
+                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                    <h4 class="font-bold text-white text-sm">Targeted Image Metadata & Context Checklist:</h4>
+                    <ul class="list-disc pl-4 space-y-1 text-slate-400">
+                        <li><b>File Naming:</b> Use descriptive hyphenated names (e.g. <code class="text-pink-300">henotic-diagnostics-lab-hero.webp</code>).</li>
+                        <li><b>Alt Text Rule:</b> Describe key visual components clearly in 8-15 words. Include subject, action, context, and key features.</li>
+                        <li><b>GEO Tip:</b> Add captions (<code class="text-pink-300">&lt;figcaption&gt;</code>) nearby as LLM crawlers index text within the same DOM parent.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO & CORE WEB VITALS SPECIFICATION GUIDE MODAL -->
+    <div id="guide-modal" class="fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-pink-500/30 rounded-3xl max-w-4xl w-full p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-purple-500/20 pb-4">
+                <div>
+                    <h3 class="text-xl font-black text-white flex items-center gap-2">
+                        <span>🚀</span> Henotic Diagnostics 2026 Core Web Vitals & SEO/GEO Image Blueprint
+                    </h3>
+                    <p class="text-xs text-slate-400">Architectural rules for image-heavy websites to achieve 95–100 PageSpeed scores.</p>
+                </div>
+                <button id="close-guide-btn" class="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 cursor-pointer">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Spec Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
+                    <div class="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+                        <span>🖼️</span> LCP (Largest Contentful Paint) Target: 1.5s–2.0s
+                    </div>
+                    <p class="text-xs text-slate-400">
+                        The Hero banner is usually the LCP element. Limit desktop hero images to <b>&lt;100KB</b> and mobile heroes to <b>&lt;50KB</b>. Use <code class="text-indigo-300">fetchpriority="high"</code> and inline critical preload links. Never lazy-load your hero image.
+                    </p>
+                </div>
+
+                <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
+                    <div class="flex items-center gap-2 text-purple-400 font-bold text-sm">
+                        <span>📐</span> CLS (Cumulative Layout Shift) Target: 0–0.05
+                    </div>
+                    <p class="text-xs text-slate-400">
+                        Always declare explicit <code class="text-purple-300">width</code> and <code class="text-purple-300">height</code> attributes on every <code class="text-purple-300">&lt;img&gt;</code> element along with CSS <code class="text-purple-300">aspect-ratio</code>. Browsers reserve space before loading, guaranteeing zero shift.
+                    </p>
+                </div>
+
+                <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
+                    <div class="flex items-center gap-2 text-pink-400 font-bold text-sm">
+                        <span>✨</span> Formats: AVIF vs WebP vs SVG
+                    </div>
+                    <p class="text-xs text-slate-400">
+                        <b>AVIF:</b> ~20% smaller than WebP for photos; ideal for Hero/Banners.<br>
+                        <b>WebP:</b> 98%+ browser support standard for all site graphics.<br>
+                        <b>SVG:</b> For icons and simple vector illustrations.
+                    </p>
+                </div>
+
+                <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
+                    <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                        <span>🤖</span> AEO, LLMO & GEO Search Engine Optimization
+                    </div>
+                    <p class="text-xs text-slate-400">
+                        Search engine AI crawlers (Perplexity, ChatGPT, SGE) parse images via <b>JSON-LD ImageObject</b> schemas, descriptive filenames, semantic <code class="text-emerald-300">&lt;figure&gt;</code> tags, and AI-readable alt attributes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Recommended Dimension Table -->
+            <div class="space-y-2">
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider">Recommended Image Dimensions & Target File Sizes</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left text-slate-300 border border-slate-800 rounded-xl overflow-hidden">
+                        <thead class="bg-slate-950 text-slate-400 uppercase font-mono">
+                            <tr>
+                                <th class="p-3">Use Case</th>
+                                <th class="p-3">Aspect Ratio</th>
+                                <th class="p-3">Dimensions (px)</th>
+                                <th class="p-3">Max File Size Target</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 bg-slate-900/50">
+                            <tr>
+                                <td class="p-3 font-semibold text-white">Desktop Hero Banner</td>
+                                <td class="p-3 font-mono">16:9</td>
+                                <td class="p-3 font-mono">1920 × 1080</td>
+                                <td class="p-3 font-semibold text-pink-400">&lt; 100 KB</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-white">Mobile Hero Banner</td>
+                                <td class="p-3 font-mono">3:4</td>
+                                <td class="p-3 font-mono">750 × 1000</td>
+                                <td class="p-3 font-semibold text-pink-400">&lt; 50 KB</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-white">Blog Featured / OpenGraph</td>
+                                <td class="p-3 font-mono">1.91:1</td>
+                                <td class="p-3 font-mono">1200 × 630</td>
+                                <td class="p-3 font-semibold text-pink-400">&lt; 60 KB</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-white">Product / E-commerce Grid</td>
+                                <td class="p-3 font-mono">1:1</td>
+                                <td class="p-3 font-mono">1000 × 1000</td>
+                                <td class="p-3 font-semibold text-pink-400">&lt; 40 KB</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-white">Thumbnails / Avatars</td>
+                                <td class="p-3 font-mono">1:1</td>
+                                <td class="p-3 font-mono">400 × 400</td>
+                                <td class="p-3 font-semibold text-pink-400">&lt; 15 KB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" aria-live="polite" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-pink-500/40 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-8 z-50 pointer-events-none">
+        <span id="toast-icon"></span>
+        <span id="toast-msg" class="font-semibold text-xs whitespace-nowrap">Notification</span>
+    </div>
+
+    <!-- APPLICATION SCRIPT MODULE -->
+    <script>
+        (function() {
+            // Global App State
+            let queue = [];
+            let activeItemForCompare = null;
+            let activeItemForCode = null;
+
+            // Dimension Presets Dictionary
+            const PRESETS = {
+                original: null,
+                hero: { width: 1920, height: 1080 },
+                hero_mobile: { width: 750, height: 1000 },
+                cta: { width: 1600, height: 600 },
+                blog: { width: 1200, height: 630 },
+                service: { width: 800, height: 600 },
+                product: { width: 1000, height: 1000 },
+                team: { width: 600, height: 600 },
+                thumbnail: { width: 400, height: 400 }
+            };
+
+            // DOM Elements
+            const fileInput = document.getElementById('file-input');
+            const dropZone = document.getElementById('drop-zone');
+            const controlsPanel = document.getElementById('controls-panel');
+            const statsBanner = document.getElementById('stats-banner');
+            const fileListContainer = document.getElementById('file-list-container');
+            const fileList = document.getElementById('file-list');
+            const actionBar = document.getElementById('action-bar');
+            
+            const formatSelect = document.getElementById('format-select');
+            const profileSelect = document.getElementById('profile-select');
+            const qualityInput = document.getElementById('quality-input');
+            const qualityValue = document.getElementById('quality-value');
+            const strictCapCheckbox = document.getElementById('strict-cap-checkbox');
+            const prioritySelect = document.getElementById('priority-select');
+            const customDimsBox = document.getElementById('custom-dims-box');
+            const customWidthInput = document.getElementById('custom-width');
+            const customHeightInput = document.getElementById('custom-height');
+
+            const totalCountEl = document.getElementById('total-count');
+            const totalOrigSizeEl = document.getElementById('total-orig-size');
+            const totalNewSizeEl = document.getElementById('total-new-size');
+            const totalSavingsPctEl = document.getElementById('total-savings-pct');
+            const cwvGainTextEl = document.getElementById('cwv-gain-text');
+
+            const resetBtn = document.getElementById('reset-btn');
+            const convertBtn = document.getElementById('convert-btn');
+            const downloadZipBtn = document.getElementById('download-zip-btn');
+
+            const guideModalBtn = document.getElementById('guide-modal-btn');
+            const guideModal = document.getElementById('guide-modal');
+            const closeGuideBtn = document.getElementById('close-guide-btn');
+
+            const compareModal = document.getElementById('compare-modal');
+            const closeCompareBtn = document.getElementById('close-compare-btn');
+            const compBeforeImg = document.getElementById('comp-before-img');
+            const compAfterImg = document.getElementById('comp-after-img');
+            const compBeforeWrap = document.getElementById('comp-before-wrap');
+            const compHandle = document.getElementById('comp-handle');
+            const compStatsPill = document.getElementById('comp-stats-pill');
+            const comparisonBox = document.getElementById('comparison-box');
+
+            const codeModal = document.getElementById('code-modal');
+            const closeCodeBtn = document.getElementById('close-code-btn');
+            const tabHtmlBtn = document.getElementById('tab-html-btn');
+            const tabSchemaBtn = document.getElementById('tab-schema-btn');
+            const tabAltBtn = document.getElementById('tab-alt-btn');
+            const tabHtmlContent = document.getElementById('tab-html-content');
+            const tabSchemaContent = document.getElementById('tab-schema-content');
+            const tabAltContent = document.getElementById('tab-alt-content');
+            const codeHtmlBox = document.getElementById('code-html-box');
+            const codeSchemaBox = document.getElementById('code-schema-box');
+
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toast-icon');
+            const toastMsg = document.getElementById('toast-msg');
+
+            // Utilities
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+
+            function showToast(message, icon = '✨') {
+                toastIcon.textContent = icon;
+                toastMsg.textContent = message;
+                toast.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
+                toast.classList.add('opacity-100', 'translate-y-0');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
+                }, 3000);
+            }
+
+            // Clipboard helper
+            window.copyToClipboard = function(elementId) {
+                const el = document.getElementById(elementId);
+                if (!el) return;
+                navigator.clipboard.writeText(el.textContent).then(() => {
+                    showToast('Code copied to clipboard!', '📋');
+                }).catch(err => {
+                    showToast('Failed to copy code.', '⚠️');
+                });
+            };
+
+            // Event Listeners for Upload
+            fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-pink-500', 'bg-slate-900/90');
+            });
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-pink-500', 'bg-slate-900/90');
+            });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-pink-500', 'bg-slate-900/90');
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+
+            // Settings Controls
+            qualityInput.addEventListener('input', () => {
+                qualityValue.textContent = Math.round(qualityInput.value * 100) + '%';
+            });
+
+            profileSelect.addEventListener('change', () => {
+                if (profileSelect.value === 'custom') {
+                    customDimsBox.classList.remove('hidden');
+                } else {
+                    customDimsBox.classList.add('hidden');
+                }
+            });
+
+            // Modal Controls
+            guideModalBtn.addEventListener('click', () => guideModal.classList.remove('hidden'));
+            closeGuideBtn.addEventListener('click', () => guideModal.classList.add('hidden'));
+            closeCompareBtn.addEventListener('click', () => compareModal.classList.add('hidden'));
+            closeCodeBtn.addEventListener('click', () => codeModal.classList.add('hidden'));
+
+            // Code Modal Tabs
+            tabHtmlBtn.addEventListener('click', () => switchTab('html'));
+            tabSchemaBtn.addEventListener('click', () => switchTab('schema'));
+            tabAltBtn.addEventListener('click', () => switchTab('alt'));
+
+            function switchTab(tab) {
+                [tabHtmlBtn, tabSchemaBtn, tabAltBtn].forEach(btn => {
+                    btn.classList.remove('text-pink-400', 'border-pink-500');
+                    btn.classList.add('text-slate-400', 'border-transparent');
+                });
+                [tabHtmlContent, tabSchemaContent, tabAltContent].forEach(c => c.classList.add('hidden'));
+
+                if (tab === 'html') {
+                    tabHtmlBtn.classList.add('text-pink-400', 'border-pink-500');
+                    tabHtmlContent.classList.remove('hidden');
+                } else if (tab === 'schema') {
+                    tabSchemaBtn.classList.add('text-pink-400', 'border-pink-500');
+                    tabSchemaContent.classList.remove('hidden');
+                } else if (tab === 'alt') {
+                    tabAltBtn.classList.add('text-pink-400', 'border-pink-500');
+                    tabAltContent.classList.remove('hidden');
+                }
+            }
+
+            // Reset Queue
+            resetBtn.addEventListener('click', () => {
+                queue = [];
+                fileInput.value = '';
+                renderQueue();
+                showToast('Queue cleared', '🗑️');
+            });
+
+            // File Handler
+            function handleFiles(filesList) {
+                const newFiles = Array.from(filesList);
+                if (newFiles.length === 0) return;
+
+                let addedCount = 0;
+                newFiles.forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+
+                    const id = 'img_' + Math.random().toString(36).substr(2, 9);
+                    const item = {
+                        id,
+                        file,
+                        name: file.name,
+                        origSize: file.size,
+                        origUrl: URL.createObjectURL(file),
+                        width: 0,
+                        height: 0,
+                        status: 'pending', // pending, converting, done, error
+                        convertedBlob: null,
+                        convertedUrl: null,
+                        convertedSize: 0,
+                        savingsPct: 0,
+                        targetWidth: 0,
+                        targetHeight: 0,
+                        targetFormat: 'image/webp'
+                    };
+
+                    // Load dimensions
+                    const img = new Image();
+                    img.onload = () => {
+                        item.width = img.naturalWidth;
+                        item.height = img.naturalHeight;
+                        renderQueue();
+                    };
+                    img.src = item.origUrl;
+
+                    queue.push(item);
+                    addedCount++;
+                });
+
+                if (addedCount > 0) {
+                    controlsPanel.classList.remove('hidden');
+                    statsBanner.classList.remove('hidden');
+                    fileListContainer.classList.remove('hidden');
+                    actionBar.classList.remove('hidden');
+                    renderQueue();
+                    showToast(`Added ${addedCount} file(s) to queue`, '📁');
+                }
+            }
+
+            // Render Queue UI
+            function renderQueue() {
+                if (queue.length === 0) {
+                    controlsPanel.classList.add('hidden');
+                    statsBanner.classList.add('hidden');
+                    fileListContainer.classList.add('hidden');
+                    actionBar.classList.add('hidden');
+                    downloadZipBtn.disabled = true;
+                    return;
+                }
+
+                fileList.innerHTML = '';
+                let totalOrigSize = 0;
+                let totalNewSize = 0;
+                let convertedCount = 0;
+
+                queue.forEach(item => {
+                    totalOrigSize += item.origSize;
+                    if (item.status === 'done') {
+                        totalNewSize += item.convertedSize;
+                        convertedCount++;
+                    } else {
+                        totalNewSize += item.origSize;
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = 'flex flex-col sm:flex-row items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-2xl gap-4 transition hover:border-pink-500/40';
+
+                    const ext = item.targetFormat ? item.targetFormat.split('/')[1].toUpperCase() : 'WEBP';
+
+                    let statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300">Ready</span>`;
+                    if (item.status === 'converting') {
+                        statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-950 text-indigo-300 border border-indigo-800 animate-pulse">Converting...</span>`;
+                    } else if (item.status === 'done') {
+                        statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">-${item.savingsPct}% (${formatBytes(item.convertedSize)})</span>`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <img src="${item.convertedUrl || item.origUrl}" class="w-14 h-14 object-cover rounded-xl border border-slate-800 bg-slate-950" alt="Preview">
+                            <div class="space-y-0.5 overflow-hidden">
+                                <p class="text-sm font-bold text-white truncate max-w-[220px] sm:max-w-[280px]">${item.name}</p>
+                                <p class="text-xs text-slate-400 font-mono">${item.width}×${item.height} px • ${formatBytes(item.origSize)}</p>
+                                <div class="flex items-center gap-2 pt-1">
+                                    ${statusBadge}
+                                    <span class="text-[10px] text-pink-400 font-mono uppercase font-bold">${ext}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 border-slate-800 pt-3 sm:pt-0">
+                            ${item.status === 'done' ? `
+                                <button onclick="window.inspectItem('${item.id}')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-pink-400 transition" title="Inspect Quality (Before vs After)">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                </button>
+                                <button onclick="window.showCodeForItem('${item.id}')" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-purple-400 transition" title="Get Zero-CLS & JSON-LD Code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                                </button>
+                                <a href="${item.convertedUrl}" download="${getConvertedFilename(item)}" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1 shadow-sm">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    Download
+                                </a>
+                            ` : ''}
+                            <button onclick="window.removeItem('${item.id}')" class="p-2 rounded-xl bg-slate-800 hover:bg-red-950 text-slate-400 hover:text-red-400 transition" title="Remove File">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+                    `;
+
+                    fileList.appendChild(card);
+                });
+
+                // Update Stats Banner
+                totalCountEl.textContent = queue.length;
+                totalOrigSizeEl.textContent = formatBytes(totalOrigSize);
+                totalNewSizeEl.textContent = formatBytes(totalNewSize);
+                
+                const savingsPct = totalOrigSize > 0 ? Math.round(((totalOrigSize - totalNewSize) / totalOrigSize) * 100) : 0;
+                totalSavingsPctEl.textContent = (savingsPct > 0 ? '-' : '') + Math.max(0, savingsPct) + '%';
+                
+                downloadZipBtn.disabled = convertedCount === 0;
+            }
+
+            function getConvertedFilename(item) {
+                const base = item.name.substring(0, item.name.lastIndexOf('.')) || item.name;
+                const ext = item.targetFormat.split('/')[1] || 'webp';
+                return `${base}-seo-optimized.${ext}`;
+            }
+
+            window.removeItem = function(id) {
+                queue = queue.filter(item => item.id !== id);
+                renderQueue();
+            };
+
+            // Conversion Engine
+            convertBtn.addEventListener('click', async () => {
+                if (queue.length === 0) return;
+
+                convertBtn.disabled = true;
+                convertBtn.classList.add('opacity-70');
+                showToast('Starting optimization process...', '⚡');
+
+                const targetFormat = formatSelect.value;
+                const profile = profileSelect.value;
+                const baseQuality = parseFloat(qualityInput.value);
+                const strictCap = strictCapCheckbox.checked;
+
+                for (let i = 0; i < queue.length; i++) {
+                    const item = queue[i];
+                    item.status = 'converting';
+                    item.targetFormat = targetFormat;
+                    renderQueue();
+
+                    try {
+                        const blob = await processImage(item, profile, targetFormat, baseQuality, strictCap);
+                        item.convertedBlob = blob;
+                        item.convertedUrl = URL.createObjectURL(blob);
+                        item.convertedSize = blob.size;
+                        item.savingsPct = Math.max(0, Math.round(((item.origSize - blob.size) / item.origSize) * 100));
+                        item.status = 'done';
+                    } catch (err) {
+                        console.error('Error processing image:', err);
+                        item.status = 'error';
+                    }
+
+                    renderQueue();
+                }
+
+                convertBtn.disabled = false;
+                convertBtn.classList.remove('opacity-70');
+                showToast('Batch optimization completed!', '🎉');
+            });
+
+            async function processImage(item, profile, format, quality, strictCap) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = async () => {
+                        let targetW = img.naturalWidth;
+                        let targetH = img.naturalHeight;
+
+                        if (profile === 'custom') {
+                            const cw = parseInt(customWidthInput.value, 10);
+                            const ch = parseInt(customHeightInput.value, 10);
+                            if (cw > 0) targetW = cw;
+                            if (ch > 0) targetH = ch;
+                        } else if (PRESETS[profile]) {
+                            targetW = PRESETS[profile].width;
+                            targetH = PRESETS[profile].height;
+                        }
+
+                        item.targetWidth = targetW;
+                        item.targetHeight = targetH;
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = targetW;
+                        canvas.height = targetH;
+                        const ctx = canvas.getContext('2d');
+
+                        // Fill canvas with background (white for JPEG/PNG, transparent for WebP/AVIF)
+                        if (format === 'image/jpeg') {
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(0, 0, targetW, targetH);
+                        }
+
+                        // Center crop (cover aspect ratio)
+                        const srcAspect = img.naturalWidth / img.naturalHeight;
+                        const destAspect = targetW / targetH;
+                        let sx = 0, sy = 0, sWidth = img.naturalWidth, sHeight = img.naturalHeight;
+
+                        if (srcAspect > destAspect) {
+                            sWidth = img.naturalHeight * destAspect;
+                            sx = (img.naturalWidth - sWidth) / 2;
+                        } else {
+                            sHeight = img.naturalWidth / destAspect;
+                            sy = (img.naturalHeight - sHeight) / 2;
+                        }
+
+                        ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, targetW, targetH);
+
+                        let currentQual = quality;
+                        let blob = await canvasToBlob(canvas, format, currentQual);
+
+                        // Strict Cap Logic (< 100KB)
+                        if (strictCap && blob.size > 100 * 1024) {
+                            while (blob.size > 100 * 1024 && currentQual > 0.25) {
+                                currentQual -= 0.1;
+                                blob = await canvasToBlob(canvas, format, currentQual);
+                            }
+                        }
+
+                        resolve(blob);
+                    };
+                    img.onerror = reject;
+                    img.src = item.origUrl;
+                });
+            }
+
+            function canvasToBlob(canvas, format, quality) {
+                return new Promise(resolve => {
+                    canvas.toBlob(blob => resolve(blob), format, quality);
+                });
+            }
+
+            // Batch ZIP Download
+            downloadZipBtn.addEventListener('click', async () => {
+                const zip = new JSZip();
+                let count = 0;
+
+                queue.forEach(item => {
+                    if (item.status === 'done' && item.convertedBlob) {
+                        const filename = getConvertedFilename(item);
+                        zip.file(filename, item.convertedBlob);
+                        count++;
+                    }
+                });
+
+                if (count === 0) return;
+
+                showToast('Generating ZIP package...', '📦');
+                const content = await zip.generateAsync({ type: 'blob' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(content);
+                a.download = 'henotic-seo-optimized-images.zip';
+                a.click();
+                showToast('ZIP Download started!', '🚀');
+            });
+
+            // Inspect Item Modal
+            window.inspectItem = function(id) {
+                const item = queue.find(i => i.id === id);
+                if (!item || !item.convertedUrl) return;
+
+                activeItemForCompare = item;
+                compBeforeImg.src = item.origUrl;
+                compAfterImg.src = item.convertedUrl;
+
+                compStatsPill.textContent = `${formatBytes(item.origSize)} → ${formatBytes(item.convertedSize)} (-${item.savingsPct}%)`;
+                
+                // Reset slider position to 50%
+                compBeforeWrap.style.width = '50%';
+                compHandle.style.left = '50%';
+
+                compareModal.classList.remove('hidden');
+            };
+
+            // Slider Dragging Logic
+            let isDragging = false;
+            comparisonBox.addEventListener('mousedown', () => isDragging = true);
+            comparisonBox.addEventListener('touchstart', () => isDragging = true);
+            window.addEventListener('mouseup', () => isDragging = false);
+            window.addEventListener('touchend', () => isDragging = false);
+
+            comparisonBox.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                moveSlider(e.clientX);
+            });
+            comparisonBox.addEventListener('touchmove', (e) => {
+                if (!isDragging || !e.touches[0]) return;
+                moveSlider(e.touches[0].clientX);
+            });
+
+            function moveSlider(clientX) {
+                const rect = comparisonBox.getBoundingClientRect();
+                let x = clientX - rect.left;
+                if (x < 0) x = 0;
+                if (x > rect.width) x = rect.width;
+                const pct = (x / rect.width) * 100;
+                compBeforeWrap.style.width = pct + '%';
+                compHandle.style.left = pct + '%';
+            }
+
+            // Code & Schema Generator Modal
+            window.showCodeForItem = function(id) {
+                const item = queue.find(i => i.id === id);
+                if (!item) return;
+
+                activeItemForCode = item;
+                const filename = getConvertedFilename(item);
+                const format = item.targetFormat || 'image/webp';
+                const width = item.targetWidth || item.width || 1200;
+                const height = item.targetHeight || item.height || 630;
+                const strategy = prioritySelect.value;
+
+                let fetchpriority = 'auto';
+                let loading = 'lazy';
+                if (strategy === 'hero') {
+                    fetchpriority = 'high';
+                    loading = 'eager';
+                }
+
+                const altText = item.name.replace(/[-_]/g, ' ').replace(/\.[^/.]+$/, "") + ' - Henotic Diagnostics';
+
+                // Zero-CLS HTML Markup
+                const htmlMarkup = `<picture>\n  <source srcset="${filename}" type="${format}">\n  <img \n    src="${filename}" \n    width="${width}" \n    height="${height}" \n    alt="${altText}" \n    loading="${loading}" \n    decoding="async" \n    fetchpriority="${fetchpriority}" \n    style="aspect-ratio: ${width}/${height}; width: 100%; height: auto;" \n  />\n</picture>`;
+
+                // JSON-LD Schema
+                const schemaObj = {
+                    "@context": "https://schema.org",
+                    "@type": "ImageObject",
+                    "contentUrl": `https://www.henoticdiagnostics.com/images/${filename}`,
+                    "license": "https://www.henoticdiagnostics.com",
+                    "acquireLicensePage": "https://www.henoticdiagnostics.com",
+                    "creditText": "Henotic Diagnostics",
+                    "creator": {
+                        "@type": "Organization",
+                        "name": "Henotic Diagnostics"
+                    },
+                    "width": `${width}`,
+                    "height": `${height}`
+                };
+
+                codeHtmlBox.textContent = htmlMarkup;
+                codeSchemaBox.textContent = JSON.stringify(schemaObj, null, 2);
+
+                switchTab('html');
+                codeModal.classList.remove('hidden');
+            };
+
+        })();
+    </script>
+</body>
+</html>
