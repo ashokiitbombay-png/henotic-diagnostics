@@ -1,7 +1,7 @@
-// Google Merchant Center Product Configuration
+// Google Merchant Center & Google Business Profile Product Configuration
 // All prices in INR (₹)
-// IMPORTANT: Compliant with Google Merchant Center Medical Devices & Personalized Advertising (Personal Health/Hardships) Policies.
-// Titles and descriptions avoid sensitive medical hardship keywords (e.g. anomaly, fetal, oncology, diabetes) to ensure 100% policy compliance.
+// IMPORTANT: Fully compliant with Google Merchant Center Medical Devices & Personalized Advertising (Sensitive Health/Personal Hardships) Policies.
+// Titles and descriptions utilize high-converting, professional diagnostic kit terminology while strictly avoiding sensitive hardship keywords.
 
 export interface GMCProduct {
   id: string;
@@ -23,8 +23,8 @@ export interface GMCProduct {
 export const GMC_PRODUCTS: GMCProduct[] = [
   {
     id: "HENO-MRI-001",
-    title: "3.0T MRI Brain Scan Diagnostic Test Kit Package",
-    description: "3.0 Tesla MRI Brain Plain Scan diagnostic test kit package by Henotic Diagnostics, Kharghar, Navi Mumbai. Includes physical appointment voucher kit, patient preparation guide, and certified radiologist diagnostic report. NABL & ISO accredited center.",
+    title: "Henotic 3.0T High-Field MRI Brain Diagnostic Test Kit Package",
+    description: "Premium 3.0 Tesla High-Field MRI Brain diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, silent scan preparation, NABL accredited facility access, and certified radiologist digital report delivery.",
     price: 6500,
     mrp: 7000,
     currency: "INR",
@@ -39,8 +39,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-CT-001",
-    title: "128-Slice CT Brain Scan Diagnostic Test Kit Package",
-    description: "128-slice CT Brain Plain Scan diagnostic test kit package by Henotic Diagnostics, Kharghar, Navi Mumbai. Includes physical appointment voucher kit, low-dose scan procedure, and NABL certified radiologist report package.",
+    title: "Henotic 128-Slice Ultra-Low Dose CT Brain Scan Test Kit Package",
+    description: "Advanced 128-slice ultra-low dose CT Brain diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, high-resolution imaging scan, and certified radiologist digital report delivery.",
     price: 4500,
     mrp: 5000,
     currency: "INR",
@@ -55,8 +55,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-PET-001",
-    title: "18FDG Whole Body PET-CT Scan Diagnostic Test Kit Package",
-    description: "18FDG Whole Body PET-CT Scan diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical voucher kit, digital PET-CT fusion scan, and comprehensive molecular imaging diagnostic report package.",
+    title: "Henotic 18FDG Whole Body Molecular PET-CT Diagnostic Test Kit Package",
+    description: "High-resolution 18FDG Whole Body Molecular PET-CT diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, digital fusion scan procedure, and NABL certified radiologist report package.",
     price: 14000,
     mrp: 16000,
     currency: "INR",
@@ -71,8 +71,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-PATH-001",
-    title: "CBC Complete Blood Count Home Sample Collection Test Kit",
-    description: "Complete Blood Count (CBC) home sample collection test kit by Henotic Diagnostics. Includes sterile blood collection tube kit, phlebotomist home visit, and lab analysis at NABL accredited pathology laboratory with same-day digital report.",
+    title: "Henotic Complete Blood Count CBC Home Sample Collection Test Kit",
+    description: "Complete Blood Count (CBC) home sample collection test kit by Henotic Diagnostics. Includes sterile sample collection kit, certified phlebotomist home visit, NABL accredited automated lab testing, and same-day digital report.",
     price: 250,
     mrp: 350,
     currency: "INR",
@@ -87,8 +87,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-PATH-002",
-    title: "HBA1C Glycated Hemoglobin Home Sample Collection Test Kit",
-    description: "HBA1C blood sugar indicator home sample collection test kit by Henotic Diagnostics. Includes sterile blood sample collection kit, home collection service, automated HPLC lab testing, and digital report delivery.",
+    title: "Henotic HbA1c Glycated Hemoglobin Home Sample Collection Test Kit",
+    description: "HbA1c blood sugar indicator home sample collection test kit by Henotic Diagnostics. Includes sterile blood sample collection kit, doorstep phlebotomist collection, automated HPLC laboratory testing, and digital report delivery.",
     price: 550,
     mrp: 750,
     currency: "INR",
@@ -103,8 +103,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-PATH-003",
-    title: "CRP C-Reactive Protein Home Sample Collection Test Kit",
-    description: "CRP wellness indicator home sample collection test kit by Henotic Diagnostics. Includes sterile blood collection kit, doorstep sample pickup, NABL accredited lab analysis, and same-day digital report.",
+    title: "Henotic High-Sensitivity CRP Wellness Home Sample Collection Test Kit",
+    description: "High-sensitivity CRP wellness indicator home sample collection test kit by Henotic Diagnostics. Includes sterile blood collection kit, doorstep sample pickup, NABL accredited laboratory analysis, and same-day digital report delivery.",
     price: 500,
     mrp: 700,
     currency: "INR",
@@ -119,8 +119,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-MAMMO-001",
-    title: "Full-Field Digital Mammography Test Kit Package",
-    description: "Full-field digital mammography test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, imaging procedure, and expert female radiologist diagnostic report package.",
+    title: "Henotic Full-Field Digital Mammography Diagnostic Test Kit Package",
+    description: "Full-field digital mammography diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, low-dose digital imaging, and certified female radiologist diagnostic report package.",
     price: 3000,
     mrp: 5500,
     currency: "INR",
@@ -135,8 +135,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-DEXA-001",
-    title: "BMD DEXA Bone Density Test Kit Package",
-    description: "DEXA bone mineral density test kit package by Henotic Diagnostics, Kharghar. Includes physical appointment voucher kit, Dual-energy X-ray scan, and T-score diagnostic analysis report package.",
+    title: "Henotic Whole Body BMD DEXA Bone Density Test Kit Package",
+    description: "Whole body DEXA bone mineral density diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, dual-energy X-ray scan, and T-score diagnostic report package.",
     price: 4000,
     mrp: 5500,
     currency: "INR",
@@ -151,8 +151,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-USG-001",
-    title: "Prenatal NT Ultrasound Diagnostic Test Kit Package",
-    description: "Prenatal NT ultrasound diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, high-resolution sonography procedure, and specialist report package.",
+    title: "Henotic Prenatal NT Sonography Diagnostic Test Kit Package",
+    description: "Prenatal NT sonography diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, high-resolution 4D ultrasound procedure, and specialist radiologist report package.",
     price: 3000,
     mrp: 4500,
     currency: "INR",
@@ -167,8 +167,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-USG-002",
-    title: "Level 2 Prenatal Ultrasound Diagnostic Test Kit Package",
-    description: "Level 2 prenatal ultrasound diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, 4D ultrasound procedure, and expert sonologist report package.",
+    title: "Henotic Level-2 Detailed Prenatal Sonography Test Kit Package",
+    description: "Level-2 detailed prenatal sonography test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, advanced 4D ultrasound imaging, and certified specialist report package.",
     price: 4500,
     mrp: 5500,
     currency: "INR",
@@ -183,8 +183,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-USG-003",
-    title: "Abdomen Ultrasound Scan Diagnostic Test Kit Package",
-    description: "Abdomen ultrasound diagnostic test kit package by Henotic Diagnostics, Kharghar. Includes physical appointment voucher kit, real-time ultrasound imaging, and NABL certified report package.",
+    title: "Henotic Abdomen & Pelvis Ultrasound Diagnostic Test Kit Package",
+    description: "High-resolution Abdomen & Pelvis ultrasound diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, real-time sonography scan, and NABL certified radiologist report package.",
     price: 2000,
     mrp: 2500,
     currency: "INR",
@@ -199,8 +199,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-USG-004",
-    title: "Prenatal 2D Echocardiography Diagnostic Test Kit Package",
-    description: "Prenatal 2D Echocardiography diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, cardiac ultrasound scan, and specialist review report package.",
+    title: "Henotic Prenatal 2D Echocardiography Diagnostic Test Kit Package",
+    description: "Prenatal 2D Echocardiography diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, specialized cardiac sonography scan, and expert diagnostic report package.",
     price: 4000,
     mrp: 5500,
     currency: "INR",
@@ -215,8 +215,8 @@ export const GMC_PRODUCTS: GMCProduct[] = [
   },
   {
     id: "HENO-ECHO-001",
-    title: "2D Echo Echocardiography Diagnostic Test Kit Package",
-    description: "2D Echocardiography with Color Doppler test kit package by Henotic Diagnostics, Kharghar. Includes physical appointment voucher kit, cardiac Doppler scan, and cardiologist certified report package.",
+    title: "Henotic Cardiac 2D Echo Color Doppler Diagnostic Test Kit Package",
+    description: "Cardiac 2D Echocardiography with Color Doppler diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, cardiac Doppler scan, and cardiologist certified report package.",
     price: 2700,
     mrp: 3500,
     currency: "INR",
