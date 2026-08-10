@@ -11,11 +11,36 @@ function escapeXml(str: string): string {
     .replace(/'/g, '&apos;');
 }
 
+// Sanitizes titles to remove unwanted boilerplate or test kit phrases
+function sanitizeTitle(title: string): string {
+  return title
+    .replace(/\s*\|\s*Henotic Diagnostics Navi Mumbai/gi, '')
+    .replace(/\s*\|\s*Henotic Diagnostics/gi, '')
+    .replace(/\s*Scan Diagnostic Test Package/gi, '')
+    .replace(/\s*Test Kit with Home Sample Collection/gi, '')
+    .replace(/\s*Test Kit Home Sample Collection/gi, '')
+    .replace(/\s*Test Kit/gi, '')
+    .replace(/\s*Test Package/gi, '')
+    .trim();
+}
+
+// Sanitizes descriptions to ensure high authority without extraneous tags
+function sanitizeDescription(desc: string): string {
+  return desc
+    .replace(/\s*Scan Diagnostic Test Package \| Henotic Diagnostics Navi Mumbai/gi, '')
+    .replace(/\s*Test Kit with Home Sample Collection \| Henotic Diagnostics/gi, '')
+    .replace(/\s*Test Kit Home Sample Collection \| Henotic Diagnostics/gi, '')
+    .trim();
+}
+
 export async function GET() {
   const baseUrl = 'https://www.henoticdiagnostics.com';
 
   const items = GMC_PRODUCTS.map(product => {
-    const fullRichDescription = `${product.description}
+    const cleanTitle = sanitizeTitle(product.title);
+    const cleanDesc = sanitizeDescription(product.description);
+
+    const fullRichDescription = `${cleanDesc}
 
 [PRE-REQUISITES]: ${product.prerequisites}
 [FASTING GUIDELINES]: ${product.fastingGuidelines}
@@ -25,12 +50,12 @@ export async function GET() {
     return `
     <item>
       <g:id>${escapeXml(product.id)}</g:id>
-      <title>${escapeXml(product.title)}</title>
+      <title>${escapeXml(cleanTitle)}</title>
       <description>${escapeXml(fullRichDescription)}</description>
       <content:encoded><![CDATA[
         <article>
-          <h2>${escapeXml(product.title)}</h2>
-          <p><strong>Overview:</strong> ${escapeXml(product.description)}</p>
+          <h2>${escapeXml(cleanTitle)}</h2>
+          <p><strong>Overview:</strong> ${escapeXml(cleanDesc)}</p>
           <section>
             <h3>📋 Pre-Requisites &amp; Patient Preparation</h3>
             <p>${escapeXml(product.prerequisites)}</p>
@@ -87,7 +112,7 @@ export async function GET() {
       <henotic:fasting_guidelines>${escapeXml(product.fastingGuidelines)}</henotic:fasting_guidelines>
       <henotic:reporting_time>${escapeXml(product.reportingTime)}</henotic:reporting_time>
       <henotic:booking_process>${escapeXml(product.bookingProcess)}</henotic:booking_process>
-      <henotic:aeo_summary>${escapeXml(product.title)} - ${escapeXml(product.reportingTime)}</henotic:aeo_summary>
+      <henotic:aeo_summary>${escapeXml(cleanTitle)} - ${escapeXml(product.reportingTime)}</henotic:aeo_summary>
       <henotic:geo_location>Navi Mumbai, Mumbai, Thane, Maharashtra, India</henotic:geo_location>
       <henotic:accreditation>NABL Accredited, ISO 9001:2015 Certified</henotic:accreditation>
 
