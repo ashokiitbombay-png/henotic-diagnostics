@@ -6,12 +6,16 @@ interface ProductSchemaProps {
   price?: number;
   marketPrice?: number;
   category?: string;
+  prerequisites?: string;
+  fastingGuidelines?: string;
+  reportingTime?: string;
+  bookingProcess?: string;
 }
 
 /**
- * 🛒 Product + Offer + AggregateRating Schema Markup (Server Component)
- * Generates Product JSON-LD compliant with Google Merchant Center healthcare guidelines.
- * Includes: AggregateRating, MerchantReturnPolicy, OfferShippingDetails
+ * 🛒 Product + Offer + MedicalTest + AggregateRating Schema Markup (Server Component)
+ * Generates Product JSON-LD compliant with Google Merchant Center & AI Engine Guidelines.
+ * Includes: AggregateRating, MerchantReturnPolicy, OfferShippingDetails, Clinical Prerequisites
  */
 export default function ProductSchema({
   serviceName,
@@ -19,6 +23,10 @@ export default function ProductSchema({
   price,
   marketPrice,
   category,
+  prerequisites,
+  fastingGuidelines,
+  reportingTime,
+  bookingProcess,
 }: ProductSchemaProps) {
   const baseUrl = 'https://www.henoticdiagnostics.com';
   const url = `${baseUrl}/services/${serviceSlug}`;
@@ -27,12 +35,29 @@ export default function ProductSchema({
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: serviceName,
-    description: `${serviceName} by Henotic Diagnostics — NABL & ISO accredited medical test kit & diagnostic report package in Navi Mumbai. Same-day digital reports included.`,
+    description: `${serviceName} by Henotic Diagnostics — NABL & ISO accredited medical test kit & diagnostic report package in Navi Mumbai. Pre-Requisites: ${prerequisites || 'None'}. Fasting: ${fastingGuidelines || 'Not required'}. Reporting: ${reportingTime || 'Same-day'}.`,
     brand: {
       '@type': 'Brand',
       name: 'Henotic Diagnostics',
     },
     ...(category && { category }),
+    ...(prerequisites && { prerequisites }),
+    ...(fastingGuidelines && { fastingProcedure: fastingGuidelines }),
+
+    // Medical Procedure / Test Details for Healthcare AI & Search Crawlers
+    subjectOf: {
+      '@type': 'MedicalTest',
+      name: serviceName,
+      code: {
+        '@type': 'MedicalCode',
+        code: serviceSlug,
+        codingSystem: 'HenoticDiagnosticCatalog',
+      },
+      ...(prerequisites && { preparation: prerequisites }),
+      ...(fastingGuidelines && { fastingRequirement: fastingGuidelines }),
+      ...(reportingTime && { normalRange: reportingTime }),
+      ...(bookingProcess && { howToUse: bookingProcess }),
+    },
 
     // Store Rating / Aggregate Rating
     aggregateRating: {

@@ -1,7 +1,7 @@
-// Google Merchant Center & Google Business Profile Product Configuration
-// All prices in INR (₹)
-// IMPORTANT: Fully compliant with Google Merchant Center Medical Devices & Personalized Advertising (Sensitive Health/Personal Hardships) Policies.
-// Titles and descriptions utilize high-converting, professional diagnostic kit terminology while strictly avoiding sensitive hardship keywords.
+// Google Merchant Center & High-Authority Product Configuration
+// Optimized for AEO (Answer Engine Optimization), SEO (Search Engine Optimization),
+// GEO (Generative Engine Optimization), LLMO (Large Language Model Optimization), and SMO.
+// Includes complete Pre-Requisites, Fasting Guidelines, Reporting Timeframes, and Appointment Booking Processes.
 
 export interface GMCProduct {
   id: string;
@@ -18,13 +18,19 @@ export interface GMCProduct {
   condition: string;
   brand: string;
   googleProductCategory: string;
+
+  // Rich AEO / GEO / SEO / LLMO Metadata Fields
+  prerequisites: string;
+  fastingGuidelines: string;
+  reportingTime: string;
+  bookingProcess: string;
 }
 
 export const GMC_PRODUCTS: GMCProduct[] = [
   {
     id: "HENO-MRI-001",
-    title: "Henotic 3.0T High-Field MRI Brain Diagnostic Test Kit Package",
-    description: "Premium 3.0 Tesla High-Field MRI Brain diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, silent scan preparation, NABL accredited facility access, and certified radiologist digital report delivery.",
+    title: "3.0T High-Field MRI Brain Scan Diagnostic Test Package | Henotic Diagnostics Navi Mumbai",
+    description: "3.0 Tesla High-Field MRI Brain Scan Package by Henotic Diagnostics, Navi Mumbai (Vashi, Kharghar, Panvel, Belapur). High-resolution neuroimaging providing 3D cross-sectional brain imaging with silent scan technology. Pre-Requisites: Doctor's prescription required. Remove all metallic objects, jewelry, credit cards, and hearing aids prior to scan. Inform staff of any metallic implants, pacemakers, or claustrophobia. Fasting Guidelines: No strict fasting required for plain MRI Brain (4 hours fasting required if contrast administration is requested; plain water permitted). Reporting Time: Verified digital report by senior consultant radiologist delivered within 6 to 8 hours via WhatsApp, Email, and online portal. Hard copy film provided upon request. Appointment Booking Process: 1. Select location & date online. 2. Instant digital appointment confirmation voucher generated. 3. Arrive 15 minutes prior at NABL accredited center for zero-wait time scan execution.",
     price: 6500,
     mrp: 7000,
     currency: "INR",
@@ -36,11 +42,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Doctor prescription required. Metallic objects, jewelry, implants, and hearing aids must be removed before entering the 3.0T magnet room. Inform technologist of any pacemakers or metallic clips.",
+    fastingGuidelines: "No fasting required for Plain MRI Brain. 4 hours fasting recommended if contrast enhancement is advised by physician.",
+    reportingTime: "Same-day digital report within 6-8 hours via WhatsApp and PDF download portal. HD Film print available upon request.",
+    bookingProcess: "Instant online booking via Henotic Diagnostics portal -> Instant SMS/WhatsApp Voucher -> Priority access at NABL facility.",
   },
   {
     id: "HENO-CT-001",
-    title: "Henotic 128-Slice Ultra-Low Dose CT Brain Scan Test Kit Package",
-    description: "Advanced 128-slice ultra-low dose CT Brain diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, high-resolution imaging scan, and certified radiologist digital report delivery.",
+    title: "128-Slice Ultra-Low Dose CT Brain Scan Package | Henotic Diagnostics Navi Mumbai",
+    description: "Advanced 128-Slice Ultra-Low Dose CT Brain Diagnostic Imaging Package by Henotic Diagnostics, Navi Mumbai. Ultra-fast sub-second neuroimaging with 80% reduced radiation dosage. Pre-Requisites: Doctor prescription required. Wear comfortable clothing free of metal zippers, snaps, or hairpins. Fasting Guidelines: No fasting required for Plain CT Brain. 4 hours fasting required if contrast CT is prescribed; keep hydrated with plain water. Reporting Time: Certified radiologist digital report delivered within 4 to 6 hours via WhatsApp, Email, and PDF download. Appointment Booking Process: 1. Book voucher online. 2. Receive instant venue confirmation. 3. Fast-track walk-in reporting at NABL/ISO center.",
     price: 4500,
     mrp: 5000,
     currency: "INR",
@@ -52,11 +62,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Doctor prescription required. Remove head jewelry, hairpins, hearing aids, and metallic items.",
+    fastingGuidelines: "No fasting needed for Plain CT Brain. 4 hours fasting for Contrast CT Brain.",
+    reportingTime: "Same-day express report within 4-6 hours delivered digitally via WhatsApp & Email.",
+    bookingProcess: "Book online in 30 seconds -> Receive confirmation voucher -> Fast-track scan at center.",
   },
   {
     id: "HENO-PET-001",
-    title: "Henotic 18FDG Whole Body Molecular PET-CT Diagnostic Test Kit Package",
-    description: "High-resolution 18FDG Whole Body Molecular PET-CT diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, digital fusion scan procedure, and NABL certified radiologist report package.",
+    title: "18FDG Whole Body PET-CT Molecular Scan Package | Henotic Diagnostics Navi Mumbai",
+    description: "18FDG Whole Body Molecular PET-CT Fusion Diagnostic Imaging Package by Henotic Diagnostics, Navi Mumbai. High-sensitivity metabolic & anatomical 3D mapping on state-of-the-art PET-CT scanner. Pre-Requisites: Doctor's prescription mandatory along with previous medical/pathology history records. Serum creatinine and blood sugar level check required prior to radiotracer injection. Fasting Guidelines: Strict 6 hours overnight fasting required. Plain unflavored water permitted; avoid sugar, food, tea, coffee, chewing gum, or strenuous exercise 24 hours prior. Reporting Time: Detailed dual-consultant Nuclear Medicine Specialist & Radiologist report delivered within 12 to 24 hours digitally via WhatsApp & Email portal. Appointment Booking Process: 1. Reserve online appointment slot. 2. Clinical team confirms radiotracer allocation. 3. Dedicated priority admission & 2-hour imaging process at center.",
     price: 14000,
     mrp: 16000,
     currency: "INR",
@@ -68,11 +82,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Doctor prescription & prior medical records mandatory. Serum creatinine & fasting blood glucose testing conducted before scan.",
+    fastingGuidelines: "Strict 6 hours overnight fasting. Avoid carbohydrate-rich food, sugar, caffeine, and heavy physical exercise 24 hours before scan. Plain water encouraged.",
+    reportingTime: "Detailed super-specialist report delivered within 12-24 hours digitally via WhatsApp and Email.",
+    bookingProcess: "Online slot reservation -> Clinical radiotracer scheduling confirmation -> Dedicated scan appointment.",
   },
   {
     id: "HENO-PATH-001",
-    title: "Henotic Complete Blood Count CBC Home Sample Collection Test Kit",
-    description: "Complete Blood Count (CBC) home sample collection test kit by Henotic Diagnostics. Includes sterile sample collection kit, certified phlebotomist home visit, NABL accredited automated lab testing, and same-day digital report.",
+    title: "CBC Complete Blood Count Test Kit with Home Sample Collection | Henotic Diagnostics",
+    description: "Complete Blood Count (CBC) Automated Pathology Test Kit by Henotic Diagnostics with Doorstep Home Sample Collection across Navi Mumbai, Thane & Mumbai. Evaluates 24 vital blood parameters including Hemoglobin (Hb), Total WBC, RBC, Platelet Count, Hematocrit (PCV), and Differential Count. Pre-Requisites: No specific age or gender restrictions. Open to all individuals. Fasting Guidelines: No fasting required. Sample can be collected at any time of the day. Hydrate normally with water. Reporting Time: Guaranteed same-day digital report within 4 to 6 hours of sample pickup delivered directly on WhatsApp, Email, and downloadable PDF portal. Appointment Booking Process: 1. Select preferred home collection time slot online. 2. Certified phlebotomist arrives at doorstep with sterile vacuum tube kit. 3. Automated NABL lab testing and instant WhatsApp report.",
     price: 250,
     mrp: 350,
     currency: "INR",
@@ -84,11 +102,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "No prescription required for routine checkup. Open for all age groups.",
+    fastingGuidelines: "Non-fasting test. Sample can be collected anytime during day or evening.",
+    reportingTime: "Same-day express report within 4-6 hours via WhatsApp & Email PDF.",
+    bookingProcess: "Select doorstep time slot -> Phlebotomist arrives with sterile kit -> Digital report on WhatsApp.",
   },
   {
     id: "HENO-PATH-002",
-    title: "Henotic HbA1c Glycated Hemoglobin Home Sample Collection Test Kit",
-    description: "HbA1c blood sugar indicator home sample collection test kit by Henotic Diagnostics. Includes sterile blood sample collection kit, doorstep phlebotomist collection, automated HPLC laboratory testing, and digital report delivery.",
+    title: "HbA1c Glycated Hemoglobin Test Kit Home Sample Collection | Henotic Diagnostics",
+    description: "HbA1c Glycated Hemoglobin Blood Sugar Indicator Test Kit by Henotic Diagnostics with Free Home Sample Collection. Evaluates 3-month average blood glucose control using NABL-standard HPLC technology. Pre-Requisites: Suitable for adults, pregnant women, and diabetic screening. Fasting Guidelines: Non-fasting test. Fasting is NOT required; sample can be given anytime before or after meals. Reporting Time: Digital report delivered within 4 to 6 hours after sample processing via WhatsApp, Email, and online dashboard. Appointment Booking Process: 1. Schedule doorstep sample collection online. 2. Certified phlebotomist collects blood sample via painless venipuncture. 3. High-precision HPLC analysis at NABL accredited central lab.",
     price: 550,
     mrp: 750,
     currency: "INR",
@@ -100,11 +122,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "No prescription necessary. Suitable for routine diabetes screening and monitoring.",
+    fastingGuidelines: "No fasting required. Can be conducted anytime regardless of food intake.",
+    reportingTime: "Same-day digital report within 4-6 hours via WhatsApp & Email.",
+    bookingProcess: "Book home visit online -> Doorstep blood draw by certified phlebotomist -> Instant digital report.",
   },
   {
     id: "HENO-PATH-003",
-    title: "Henotic High-Sensitivity CRP Wellness Home Sample Collection Test Kit",
-    description: "High-sensitivity CRP wellness indicator home sample collection test kit by Henotic Diagnostics. Includes sterile blood collection kit, doorstep sample pickup, NABL accredited laboratory analysis, and same-day digital report delivery.",
+    title: "hs-CRP High Sensitivity C-Reactive Protein Wellness Test Kit | Henotic Diagnostics",
+    description: "High-Sensitivity C-Reactive Protein (hs-CRP) Inflammation & Wellness Indicator Test Kit by Henotic Diagnostics with Doorstep Sample Pickup in Navi Mumbai & Mumbai. Measures systemic micro-inflammation levels using immunoturbidimetric NABL automated analyzers. Pre-Requisites: No special preparation needed. Avoid intense physical workout immediately prior to blood draw. Fasting Guidelines: 8 hours fasting recommended for optimal baseline measurement; plain water allowed. Reporting Time: Delivered within 4 to 6 hours post-collection on WhatsApp, Email, and PDF download. Appointment Booking Process: 1. Choose doorstep home pickup time. 2. Phlebotomist visits with cold-chain sample kit. 3. Automated lab testing and same-day digital report.",
     price: 500,
     mrp: 700,
     currency: "INR",
@@ -116,11 +142,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "No prescription needed. Avoid heavy physical exertion 12 hours prior.",
+    fastingGuidelines: "8 hours overnight fasting recommended for baseline accuracy; plain water allowed.",
+    reportingTime: "Same-day digital report within 4-6 hours via WhatsApp & Email.",
+    bookingProcess: "Schedule home visit online -> Cold-chain doorstep blood collection -> WhatsApp report delivery.",
   },
   {
     id: "HENO-MAMMO-001",
-    title: "Henotic Full-Field Digital Mammography Diagnostic Test Kit Package",
-    description: "Full-field digital mammography diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, low-dose digital imaging, and certified female radiologist diagnostic report package.",
+    title: "Full-Field Digital Mammography Scan Package | Henotic Diagnostics Navi Mumbai",
+    description: "Full-Field Digital Mammography (FFDM) Screening Diagnostic Package by Henotic Diagnostics, Navi Mumbai (Belapur, Vashi, Kharghar, Panvel). High-resolution low-dose digital x-ray imaging of breast tissue performed by experienced female radiographer and female radiologist. Pre-Requisites: Doctor prescription recommended. Schedule test 7-10 days after menstrual cycle for minimum breast tenderness. Do NOT apply body lotions, talcum powder, deodorants, or perfumes under arms or around breasts on the day of the exam. Fasting Guidelines: No fasting required. Eat and drink normally. Reporting Time: Verified digital report & DICOM image access within 6 to 8 hours via WhatsApp and online portal. Appointment Booking Process: 1. Select female-staffed facility slot online. 2. Instant digital appointment confirmation. 3. Fast-track screening in private, comfortable diagnostic suite.",
     price: 3000,
     mrp: 5500,
     currency: "INR",
@@ -132,11 +162,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Best scheduled 7-10 days after menstruation. Do not use deodorants, talcum powders, or lotions on upper body on test day.",
+    fastingGuidelines: "No fasting required. Normal dietary intake permitted.",
+    reportingTime: "Same-day digital report within 6-8 hours with female radiologist signature.",
+    bookingProcess: "Select online appointment slot -> Female staff guided room -> Instant WhatsApp digital report.",
   },
   {
     id: "HENO-DEXA-001",
-    title: "Henotic Whole Body BMD DEXA Bone Density Test Kit Package",
-    description: "Whole body DEXA bone mineral density diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, dual-energy X-ray scan, and T-score diagnostic report package.",
+    title: "Whole Body BMD DEXA Bone Density Scan Package | Henotic Diagnostics Navi Mumbai",
+    description: "Dual-Energy X-ray Absorptiometry (DEXA) Whole Body & Spine/Hip Bone Mineral Density (BMD) Diagnostic Package by Henotic Diagnostics, Navi Mumbai. Precise measurement of T-score, Z-score, and bone mineral content. Pre-Requisites: Doctor prescription recommended. Avoid taking calcium supplements for 24 hours prior to the scan. Wear loose comfortable clothing without metal buttons or zippers. Fasting Guidelines: No fasting required. Eat and drink normally. Reporting Time: Detailed T-score diagnostic report delivered within 4 to 6 hours via WhatsApp, Email, and online portal. Appointment Booking Process: 1. Reserve scan slot online. 2. Instant venue voucher sent to phone. 3. 15-minute non-invasive DEXA procedure at NABL accredited center.",
     price: 4000,
     mrp: 5500,
     currency: "INR",
@@ -148,11 +182,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Discontinue calcium supplements 24 hours prior to scan. Wear clothing without metal fasteners or snaps.",
+    fastingGuidelines: "No fasting required.",
+    reportingTime: "Express digital report within 4-6 hours with T-score & Z-score charts.",
+    bookingProcess: "Book voucher online -> Fast 15-minute DEXA scan -> Digital report on WhatsApp.",
   },
   {
     id: "HENO-USG-001",
-    title: "Henotic Prenatal NT Sonography Diagnostic Test Kit Package",
-    description: "Prenatal NT sonography diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, high-resolution 4D ultrasound procedure, and specialist radiologist report package.",
+    title: "Prenatal NT Nuchal Translucency Ultrasound Scan Package | Henotic Diagnostics",
+    description: "Prenatal Nuchal Translucency (NT) 3D/4D Sonography Screening Package (11-13.6 Weeks) by Henotic Diagnostics, Navi Mumbai. Measures nuchal fold thickness and nasal bone development by FMF-certified fetal medicine specialists. Pre-Requisites: Doctor prescription and ante-natal clinical records mandatory. Form F compliance (PCPNDT Act) registration required at center. Fasting Guidelines: No fasting required. Drink 2 to 3 glasses of water 1 hour prior to scan for moderately full bladder if instructed. Reporting Time: Immediate print report & digital report delivered within 2 hours via WhatsApp. Appointment Booking Process: 1. Book slot matching 11-13.6 weeks gestational window. 2. Receive appointment voucher & preparation checklist. 3. Expert sonography examination with thermal image prints.",
     price: 3000,
     mrp: 4500,
     currency: "INR",
@@ -164,11 +202,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Doctor prescription, ID proof (Aadhaar/PAN), & previous USG reports mandatory for PCPNDT Form F compliance.",
+    fastingGuidelines: "No fasting required. Maintain moderately full bladder if advised by technologist.",
+    reportingTime: "Immediate report & thermal prints provided post-scan; digital copy via WhatsApp within 2 hours.",
+    bookingProcess: "Select gestational week slot -> Submit PCPNDT registration details -> Expert 4D sonography scan.",
   },
   {
     id: "HENO-USG-002",
-    title: "Henotic Level-2 Detailed Prenatal Sonography Test Kit Package",
-    description: "Level-2 detailed prenatal sonography test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, advanced 4D ultrasound imaging, and certified specialist report package.",
+    title: "Level-2 Detailed Prenatal Anomaly Ultrasound Scan Package | Henotic Diagnostics",
+    description: "Level-2 Detailed Targeted Prenatal 3D/4D Ultrasound Scan Package (18-22 Weeks) by Henotic Diagnostics, Navi Mumbai. Comprehensive anatomical evaluation of fetal organ structure, spine, face, heart chambers, and amniotic fluid index. Pre-Requisites: Doctor prescription & ante-natal file mandatory. PCPNDT Form F registration at center. Fasting Guidelines: No fasting required. Eat a light snack 30 minutes before scan to encourage fetal movement. Reporting Time: Full diagnostic report with HD 4D image prints delivered within 2 to 4 hours digitally via WhatsApp & Email. Appointment Booking Process: 1. Choose preferred date within 18-22 week window. 2. Instant SMS voucher & center address sent. 3. Comprehensive sonography by specialist radiologist.",
     price: 4500,
     mrp: 5500,
     currency: "INR",
@@ -180,11 +222,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Doctor prescription, photo ID, & previous pregnancy file mandatory (PCPNDT compliant).",
+    fastingGuidelines: "No fasting required. Light meal or juice 30 minutes before scan helps fetal activity.",
+    reportingTime: "Digital report & HD 4D images delivered within 2-4 hours on WhatsApp.",
+    bookingProcess: "Schedule 18-22 week slot online -> Complete Form F registration -> Comprehensive 4D sonography.",
   },
   {
     id: "HENO-USG-003",
-    title: "Henotic Abdomen & Pelvis Ultrasound Diagnostic Test Kit Package",
-    description: "High-resolution Abdomen & Pelvis ultrasound diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, real-time sonography scan, and NABL certified radiologist report package.",
+    title: "Abdomen & Pelvis Ultrasound USG Scan Package | Henotic Diagnostics Navi Mumbai",
+    description: "High-Resolution Ultrasonography (USG) Abdomen & Pelvis Diagnostic Scan Package by Henotic Diagnostics, Navi Mumbai. Evaluates liver, gallbladder, kidneys, pancreas, spleen, urinary bladder, uterus, and ovaries. Pre-Requisites: Doctor prescription recommended. Fasting Guidelines: 6 to 8 hours fasting required for upper abdomen evaluation (gallbladder/liver). Drink 1 liter of plain water 1 hour before scan and hold urine for full bladder pelvic evaluation. Reporting Time: Digital report with high-resolution image films delivered within 2 to 4 hours via WhatsApp & Email. Appointment Booking Process: 1. Book preferred morning slot online. 2. Follow full-bladder guidance. 3. 15-minute comfortable scan at NABL accredited center.",
     price: 2000,
     mrp: 2500,
     currency: "INR",
@@ -196,11 +242,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Doctor prescription recommended. Full bladder required for pelvic evaluation.",
+    fastingGuidelines: "6-8 hours fasting required for upper abdomen imaging. Drink 1 liter water 1 hr before scan.",
+    reportingTime: "Same-day digital report within 2-4 hours via WhatsApp & Email.",
+    bookingProcess: "Select morning slot online -> Drink water for full bladder -> Quick 15-minute ultrasound.",
   },
   {
     id: "HENO-USG-004",
-    title: "Henotic Prenatal 2D Echocardiography Diagnostic Test Kit Package",
-    description: "Prenatal 2D Echocardiography diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, specialized cardiac sonography scan, and expert diagnostic report package.",
+    title: "Prenatal Fetal 2D Echocardiography Scan Package | Henotic Diagnostics Navi Mumbai",
+    description: "Specialized Fetal 2D Echocardiography & Color Doppler Diagnostic Scan Package (18-24 Weeks) by Henotic Diagnostics, Navi Mumbai. Advanced cardiac structural and blood flow imaging of fetal heart chambers, valves, septum, and great arteries. Pre-Requisites: Doctor prescription mandatory along with Level-2 Anomaly report. PCPNDT Form F compliance at center. Fasting Guidelines: No fasting required. Eat normally. Reporting Time: Comprehensive pediatric cardiology / fetal radiologist report delivered within 2 to 4 hours via WhatsApp & Email. Appointment Booking Process: 1. Book appointment online within 18-24 weeks pregnancy window. 2. Instant venue & time voucher sent. 3. Specialist sonography scan with high-resolution doppler.",
     price: 4000,
     mrp: 5500,
     currency: "INR",
@@ -212,11 +262,15 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Doctor prescription & Level-2 anomaly scan report mandatory (PCPNDT Form F compliant).",
+    fastingGuidelines: "No fasting required.",
+    reportingTime: "Express digital report within 2-4 hours with color doppler cardiac measurements.",
+    bookingProcess: "Book 18-24 week slot online -> Submit medical prescription -> Specialist fetal echo examination.",
   },
   {
     id: "HENO-ECHO-001",
-    title: "Henotic Cardiac 2D Echo Color Doppler Diagnostic Test Kit Package",
-    description: "Cardiac 2D Echocardiography with Color Doppler diagnostic test kit package by Henotic Diagnostics, Navi Mumbai. Includes physical appointment voucher kit, cardiac Doppler scan, and cardiologist certified report package.",
+    title: "Cardiac 2D Echo Color Doppler Scan Package | Henotic Diagnostics Navi Mumbai",
+    description: "Cardiac 2D Echocardiography with Color Doppler Diagnostic Imaging Package by Henotic Diagnostics, Navi Mumbai. Real-time assessment of Ejection Fraction (EF %), myocardial contractility, valvular function, and cardiac blood flow velocities. Pre-Requisites: Doctor prescription recommended. Bring past ECG or cardiac medical records if available. Fasting Guidelines: No fasting required. Take regular medications with water unless directed otherwise by doctor. Reporting Time: Expert cardiologist signed report delivered within 2 to 4 hours digitally via WhatsApp & Email. Appointment Booking Process: 1. Select appointment slot online. 2. Receive confirmation voucher. 3. Non-invasive 20-minute cardiac Doppler examination at accredited center.",
     price: 2700,
     mrp: 3500,
     currency: "INR",
@@ -228,6 +282,10 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     condition: "new",
     brand: "Henotic Diagnostics",
     googleProductCategory: "6070",
+    prerequisites: "Doctor prescription recommended. Carry past ECG or cardiac reports if available.",
+    fastingGuidelines: "No fasting required. Take prescribed daily medications normally.",
+    reportingTime: "Cardiologist signed digital report within 2-4 hours on WhatsApp & PDF portal.",
+    bookingProcess: "Book slot online -> Non-invasive 20-min Doppler scan -> Instant digital report on WhatsApp.",
   },
 ];
 

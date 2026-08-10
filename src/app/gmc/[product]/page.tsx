@@ -53,6 +53,10 @@ export default async function GMCProductPage({ params }: Props) {
         price={product.price}
         marketPrice={product.mrp}
         category={product.category}
+        prerequisites={product.prerequisites}
+        fastingGuidelines={product.fastingGuidelines}
+        reportingTime={product.reportingTime}
+        bookingProcess={product.bookingProcess}
       />
 
       {/* ══ HERO SECTION ══ */}
@@ -180,7 +184,88 @@ export default async function GMCProductPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ══ SHIPPING & DELIVERY ══ */}
+      {/* ══ CLINICAL & PATIENT PREPARATION GUIDELINES (AEO / SEO / GEO / LLMO) ══ */}
+      <section className="bg-slate-100/70 border-y border-slate-200/80 py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="text-xs font-black uppercase tracking-widest text-blue-600 bg-blue-100/80 px-4 py-1.5 rounded-full">
+              Clinical Guidelines &amp; Preparation
+            </span>
+            <h2 className="text-3xl font-black text-slate-900 mt-3">
+              Essential Information for Patients
+            </h2>
+            <p className="text-slate-600 text-sm font-medium mt-1">
+              Follow these guidelines for optimal test accuracy and fast reporting.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Pre-Requisites */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xl mb-4">
+                  📋
+                </div>
+                <h3 className="text-lg font-black text-slate-900 mb-2">Pre-Requisites &amp; Preparation</h3>
+                <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                  {product.prerequisites}
+                </p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-bold text-indigo-600">
+                ✓ Verified Clinical Standard
+              </div>
+            </div>
+
+            {/* Fasting Guidelines */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xl mb-4">
+                  🍽️
+                </div>
+                <h3 className="text-lg font-black text-slate-900 mb-2">Fasting Guidelines</h3>
+                <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                  {product.fastingGuidelines}
+                </p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-bold text-amber-600">
+                ✓ Strict Accuracy Assurance
+              </div>
+            </div>
+
+            {/* Reporting Time */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xl mb-4">
+                  ⏱️
+                </div>
+                <h3 className="text-lg font-black text-slate-900 mb-2">Reporting Timeframe</h3>
+                <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                  {product.reportingTime}
+                </p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-bold text-emerald-600">
+                ✓ Same-Day PDF Delivery
+              </div>
+            </div>
+
+            {/* Booking Process */}
+            <div className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-xl mb-4">
+                  📅
+                </div>
+                <h3 className="text-lg font-black text-slate-900 mb-2">Booking Process</h3>
+                <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                  {product.bookingProcess}
+                </p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-bold text-purple-600">
+                ✓ Instant Confirmation
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="bg-emerald-50/50 border-y border-emerald-100">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
