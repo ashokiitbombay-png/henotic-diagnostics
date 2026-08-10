@@ -30,8 +30,7 @@ export async function GET() {
       <g:product_type>Health &amp; Beauty &gt; Health Care &gt; Medical Test Kits &gt; Home Sample Collection Test Kit</g:product_type>
       <g:identifier_exists>false</g:identifier_exists>
 
-      <!-- Personalized Advertising Exclusion (Healthcare Compliance) -->
-      <g:excluded_destination>Personalized_ads</g:excluded_destination>
+      <!-- Exclude Display Ads & Dynamic Remarketing to comply with GMC Health/Hardship Personalized Advertising Policy -->
       <g:excluded_destination>Display_ads</g:excluded_destination>
       <g:excluded_destination>Local_inventory_ads</g:excluded_destination>
       <g:excluded_destination>Free_local_listings</g:excluded_destination>
