@@ -27,7 +27,7 @@ export default function ProductSchema({
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: serviceName,
-    description: `${serviceName} at Henotic Diagnostics — NABL & ISO accredited diagnostic center in Navi Mumbai. Advanced equipment, same-day digital reports.`,
+    description: `${serviceName} by Henotic Diagnostics — NABL & ISO accredited medical test kit & diagnostic report package in Navi Mumbai. Same-day digital reports included.`,
     brand: {
       '@type': 'Brand',
       name: 'Henotic Diagnostics',
