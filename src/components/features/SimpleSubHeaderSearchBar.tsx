@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { 
   MapPin, Search, ChevronDown, Activity, Orbit, Droplets, Heart, Baby, 
@@ -13,8 +13,12 @@ import { DOCTORS } from "@/config/doctors";
 import { GMC_PRODUCTS } from "@/config/gmc-products";
 import { formatSlug } from "@/lib/utils";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────────────────────────────────────────
+
 export interface SitemapSearchResult {
-  type: "service" | "location" | "condition" | "comparison" | "doctor" | "product";
+  type: "service" | "location" | "condition" | "comparison" | "doctor" | "product" | "page";
   title: string;
   subtitle: string;
   url: string;
@@ -29,6 +33,62 @@ interface SearchableLocation {
   displayName: string;
   regionName: string;
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CORE PAGES — Searchable static site pages
+// ─────────────────────────────────────────────────────────────────────────────
+
+const CORE_PAGES = [
+  { title: "Home", url: "/", badge: "Page" },
+  { title: "About Us", url: "/about-us", badge: "Page" },
+  { title: "Contact", url: "/contact", badge: "Page" },
+  { title: "Services Directory", url: "/services", badge: "Page" },
+  { title: "Doctors", url: "/doctors", badge: "Page" },
+  { title: "Conditions", url: "/conditions", badge: "Page" },
+  { title: "Blog", url: "/blog", badge: "Page" },
+  { title: "Privacy Policy", url: "/privacy-policy", badge: "Legal" },
+  { title: "Terms & Conditions", url: "/terms-and-conditions", badge: "Legal" },
+  { title: "Cancellation Policy", url: "/cancellation-policy", badge: "Legal" },
+  { title: "Refund Policy", url: "/refund-policy", badge: "Legal" },
+  { title: "Medical Disclaimer", url: "/medical-disclaimer", badge: "Legal" },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SERVICE CATEGORY MAP — Maps each service slug to its display category badge
+// Based on the category comment sections in services.ts (401 services)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const CATEGORY_RANGES: [string, number, number][] = [
+  ["Diagnostic Center", 0, 9],
+  ["Health Checkup", 10, 35],
+  ["Pathology & Lab", 36, 60],
+  ["Ultrasound", 61, 94],
+  ["Pregnancy & Fetal", 95, 125],
+  ["Doppler Studies", 126, 146],
+  ["Breast Imaging", 147, 156],
+  ["Women's Health", 157, 167],
+  ["MRI Services", 168, 206],
+  ["CT Scan", 207, 235],
+  ["PET-CT & Nuclear", 236, 271],
+  ["Bone & DEXA", 272, 275],
+  ["Cardiology", 276, 304],
+  ["Liver & Fibroscan", 305, 318],
+  ["Genetic Testing", 319, 343],
+  ["Genomic Sequencing", 344, 363],
+  ["Microbiome Testing", 364, 369],
+  ["Urology", 370, 379],
+  ["Ambulance Services", 380, 400],
+];
+
+const SERVICE_CATEGORY_MAP: Record<string, string> = {};
+services.forEach((slug, idx) => {
+  const range = CATEGORY_RANGES.find(([, start, end]) => idx >= start && idx <= end);
+  SERVICE_CATEGORY_MAP[slug] = range ? range[0] : "Service";
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOCATIONS — All 102 cities across 9 regions
+// ─────────────────────────────────────────────────────────────────────────────
 
 const ALL_LOCATIONS: SearchableLocation[] = Object.entries(REGION_LOCATIONS).flatMap(
   ([region, cities]) =>
@@ -48,6 +108,10 @@ const POPULAR_LOCATIONS = [
   { city: "thane-west", region: "thane" },
   { city: "pune-city", region: "pune" }
 ];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function SimpleSubHeaderSearchBar() {
   const router = useRouter();
@@ -102,7 +166,11 @@ export default function SimpleSubHeaderSearchBar() {
     loc.city.toLowerCase().includes(locationQuery.toLowerCase())
   ).slice(0, 10);
 
-  // Live Tokenized Search Algorithm — Triggered ON TYPING
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 🔍 COMPREHENSIVE SEARCH — 401 Services + 102 Locations + 92 Conditions
+  //    + 12 Comparisons + 12 Doctors + 13 GMC Products + 12 Core Pages
+  // ═══════════════════════════════════════════════════════════════════════════
+
   const getSearchResults = (): SitemapSearchResult[] => {
     const rawQuery = searchQuery.trim().toLowerCase();
     if (!rawQuery) return [];
@@ -122,7 +190,23 @@ export default function SimpleSubHeaderSearchBar() {
       return score;
     };
 
-    // 1. Diagnostic Services & Scans
+    // ── 1. CORE PAGES (Home, About, Contact, Blog, Policies) ────────────
+    CORE_PAGES.forEach((page) => {
+      const score = matchScore(page.title);
+      if (score > 0) {
+        results.push({
+          type: "page",
+          title: page.title,
+          subtitle: "Henotic Diagnostics",
+          url: page.url,
+          badge: page.badge,
+          icon: ArrowRight,
+          score: score + 20
+        });
+      }
+    });
+
+    // ── 2. ALL 401 DIAGNOSTIC SERVICES (with category badges) ───────────
     services.forEach((slug) => {
       const name = formatSlug(slug);
       const score = Math.max(matchScore(name), matchScore(slug));
@@ -130,16 +214,33 @@ export default function SimpleSubHeaderSearchBar() {
         results.push({
           type: "service",
           title: name,
-          subtitle: `Book test in ${selectedLocation.displayName}, ${selectedLocation.regionName}`,
+          subtitle: `Book in ${selectedLocation.displayName}, ${selectedLocation.regionName}`,
           url: `/services/${slug}/${selectedLocation.region}/${selectedLocation.city}`,
-          badge: "Diagnostic Service",
+          badge: SERVICE_CATEGORY_MAP[slug] || "Service",
           icon: Orbit,
           score: score + 10
         });
       }
     });
 
-    // 2. Doctors & Specialists
+    // ── 3. GMC DIAGNOSTIC PRODUCTS (13 products with prices) ────────────
+    GMC_PRODUCTS.forEach((product) => {
+      const prodText = `${product.title} ${product.description} ${product.category}`;
+      const score = Math.max(matchScore(product.title), matchScore(prodText));
+      if (score > 0) {
+        results.push({
+          type: "product",
+          title: product.title,
+          subtitle: `₹${product.price.toLocaleString()} (MRP ₹${product.mrp.toLocaleString()})`,
+          url: `/products/${product.slug}`,
+          badge: product.category,
+          icon: ShoppingBag,
+          score: score + 12
+        });
+      }
+    });
+
+    // ── 4. DOCTORS & SPECIALISTS (12 doctors) ───────────────────────────
     DOCTORS.forEach((doc) => {
       const doctorText = `${doc.name} ${doc.designation} ${doc.credentials} ${doc.specializations.join(" ")}`;
       const score = Math.max(matchScore(doc.name), matchScore(doctorText));
@@ -156,7 +257,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // 3. Medical Conditions
+    // ── 5. MEDICAL CONDITIONS (92 conditions) ───────────────────────────
     CONDITIONS.forEach((cond) => {
       const condText = `${cond.title} ${cond.description} ${cond.symptoms.join(" ")}`;
       const score = Math.max(matchScore(cond.title), matchScore(condText));
@@ -173,7 +274,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // 4. Scan Comparisons
+    // ── 6. SCAN COMPARISONS (12 comparisons) ────────────────────────────
     COMPARISONS.forEach((comp) => {
       const compText = `${comp.title} ${comp.metaDescription}`;
       const score = Math.max(matchScore(comp.title), matchScore(compText));
@@ -190,8 +291,25 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
+    // ── 7. LOCATION PAGES (102 cities across 9 regions) ─────────────────
+    ALL_LOCATIONS.forEach((loc) => {
+      const locText = `${loc.displayName} ${loc.regionName} ${loc.city}`;
+      const score = matchScore(locText);
+      if (score > 0) {
+        results.push({
+          type: "location",
+          title: `Diagnostics in ${loc.displayName}`,
+          subtitle: `All services available in ${loc.displayName}, ${loc.regionName}`,
+          url: `/services/diagnostic-center/${loc.region}/${loc.city}`,
+          badge: loc.regionName,
+          icon: MapPin,
+          score: score + 5
+        });
+      }
+    });
+
     results.sort((a, b) => b.score - a.score);
-    return results.slice(0, 12);
+    return results.slice(0, 15);
   };
 
   const searchResults = getSearchResults();
@@ -211,13 +329,17 @@ export default function SimpleSubHeaderSearchBar() {
     }
   };
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // JSX RENDER
+  // ─────────────────────────────────────────────────────────────────────────
+
   return (
     <div suppressHydrationWarning className="w-full bg-white border-b border-slate-200/80 py-3 px-4 md:px-8 shadow-xs relative z-40">
       <div ref={containerRef} className="max-w-5xl mx-auto">
         
-        {/* ========================================================================= */}
-        {/* 🌟 DUAL-BOX SEARCH BAR (CLEAN INTERACTIVE INPUT)                          */}
-        {/* ========================================================================= */}
+        {/* ================================================================= */}
+        {/* 🌟 DUAL-BOX SEARCH BAR (CLEAN INTERACTIVE INPUT)                  */}
+        {/* ================================================================= */}
         <form
           onSubmit={handleFormSubmit}
           suppressHydrationWarning
@@ -316,7 +438,7 @@ export default function SimpleSubHeaderSearchBar() {
               <Search size={18} className="text-slate-400 shrink-0 mr-2.5" />
               <input
                 type="text"
-                placeholder="Search doctors, clinics, MRI, CT, blood tests, etc."
+                placeholder="Search MRI, CT Scan, blood test, doctors, locations..."
                 value={searchQuery}
                 onFocus={() => {
                   setIsLocationOpen(false);
@@ -356,7 +478,7 @@ export default function SimpleSubHeaderSearchBar() {
             {isSearchOpen && searchQuery.trim().length > 0 && (
               <div suppressHydrationWarning className="absolute top-[110%] left-0 right-0 bg-white rounded-xl shadow-xl border border-slate-200 p-2 z-50 max-h-80 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-150 text-slate-800">
                 <div className="px-3 py-1.5 mb-1 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
-                  <span>Matching Results for "{searchQuery}"</span>
+                  <span>Matching Results for &ldquo;{searchQuery}&rdquo;</span>
                   <span className="text-[10px] font-normal text-blue-600">
                     {searchResults.length} {searchResults.length === 1 ? "Result" : "Results"}
                   </span>
@@ -364,7 +486,7 @@ export default function SimpleSubHeaderSearchBar() {
 
                 {searchResults.length === 0 ? (
                   <div className="p-4 text-center text-xs text-slate-500">
-                    No direct match found for "{searchQuery}". Press Enter to view all diagnostic services directory.
+                    No direct match found for &ldquo;{searchQuery}&rdquo;. Press Enter to view all diagnostic services directory.
                   </div>
                 ) : (
                   <div className="space-y-0.5">
