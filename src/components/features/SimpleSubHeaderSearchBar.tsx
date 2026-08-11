@@ -49,23 +49,9 @@ const POPULAR_LOCATIONS = [
   { city: "pune-city", region: "pune" }
 ];
 
-// Synonyms map for common user queries
-const SYNONYMS: Record<string, string[]> = {
-  "sugar": ["diabetes-test", "hba1c-test", "diabetes-health-checkup"],
-  "xray": ["radiology-center", "ct-scan"],
-  "x-ray": ["radiology-center", "ct-scan"],
-  "scan": ["mri-scan", "ct-scan", "pet-scan", "ultrasound"],
-  "doctor": ["dr-rajesh-sharma"],
-  "dr": ["dr-rajesh-sharma"],
-  "radiologist": ["dr-rajesh-sharma"],
-  "pathologist": ["pathology-lab", "blood-test"],
-  "baby": ["pregnancy-sonography", "nt-scan", "anomaly-scan"],
-  "fetal": ["pregnancy-sonography", "nt-scan", "anomaly-scan", "fetal-doppler"],
-  "heart": ["2d-echo", "ecg", "tmt-test", "holter-monitoring", "cardiac-health-checkup"]
-};
-
 export default function SimpleSubHeaderSearchBar() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
 
   // Active Location (Default: Kharghar, Navi Mumbai)
   const [selectedLocation, setSelectedLocation] = useState<SearchableLocation>({
@@ -83,6 +69,19 @@ export default function SimpleSubHeaderSearchBar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const locationInputRef = useRef<HTMLInputElement>(null);
+
+  // Set mounted state after initial hydration
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Focus location input when location dropdown opens
+  useEffect(() => {
+    if (isLocationOpen && locationInputRef.current) {
+      locationInputRef.current.focus();
+    }
+  }, [isLocationOpen]);
 
   // Close dropdowns on outside click
   useEffect(() => {
@@ -108,7 +107,6 @@ export default function SimpleSubHeaderSearchBar() {
     const rawQuery = searchQuery.trim().toLowerCase();
 
     if (!rawQuery) {
-      // Default top suggestions when input is empty
       return [
         { type: "service", title: "MRI Scan (3.0 Tesla)", subtitle: `Available in ${selectedLocation.displayName}, ${selectedLocation.regionName}`, url: `/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Diagnostic Imaging", icon: Orbit, score: 100 },
         { type: "service", title: "CT Scan (128-Slice)", subtitle: `Available in ${selectedLocation.displayName}, ${selectedLocation.regionName}`, url: `/services/ct-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Radiology", icon: Orbit, score: 99 },
@@ -125,7 +123,6 @@ export default function SimpleSubHeaderSearchBar() {
     const tokens = rawQuery.split(/\s+/).filter(Boolean);
     const results: SitemapSearchResult[] = [];
 
-    // Helper for matching all tokens in a target string
     const matchScore = (target: string): number => {
       const lower = target.toLowerCase();
       let score = 0;
@@ -138,7 +135,7 @@ export default function SimpleSubHeaderSearchBar() {
       return score;
     };
 
-    // 1. Diagnostic Services & Scans (services.ts)
+    // 1. Services
     services.forEach((slug) => {
       const name = formatSlug(slug);
       const score = Math.max(matchScore(name), matchScore(slug));
@@ -155,7 +152,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // 2. Doctors & Specialists (doctors.ts)
+    // 2. Doctors
     DOCTORS.forEach((doc) => {
       const doctorText = `${doc.name} ${doc.designation} ${doc.credentials} ${doc.specializations.join(" ")}`;
       const score = Math.max(matchScore(doc.name), matchScore(doctorText));
@@ -172,7 +169,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // 3. Medical Conditions (conditions.ts)
+    // 3. Conditions
     CONDITIONS.forEach((cond) => {
       const condText = `${cond.title} ${cond.description} ${cond.symptoms.join(" ")}`;
       const score = Math.max(matchScore(cond.title), matchScore(condText));
@@ -180,7 +177,7 @@ export default function SimpleSubHeaderSearchBar() {
         results.push({
           type: "condition",
           title: cond.title,
-          subtitle: `Symptoms & Recommended Diagnostics (${cond.bodySystem})`,
+          subtitle: `Symptoms & Diagnostics (${cond.bodySystem})`,
           url: `/conditions/${cond.id}`,
           badge: "Medical Condition",
           icon: Stethoscope,
@@ -189,7 +186,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // 4. Scan & Test Comparisons (comparisons.ts)
+    // 4. Comparisons
     COMPARISONS.forEach((comp) => {
       const compText = `${comp.title} ${comp.metaDescription}`;
       const score = Math.max(matchScore(comp.title), matchScore(compText));
@@ -206,9 +203,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // Sort results by score descending
     results.sort((a, b) => b.score - a.score);
-
     return results.slice(0, 12);
   };
 
@@ -230,20 +225,22 @@ export default function SimpleSubHeaderSearchBar() {
   };
 
   return (
-    <div className="w-full bg-white border-b border-slate-200/80 py-3 px-4 md:px-8 shadow-xs relative z-40">
+    <div suppressHydrationWarning className="w-full bg-white border-b border-slate-200/80 py-3 px-4 md:px-8 shadow-xs relative z-40">
       <div ref={containerRef} className="max-w-5xl mx-auto">
         
         {/* ========================================================================= */}
-        {/* 🌟 DUAL-BOX SEARCH BAR WITH LIVE TEXT FILTERING                           */}
+        {/* 🌟 DUAL-BOX SEARCH BAR WITH HYDRATION PROTECTION                          */}
         {/* ========================================================================= */}
         <form
           onSubmit={handleFormSubmit}
+          suppressHydrationWarning
           className="flex flex-col sm:flex-row items-stretch bg-white border border-slate-300 rounded-lg md:rounded-xl overflow-visible shadow-xs hover:border-slate-400 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all relative"
         >
           {/* 📍 LEFT BOX: LOCATION SELECTOR */}
           <div className="relative sm:w-64 border-b sm:border-b-0 sm:border-r border-slate-200 shrink-0">
             <button
               type="button"
+              suppressHydrationWarning
               onClick={() => {
                 setIsLocationOpen(!isLocationOpen);
                 setIsSearchOpen(false);
@@ -260,15 +257,16 @@ export default function SimpleSubHeaderSearchBar() {
 
             {/* Location Autocomplete Dropdown */}
             {isLocationOpen && (
-              <div className="absolute top-[110%] left-0 w-full sm:w-72 bg-white rounded-xl shadow-xl border border-slate-200 p-2.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150 text-slate-800">
+              <div suppressHydrationWarning className="absolute top-[110%] left-0 w-full sm:w-72 bg-white rounded-xl shadow-xl border border-slate-200 p-2.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150 text-slate-800">
                 <div className="mb-2">
                   <input
+                    ref={locationInputRef}
                     type="text"
                     placeholder="Type city or area..."
                     value={locationQuery}
                     onChange={(e) => setLocationQuery(e.target.value)}
+                    suppressHydrationWarning
                     className="w-full px-3 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-blue-500"
-                    autoFocus
                   />
                 </div>
 
@@ -280,6 +278,7 @@ export default function SimpleSubHeaderSearchBar() {
                         <button
                           key={pop.city}
                           type="button"
+                          suppressHydrationWarning
                           onClick={() => {
                             setSelectedLocation({
                               city: pop.city,
@@ -305,6 +304,7 @@ export default function SimpleSubHeaderSearchBar() {
                     <button
                       key={`${loc.region}-${loc.city}`}
                       type="button"
+                      suppressHydrationWarning
                       onClick={() => {
                         setSelectedLocation(loc);
                         setIsLocationOpen(false);
@@ -323,13 +323,13 @@ export default function SimpleSubHeaderSearchBar() {
             )}
           </div>
 
-          {/* 🔍 RIGHT BOX: MAIN SEARCH INPUT WITH LIVE TEXT TYPING */}
+          {/* 🔍 RIGHT BOX: MAIN SEARCH INPUT */}
           <div className="relative flex-grow flex items-center">
             <div className="relative w-full flex items-center px-4 py-3">
               <Search size={18} className="text-slate-400 shrink-0 mr-2.5" />
               <input
                 type="text"
-                placeholder="Search tests, scans (MRI, CT, Blood Test), doctors..."
+                placeholder="Search doctors, clinics, MRI, CT, blood tests, etc."
                 value={searchQuery}
                 onFocus={() => {
                   setIsSearchOpen(true);
@@ -340,12 +340,14 @@ export default function SimpleSubHeaderSearchBar() {
                   setIsSearchOpen(true);
                   setIsLocationOpen(false);
                 }}
+                suppressHydrationWarning
                 className="w-full text-slate-800 placeholder-slate-400 text-sm font-medium outline-none bg-transparent"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
+                  suppressHydrationWarning
                   className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
                 >
                   <X size={14} />
@@ -355,7 +357,7 @@ export default function SimpleSubHeaderSearchBar() {
 
             {/* LIVE AUTOCOMPLETE RESULTS DROPDOWN */}
             {isSearchOpen && (
-              <div className="absolute top-[110%] left-0 right-0 bg-white rounded-xl shadow-xl border border-slate-200 p-2 z-50 max-h-80 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-150 text-slate-800">
+              <div suppressHydrationWarning className="absolute top-[110%] left-0 right-0 bg-white rounded-xl shadow-xl border border-slate-200 p-2 z-50 max-h-80 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-150 text-slate-800">
                 <div className="px-3 py-1.5 mb-1 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
                   <span>
                     {searchQuery ? `Matching Results for "${searchQuery}"` : `Top Diagnostics in ${selectedLocation.displayName}`}
@@ -377,6 +379,7 @@ export default function SimpleSubHeaderSearchBar() {
                         <button
                           key={`${item.url}-${idx}`}
                           type="button"
+                          suppressHydrationWarning
                           onClick={() => handleSelectResult(item.url)}
                           className="w-full text-left px-3 py-2 rounded-lg hover:bg-blue-50/80 transition-colors flex items-center justify-between group border border-transparent hover:border-blue-100 cursor-pointer"
                         >
