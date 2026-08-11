@@ -59,7 +59,7 @@ const VALUES = [
 
 export default function LeadershipPage() {
   return (
-    <div className="w-full font-sans overflow-x-hidden mt-[75px] md:mt-[85px] bg-slate-50 text-slate-800">
+    <div className="w-full font-sans overflow-x-hidden mt-[75px] md:mt-[85px] bg-gradient-to-r from-pink-200 via-violet-300 to-cyan-200 text-slate-800">
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Leadership", url: "/leadership" }]} />
 
       {/* ───────────────────────────────────────────────────────────────────────── */}
@@ -88,7 +88,7 @@ export default function LeadershipPage() {
       {/* ───────────────────────────────────────────────────────────────────────── */}
       {/* 🌟 CORE LEADERSHIP VALUES SECTION                                          */}
       {/* ───────────────────────────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-20 bg-white border-b border-slate-200/80">
+      <section className="py-16 md:py-20 bg-gradient-to-r from-pink-200 via-violet-300 to-cyan-200 border-b border-purple-300/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
@@ -126,7 +126,7 @@ export default function LeadershipPage() {
       {/* ───────────────────────────────────────────────────────────────────────── */}
       {/* 🌟 EXECUTIVE FOUNDERS & BOARD (Alternating Large Cards)                     */}
       {/* ───────────────────────────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-slate-50">
+      <section className="py-16 md:py-24 bg-gradient-to-r from-pink-200 via-violet-300 to-cyan-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
           
           <div className="text-center max-w-2xl mx-auto">
@@ -258,7 +258,7 @@ export default function LeadershipPage() {
       {/* ───────────────────────────────────────────────────────────────────────── */}
       {/* 🌟 MEDICAL & CLINICAL CONSULTANTS SECTION                                  */}
       {/* ───────────────────────────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-white border-t border-b border-slate-200/80">
+      <section className="py-16 md:py-24 bg-gradient-to-r from-pink-200 via-violet-300 to-cyan-200 border-t border-b border-purple-300/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -427,7 +427,7 @@ export default function LeadershipPage() {
       {/* ───────────────────────────────────────────────────────────────────────── */}
       {/* 🌟 MANAGEMENT & STRATEGY LEADERSHIP GRID (Matching Screenshot 3)          */}
       {/* ───────────────────────────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-slate-50">
+      <section className="py-16 md:py-24 bg-gradient-to-r from-pink-200 via-violet-300 to-cyan-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
