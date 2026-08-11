@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import HeroBlock from "@/components/blocks/HeroBlock";
 import FAQSchema from '@/components/seo/FAQSchema';
-import EdgeToEdgeSearchBar from '@/components/features/EdgeToEdgeSearchBar';
+import SimpleSubHeaderSearchBar from '@/components/features/SimpleSubHeaderSearchBar';
 
 // 🚀 Lazy-load ALL below-fold components for faster LCP & reduced JS bundle
 const HomeBookingSection = dynamic(() => import("@/components/blocks/HomeBookingSection"));
@@ -41,8 +41,8 @@ export const metadata = {
 export default function HomePage() {
   return (
     <main className="w-full flex flex-col bg-white overflow-hidden mt-[80px]">
-      {/* 🌟 EDGE-TO-EDGE TOP SEARCH BAR (JUST BELOW MAIN HEADER SECTION) 🌟 */}
-      <EdgeToEdgeSearchBar />
+      {/* 🌟 SIMPLE SUB-HEADER SEARCH BAR (JUST BELOW MAIN HEADER SECTION) 🌟 */}
+      <SimpleSubHeaderSearchBar />
 
       <HeroBlock variant="home" />
 
