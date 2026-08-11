@@ -156,11 +156,12 @@ export default function EdgeToEdgeSearchBar() {
 
     // 4. Doctors & Specialists (doctors.ts)
     DOCTORS.forEach((doc) => {
-      if (doc.name.toLowerCase().includes(query) || doc.specialty.toLowerCase().includes(query)) {
+      const specs = doc.specializations ? doc.specializations.join(" ") : "";
+      if (doc.name.toLowerCase().includes(query) || doc.designation.toLowerCase().includes(query) || specs.toLowerCase().includes(query)) {
         results.push({
           type: "doctor",
           title: doc.name,
-          subtitle: `${doc.specialty} — ${doc.qualification}`,
+          subtitle: `${doc.designation} (${doc.credentials})`,
           url: `/doctors/${doc.id}`,
           badge: "Specialist Doctor",
           icon: UserCheck
