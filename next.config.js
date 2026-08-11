@@ -7,7 +7,7 @@ const nextConfig = {
   },
   images: {
     formats: ['image/avif', 'image/webp'],
-    qualities: [75, 80, 95],
+    qualities: [75, 80, 85, 95],
     // Optimized breakpoints: mobile → tablet → desktop → retina
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -83,7 +83,8 @@ const nextConfig = {
     ];
   },
   async headers() {
-    return [
+    const isProd = process.env.NODE_ENV === 'production';
+    const staticHeaders = [
       {
         source: '/(.*)',
         headers: [
@@ -95,28 +96,26 @@ const nextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self), payment=(self), usb=()' }
         ],
       },
-      // Immutable cache for Next.js build artifacts
-      {
-        source: '/_next/static/(.*)',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
-      },
-      // Cache optimized images for 1 year
-      {
-        source: '/_next/image(.*)',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
-      },
-      // Cache font files
-      {
-        source: '/(.*)\\.woff2',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
-      },
     ];
+
+    if (isProd) {
+      staticHeaders.push(
+        {
+          source: '/_next/static/(.*)',
+          headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+        },
+        {
+          source: '/_next/image(.*)',
+          headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+        },
+        {
+          source: '/(.*)\\.woff2',
+          headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+        }
+      );
+    }
+
+    return staticHeaders;
   },
 };
 
