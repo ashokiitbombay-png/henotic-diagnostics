@@ -41,6 +41,7 @@ interface SearchableLocation {
 const CORE_PAGES = [
   { title: "Home", url: "/", badge: "Page" },
   { title: "About Us", url: "/about-us", badge: "Page" },
+  { title: "Leadership Team", url: "/leadership", badge: "Page" },
   { title: "Contact", url: "/contact", badge: "Page" },
   { title: "Services Directory", url: "/services", badge: "Page" },
   { title: "Doctors", url: "/doctors", badge: "Page" },
