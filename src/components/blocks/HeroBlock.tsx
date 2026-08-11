@@ -4,6 +4,7 @@ import { MapPin, ShieldCheck, Activity, Star, Calendar, Shield, Award } from 'lu
 import Badge from '@/components/ui/Badge';
 import { siteConfig } from '@/config/site';
 import AccreditationLogos from '@/components/blocks/AccreditationLogos';
+import HomeSearchBar from '@/components/features/HomeSearchBar';
 
 interface HeroBlockProps {
   title?: string;
@@ -36,7 +37,7 @@ export default function HeroBlock({ title, description, locationName, regionName
 
   if (variant === 'home') {
     return (
-      <section className="relative pt-20 pb-24 md:pt-32 md:pb-32 overflow-hidden bg-slate-50">
+      <section className="relative pt-20 pb-24 md:pt-28 md:pb-32 overflow-hidden bg-slate-50">
         {/* Aesthetic Background Glows */}
         <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full mix-blend-multiply filter blur-[150px] opacity-40 bg-gradient-to-br from-[#b06ab3] to-pink-300"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-[120px] opacity-40 bg-gradient-to-tr from-[#4568dc] to-blue-300"></div>
@@ -54,11 +55,16 @@ export default function HeroBlock({ title, description, locationName, regionName
                 Precision You Can <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4568dc] to-[#b06ab3]">Trust.</span>
               </h1>
               
-              <p className="text-lg md:text-xl text-slate-600 font-medium mb-10 leading-relaxed max-w-xl">
+              <p className="text-lg md:text-xl text-slate-600 font-medium mb-8 leading-relaxed max-w-xl">
                 Experience world-class diagnostics with our state-of-the-art 3T MRI & 128-Slice CT scanners. Get accurate, same-day reports without the waiting room hassle.
               </p>
+
+              {/* 🌟 DUAL-SEGMENT HOME SEARCH BAR 🌟 */}
+              <div className="mb-10 relative z-30">
+                <HomeSearchBar />
+              </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 mb-16">
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <a 
                   href="#booking" 
                   className="flex items-center justify-center gap-2 text-white font-extrabold px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_15px_30px_-5px_rgba(176,106,179,0.4)] hover:shadow-[0_20px_40px_-5px_rgba(176,106,179,0.6)] hover:-translate-y-1 text-lg"
