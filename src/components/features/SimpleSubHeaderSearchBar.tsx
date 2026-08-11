@@ -102,23 +102,10 @@ export default function SimpleSubHeaderSearchBar() {
     loc.city.toLowerCase().includes(locationQuery.toLowerCase())
   ).slice(0, 10);
 
-  // Live Tokenized Search Algorithm across Services, Scans, Conditions, Comparisons & Doctors
+  // Live Tokenized Search Algorithm — Triggered ON TYPING
   const getSearchResults = (): SitemapSearchResult[] => {
     const rawQuery = searchQuery.trim().toLowerCase();
-
-    if (!rawQuery) {
-      return [
-        { type: "service", title: "MRI Scan (3.0 Tesla)", subtitle: `Available in ${selectedLocation.displayName}, ${selectedLocation.regionName}`, url: `/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Diagnostic Imaging", icon: Orbit, score: 100 },
-        { type: "service", title: "CT Scan (128-Slice)", subtitle: `Available in ${selectedLocation.displayName}, ${selectedLocation.regionName}`, url: `/services/ct-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Radiology", icon: Orbit, score: 99 },
-        { type: "service", title: "Full Body Checkup", subtitle: "Pathology & Comprehensive Health Package", url: `/services/full-body-check-up/${selectedLocation.region}/${selectedLocation.city}`, badge: "Checkup Package", icon: Droplet, score: 98 },
-        { type: "service", title: "Blood Test / Home Collection", subtitle: "Pathology — Same-Day Reports", url: `/services/blood-test/${selectedLocation.region}/${selectedLocation.city}`, badge: "Pathology", icon: Droplet, score: 97 },
-        { type: "service", title: "2D Echo & ECG Test", subtitle: "Cardiology Diagnostics", url: `/services/2d-echo/${selectedLocation.region}/${selectedLocation.city}`, badge: "Cardiology", icon: Heart, score: 96 },
-        { type: "service", title: "Pregnancy Sonography & Anomaly Scan", subtitle: "PCPNDT Certified Fetal Medicine", url: `/services/pregnancy-sonography/${selectedLocation.region}/${selectedLocation.city}`, badge: "Fetal Medicine", icon: Baby, score: 95 },
-        { type: "doctor", title: "Dr. Rajesh Sharma", subtitle: "Chief Consultant Radiologist & Head of Imaging", url: "/doctors/dr-rajesh-sharma", badge: "Specialist Doctor", icon: UserCheck, score: 94 },
-        { type: "comparison", title: "3T MRI vs 1.5T MRI", subtitle: "Diagnostic Accuracy & Clarity Comparison", url: "/compare/3t-mri-vs-15t-mri", badge: "Scan Comparison", icon: Scale, score: 93 },
-        { type: "condition", title: "Back Pain & Spine Imaging", subtitle: "Recommended: Lumbar Spine MRI", url: "/conditions/back-pain", badge: "Condition Guide", icon: Stethoscope, score: 92 }
-      ];
-    }
+    if (!rawQuery) return [];
 
     const tokens = rawQuery.split(/\s+/).filter(Boolean);
     const results: SitemapSearchResult[] = [];
@@ -135,7 +122,7 @@ export default function SimpleSubHeaderSearchBar() {
       return score;
     };
 
-    // 1. Services
+    // 1. Diagnostic Services & Scans
     services.forEach((slug) => {
       const name = formatSlug(slug);
       const score = Math.max(matchScore(name), matchScore(slug));
@@ -152,7 +139,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // 2. Doctors
+    // 2. Doctors & Specialists
     DOCTORS.forEach((doc) => {
       const doctorText = `${doc.name} ${doc.designation} ${doc.credentials} ${doc.specializations.join(" ")}`;
       const score = Math.max(matchScore(doc.name), matchScore(doctorText));
@@ -169,7 +156,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // 3. Conditions
+    // 3. Medical Conditions
     CONDITIONS.forEach((cond) => {
       const condText = `${cond.title} ${cond.description} ${cond.symptoms.join(" ")}`;
       const score = Math.max(matchScore(cond.title), matchScore(condText));
@@ -186,7 +173,7 @@ export default function SimpleSubHeaderSearchBar() {
       }
     });
 
-    // 4. Comparisons
+    // 4. Scan Comparisons
     COMPARISONS.forEach((comp) => {
       const compText = `${comp.title} ${comp.metaDescription}`;
       const score = Math.max(matchScore(comp.title), matchScore(compText));
@@ -219,7 +206,7 @@ export default function SimpleSubHeaderSearchBar() {
     e.preventDefault();
     if (searchResults.length > 0) {
       handleSelectResult(searchResults[0].url);
-    } else {
+    } else if (searchQuery.trim()) {
       router.push(`/services?search=${encodeURIComponent(searchQuery)}`);
     }
   };
@@ -229,7 +216,7 @@ export default function SimpleSubHeaderSearchBar() {
       <div ref={containerRef} className="max-w-5xl mx-auto">
         
         {/* ========================================================================= */}
-        {/* 🌟 DUAL-BOX SEARCH BAR WITH HYDRATION PROTECTION                          */}
+        {/* 🌟 DUAL-BOX SEARCH BAR (CLEAN INTERACTIVE INPUT)                          */}
         {/* ========================================================================= */}
         <form
           onSubmit={handleFormSubmit}
@@ -323,7 +310,7 @@ export default function SimpleSubHeaderSearchBar() {
             )}
           </div>
 
-          {/* 🔍 RIGHT BOX: MAIN SEARCH INPUT */}
+          {/* 🔍 RIGHT BOX: MAIN SEARCH INPUT (LIVE RESULTS ONLY WHEN PATIENT TYPES) */}
           <div className="relative flex-grow flex items-center">
             <div className="relative w-full flex items-center px-4 py-3">
               <Search size={18} className="text-slate-400 shrink-0 mr-2.5" />
@@ -332,13 +319,20 @@ export default function SimpleSubHeaderSearchBar() {
                 placeholder="Search doctors, clinics, MRI, CT, blood tests, etc."
                 value={searchQuery}
                 onFocus={() => {
-                  setIsSearchOpen(true);
                   setIsLocationOpen(false);
+                  if (searchQuery.trim().length > 0) {
+                    setIsSearchOpen(true);
+                  }
                 }}
                 onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setIsSearchOpen(true);
+                  const val = e.target.value;
+                  setSearchQuery(val);
                   setIsLocationOpen(false);
+                  if (val.trim().length > 0) {
+                    setIsSearchOpen(true);
+                  } else {
+                    setIsSearchOpen(false);
+                  }
                 }}
                 suppressHydrationWarning
                 className="w-full text-slate-800 placeholder-slate-400 text-sm font-medium outline-none bg-transparent"
@@ -346,7 +340,10 @@ export default function SimpleSubHeaderSearchBar() {
               {searchQuery && (
                 <button
                   type="button"
-                  onClick={() => setSearchQuery("")}
+                  onClick={() => {
+                    setSearchQuery("");
+                    setIsSearchOpen(false);
+                  }}
                   suppressHydrationWarning
                   className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
                 >
@@ -355,13 +352,11 @@ export default function SimpleSubHeaderSearchBar() {
               )}
             </div>
 
-            {/* LIVE AUTOCOMPLETE RESULTS DROPDOWN */}
-            {isSearchOpen && (
+            {/* LIVE RESULTS DROPDOWN — OPENS ONLY WHEN USER TYPES TEXT */}
+            {isSearchOpen && searchQuery.trim().length > 0 && (
               <div suppressHydrationWarning className="absolute top-[110%] left-0 right-0 bg-white rounded-xl shadow-xl border border-slate-200 p-2 z-50 max-h-80 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-150 text-slate-800">
                 <div className="px-3 py-1.5 mb-1 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
-                  <span>
-                    {searchQuery ? `Matching Results for "${searchQuery}"` : `Top Diagnostics in ${selectedLocation.displayName}`}
-                  </span>
+                  <span>Matching Results for "{searchQuery}"</span>
                   <span className="text-[10px] font-normal text-blue-600">
                     {searchResults.length} {searchResults.length === 1 ? "Result" : "Results"}
                   </span>
