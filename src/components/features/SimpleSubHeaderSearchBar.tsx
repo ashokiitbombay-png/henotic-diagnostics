@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
   MapPin, Search, ChevronDown, Activity, Orbit, Droplet, Heart, Baby, 
-  Stethoscope, Scale, ShoppingBag, UserCheck, Sparkles, X
+  Stethoscope, Scale, ShoppingBag, UserCheck, Sparkles, X, ArrowRight
 } from "lucide-react";
 import { REGION_LOCATIONS, REGION_NAMES } from "@/config/locations";
 import { services } from "@/config/services";
@@ -20,6 +20,7 @@ export interface SitemapSearchResult {
   url: string;
   badge: string;
   icon: any;
+  score: number;
 }
 
 interface SearchableLocation {
@@ -47,6 +48,21 @@ const POPULAR_LOCATIONS = [
   { city: "thane-west", region: "thane" },
   { city: "pune-city", region: "pune" }
 ];
+
+// Synonyms map for common user queries
+const SYNONYMS: Record<string, string[]> = {
+  "sugar": ["diabetes-test", "hba1c-test", "diabetes-health-checkup"],
+  "xray": ["radiology-center", "ct-scan"],
+  "x-ray": ["radiology-center", "ct-scan"],
+  "scan": ["mri-scan", "ct-scan", "pet-scan", "ultrasound"],
+  "doctor": ["dr-rajesh-sharma"],
+  "dr": ["dr-rajesh-sharma"],
+  "radiologist": ["dr-rajesh-sharma"],
+  "pathologist": ["pathology-lab", "blood-test"],
+  "baby": ["pregnancy-sonography", "nt-scan", "anomaly-scan"],
+  "fetal": ["pregnancy-sonography", "nt-scan", "anomaly-scan", "fetal-doppler"],
+  "heart": ["2d-echo", "ecg", "tmt-test", "holter-monitoring", "cardiac-health-checkup"]
+};
 
 export default function SimpleSubHeaderSearchBar() {
   const router = useRouter();
@@ -87,82 +103,113 @@ export default function SimpleSubHeaderSearchBar() {
     loc.city.toLowerCase().includes(locationQuery.toLowerCase())
   ).slice(0, 10);
 
-  // Filter Search Results
+  // Live Tokenized Search Algorithm across Services, Scans, Conditions, Comparisons & Doctors
   const getSearchResults = (): SitemapSearchResult[] => {
-    if (!searchQuery.trim()) {
+    const rawQuery = searchQuery.trim().toLowerCase();
+
+    if (!rawQuery) {
+      // Default top suggestions when input is empty
       return [
-        { type: "service", title: "MRI Scan (3.0 Tesla)", subtitle: `Available in ${selectedLocation.displayName}`, url: `/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Diagnostic Imaging", icon: Orbit },
-        { type: "service", title: "CT Scan (128-Slice)", subtitle: `Available in ${selectedLocation.displayName}`, url: `/services/ct-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Radiology", icon: Orbit },
-        { type: "service", title: "Full Body Checkup", subtitle: "Pathology & Health Screening", url: `/services/full-body-check-up/${selectedLocation.region}/${selectedLocation.city}`, badge: "Checkup Package", icon: Droplet },
-        { type: "service", title: "Blood Test / Home Collection", subtitle: "Same-Day Digital Reports", url: `/services/blood-test/${selectedLocation.region}/${selectedLocation.city}`, badge: "Pathology", icon: Droplet },
-        { type: "service", title: "2D Echo & ECG Test", subtitle: "Cardiology Diagnostic", url: `/services/2d-echo/${selectedLocation.region}/${selectedLocation.city}`, badge: "Cardiology", icon: Heart },
-        { type: "service", title: "Pregnancy Sonography & Anomaly Scan", subtitle: "PCPNDT Certified Fetal Medicine", url: `/services/pregnancy-sonography/${selectedLocation.region}/${selectedLocation.city}`, badge: "Fetal Medicine", icon: Baby },
-        { type: "comparison", title: "3T MRI vs 1.5T MRI", subtitle: "Diagnostic Accuracy Comparison", url: "/compare/3t-mri-vs-15t-mri", badge: "Scan Comparison", icon: Scale },
-        { type: "condition", title: "Back Pain & Spine Imaging", subtitle: "Recommended: Spine MRI", url: "/conditions/back-pain", badge: "Condition Guide", icon: Stethoscope }
+        { type: "service", title: "MRI Scan (3.0 Tesla)", subtitle: `Available in ${selectedLocation.displayName}, ${selectedLocation.regionName}`, url: `/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Diagnostic Imaging", icon: Orbit, score: 100 },
+        { type: "service", title: "CT Scan (128-Slice)", subtitle: `Available in ${selectedLocation.displayName}, ${selectedLocation.regionName}`, url: `/services/ct-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Radiology", icon: Orbit, score: 99 },
+        { type: "service", title: "Full Body Checkup", subtitle: "Pathology & Comprehensive Health Package", url: `/services/full-body-check-up/${selectedLocation.region}/${selectedLocation.city}`, badge: "Checkup Package", icon: Droplet, score: 98 },
+        { type: "service", title: "Blood Test / Home Collection", subtitle: "Pathology — Same-Day Reports", url: `/services/blood-test/${selectedLocation.region}/${selectedLocation.city}`, badge: "Pathology", icon: Droplet, score: 97 },
+        { type: "service", title: "2D Echo & ECG Test", subtitle: "Cardiology Diagnostics", url: `/services/2d-echo/${selectedLocation.region}/${selectedLocation.city}`, badge: "Cardiology", icon: Heart, score: 96 },
+        { type: "service", title: "Pregnancy Sonography & Anomaly Scan", subtitle: "PCPNDT Certified Fetal Medicine", url: `/services/pregnancy-sonography/${selectedLocation.region}/${selectedLocation.city}`, badge: "Fetal Medicine", icon: Baby, score: 95 },
+        { type: "doctor", title: "Dr. Rajesh Sharma", subtitle: "Chief Consultant Radiologist & Head of Imaging", url: "/doctors/dr-rajesh-sharma", badge: "Specialist Doctor", icon: UserCheck, score: 94 },
+        { type: "comparison", title: "3T MRI vs 1.5T MRI", subtitle: "Diagnostic Accuracy & Clarity Comparison", url: "/compare/3t-mri-vs-15t-mri", badge: "Scan Comparison", icon: Scale, score: 93 },
+        { type: "condition", title: "Back Pain & Spine Imaging", subtitle: "Recommended: Lumbar Spine MRI", url: "/conditions/back-pain", badge: "Condition Guide", icon: Stethoscope, score: 92 }
       ];
     }
 
-    const query = searchQuery.toLowerCase().trim();
+    const tokens = rawQuery.split(/\s+/).filter(Boolean);
     const results: SitemapSearchResult[] = [];
 
-    // 1. Diagnostic Services
+    // Helper for matching all tokens in a target string
+    const matchScore = (target: string): number => {
+      const lower = target.toLowerCase();
+      let score = 0;
+      for (const token of tokens) {
+        if (lower === token) score += 10;
+        else if (lower.startsWith(token)) score += 5;
+        else if (lower.includes(token)) score += 2;
+        else return 0;
+      }
+      return score;
+    };
+
+    // 1. Diagnostic Services & Scans (services.ts)
     services.forEach((slug) => {
       const name = formatSlug(slug);
-      if (slug.includes(query) || name.toLowerCase().includes(query)) {
+      const score = Math.max(matchScore(name), matchScore(slug));
+      if (score > 0) {
         results.push({
           type: "service",
           title: name,
           subtitle: `Book test in ${selectedLocation.displayName}, ${selectedLocation.regionName}`,
           url: `/services/${slug}/${selectedLocation.region}/${selectedLocation.city}`,
           badge: "Diagnostic Service",
-          icon: Orbit
+          icon: Orbit,
+          score: score + 10
         });
       }
     });
 
-    // 2. Medical Conditions
+    // 2. Doctors & Specialists (doctors.ts)
+    DOCTORS.forEach((doc) => {
+      const doctorText = `${doc.name} ${doc.designation} ${doc.credentials} ${doc.specializations.join(" ")}`;
+      const score = Math.max(matchScore(doc.name), matchScore(doctorText));
+      if (score > 0 || tokens.some(t => "doctor".includes(t) || "dr".includes(t) || "radiologist".includes(t))) {
+        results.push({
+          type: "doctor",
+          title: doc.name,
+          subtitle: `${doc.designation} (${doc.credentials})`,
+          url: `/doctors/${doc.id}`,
+          badge: "Specialist Doctor",
+          icon: UserCheck,
+          score: (score > 0 ? score : 3) + 15
+        });
+      }
+    });
+
+    // 3. Medical Conditions (conditions.ts)
     CONDITIONS.forEach((cond) => {
-      if (cond.title.toLowerCase().includes(query) || cond.id.includes(query)) {
+      const condText = `${cond.title} ${cond.description} ${cond.symptoms.join(" ")}`;
+      const score = Math.max(matchScore(cond.title), matchScore(condText));
+      if (score > 0) {
         results.push({
           type: "condition",
           title: cond.title,
-          subtitle: `Symptoms & Diagnostics (${cond.bodySystem})`,
+          subtitle: `Symptoms & Recommended Diagnostics (${cond.bodySystem})`,
           url: `/conditions/${cond.id}`,
           badge: "Medical Condition",
-          icon: Stethoscope
+          icon: Stethoscope,
+          score
         });
       }
     });
 
-    // 3. Comparisons
+    // 4. Scan & Test Comparisons (comparisons.ts)
     COMPARISONS.forEach((comp) => {
-      if (comp.title.toLowerCase().includes(query) || comp.slug.includes(query)) {
+      const compText = `${comp.title} ${comp.metaDescription}`;
+      const score = Math.max(matchScore(comp.title), matchScore(compText));
+      if (score > 0) {
         results.push({
           type: "comparison",
           title: comp.title,
           subtitle: comp.metaDescription || "Diagnostic test comparison",
           url: `/compare/${comp.slug}`,
           badge: "Scan Comparison",
-          icon: Scale
+          icon: Scale,
+          score
         });
       }
     });
 
-    // 4. Doctors
-    DOCTORS.forEach((doc) => {
-      if (doc.name.toLowerCase().includes(query) || doc.specialty.toLowerCase().includes(query)) {
-        results.push({
-          type: "doctor",
-          title: doc.name,
-          subtitle: `${doc.specialty} — ${doc.qualification}`,
-          url: `/doctors/${doc.id}`,
-          badge: "Specialist Doctor",
-          icon: UserCheck
-        });
-      }
-    });
+    // Sort results by score descending
+    results.sort((a, b) => b.score - a.score);
 
-    return results.slice(0, 10);
+    return results.slice(0, 12);
   };
 
   const searchResults = getSearchResults();
@@ -187,13 +234,13 @@ export default function SimpleSubHeaderSearchBar() {
       <div ref={containerRef} className="max-w-5xl mx-auto">
         
         {/* ========================================================================= */}
-        {/* 🌟 SIMPLE DUAL-BOX SEARCH BAR (MATCHING SCREENSHOT LAYOUT)                 */}
+        {/* 🌟 DUAL-BOX SEARCH BAR WITH LIVE TEXT FILTERING                           */}
         {/* ========================================================================= */}
         <form
           onSubmit={handleFormSubmit}
           className="flex flex-col sm:flex-row items-stretch bg-white border border-slate-300 rounded-lg md:rounded-xl overflow-visible shadow-xs hover:border-slate-400 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all relative"
         >
-          {/* 📍 LEFT BOX: LOCATION SELECTOR (e.g. Bangalore / Kharghar) */}
+          {/* 📍 LEFT BOX: LOCATION SELECTOR */}
           <div className="relative sm:w-64 border-b sm:border-b-0 sm:border-r border-slate-200 shrink-0">
             <button
               type="button"
@@ -276,43 +323,51 @@ export default function SimpleSubHeaderSearchBar() {
             )}
           </div>
 
-          {/* 🔍 RIGHT BOX: MAIN SEARCH INPUT (e.g. Search doctors, clinics, hospitals, etc.) */}
+          {/* 🔍 RIGHT BOX: MAIN SEARCH INPUT WITH LIVE TEXT TYPING */}
           <div className="relative flex-grow flex items-center">
             <div className="relative w-full flex items-center px-4 py-3">
               <Search size={18} className="text-slate-400 shrink-0 mr-2.5" />
               <input
                 type="text"
-                placeholder="Search doctors, clinics, MRI, CT, blood tests, etc."
+                placeholder="Search tests, scans (MRI, CT, Blood Test), doctors..."
                 value={searchQuery}
                 onFocus={() => {
                   setIsSearchOpen(true);
                   setIsLocationOpen(false);
                 }}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setIsSearchOpen(true);
+                  setIsLocationOpen(false);
+                }}
                 className="w-full text-slate-800 placeholder-slate-400 text-sm font-medium outline-none bg-transparent"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
-                  className="text-slate-400 hover:text-slate-600 p-1"
+                  className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
                 >
                   <X size={14} />
                 </button>
               )}
             </div>
 
-            {/* Autocomplete Results Dropdown */}
+            {/* LIVE AUTOCOMPLETE RESULTS DROPDOWN */}
             {isSearchOpen && (
               <div className="absolute top-[110%] left-0 right-0 bg-white rounded-xl shadow-xl border border-slate-200 p-2 z-50 max-h-80 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-150 text-slate-800">
                 <div className="px-3 py-1.5 mb-1 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
-                  <span>Suggested Results for {selectedLocation.displayName}</span>
-                  <span className="text-[10px] font-normal text-blue-600">37,000+ Pages</span>
+                  <span>
+                    {searchQuery ? `Matching Results for "${searchQuery}"` : `Top Diagnostics in ${selectedLocation.displayName}`}
+                  </span>
+                  <span className="text-[10px] font-normal text-blue-600">
+                    {searchResults.length} {searchResults.length === 1 ? "Result" : "Results"}
+                  </span>
                 </div>
 
                 {searchResults.length === 0 ? (
                   <div className="p-4 text-center text-xs text-slate-500">
-                    No exact match for "{searchQuery}". Press Enter to view all available tests.
+                    No direct match found for "{searchQuery}". Press Enter to view all diagnostic services directory.
                   </div>
                 ) : (
                   <div className="space-y-0.5">
@@ -323,12 +378,14 @@ export default function SimpleSubHeaderSearchBar() {
                           key={`${item.url}-${idx}`}
                           type="button"
                           onClick={() => handleSelectResult(item.url)}
-                          className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors flex items-center justify-between group"
+                          className="w-full text-left px-3 py-2 rounded-lg hover:bg-blue-50/80 transition-colors flex items-center justify-between group border border-transparent hover:border-blue-100 cursor-pointer"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <IconComponent size={16} className="text-slate-400 group-hover:text-blue-600 shrink-0" />
+                            <div className="w-7 h-7 rounded-md bg-blue-50 group-hover:bg-blue-600 group-hover:text-white text-blue-600 flex items-center justify-center shrink-0 transition-colors">
+                              <IconComponent size={15} />
+                            </div>
                             <div className="min-w-0">
-                              <span className="text-xs md:text-sm font-semibold text-slate-800 group-hover:text-blue-600 block truncate">
+                              <span className="text-xs md:text-sm font-semibold text-slate-800 group-hover:text-blue-700 block truncate">
                                 {item.title}
                               </span>
                               <span className="text-[10px] text-slate-500 font-normal block truncate">
@@ -336,7 +393,7 @@ export default function SimpleSubHeaderSearchBar() {
                               </span>
                             </div>
                           </div>
-                          <span className="text-[10px] font-medium text-slate-500 bg-slate-100 group-hover:bg-blue-50 group-hover:text-blue-600 px-2 py-0.5 rounded shrink-0 ml-2">
+                          <span className="text-[10px] font-medium text-slate-500 bg-slate-100 group-hover:bg-blue-100 group-hover:text-blue-800 px-2 py-0.5 rounded shrink-0 ml-2">
                             {item.badge}
                           </span>
                         </button>
