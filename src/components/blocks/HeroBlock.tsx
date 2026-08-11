@@ -55,16 +55,11 @@ export default function HeroBlock({ title, description, locationName, regionName
                 Precision You Can <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4568dc] to-[#b06ab3]">Trust.</span>
               </h1>
               
-              <p className="text-lg md:text-xl text-slate-600 font-medium mb-8 leading-relaxed max-w-xl">
+              <p className="text-lg md:text-xl text-slate-600 font-medium mb-10 leading-relaxed max-w-xl">
                 Experience world-class diagnostics with our state-of-the-art 3T MRI & 128-Slice CT scanners. Get accurate, same-day reports without the waiting room hassle.
               </p>
-
-              {/* 🌟 DUAL-SEGMENT HOME SEARCH BAR 🌟 */}
-              <div className="mb-10 relative z-30">
-                <HomeSearchBar />
-              </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <div className="flex flex-col sm:flex-row gap-4 mb-16">
                 <a 
                   href="#booking" 
                   className="flex items-center justify-center gap-2 text-white font-extrabold px-8 py-4 rounded-2xl transition-all duration-300 shadow-[0_15px_30px_-5px_rgba(176,106,179,0.4)] hover:shadow-[0_20px_40px_-5px_rgba(176,106,179,0.6)] hover:-translate-y-1 text-lg"
