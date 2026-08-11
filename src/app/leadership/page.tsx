@@ -295,7 +295,22 @@ export default function LeadershipPage() {
                   <h3 className="text-2xl font-bold text-slate-900 mt-2">
                     Dr. Pratibha Patil
                   </h3>
-                  <div className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-3 space-y-2 font-medium">
+                  <p className="text-xs font-semibold text-blue-900 mt-1">
+                    MBBS, MD/DNB – Radio Diagnosis/Radiology
+                  </p>
+
+                  <div className="mt-3 bg-white/90 rounded-xl p-3 text-xs space-y-1.5 font-semibold text-slate-800 border border-slate-200/90 shadow-2xs">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-slate-500 font-medium">Specialization:</span>
+                      <span className="text-indigo-700 font-bold">Radiology</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
+                      <span className="text-slate-500 font-medium">MMC Reg. No:</span>
+                      <span className="font-mono bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-extrabold text-blue-900">2003/04/1800</span>
+                    </div>
+                  </div>
+
+                  <div className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-4 space-y-2 font-medium">
                     <p>
                       Dr. Pratibha Patil is a Full-Time Consultant Radiologist at Henotic Diagnostics, with a focus on accurate and reliable medical imaging. She is involved in interpreting a wide range of radiology and imaging studies and supports doctors in reaching clear and informed diagnoses.
                     </p>
@@ -312,7 +327,7 @@ export default function LeadershipPage() {
               <div className="relative h-72 sm:h-80 w-full bg-slate-200">
                 <Image
                   src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/dr-ajinky-patil.webp"
-                  alt="Dr. Ajinky Patil — Senior Consultant Orthopaedic"
+                  alt="Dr. Ajinky Patil — Senior Consultant Neuroradiologist"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
@@ -322,17 +337,36 @@ export default function LeadershipPage() {
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
                   <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded uppercase tracking-wider">
-                    SENIOR CONSULTANT ORTHOPAEDIC | FULL-TIME
+                    SENIOR CONSULTANT NEURORADIOLOGIST | FULL-TIME
                   </span>
                   <h3 className="text-2xl font-bold text-slate-900 mt-2">
                     Dr. Ajinky Patil
                   </h3>
-                  <div className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-3 space-y-2 font-medium">
+                  <p className="text-xs font-semibold text-emerald-900 mt-1">
+                    MBBS, MD – Radio Diagnosis/Radiology, DNB – Radio Diagnosis, DM – Neuro Radiology
+                  </p>
+
+                  <div className="mt-3 bg-white/90 rounded-xl p-3 text-xs space-y-1.5 font-semibold text-slate-800 border border-slate-200/90 shadow-2xs">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-slate-500 font-medium">Specialization:</span>
+                      <span className="text-emerald-700 font-bold">Neuroradiology</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-slate-500 font-medium">Experience:</span>
+                      <span className="text-slate-800 font-bold">28 Yrs Overall | 20 Yrs Specialist</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
+                      <span className="text-slate-500 font-medium">MMC Reg. No:</span>
+                      <span className="font-mono bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-extrabold text-emerald-900">076487</span>
+                    </div>
+                  </div>
+
+                  <div className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-4 space-y-2 font-medium">
                     <p>
-                      Dr. Ajinky Patil is a Senior Consultant Orthopaedic at Henotic Diagnostics, providing expert care for patients with bone, joint, muscle, and spine-related conditions. As a full-time consultant, he focuses on accurate assessment and patient care.
+                      Dr. Ajinky Patil is a Senior Consultant Neuroradiologist at Henotic Diagnostics, bringing 28+ years of clinical excellence and 20 years of specialist expertise in brain, spine, neurovascular, and head & neck imaging.
                     </p>
                     <p>
-                      His clinical interests include <strong>orthopaedic conditions, joint/muscle problems, sports injuries, spine health, and fractures</strong>, working closely with X-ray, CT, and MRI imaging teams.
+                      His clinical work includes <strong>advanced Neuroradiology, brain MRI, stroke protocol CT/MRI, spine diagnostics, and neurovascular imaging evaluations</strong>.
                     </p>
                   </div>
                 </div>
@@ -359,7 +393,22 @@ export default function LeadershipPage() {
                   <h3 className="text-2xl font-bold text-slate-900 mt-2">
                     Dr. Amulya Patil
                   </h3>
-                  <div className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-3 space-y-2 font-medium">
+                  <p className="text-xs font-semibold text-rose-900 mt-1">
+                    MBBS, MD (General Medicine), DM (Cardiology)
+                  </p>
+
+                  <div className="mt-3 bg-white/90 rounded-xl p-3 text-xs space-y-1.5 font-semibold text-slate-800 border border-slate-200/90 shadow-2xs">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-slate-500 font-medium">Specialization:</span>
+                      <span className="text-rose-700 font-bold">Cardiology</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
+                      <span className="text-slate-500 font-medium">MMC Reg. No:</span>
+                      <span className="font-mono bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-extrabold text-rose-900">2010020293</span>
+                    </div>
+                  </div>
+
+                  <div className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-4 space-y-2 font-medium">
                     <p>
                       Dr. Amulya Patil is a Senior Consultant Cardiologist at Henotic Diagnostics, providing specialized care for patients with heart and cardiovascular conditions. He focuses on evaluation, diagnosis, and preventive heart care.
                     </p>
