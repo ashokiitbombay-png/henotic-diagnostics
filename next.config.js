@@ -41,7 +41,7 @@ const nextConfig = {
   // the webpack config below for any webpack-specific builds.
   turbopack: {},
   webpack: (config, { isServer }) => {
-    if (!isServer) {
+    if (!isServer && process.env.NODE_ENV === 'production') {
       config.optimization = {
         ...config.optimization,
         splitChunks: {

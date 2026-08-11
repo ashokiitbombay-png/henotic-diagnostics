@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
-  MapPin, Search, ChevronDown, Activity, Orbit, Droplet, Heart, Baby, 
+  MapPin, Search, ChevronDown, Activity, Orbit, Droplets, Heart, Baby, 
   Stethoscope, Scale, ShoppingBag, UserCheck, Sparkles, X, ArrowRight
 } from "lucide-react";
 import { REGION_LOCATIONS, REGION_NAMES } from "@/config/locations";

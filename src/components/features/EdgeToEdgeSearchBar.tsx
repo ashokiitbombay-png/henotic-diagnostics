@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
-  MapPin, Search, ChevronDown, Activity, Orbit, Droplet, Heart, Baby, 
+  MapPin, Search, ChevronDown, Activity, Orbit, Droplets, Heart, Baby, 
   Stethoscope, Scale, ShoppingBag, UserCheck, Sparkles, Filter, Check, ArrowRight
 } from "lucide-react";
 import { REGION_LOCATIONS, REGION_NAMES } from "@/config/locations";
@@ -99,8 +99,8 @@ export default function EdgeToEdgeSearchBar() {
       return [
         { type: "service", title: "MRI Scan (3.0 Tesla)", subtitle: `Available in ${selectedLocation.displayName}`, url: `/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Diagnostic Imaging", icon: Orbit },
         { type: "service", title: "CT Scan (128-Slice)", subtitle: `Available in ${selectedLocation.displayName}`, url: `/services/ct-scan/${selectedLocation.region}/${selectedLocation.city}`, badge: "Radiology", icon: Orbit },
-        { type: "service", title: "Full Body Checkup", subtitle: "Pathology & Health Screening", url: `/services/full-body-check-up/${selectedLocation.region}/${selectedLocation.city}`, badge: "Checkup Package", icon: Droplet },
-        { type: "service", title: "Blood Test / Home Collection", subtitle: "Same-Day Digital Reports", url: `/services/blood-test/${selectedLocation.region}/${selectedLocation.city}`, badge: "Pathology", icon: Droplet },
+        { type: "service", title: "Full Body Checkup", subtitle: "Pathology & Health Screening", url: `/services/full-body-check-up/${selectedLocation.region}/${selectedLocation.city}`, badge: "Checkup Package", icon: Droplets },
+        { type: "service", title: "Blood Test / Home Collection", subtitle: "Same-Day Digital Reports", url: `/services/blood-test/${selectedLocation.region}/${selectedLocation.city}`, badge: "Pathology", icon: Droplets },
         { type: "service", title: "2D Echo & ECG Test", subtitle: "Cardiology Diagnostic", url: `/services/2d-echo/${selectedLocation.region}/${selectedLocation.city}`, badge: "Cardiology", icon: Heart },
         { type: "service", title: "Pregnancy Sonography & Anomaly Scan", subtitle: "PCPNDT Certified Fetal Medicine", url: `/services/pregnancy-sonography/${selectedLocation.region}/${selectedLocation.city}`, badge: "Fetal Medicine", icon: Baby },
         { type: "comparison", title: "3T MRI vs 1.5T MRI", subtitle: "Diagnostic Accuracy Comparison", url: "/compare/3t-mri-vs-15t-mri", badge: "Scan Comparison", icon: Scale },

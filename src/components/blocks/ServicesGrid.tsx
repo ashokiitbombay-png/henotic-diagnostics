@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Orbit, Activity, ScanHeart, Baby, Droplet, Heart, Bone, Stethoscope, ArrowRight } from 'lucide-react';
+import { Orbit, Activity, ScanHeart, Baby, Droplets, Heart, Bone, Stethoscope, ArrowRight } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import { routesConfig } from '@/config/routes';
 
@@ -10,7 +10,7 @@ export default function ServicesGrid() {
     { id: "ct-scan", title: "CT Scan (128 Slice)", icon: Activity, color: "text-emerald-600", bg: "bg-emerald-50" },
     { id: "pet-scan", title: "PET-CT Scan", icon: ScanHeart, color: "text-purple-600", bg: "bg-purple-50" },
     { id: "ultrasound", title: "Sonography / USG", icon: Baby, color: "text-pink-600", bg: "bg-pink-50" },
-    { id: "blood-test", title: "Pathology Tests", icon: Droplet, color: "text-red-600", bg: "bg-red-50" },
+    { id: "blood-test", title: "Pathology Tests", icon: Droplets, color: "text-red-600", bg: "bg-red-50" },
     { id: "2d-echo", title: "2D Echo / ECG", icon: Heart, color: "text-rose-600", bg: "bg-rose-50" },
     { id: "dexa-bone-scan", title: "DEXA Bone Scan", icon: Bone, color: "text-orange-600", bg: "bg-orange-50" },
     { id: "full-body-check-up", title: "Health Checkups", icon: Stethoscope, color: "text-teal-600", bg: "bg-teal-50" },

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { Search, Orbit, Activity, ScanHeart, Baby, Droplet, Heart, Bone, Stethoscope, Microscope, ArrowRight, Filter } from "lucide-react";
+import { Search, Orbit, Activity, ScanHeart, Baby, Droplets, Heart, Bone, Stethoscope, Microscope, ArrowRight, Filter } from "lucide-react";
 
 interface ServiceItem {
   id: string;
@@ -16,7 +16,7 @@ interface ServicesSearchFilterProps {
 
 const iconMap: Record<string, any> = {
   "Imaging": Orbit,
-  "Pathology": Droplet,
+  "Pathology": Droplets,
   "Cardiology": Heart,
   "Preventive": Stethoscope
 };

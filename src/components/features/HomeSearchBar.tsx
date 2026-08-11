@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { MapPin, Search, ChevronDown, Activity, Orbit, Droplet, Heart, Baby, Stethoscope, Sparkles } from "lucide-react";
+import { MapPin, Search, ChevronDown, Activity, Orbit, Droplets, Heart, Baby, Stethoscope, Sparkles } from "lucide-react";
 import { REGION_LOCATIONS, REGION_NAMES } from "@/config/locations";
 import { services } from "@/config/services";
 import { formatSlug } from "@/lib/utils";
@@ -24,7 +24,7 @@ const CATEGORY_MAP: Record<string, "Imaging" | "Pathology" | "Ultrasound" | "Car
 
 const CATEGORY_ICONS = {
   "Imaging": Orbit,
-  "Pathology": Droplet,
+  "Pathology": Droplets,
   "Ultrasound": Activity,
   "Cardiology": Heart,
   "Pregnancy": Baby
