@@ -304,6 +304,10 @@ export default function LeadershipPage() {
                       <span className="text-slate-500 font-medium">Specialization:</span>
                       <span className="text-indigo-700 font-bold">Radiology</span>
                     </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-slate-500 font-medium">Experience:</span>
+                      <span className="text-slate-800 font-bold">21 Yrs Overall | 18 Yrs Specialist</span>
+                    </div>
                     <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
                       <span className="text-slate-500 font-medium">MMC Reg. No:</span>
                       <span className="font-mono bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-extrabold text-blue-900">2003/04/1800</span>
@@ -401,6 +405,10 @@ export default function LeadershipPage() {
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-slate-500 font-medium">Specialization:</span>
                       <span className="text-rose-700 font-bold">Cardiology</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-slate-500 font-medium">Experience:</span>
+                      <span className="text-slate-800 font-bold">14 Yrs Overall | 11 Yrs Specialist</span>
                     </div>
                     <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
                       <span className="text-slate-500 font-medium">MMC Reg. No:</span>
