@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-08-06T18:28:50.664Z",
+  "generatedAt": "2026-08-12T09:24:05.128Z",
   "totalPreBuild": {
     "service": 401,
-    "region": 1803,
-    "location": 2500,
+    "region": 1815,
+    "location": 2540,
     "condition": 92
   },
   "service": [
@@ -178,6 +178,14 @@
     },
     {
       "service": "2d-echo",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
       "tier": 1
     },
     {
@@ -1170,14 +1178,6 @@
     },
     {
       "service": "color-echo",
-      "tier": 3
-    },
-    {
-      "service": "stress-echo",
-      "tier": 3
-    },
-    {
-      "service": "dobutamine-stress-echo",
       "tier": 3
     },
     {
@@ -3550,6 +3550,96 @@
       "tier": 1
     },
     {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "thane",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "western-suburbs",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "pune",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "central-suburbs",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "south-mumbai",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "eastern-suburbs",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "raigad",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "mumbai-suburban",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "thane",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "western-suburbs",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "pune",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "central-suburbs",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "south-mumbai",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "eastern-suburbs",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "raigad",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "mumbai-suburban",
+      "tier": 1
+    },
+    {
       "service": "tmt-test",
       "region": "navi-mumbai",
       "tier": 1
@@ -8976,36 +9066,6 @@
     },
     {
       "service": "color-echo",
-      "region": "western-suburbs",
-      "tier": 3
-    },
-    {
-      "service": "stress-echo",
-      "region": "navi-mumbai",
-      "tier": 3
-    },
-    {
-      "service": "stress-echo",
-      "region": "thane",
-      "tier": 3
-    },
-    {
-      "service": "stress-echo",
-      "region": "western-suburbs",
-      "tier": 3
-    },
-    {
-      "service": "dobutamine-stress-echo",
-      "region": "navi-mumbai",
-      "tier": 3
-    },
-    {
-      "service": "dobutamine-stress-echo",
-      "region": "thane",
-      "tier": 3
-    },
-    {
-      "service": "dobutamine-stress-echo",
       "region": "western-suburbs",
       "tier": 3
     },
@@ -15787,6 +15847,246 @@
     },
     {
       "service": "2d-echo",
+      "region": "pune",
+      "location": "hadapsar",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "kharghar",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "panvel",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "vashi",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "nerul",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "cbd-belapur",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "kamothe",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "kalamboli",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "taloja",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "kopar-khairane",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "navi-mumbai",
+      "location": "airoli",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "thane",
+      "location": "thane-west",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "thane",
+      "location": "dombivli",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "thane",
+      "location": "kalyan",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "western-suburbs",
+      "location": "andheri",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "western-suburbs",
+      "location": "bandra",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "western-suburbs",
+      "location": "borivali",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "central-suburbs",
+      "location": "ghatkopar",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "pune",
+      "location": "pune-city",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "pune",
+      "location": "hinjewadi",
+      "tier": 1
+    },
+    {
+      "service": "stress-echo",
+      "region": "pune",
+      "location": "hadapsar",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "kharghar",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "panvel",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "vashi",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "nerul",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "cbd-belapur",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "kamothe",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "kalamboli",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "taloja",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "kopar-khairane",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "navi-mumbai",
+      "location": "airoli",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "thane",
+      "location": "thane-west",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "thane",
+      "location": "dombivli",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "thane",
+      "location": "kalyan",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "western-suburbs",
+      "location": "andheri",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "western-suburbs",
+      "location": "bandra",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "western-suburbs",
+      "location": "borivali",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "central-suburbs",
+      "location": "ghatkopar",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "pune",
+      "location": "pune-city",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
+      "region": "pune",
+      "location": "hinjewadi",
+      "tier": 1
+    },
+    {
+      "service": "dobutamine-stress-echo",
       "region": "pune",
       "location": "hadapsar",
       "tier": 1

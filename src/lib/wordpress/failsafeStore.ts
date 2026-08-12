@@ -34,6 +34,14 @@ const fallbackDatabase: Record<string, { title: string; content: string }> = {
   "blood-test": {
     title: "Pathology Blood Tests",
     content: "<p>Comprehensive blood collection profiles and clinical laboratory panels.</p>"
+  },
+  "stress-echo": {
+    title: "Stress Echo",
+    content: "<p>Stress Echo (Stress Echocardiography) test provides non-invasive diagnostic evaluation of myocardial blood flow and cardiac muscle contraction under physical or pharmacological stress.</p>"
+  },
+  "dobutamine-stress-echo": {
+    title: "Dobutamine Stress Echo",
+    content: "<p>Dobutamine Stress Echocardiogram evaluates cardiac function and blood flow under pharmacological stress for precise cardiovascular diagnostics.</p>"
   }
 };
 

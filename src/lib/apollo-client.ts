@@ -39,8 +39,12 @@ let _client: ApolloClient | null = null;
 
 export const getClient = () => {
   if (!_client) {
+    const rawUrl = (process.env.WORDPRESS_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_API_URL || '').trim();
+    const isValidUrl = rawUrl.startsWith('http://') || rawUrl.startsWith('https://');
+    const uri = isValidUrl ? rawUrl : 'https://cms.henoticdiagnostics.com/graphql';
+
     const batchLink = new BatchHttpLink({
-      uri: process.env.WORDPRESS_API_URL,
+      uri,
       // Use Next.js native fetch caching for fast page loads
       fetchOptions: { next: { revalidate: 3600 } },
       batchMax: 5,         // Batch up to 5 queries together

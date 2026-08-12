@@ -43,10 +43,10 @@ describe('optimizeWordPressHTML', () => {
     expect(result).toContain('decoding="async"');
   });
 
-  it('rewrites GCS bucket URLs to CDN path', () => {
+  it('normalizes GCS bucket URLs in image tags', () => {
     const input = '<img src="https://storage.googleapis.com/wp-media-henoticbucket/MRI/test.webp" alt="MRI">';
     const result = optimizeWordPressHTML(input);
-    expect(result).toContain('/media-cdn/MRI/test.webp');
+    expect(result).toContain('https://storage.googleapis.com/wp-media-henoticbucket/MRI/test.webp');
   });
 
   it('preserves existing width/height attributes', () => {

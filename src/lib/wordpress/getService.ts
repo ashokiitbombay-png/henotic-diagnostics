@@ -46,7 +46,24 @@ async function _getService(slug: string): Promise<WordPressService | null> {
       }
     );
 
-    const service = await fetchWithTags();
+    let service = await fetchWithTags();
+
+    // If cache returned null, attempt direct query before falling back to failsafe
+    if (!service) {
+      try {
+        const client = getClient();
+        const { data } = await client.query<GetServiceResponse>({
+          query: GET_SERVICE_BY_SLUG,
+          variables: { slug },
+          fetchPolicy: "no-cache"
+        });
+        if (data?.service) {
+          service = data.service;
+        }
+      } catch (directErr) {
+        console.warn(`[getService] Direct fetch retry failed for slug ${slug}:`, directErr);
+      }
+    }
 
     if (service) {
       saveFailsafeData(slug, { title: service.title, content: service.content });

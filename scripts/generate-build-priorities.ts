@@ -29,6 +29,7 @@ const T1_SERVICES = new Set([
   'pelvic-ultrasound', 'breast-ultrasound', 'mri-brain', 'mri-knee',
   'mri-spine', 'ct-brain', 'hrct-chest', 'pet-ct', 'spect-scan',
   'bone-scan', 'cardiac-mri', 'fetal-echo', 'genetic-test',
+  'stress-echo', 'dobutamine-stress-echo',
 ]);
 
 // Priority-ordered regions (by traffic volume)
