@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { Play, Volume2, VolumeX, Pause } from "lucide-react";
+import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
 
 export default function CorporateVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -10,8 +11,19 @@ export default function CorporateVideo() {
   const togglePlay = () => { if (videoRef.current) { isPlaying ? videoRef.current.pause() : videoRef.current.play(); setIsPlaying(!isPlaying); } };
   const toggleMute = () => { if (videoRef.current) { videoRef.current.muted = !isMuted; setIsMuted(!isMuted); } };
 
+  const videoPoster = "https://storage.googleapis.com/wp-media-henoticbucket/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp";
+  const videoUrl = "https://storage.googleapis.com/wp-media-henoticbucket/Videos/henotic_diagnostics_trusted_health_care-corporate-video.mp4";
+
   return (
     <section className="py-24 bg-slate-900 relative overflow-hidden border-y border-slate-800">
+      <VideoObjectSchema
+        videoTitle="Henotic Diagnostics — Trusted Healthcare Partner Corporate Overview"
+        videoDescription="Corporate video overview of Henotic Diagnostics: NABL-accredited diagnostic center offering 3.0T MRI, 128-slice CT scan, PET-CT, 4D Ultrasound, Pathology, and Cardiac testing in Mumbai & Navi Mumbai."
+        videoUrl={videoUrl}
+        thumbnailUrl={videoPoster}
+        uploadDate="2024-01-01T00:00:00+05:30"
+        duration="PT1M30S"
+      />
       <div className="absolute inset-0 bg-blue-900/20 backdrop-blur-3xl"></div>
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="text-center mb-12">
@@ -21,7 +33,8 @@ export default function CorporateVideo() {
         <div className="relative rounded-[3rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-white/20 group max-w-5xl mx-auto bg-black">
           <video 
             ref={videoRef} 
-            src="https://storage.googleapis.com/wp-media-henoticbucket/Videos/henotic_diagnostics_trusted_health_care-corporate-video.mp4" 
+            src={videoUrl}
+            poster={videoPoster}
             className="w-full h-auto aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" 
             loop 
             controls={false}

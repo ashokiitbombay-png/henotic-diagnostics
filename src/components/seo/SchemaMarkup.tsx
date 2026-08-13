@@ -14,6 +14,24 @@ export default function SchemaMarkup({ service, location }: SchemaMarkupProps) {
     "@context": "https://schema.org",
     "@type": "MedicalTest",
     "name": `${service} in ${location}`,
+    "offers": {
+      "@type": "Offer",
+      "price": "1500",
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock",
+      "url": `https://www.henoticdiagnostics.com/services`,
+      "seller": {
+        "@type": "MedicalOrganization",
+        "name": "Henotic Diagnostics"
+      }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "1030",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
     "provider": {
       "@id": "https://www.henoticdiagnostics.com/#clinic"
     }

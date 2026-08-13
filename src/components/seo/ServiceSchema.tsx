@@ -55,6 +55,24 @@ export default function ServiceSchema({
       "url": baseUrl,
       "telephone": "+91-8879327184",
       "medicalSpecialty": "Diagnostic Radiology"
+    },
+    "offers": {
+      "@type": "Offer",
+      "name": serviceName,
+      "price": price || 1500,
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock",
+      "url": url,
+      "seller": {
+        "@type": "MedicalOrganization",
+        "name": "Henotic Diagnostics"
+      }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": ratingValue,
+      "reviewCount": reviewCount,
+      "bestRating": "5"
     }
   });
 

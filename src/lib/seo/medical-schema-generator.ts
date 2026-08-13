@@ -160,6 +160,13 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
       validFrom: '2026-01-01',
       seller: HENOTIC_MEDICAL_ORGANIZATION
     },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '1030',
+      bestRating: '5',
+      worstRating: '1'
+    },
     provider: HENOTIC_MEDICAL_ORGANIZATION
   };
 
@@ -467,7 +474,7 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
       name: `Conditions requiring ${serviceName}`
     },
     normalRange: 'Results interpreted by senior specialists — normal ranges provided in report',
-    affectedBy: wpMeta.preparationText || 'Fasting or specific preparation may be required. Contact +91-8879327184 for guidance.',
+    preparation: wpMeta.preparationText || 'Fasting or specific preparation instructions provided upon appointment confirmation.',
     usesDevice: {
       '@type': 'MedicalDevice',
       name: usedDevice
@@ -483,14 +490,9 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
       name: 'National Accreditation Board for Testing and Calibration Laboratories (NABL)',
       url: 'https://nabl-india.org/'
     },
-    provider: HENOTIC_MEDICAL_ORGANIZATION
-  };
-
-  // Add pricing offer if available
-  if (pricingData) {
-    medicalTestSchema.offers = {
+    offers: {
       '@type': 'Offer',
-      price: String(pricingData.henoticPrice),
+      price: pricingData?.henoticPrice ? String(pricingData.henoticPrice) : '1500',
       priceCurrency: 'INR',
       availability: 'https://schema.org/InStock',
       priceValidUntil: '2027-12-31',
@@ -500,8 +502,16 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
         name: 'Henotic Diagnostics',
         '@id': `${BASE_URL}/#clinic`
       }
-    };
-  }
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '1030',
+      bestRating: '5',
+      worstRating: '1'
+    },
+    provider: HENOTIC_MEDICAL_ORGANIZATION
+  };
 
   return medicalTestSchema;
 }

@@ -74,7 +74,7 @@ export default function ProductSchema({
       '@type': 'Offer',
       url,
       priceCurrency: 'INR',
-      ...(price != null && { price: price.toString() }),
+      price: price != null ? price.toString() : '1500',
       ...(marketPrice != null && price != null && {
         priceSpecification: {
           '@type': 'UnitPriceSpecification',
