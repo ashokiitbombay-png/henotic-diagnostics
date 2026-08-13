@@ -60,17 +60,6 @@ export default function LocalSEOMastery({ service, region, location }: { service
 
   const { count: reviewCount, ratingValue } = getStableReviewStats(location);
 
-  const reviewSchema = {
-    "@context": "https://schema.org",
-    "@type": "MedicalClinic",
-    "name": `Henotic Diagnostics ${locationName}`,
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": ratingValue,
-      "reviewCount": reviewCount
-    }
-  };
-
   // 3. PROGRAMMATIC CROSS-LINKING (Nearby Hubs resolved dynamically from the same region)
   const regionCities = REGION_LOCATIONS[region] || [];
   const nearbyLocations = regionCities.filter(l => l !== location).slice(0, 4);
@@ -79,7 +68,6 @@ export default function LocalSEOMastery({ service, region, location }: { service
     <div className="w-full max-w-6xl mx-auto px-4 py-16">
       {/* INVISIBLE SCHEMA INJECTIONS */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }} />
 
       {/* THIN CONTENT KILLER: Hyper-Local Dynamic Text Block */}
       <div className="bg-white/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-sm border border-white mb-12">

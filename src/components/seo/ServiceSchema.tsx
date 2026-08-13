@@ -67,12 +67,6 @@ export default function ServiceSchema({
         "@type": "MedicalOrganization",
         "name": "Henotic Diagnostics"
       }
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": ratingValue,
-      "reviewCount": reviewCount,
-      "bestRating": "5"
     }
   });
 
@@ -91,12 +85,6 @@ export default function ServiceSchema({
         "addressLocality": formatName(locationName),
         "addressRegion": formatName(regionName),
         "addressCountry": "IN"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": ratingValue,
-        "reviewCount": reviewCount,
-        "bestRating": "5"
       },
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",

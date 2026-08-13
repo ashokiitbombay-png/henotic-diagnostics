@@ -160,13 +160,6 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
       validFrom: '2026-01-01',
       seller: HENOTIC_MEDICAL_ORGANIZATION
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '1030',
-      bestRating: '5',
-      worstRating: '1'
-    },
     provider: HENOTIC_MEDICAL_ORGANIZATION
   };
 
@@ -502,13 +495,6 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
         name: 'Henotic Diagnostics',
         '@id': `${BASE_URL}/#clinic`
       }
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '1030',
-      bestRating: '5',
-      worstRating: '1'
     },
     provider: HENOTIC_MEDICAL_ORGANIZATION
   };
