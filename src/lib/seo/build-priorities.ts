@@ -32,14 +32,14 @@ interface BuildManifest {
  * Returns the top N pre-build paths for a given route level,
  * already filtered through the build shard helper for parallel CI.
  */
-export function getServicePriorities(maxPaths: number = 200) {
+export function getServicePriorities(maxPaths: number = 60) {
   const manifest = buildManifest as BuildManifest;
   return filterShardParams(
     manifest.service.slice(0, maxPaths).map(p => ({ service: p.service }))
   );
 }
 
-export function getRegionPriorities(maxPaths: number = 3000) {
+export function getRegionPriorities(maxPaths: number = 150) {
   const manifest = buildManifest as BuildManifest;
   return filterShardParams(
     manifest.region.slice(0, maxPaths).map(p => ({
@@ -49,7 +49,7 @@ export function getRegionPriorities(maxPaths: number = 3000) {
   );
 }
 
-export function getLocationPriorities(maxPaths: number = 5000) {
+export function getLocationPriorities(maxPaths: number = 250) {
   const manifest = buildManifest as BuildManifest;
   return filterShardParams(
     manifest.location.slice(0, maxPaths).map(p => ({
@@ -60,7 +60,7 @@ export function getLocationPriorities(maxPaths: number = 5000) {
   );
 }
 
-export function getConditionPriorities(maxPaths: number = 100) {
+export function getConditionPriorities(maxPaths: number = 30) {
   const manifest = buildManifest as BuildManifest;
   return filterShardParams(
     manifest.condition.slice(0, maxPaths).map(p => ({
