@@ -39,13 +39,6 @@ export const HENOTIC_MEDICAL_ORGANIZATION = {
     latitude: 19.033,
     longitude: 73.067
   },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.9',
-    reviewCount: '1030',
-    bestRating: '5',
-    worstRating: '1'
-  },
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
@@ -144,7 +137,6 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     procedureType: 'https://schema.org/DiagnosticProcedure',
     bodyLocation,
     howPerformed: wpMeta.howPerformedText || `High-resolution diagnostic imaging and laboratory testing performed by certified technicians and interpreted by senior radiologists/pathologists.`,
-    preparation: wpMeta.preparationText || `Fasting or specific prep instructions depend on procedure. Contact Henotic Diagnostics at +91-8879327184 for detailed guidance.`,
     status: 'https://schema.org/EventScheduled',
     code: {
       '@type': 'MedicalCode',
@@ -467,7 +459,6 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
       name: `Conditions requiring ${serviceName}`
     },
     normalRange: 'Results interpreted by senior specialists — normal ranges provided in report',
-    preparation: wpMeta.preparationText || 'Fasting or specific preparation instructions provided upon appointment confirmation.',
     usesDevice: {
       '@type': 'MedicalDevice',
       name: usedDevice

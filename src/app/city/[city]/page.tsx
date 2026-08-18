@@ -84,13 +84,6 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
       addressRegion: 'Maharashtra',
       addressCountry: 'IN'
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: '1240',
-      bestRating: '5',
-      worstRating: '1'
-    },
     medicalSpecialty: 'Diagnostic Imaging',
     priceRange: '₹₹'
   };

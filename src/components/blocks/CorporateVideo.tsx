@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { Play, Volume2, VolumeX, Pause } from "lucide-react";
-import VideoObjectSchema from "@/components/seo/VideoObjectSchema";
+
 
 export default function CorporateVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -16,14 +16,7 @@ export default function CorporateVideo() {
 
   return (
     <section className="py-24 bg-slate-900 relative overflow-hidden border-y border-slate-800">
-      <VideoObjectSchema
-        videoTitle="Henotic Diagnostics — Trusted Healthcare Partner Corporate Overview"
-        videoDescription="Corporate video overview of Henotic Diagnostics: NABL-accredited diagnostic center offering 3.0T MRI, 128-slice CT scan, PET-CT, 4D Ultrasound, Pathology, and Cardiac testing in Mumbai & Navi Mumbai."
-        videoUrl={videoUrl}
-        thumbnailUrl={videoPoster}
-        uploadDate="2024-01-01T00:00:00+05:30"
-        duration="PT1M30S"
-      />
+
       <div className="absolute inset-0 bg-blue-900/20 backdrop-blur-3xl"></div>
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="text-center mb-12">
@@ -62,6 +55,11 @@ export default function CorporateVideo() {
                {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
              </button>
           </div>
+        </div>
+        <div className="text-center mt-8">
+          <a href="/video/corporate-overview" className="text-pink-400 hover:text-white font-bold text-sm tracking-wider uppercase transition-colors">
+            Watch Full Video →
+          </a>
         </div>
       </div>
     </section>

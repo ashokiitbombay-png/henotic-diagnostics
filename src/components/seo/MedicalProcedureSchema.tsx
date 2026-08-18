@@ -27,7 +27,6 @@ export default function MedicalProcedureSchema({
     "procedureType": "https://schema.org/DiagnosticProcedure",
     "bodyLocation": bodyLocation || "Various",
     "howPerformed": howPerformed || `Advanced diagnostic imaging and laboratory analysis using state-of-the-art equipment for accurate ${procedureName} results.`,
-    "preparation": "Preparation instructions vary by test. Contact us for specific guidelines.",
     "status": "https://schema.org/EventScheduled",
     "availableService": {
       "@type": "MedicalTherapy",

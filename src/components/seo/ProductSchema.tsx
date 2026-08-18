@@ -53,21 +53,11 @@ export default function ProductSchema({
         code: serviceSlug,
         codingSystem: 'HenoticDiagnosticCatalog',
       },
-      ...(prerequisites && { preparation: prerequisites }),
       ...(fastingGuidelines && { fastingRequirement: fastingGuidelines }),
       ...(reportingTime && { normalRange: reportingTime }),
       ...(bookingProcess && { howToUse: bookingProcess }),
     },
 
-    // Store Rating / Aggregate Rating
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      bestRating: '5',
-      worstRating: '1',
-      ratingCount: '523',
-      reviewCount: '489',
-    },
 
     // Offer with eligible region
     offers: {

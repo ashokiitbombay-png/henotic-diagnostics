@@ -110,42 +110,6 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
         </div>
       </div>
 
-      {/* Physician Schema — enhanced for Google Knowledge Panel */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Physician",
-        "@id": `https://www.henoticdiagnostics.com/doctors/${slug}#physician`,
-        "name": doc.name,
-        "description": doc.bio,
-        "url": `https://www.henoticdiagnostics.com/doctors/${slug}`,
-        "telephone": "+91-8879327184",
-        "medicalSpecialty": doc.specializations,
-        "jobTitle": doc.designation,
-        "qualifications": doc.credentials,
-        "alumniOf": doc.education.map(e => ({ "@type": "EducationalOrganization", "name": e })),
-        "worksFor": {
-          "@type": "MedicalOrganization",
-          "name": "Henotic Diagnostics",
-          "url": "https://www.henoticdiagnostics.com",
-          "telephone": "+91-8879327184"
-        },
-        "memberOf": doc.memberships.map(m => ({ "@type": "Organization", "name": m })),
-        "availableService": doc.linkedServices.map(s => ({
-          "@type": "MedicalProcedure",
-          "name": formatText(s),
-          "url": `https://www.henoticdiagnostics.com/services/${s}`
-        }))
-      }) }} />
-      {/* BreadcrumbSchema */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.henoticdiagnostics.com" },
-          { "@type": "ListItem", "position": 2, "name": "Doctors", "item": "https://www.henoticdiagnostics.com/doctors" },
-          { "@type": "ListItem", "position": 3, "name": doc.name, "item": `https://www.henoticdiagnostics.com/doctors/${slug}` }
-        ]
-      }) }} />
     </main>
   );
 }
