@@ -82,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
           <meta name="apple-mobile-web-app-title" content="Henotic Diagnostics" />
+          <meta name="msvalidate.01" content="478B90B2BD25B2CF940C5CD10D182CAB" />
           {/* Hreflang for multi-language SEO */}
           <link rel="alternate" hrefLang="en-IN" href="https://www.henoticdiagnostics.com" />
           <link rel="alternate" hrefLang="hi-IN" href="https://www.henoticdiagnostics.com" />
