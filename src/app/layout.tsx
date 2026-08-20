@@ -77,10 +77,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* PWA */}
           <link rel="manifest" href="/manifest.json" />
           <link rel="icon" href="/favicon.ico" sizes="any" />
-          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <link rel="apple-touch-icon" href="/apple-icon.png" />
           <meta name="theme-color" content="#1e3a5f" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+          <meta name="apple-mobile-web-app-title" content="Henotic Diagnostics" />
           {/* Hreflang for multi-language SEO */}
           <link rel="alternate" hrefLang="en-IN" href="https://www.henoticdiagnostics.com" />
           <link rel="alternate" hrefLang="hi-IN" href="https://www.henoticdiagnostics.com" />
