@@ -28,7 +28,7 @@ export default function ThirdPartyScripts() {
       window.removeEventListener("keydown", loadScripts);
       window.removeEventListener("click", loadScripts);
 
-      console.log("⚡ [PSEO Performance] Loading Google Tag Manager & Google AdSense...");
+      console.log("⚡ [PSEO Performance] Loading Google Tag Manager, Google AdSense & Microsoft Clarity...");
 
       // 1. Google Tag Manager (GTM) script injection
       const gtmScript = document.createElement("script");
@@ -47,6 +47,17 @@ export default function ThirdPartyScripts() {
       adsenseScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2224247495448831";
       adsenseScript.crossOrigin = "anonymous";
       document.head.appendChild(adsenseScript);
+
+      // 3. Microsoft Clarity tracking
+      const clarityScript = document.createElement("script");
+      clarityScript.innerHTML = `
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "y5fb4rz2a2");
+      `;
+      document.head.appendChild(clarityScript);
     };
 
     // Attach event listeners
