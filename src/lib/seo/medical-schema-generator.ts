@@ -60,7 +60,6 @@ export const HENOTIC_MEDICAL_ORGANIZATION = {
 // ── Helper Utility: Extract Clean Text & Metadata from WP Payload ──────
 export function extractWpMetadata(wpContent?: string): {
   cleanSummary?: string;
-  preparationText?: string;
   howPerformedText?: string;
 } {
   if (!wpContent || typeof wpContent !== 'string') return {};
@@ -68,15 +67,11 @@ export function extractWpMetadata(wpContent?: string): {
   const cleanText = wpContent.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
   const summary = cleanText.slice(0, 250);
 
-  let prepMatch = wpContent.match(/(?:preparation|before the test|instructions):?[\s\S]*?(?:<\/p>|<\/li>)/i);
-  let prepText = prepMatch ? prepMatch[0].replace(/<[^>]*>/g, '').trim() : undefined;
-
   let howMatch = wpContent.match(/(?:procedure|how it is done|during the test):?[\s\S]*?(?:<\/p>|<\/li>)/i);
   let howText = howMatch ? howMatch[0].replace(/<[^>]*>/g, '').trim() : undefined;
 
   return {
     cleanSummary: summary.length > 30 ? summary : undefined,
-    preparationText: prepText,
     howPerformedText: howText
   };
 }

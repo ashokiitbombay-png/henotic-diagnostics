@@ -84,16 +84,7 @@ export default function PricingTable({ serviceSlug, serviceName, locationName }:
         </div>
       </div>
 
-      {/* Offer Schema */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Offer",
-        "name": serviceName,
-        "price": pricing.henoticPrice,
-        "priceCurrency": "INR",
-        "availability": "https://schema.org/InStock",
-        "seller": { "@type": "MedicalOrganization", "name": "Henotic Diagnostics" }
-      }) }} />
+      {/* Offer schema is already embedded in DiagnosticProcedure and MedicalTest via MedicalPseoSchema */}
     </section>
   );
 }

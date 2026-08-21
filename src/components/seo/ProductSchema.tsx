@@ -35,14 +35,12 @@ export default function ProductSchema({
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: serviceName,
-    description: `${serviceName} by Henotic Diagnostics — NABL & ISO accredited medical test kit & diagnostic report package in Navi Mumbai. Pre-Requisites: ${prerequisites || 'None'}. Fasting: ${fastingGuidelines || 'Not required'}. Reporting: ${reportingTime || 'Same-day'}.`,
+    description: `${serviceName} by Henotic Diagnostics — NABL & ISO accredited diagnostic service in Navi Mumbai. Same-day reporting available.`,
     brand: {
       '@type': 'Brand',
       name: 'Henotic Diagnostics',
     },
     ...(category && { category }),
-    ...(prerequisites && { prerequisites }),
-    ...(fastingGuidelines && { fastingProcedure: fastingGuidelines }),
 
     // Medical Procedure / Test Details for Healthcare AI & Search Crawlers
     subjectOf: {
@@ -53,9 +51,7 @@ export default function ProductSchema({
         code: serviceSlug,
         codingSystem: 'HenoticDiagnosticCatalog',
       },
-      ...(fastingGuidelines && { fastingRequirement: fastingGuidelines }),
       ...(reportingTime && { normalRange: reportingTime }),
-      ...(bookingProcess && { howToUse: bookingProcess }),
     },
 
 

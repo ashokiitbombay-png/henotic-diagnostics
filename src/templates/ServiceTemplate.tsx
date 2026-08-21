@@ -3,11 +3,8 @@ import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import ServiceHero from '@/components/blocks/ServiceHero';
-import ServiceSchema from "@/components/seo/ServiceSchema";
 import MedicalProcedureSchema from "@/components/seo/MedicalProcedureSchema";
 import ProductSchema from "@/components/seo/ProductSchema";
-import FAQSchema from "@/components/seo/FAQSchema";
-import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PeopleAlsoSearchFor from "@/components/seo/PeopleAlsoSearchFor";
@@ -33,6 +30,9 @@ export default function ServiceTemplate({
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+      {/* MedicalPseoSchema generates ALL core schemas: DiagnosticProcedure, MedicalTest, 
+          MedicalWebPage, BreadcrumbList, and FAQPage.
+          DO NOT add duplicate ServiceSchema, BreadcrumbSchema, or FAQSchema here. */}
       <MedicalPseoSchema
         type="service"
         serviceSlug={service}
@@ -40,11 +40,6 @@ export default function ServiceTemplate({
         wpContent={content}
       />
       <ServiceHero service={service} />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: '/' },
-        { name: 'Services', url: '/services' },
-        { name: formattedService, url: `/services/${service}` },
-      ]} />
       <div className="max-w-5xl mx-auto px-0 sm:px-4 lg:px-8">
         
         <Link href="/services" className="inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors mb-6 mx-4 sm:mx-0 mt-8">
@@ -91,10 +86,8 @@ export default function ServiceTemplate({
 
       {/* FAQ Section */}
       <ServiceFAQ faqs={faqs} serviceName={formattedService} />
-      <FAQSchema faqs={faqs} />
 
-      {/* Enhanced Schema */}
-      <ServiceSchema serviceName={formattedService} serviceSlug={service} />
+      {/* Enhanced Schema — unique to service pillar pages */}
       <MedicalProcedureSchema
         procedureName={formattedService}
         procedureSlug={service}

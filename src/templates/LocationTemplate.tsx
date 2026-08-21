@@ -1,10 +1,6 @@
 import React from "react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import LocalSEOMastery from "@/components/seo/LocalSEOMastery";
-import SchemaMarkup from "@/components/seo/SchemaMarkup";
-import ServiceSchema from "@/components/seo/ServiceSchema";
-import FAQSchema from "@/components/seo/FAQSchema";
-import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import CrossLocationLinks from "@/components/seo/CrossLocationLinks";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PeopleAlsoSearchFor from "@/components/seo/PeopleAlsoSearchFor";
@@ -13,7 +9,6 @@ import ServiceFAQ from "@/components/blocks/ServiceFAQ";
 import LocationFAQ from "@/components/seo/LocationFAQ";
 import { getFAQsForService } from "@/config/faqs";
 import { getPricingForService } from "@/config/pricing";
-import { REAL_LOCATION_REVIEWS } from "@/config/locations";
 import { Activity, CheckCircle2, Calendar } from "lucide-react";
 import ServiceHero from '@/components/blocks/ServiceHero';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
@@ -42,10 +37,12 @@ export default function LocationTemplate({
   const context = { locationName: formattedLocation, serviceName: formattedService, regionName: formattedRegion };
   const faqs = getFAQsForService(service, formattedService, formattedLocation);
   const pricing = getPricingForService(service);
-  const locationReviews = REAL_LOCATION_REVIEWS[location];
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
+      {/* MedicalPseoSchema generates ALL schemas: DiagnosticProcedure, MedicalTest, 
+          MedicalWebPage, BreadcrumbList, FAQPage, and MedicalClinic (per-location).
+          DO NOT add duplicate SchemaMarkup, ServiceSchema, FAQSchema, or BreadcrumbSchema here. */}
       <MedicalPseoSchema
         type="service"
         serviceSlug={service}
@@ -54,16 +51,6 @@ export default function LocationTemplate({
         locationSlug={location}
         wpContent={content}
       />
-      <SchemaMarkup service={formattedService} location={formattedLocation} />
-      <ServiceSchema
-        serviceName={formattedService}
-        serviceSlug={service}
-        locationName={location}
-        regionName={region}
-        ratingValue={locationReviews?.ratingValue}
-        reviewCount={locationReviews?.reviewCount}
-      />
-      <FAQSchema faqs={faqs} />
 
       {/* 1. PREMIUM HERO WITH BREADCRUMBS & ACCREDITATIONS */}
       <ServiceHero 
@@ -71,13 +58,6 @@ export default function LocationTemplate({
         region={region} 
         location={location}
       />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: '/' },
-        { name: 'Services', url: '/services' },
-        { name: formattedService, url: `/services/${service}` },
-        { name: formattedRegion, url: `/services/${service}/${region}` },
-        { name: formattedLocation, url: `/services/${service}/${region}/${location}` },
-      ]} />
 
       {/* 2. DYNAMIC CONTENT & STICKY SIDEBAR SPLIT */}
       <section className="max-w-7xl mx-auto px-0 sm:px-4 md:px-8 -mt-16 relative z-20">
