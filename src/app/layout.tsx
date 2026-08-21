@@ -74,10 +74,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://storage.googleapis.com" />
-          {/* PWA */}
+          {/* PWA — favicon/icon/apple-icon auto-detected by Next.js from src/app/ */}
           <link rel="manifest" href="/manifest.json" />
-          <link rel="icon" href="/favicon.ico" sizes="any" />
-          <link rel="apple-touch-icon" href="/apple-icon.png" />
           <meta name="theme-color" content="#1e3a5f" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
