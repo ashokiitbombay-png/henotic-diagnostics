@@ -110,9 +110,22 @@ export const SERVICE_PRICING: ServicePricing[] = [
   { serviceSlug: 'dexa-bone-scan', serviceName: 'DEXA Bone Density Scan', henoticPrice: 1200, marketPrice: 2200, savings: 45, currency: 'INR', category: 'Bone Health' },
 
   // ────────────────────────────────────
-  // FIBROSCAN & LIVER (1)
+  // LIVER & FIBROSCAN (14)
   // ────────────────────────────────────
-  { serviceSlug: 'fibroscan', serviceName: 'Fibroscan (Liver Elastography)', henoticPrice: 2000, marketPrice: 3500, savings: 43, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'fibroscan', serviceName: 'Fibroscan (Liver Elastography)', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'fibroscan-test', serviceName: 'Fibroscan Test', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'liver-fibroscan', serviceName: 'Liver Fibroscan', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'liver-elastography', serviceName: 'Liver Elastography', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'hepatic-elastography', serviceName: 'Hepatic Elastography', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'fatty-liver-assessment', serviceName: 'Fatty Liver Assessment', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'fatty-liver-screening', serviceName: 'Fatty Liver Screening', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'fatty-liver-scan', serviceName: 'Fatty Liver Scan', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'liver-health-assessment', serviceName: 'Liver Health Assessment', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'liver-screening', serviceName: 'Liver Screening', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'liver-fibrosis-assessment', serviceName: 'Liver Fibrosis Assessment', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'liver-stiffness-test', serviceName: 'Liver Stiffness Test', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'cirrhosis-screening', serviceName: 'Cirrhosis Screening', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
+  { serviceSlug: 'chronic-liver-disease-screening', serviceName: 'Chronic Liver Disease Screening', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
 
   // ────────────────────────────────────
   // GENETIC TESTING (2)
