@@ -65,7 +65,7 @@ export const SERVICE_PRICING: ServicePricing[] = [
   // ────────────────────────────────────
   { serviceSlug: 'pregnancy-sonography', serviceName: 'Pregnancy Sonography', henoticPrice: 1000, marketPrice: 2000, savings: 50, currency: 'INR', category: 'Pregnancy & Fetal' },
   { serviceSlug: 'nt-scan', serviceName: 'NT Scan (Nuchal Translucency)', henoticPrice: 1500, marketPrice: 2800, savings: 46, currency: 'INR', category: 'Pregnancy & Fetal' },
-  { serviceSlug: 'anomaly-scan', serviceName: 'Anomaly Scan (Level 2)', henoticPrice: 2000, marketPrice: 3500, savings: 43, currency: 'INR', category: 'Pregnancy & Fetal' },
+  { serviceSlug: 'anomaly-scan', serviceName: 'Anomaly Scan (Level 2)', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Pregnancy & Fetal' },
   { serviceSlug: 'fetal-echocardiography', serviceName: 'Fetal Echocardiography', henoticPrice: 2500, marketPrice: 4500, savings: 44, currency: 'INR', category: 'Pregnancy & Fetal' },
   { serviceSlug: 'growth-scan', serviceName: 'Fetal Growth Scan', henoticPrice: 1000, marketPrice: 1800, savings: 44, currency: 'INR', category: 'Pregnancy & Fetal' },
   { serviceSlug: 'fetal-doppler', serviceName: 'Fetal Doppler Study', henoticPrice: 1200, marketPrice: 2200, savings: 45, currency: 'INR', category: 'Pregnancy & Fetal' },
