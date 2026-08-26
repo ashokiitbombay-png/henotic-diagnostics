@@ -4,6 +4,7 @@ import { getFAQsForService } from '@/config/faqs';
 import { getConditionById } from '@/config/conditions';
 import { getDoctorById } from '@/config/doctors';
 import { getComparisonBySlug } from '@/config/comparisons';
+import { getHeroImageForService } from '@/config/services';
 
 const BASE_URL = 'https://www.henoticdiagnostics.com';
 
@@ -129,6 +130,7 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     alternateName: serviceName,
     description: wpMeta.cleanSummary || `Accurate NABL-accredited ${serviceName} in ${formattedLocation} by Henotic Diagnostics. Fast digital reporting, high precision equipment.`,
     url: pageUrl,
+    image: getHeroImageForService(serviceSlug),
     procedureType: 'https://schema.org/DiagnosticProcedure',
     bodyLocation,
     howPerformed: wpMeta.howPerformedText || `High-resolution diagnostic imaging and laboratory testing performed by certified technicians and interpreted by senior radiologists/pathologists.`,
@@ -448,6 +450,7 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
     description: wpMeta.cleanSummary ||
       `NABL-accredited ${serviceName} at Henotic Diagnostics, ${formattedLocation}. Accurate results with fast digital reporting by experienced radiologists and pathologists.`,
     url: pageUrl,
+    image: getHeroImageForService(serviceSlug),
     bodyLocation,
     usedToDiagnose: {
       '@type': 'MedicalCondition',
@@ -543,6 +546,7 @@ export function generateLocationClinicSchema(params: LocationClinicParams) {
       ? `Book ${serviceName} at Henotic Diagnostics ${locationName}, ${regionName}. NABL accredited center with 24/7 availability, instant digital reports, and up to 50% savings.`
       : `Premium NABL-accredited diagnostic center serving ${locationName}, ${regionName}. MRI, CT, PET-CT, Ultrasound, Pathology & more.`,
     url: pageUrl,
+    image: serviceSlug ? getHeroImageForService(serviceSlug) : `${BASE_URL}/icon.svg`,
     telephone: '+91-8879327184',
     priceRange: '₹200 - ₹25,000',
     currenciesAccepted: 'INR',

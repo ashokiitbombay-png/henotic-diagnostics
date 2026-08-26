@@ -5,6 +5,7 @@ import LocationTemplate from "@/templates/LocationTemplate";
 import { getService } from "@/lib/wordpress/getService";
 import { formatSlug } from "@/lib/utils";
 import { isValidServiceSlug, isValidLocationForRegion } from '@/lib/seo/slug-validator';
+import { getHeroImageForService } from '@/config/services';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   const title = `Best ${serviceName} in ${locationName}, ${regionName} | Henotic Diagnostics`;
   const description = `Looking for a ${serviceName} in ${locationName}? Henotic Diagnostics offers highly accurate, NABL-accredited imaging and pathology with same-day reports. Book now!`;
   const canonicalUrl = `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}/${resolvedParams.location}`;
+  const heroImage = getHeroImageForService(resolvedParams.service);
 
   return {
     title,
@@ -34,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
       type: "website",
       url: canonicalUrl,
       images: [{
-        url: `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(`${serviceName} in ${locationName}`)}&subtitle=${encodeURIComponent(`Henotic Diagnostics ${regionName}`)}`,
+        url: heroImage,
         width: 1200,
         height: 630,
         alt: `${serviceName} in ${locationName}, ${regionName} | Henotic Diagnostics`,
@@ -44,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
       card: 'summary_large_image',
       title,
       description,
-      images: [`https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(`${serviceName} in ${locationName}`)}&subtitle=${encodeURIComponent(`Henotic Diagnostics ${regionName}`)}`],
+      images: [heroImage],
     },
   };
 }

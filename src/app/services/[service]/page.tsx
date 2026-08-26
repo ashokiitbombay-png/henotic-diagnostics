@@ -5,12 +5,14 @@ import ServiceTemplate from '@/templates/ServiceTemplate';
 import { getService } from '@/lib/wordpress/getService';
 import { formatSlug } from '@/lib/utils';
 import { isValidServiceSlug } from '@/lib/seo/slug-validator';
+import { getHeroImageForService } from '@/config/services';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
 export async function generateMetadata({ params }: { params: Promise<{ service: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const serviceName = formatSlug(resolvedParams.service);
+  const heroImage = getHeroImageForService(resolvedParams.service);
 
   return {
     title: `Best ${serviceName} | Book Online | Henotic Diagnostics`,
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
       description: `Book ${serviceName} at Henotic Diagnostics. NABL certified, same-day reports, 24/7 availability.`,
       url: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`,
       images: [{
-        url: `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(serviceName)}&subtitle=${encodeURIComponent('NABL Certified Diagnostic Center')}`,
+        url: heroImage,
         width: 1200,
         height: 630,
         alt: `${serviceName} at Henotic Diagnostics`,
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     twitter: {
       card: 'summary_large_image',
       title: `${serviceName} — Henotic Diagnostics`,
-      images: [`https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(serviceName)}&subtitle=${encodeURIComponent('Book Online • Same-Day Reports')}`],
+      images: [heroImage],
     },
   };
 } 

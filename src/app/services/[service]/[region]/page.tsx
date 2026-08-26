@@ -17,6 +17,7 @@ import { getService } from '@/lib/wordpress/getService';
 import PartnerCenters from '@/components/blocks/PartnerCenters';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 import { isValidServiceSlug, isValidRegionSlug } from '@/lib/seo/slug-validator';
+import { getHeroImageForService } from '@/config/services';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
@@ -27,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   const resolvedParams = await params;
   const serviceName = formatSlug(resolvedParams.service);
   const regionName = formatSlug(resolvedParams.region);
+  const heroImage = getHeroImageForService(resolvedParams.service);
 
   const title = `Best ${serviceName} in ${regionName} | Book Online | Henotic Diagnostics`;
   const description = `Looking for a reliable ${serviceName} in ${regionName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`;
@@ -44,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
       type: "website",
       url: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}`,
       images: [{
-        url: `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(serviceName)}&subtitle=${encodeURIComponent(`Premier Centers in ${regionName}`)}`,
+        url: heroImage,
         width: 1200,
         height: 630,
         alt: `${serviceName} in ${regionName} | Henotic Diagnostics`,
@@ -54,7 +56,7 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
       card: 'summary_large_image',
       title,
       description,
-      images: [`https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(serviceName)}&subtitle=${encodeURIComponent(`Premier Centers in ${regionName}`)}`],
+      images: [heroImage],
     },
   };
 }
