@@ -39,14 +39,71 @@ export const SERVICE_PRICING: ServicePricing[] = [
   { serviceSlug: 'whole-body-ct-scan', serviceName: 'Whole Body CT Scan', henoticPrice: 18500, marketPrice: 25000, savings: 26, currency: 'INR', category: 'CT Scan' },
 
   // ────────────────────────────────────
-  // PET CT & NUCLEAR MEDICINE (6)
+  // PET CT & NUCLEAR MEDICINE (37)
   // ────────────────────────────────────
-  { serviceSlug: 'pet-ct', serviceName: 'PET CT Scan', henoticPrice: 12000, marketPrice: 22000, savings: 45, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
-  { serviceSlug: 'whole-body-pet-ct', serviceName: 'Whole Body PET CT', henoticPrice: 12000, marketPrice: 25000, savings: 52, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
-  { serviceSlug: 'fdg-pet-ct', serviceName: 'FDG PET CT', henoticPrice: 12500, marketPrice: 23000, savings: 46, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
-  { serviceSlug: 'bone-scan', serviceName: 'Bone Scintigraphy / Bone Scan', henoticPrice: 4500, marketPrice: 8000, savings: 44, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
-  { serviceSlug: 'thyroid-scan', serviceName: 'Thyroid Scintigraphy', henoticPrice: 2500, marketPrice: 4500, savings: 44, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
-  { serviceSlug: 'renal-scan', serviceName: 'Renal DTPA / EC Scan', henoticPrice: 3000, marketPrice: 5500, savings: 45, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  // PET Scan & PET CT variants (Our Price: ₹14,500 | Market Avg: ₹16,500 | Save 12%)
+  { serviceSlug: 'pet-scan', serviceName: 'PET Scan', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'pet-ct', serviceName: 'PET CT Scan', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'whole-body-pet-ct', serviceName: 'Whole Body PET CT', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'whole-body-pet-scan', serviceName: 'Whole Body PET Scan', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'fdg-pet-ct', serviceName: 'FDG PET CT', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'oncology-pet-ct', serviceName: 'Oncology PET CT', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'cardiac-pet-ct', serviceName: 'Cardiac PET CT', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'neurology-pet-ct', serviceName: 'Neurology PET CT', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'pet-cancer-screening', serviceName: 'PET Cancer Screening', henoticPrice: 14500, marketPrice: 16500, savings: 12, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Cancer PET Scan (Our Price: ₹7,500 | Market Avg: ₹10,500 | Save 29%)
+  { serviceSlug: 'cancer-pet-scan', serviceName: 'Cancer PET Scan', henoticPrice: 7500, marketPrice: 10500, savings: 29, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // SPECT & Nuclear Medicine (Our Price: ₹7,500 | Market Avg: ₹10,500 | Save 29%)
+  { serviceSlug: 'spect-scan', serviceName: 'SPECT Scan', henoticPrice: 7500, marketPrice: 10500, savings: 29, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'nuclear-medicine', serviceName: 'Nuclear Medicine', henoticPrice: 7500, marketPrice: 10500, savings: 29, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'dtpa-scan', serviceName: 'DTPA Scan', henoticPrice: 7500, marketPrice: 10500, savings: 29, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'ec-scan', serviceName: 'EC Scan', henoticPrice: 7500, marketPrice: 10500, savings: 29, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Renal Scans (Our Price: ₹7,500 | Market Avg: ₹12,500 | Save 40%)
+  { serviceSlug: 'renal-scan', serviceName: 'Renal Scan', henoticPrice: 7500, marketPrice: 12500, savings: 40, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'renal-function-scan', serviceName: 'Renal Function Scan', henoticPrice: 7500, marketPrice: 12500, savings: 40, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // EC Renal & MAG3 Scans (Our Price: ₹10,500 | Market Avg: ₹12,500 | Save 16%)
+  { serviceSlug: 'ec-renal-scan', serviceName: 'EC Renal Scan', henoticPrice: 10500, marketPrice: 12500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'mag3-scan', serviceName: 'MAG3 Scan', henoticPrice: 10500, marketPrice: 12500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Bone Scans (Our Price: ₹10,500 | Market Avg: ₹12,500 | Save 16%)
+  { serviceSlug: 'bone-scan', serviceName: 'Bone Scan', henoticPrice: 10500, marketPrice: 12500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'bone-scintigraphy', serviceName: 'Bone Scintigraphy', henoticPrice: 10500, marketPrice: 12500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Thyroid Scans (Our Price: ₹5,500 | Market Avg: ₹8,500 | Save 35%)
+  { serviceSlug: 'thyroid-scan', serviceName: 'Thyroid Scan', henoticPrice: 5500, marketPrice: 8500, savings: 35, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'thyroid-scintigraphy', serviceName: 'Thyroid Scintigraphy', henoticPrice: 5500, marketPrice: 8500, savings: 35, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'thyroid-uptake-scan', serviceName: 'Thyroid Uptake Scan', henoticPrice: 5500, marketPrice: 8500, savings: 35, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Parathyroid Scan (Our Price: ₹10,500 | Market Avg: ₹12,500 | Save 16%)
+  { serviceSlug: 'parathyroid-scan', serviceName: 'Parathyroid Scan', henoticPrice: 10500, marketPrice: 12500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // GFR Test (Our Price: ₹7,500 | Market Avg: ₹12,500 | Save 40%)
+  { serviceSlug: 'gfr-test', serviceName: 'GFR Test', henoticPrice: 7500, marketPrice: 12500, savings: 40, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Myocardial Perfusion Scan (Our Price: ₹10,500 | Market Avg: ₹12,500 | Save 16%)
+  { serviceSlug: 'myocardial-perfusion-scan', serviceName: 'Myocardial Perfusion Scan', henoticPrice: 10500, marketPrice: 12500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Lung Perfusion Scan (Our Price: ₹10,500 | Market Avg: ₹12,500 | Save 16%)
+  { serviceSlug: 'lung-perfusion-scan', serviceName: 'Lung Perfusion Scan', henoticPrice: 10500, marketPrice: 12500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Gastric Emptying Study (Our Price: ₹5,500 | Market Avg: ₹10,500 | Save 48%)
+  { serviceSlug: 'gastric-emptying-study', serviceName: 'Gastric Emptying Study', henoticPrice: 5500, marketPrice: 10500, savings: 48, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Hepatobiliary Scan (Our Price: ₹5,500 | Market Avg: ₹10,500 | Save 48%)
+  { serviceSlug: 'hepatobiliary-scan', serviceName: 'Hepatobiliary Scan', henoticPrice: 5500, marketPrice: 10500, savings: 48, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+
+  // Specialty PET Tracers — FAPI, DOTA, DOPA, PSMA (Our Price: ₹25,500 | Market Avg: ₹30,500 | Save 16%)
+  { serviceSlug: 'fapi-pet-ct', serviceName: 'FAPI PET CT', henoticPrice: 25500, marketPrice: 30500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'fapi-pet-scan', serviceName: 'FAPI PET Scan', henoticPrice: 25500, marketPrice: 30500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'dota-pet-ct', serviceName: 'DOTA PET CT', henoticPrice: 25500, marketPrice: 30500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'dota-pet-scan', serviceName: 'DOTA PET Scan', henoticPrice: 25500, marketPrice: 30500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'dopa-scan', serviceName: 'DOPA Scan', henoticPrice: 25500, marketPrice: 30500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'dopa-pet-ct', serviceName: 'DOPA PET CT', henoticPrice: 25500, marketPrice: 30500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
+  { serviceSlug: 'psma-pet-scan', serviceName: 'PSMA PET Scan', henoticPrice: 25500, marketPrice: 30500, savings: 16, currency: 'INR', category: 'PET CT & Nuclear Medicine' },
 
   // ────────────────────────────────────
   // ULTRASOUND & SONOGRAPHY (8)
