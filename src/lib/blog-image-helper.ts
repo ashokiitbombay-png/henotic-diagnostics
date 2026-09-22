@@ -9,13 +9,13 @@
  */
 
 const FALLBACK_IMAGES = {
-  cardiac: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/7f8eb649-tmt-test-stress-echo-test-stress-test-2d-echo-test-kharghar-henotic-diagnostics-navi-mumbai.webp",
-  petCt: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-pet-scan_hero.webp",
-  mri: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/mri-scan-henotic-diagnostics_hero.webp",
-  ctScan: "https://storage.googleapis.com/wp-media-henoticbucket/Miscellaneous%20Section%20Images/934e91ce-ct-scan-kharghar-01-scaled.webp",
-  pathology: "https://storage.googleapis.com/wp-media-henoticbucket/Laboratory/laboratory-henotic-diagnostics-ct-scan-dexa-bone-scan-mri-scan-sonography-ultrasound-pet-scan-dopa-scan-kharghar-navi-mumbai.webp",
-  ultrasound: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/reception-desk-henotic-diagnostics_hero.webp",
-  default: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-main-entrance_hero.webp",
+  cardiac: "https://cdn.henoticdiagnostics.com/2026/01/7f8eb649-tmt-test-stress-echo-test-stress-test-2d-echo-test-kharghar-henotic-diagnostics-navi-mumbai.webp",
+  petCt: "https://cdn.henoticdiagnostics.com/Trust%20Signal/henotic-diagnostics-pet-scan_hero.webp",
+  mri: "https://cdn.henoticdiagnostics.com/Trust%20Signal/mri-scan-henotic-diagnostics_hero.webp",
+  ctScan: "https://cdn.henoticdiagnostics.com/Miscellaneous%20Section%20Images/934e91ce-ct-scan-kharghar-01-scaled.webp",
+  pathology: "https://cdn.henoticdiagnostics.com/Laboratory/laboratory-henotic-diagnostics-ct-scan-dexa-bone-scan-mri-scan-sonography-ultrasound-pet-scan-dopa-scan-kharghar-navi-mumbai.webp",
+  ultrasound: "https://cdn.henoticdiagnostics.com/Trust%20Signal/reception-desk-henotic-diagnostics_hero.webp",
+  default: "https://cdn.henoticdiagnostics.com/Trust%20Signal/henotic-diagnostics-main-entrance_hero.webp",
 };
 
 /** Extracts the first image URL from HTML content. */

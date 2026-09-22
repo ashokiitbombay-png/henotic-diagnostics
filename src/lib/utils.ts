@@ -67,12 +67,13 @@ export function formatSlug(slug: string): string {
 export function optimizeWordPressHTML(htmlContent: string): string {
   if (!htmlContent) return "";
 
-  // Helper: normalise a single GCS image URL (decode-then-encode to prevent %2520)
-  function normalizeGCSUrl(rawUrl: string): string {
+  // Helper: normalise an image URL (decode-then-encode to prevent %2520)
+  function normalizeCdnUrl(rawUrl: string): string {
     let decoded = rawUrl.replace(/&amp;/g, '&');
     try {
       decoded = decodeURIComponent(decoded);
     } catch { /* already decoded */ }
+    // Handle legacy GCS URLs that may still exist in cached content
     if (decoded.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
       const parts = decoded.split("storage.googleapis.com/wp-media-henoticbucket/");
       const encodedPath = parts[1].split('/').map(seg => {
@@ -82,7 +83,19 @@ export function optimizeWordPressHTML(htmlContent: string): string {
           return encodeURIComponent(seg);
         }
       }).join('/');
-      return "https://storage.googleapis.com/wp-media-henoticbucket/" + encodedPath;
+      return "https://cdn.henoticdiagnostics.com/" + encodedPath;
+    }
+    // Handle CDN URLs — normalize encoding
+    if (decoded.includes("cdn.henoticdiagnostics.com/")) {
+      const parts = decoded.split("cdn.henoticdiagnostics.com/");
+      const encodedPath = parts[1].split('/').map(seg => {
+        try {
+          return encodeURIComponent(decodeURIComponent(seg));
+        } catch {
+          return encodeURIComponent(seg);
+        }
+      }).join('/');
+      return "https://cdn.henoticdiagnostics.com/" + encodedPath;
     }
     return decoded;
   }
@@ -93,22 +106,22 @@ export function optimizeWordPressHTML(htmlContent: string): string {
     const srcMatch = match.match(/src=["']([^"']+)["']/i);
     if (!srcMatch) return match;
 
-    const finalSrc = normalizeGCSUrl(srcMatch[1]);
+    const finalSrc = normalizeCdnUrl(srcMatch[1]);
     let updatedTag = match.replace(/src=["']([^"']+)["']/i, `src="${finalSrc}"`);
 
-    // 2. Strip srcset for GCS images — GCS doesn't support dynamic resizing,
+    // 2. Strip srcset for CDN images — CDN doesn't support dynamic resizing,
     //    and stale WordPress srcset entries cause mobile 404s.
-    if (finalSrc.includes("storage.googleapis.com")) {
+    if (finalSrc.includes("cdn.henoticdiagnostics.com") || finalSrc.includes("storage.googleapis.com")) {
       updatedTag = updatedTag.replace(/\s*srcset=["'][^"']*["']/gi, '');
       // Also strip data-srcset from lazy-load plugins
       updatedTag = updatedTag.replace(/\s*data-srcset=["'][^"']*["']/gi, '');
     } else if (updatedTag.includes('srcset=')) {
-      // For non-GCS srcsets, normalize each URL entry
+      // For other srcsets, normalize each URL entry
       updatedTag = updatedTag.replace(/srcset=["']([^"']+)["']/i, (_m, srcsetVal: string) => {
         const fixed = srcsetVal.split(',').map(entry => {
           const parts = entry.trim().split(/\s+/);
           if (parts.length >= 1) {
-            parts[0] = normalizeGCSUrl(parts[0]);
+            parts[0] = normalizeCdnUrl(parts[0]);
           }
           return parts.join(' ');
         }).join(', ');

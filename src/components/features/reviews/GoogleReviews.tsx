@@ -58,7 +58,7 @@ export default function GoogleReviews() {
             <Image
               width={600}
               height={320}
-              src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-main-building.webp" 
+              src="https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-main-building.webp" 
               alt="Henotic Diagnostics Main Building" 
               className="relative z-10 w-full h-64 md:h-80 object-cover rounded-3xl border-4 border-white shadow-xl transition-transform duration-500 group-hover:scale-[1.02]"
               loading="lazy"
@@ -71,7 +71,7 @@ export default function GoogleReviews() {
               <Image 
                 width={128} 
                 height={128}
-                src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp" 
+                src="https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-name-plate.webp" 
                 alt="Google Business Profile" 
                 className="w-24 h-24 md:w-32 md:h-32 rounded-2xl object-cover"
                 loading="lazy"
@@ -79,7 +79,7 @@ export default function GoogleReviews() {
               <Image 
                 width={48} 
                 height={48}
-                src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" 
+                src="https://cdn.henoticdiagnostics.com/ICONS-SYMBOLS/Google.webp" 
                 alt="Google Icon" 
                 className="absolute -top-4 -left-4 w-11 h-11 bg-white rounded-full p-1.5 shadow-lg border-2 border-white object-contain drop-shadow-md"
                 loading="lazy"
@@ -90,7 +90,7 @@ export default function GoogleReviews() {
           {/* Right Side: Rating Info & Actions */}
           <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
             <div className="flex items-center gap-4 mb-3">
-               <Image width={48} height={48} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-12 h-12 object-contain drop-shadow-md" loading="lazy" />
+               <Image width={48} height={48} src="https://cdn.henoticdiagnostics.com/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-12 h-12 object-contain drop-shadow-md" loading="lazy" />
                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800">Henotic Diagnostics</h3>
             </div>
             
@@ -113,7 +113,7 @@ export default function GoogleReviews() {
                 rel="noreferrer"
                 className="flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-blue-100 hover:border-blue-300 hover:bg-blue-50 text-blue-800 font-bold rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 group"
               >
-                <Image width={28} height={28} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google-maps.webp" alt="Google Maps" className="w-7 h-7 object-contain drop-shadow-sm group-hover:scale-115 transition-transform" loading="lazy" />
+                <Image width={28} height={28} src="https://cdn.henoticdiagnostics.com/ICONS-SYMBOLS/Google-maps.webp" alt="Google Maps" className="w-7 h-7 object-contain drop-shadow-sm group-hover:scale-115 transition-transform" loading="lazy" />
                 View on Google Maps
               </a>
               <a 
@@ -160,7 +160,7 @@ export default function GoogleReviews() {
               </p>
 
               <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2.5">
-                 <Image width={24} height={24} src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-6 h-6 object-contain drop-shadow-sm" loading="lazy" />
+                 <Image width={24} height={24} src="https://cdn.henoticdiagnostics.com/ICONS-SYMBOLS/Google.webp" alt="Google" className="w-6 h-6 object-contain drop-shadow-sm" loading="lazy" />
                  <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Posted on Google</span>
               </div>
             </div>

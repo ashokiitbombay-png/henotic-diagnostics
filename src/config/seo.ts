@@ -9,7 +9,7 @@ export const seoConfig = {
     siteName: 'Henotic Diagnostics',
     images: [
       {
-        url: 'https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp',
+        url: 'https://cdn.henoticdiagnostics.com/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp',
         width: 1200,
         height: 630,
         alt: 'Henotic Diagnostics Premier Facility',
@@ -20,6 +20,6 @@ export const seoConfig = {
     card: 'summary_large_image',
     title: 'Henotic Diagnostics',
     description: "Advanced diagnostic imaging and pathology in Mumbai.",
-    images: ['https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp'],
+    images: ['https://cdn.henoticdiagnostics.com/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp'],
   }
 };

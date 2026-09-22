@@ -44,9 +44,9 @@ describe('optimizeWordPressHTML', () => {
   });
 
   it('normalizes GCS bucket URLs in image tags', () => {
-    const input = '<img src="https://storage.googleapis.com/wp-media-henoticbucket/MRI/test.webp" alt="MRI">';
+    const input = '<img src="https://cdn.henoticdiagnostics.com/MRI/test.webp" alt="MRI">';
     const result = optimizeWordPressHTML(input);
-    expect(result).toContain('https://storage.googleapis.com/wp-media-henoticbucket/MRI/test.webp');
+    expect(result).toContain('https://cdn.henoticdiagnostics.com/MRI/test.webp');
   });
 
   it('preserves existing width/height attributes', () => {

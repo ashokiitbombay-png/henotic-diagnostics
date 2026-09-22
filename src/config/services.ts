@@ -42,7 +42,7 @@ export const services = [
 // 🖼️ SERVICE HERO IMAGES — Dynamic hero backgrounds per service category
 // ─────────────────────────────────────────────────────────────────────────────
 
-const HERO = "https://storage.googleapis.com/wp-media-henoticbucket/Hero%20Image";
+const HERO = "https://cdn.henoticdiagnostics.com/Hero%20Image";
 
 /** Direct slug → image mapping (highest priority) */
 const DIRECT_HERO_MAP: Record<string, string> = {

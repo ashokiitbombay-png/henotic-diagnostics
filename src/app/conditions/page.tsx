@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Medical Conditions & Symptoms Guide | Henotic Diagnostics',
     description: 'Find the right diagnostic tests for your symptoms. Browse 80+ medical conditions with recommended NABL-accredited tests.',
-    images: [{ url: 'https://storage.googleapis.com/wp-media-henoticbucket/PATHOLOGY/Hero/henotic-diagnostics-pathology-lab-panvel.webp', width: 1200, height: 630, alt: 'Medical Conditions & Symptoms Guide | Henotic Diagnostics' }],
+    images: [{ url: 'https://cdn.henoticdiagnostics.com/PATHOLOGY/Hero/henotic-diagnostics-pathology-lab-panvel.webp', width: 1200, height: 630, alt: 'Medical Conditions & Symptoms Guide | Henotic Diagnostics' }],
   },
 };
 

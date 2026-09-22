@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Contact Henotic Diagnostics | Book Appointment in Navi Mumbai',
     description: 'Contact Henotic Diagnostics in Kharghar, Navi Mumbai. Book diagnostic tests via WhatsApp or call 08879327184. Open 24 hours, NABL accredited center.',
-    images: [{ url: 'https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp', width: 1200, height: 630, alt: 'Contact Henotic Diagnostics | Book Appointment in Navi Mumbai' }],
+    images: [{ url: 'https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-name-plate.webp', width: 1200, height: 630, alt: 'Contact Henotic Diagnostics | Book Appointment in Navi Mumbai' }],
   },
 };
 
@@ -57,7 +57,7 @@ export default function ContactUs() {
           <div className="lg:w-1/2 relative p-6 lg:p-10 flex items-center justify-center bg-slate-50/50">
             {/* Deep 3D Frame Effect */}
             <div className="relative w-full h-[350px] lg:h-full min-h-[400px] rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] border-[8px] border-white group transform transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_40px_70px_-15px_rgba(0,0,0,0.5)]">
-              <Image width={600} height={500} src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp" 
+              <Image width={600} height={500} src="https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-name-plate.webp" 
                 alt="Henotic Diagnostics Front Office" 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 loading="lazy"
@@ -79,7 +79,7 @@ export default function ContactUs() {
             
             {/* 3D Waiting Area Image Container */}
             <div className="relative group w-full h-[400px] sm:h-[450px] rounded-[3rem] overflow-hidden bg-white shadow-[0_40px_80px_-20px_rgba(0,0,0,0.4)] hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] transform hover:-translate-y-4 transition-all duration-700 ease-out border-[8px] border-white">
-              <Image width={800} height={800} src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp" 
+              <Image width={800} height={800} src="https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-waiting-area.webp" 
                 alt="Henotic Diagnostics Reception and Waiting Area" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
                 loading="lazy"

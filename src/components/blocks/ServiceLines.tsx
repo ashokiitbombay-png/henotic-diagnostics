@@ -4,17 +4,17 @@ import Image from "next/image";
 import { ArrowRight, Star } from "lucide-react";
 
 const services = [
-  { id: "radiology", title: "Advanced Radiology", desc: "3T MRI, 128-Slice CT, and Digital X-Ray with low-radiation protocols.", img: "https://storage.googleapis.com/wp-media-henoticbucket/Miscellaneous%20Section%20Images/934e91ce-ct-scan-kharghar-01-scaled.webp", link: "/services/mri-scan" },
-  { id: "nuclear", title: "Nuclear Medicine", desc: "PET-CT for precise cancer staging and metabolic imaging.", img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/49b5aa8f-henotic-diagnostics-mri-scan-ct-scan-pet-scan-dopa-scan.webp", link: "/services/pet-scan" },
-  { id: "cardiac", title: "Cardiac Sciences", desc: "Angiography, 2D Echo, and TMT for comprehensive heart evaluation.", img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/7f8eb649-tmt-test-stress-echo-test-stress-test-2d-echo-test-kharghar-henotic-diagnostics-navi-mumbai.webp", link: "/services/ultrasound" },
-  { id: "pathology", title: "Clinical Pathology", desc: "Automated analyzers for blood, hormone, and infection markers.", img: "https://storage.googleapis.com/wp-media-henoticbucket/Laboratory/laboratory-henotic-diagnostics-ct-scan-dexa-bone-scan-mri-scan-sonography-ultrasound-pet-scan-dopa-scan-kharghar-navi-mumbai.webp", link: "/services/blood-test" }
+  { id: "radiology", title: "Advanced Radiology", desc: "3T MRI, 128-Slice CT, and Digital X-Ray with low-radiation protocols.", img: "https://cdn.henoticdiagnostics.com/Miscellaneous%20Section%20Images/934e91ce-ct-scan-kharghar-01-scaled.webp", link: "/services/mri-scan" },
+  { id: "nuclear", title: "Nuclear Medicine", desc: "PET-CT for precise cancer staging and metabolic imaging.", img: "https://cdn.henoticdiagnostics.com/2026/01/49b5aa8f-henotic-diagnostics-mri-scan-ct-scan-pet-scan-dopa-scan.webp", link: "/services/pet-scan" },
+  { id: "cardiac", title: "Cardiac Sciences", desc: "Angiography, 2D Echo, and TMT for comprehensive heart evaluation.", img: "https://cdn.henoticdiagnostics.com/2026/01/7f8eb649-tmt-test-stress-echo-test-stress-test-2d-echo-test-kharghar-henotic-diagnostics-navi-mumbai.webp", link: "/services/ultrasound" },
+  { id: "pathology", title: "Clinical Pathology", desc: "Automated analyzers for blood, hormone, and infection markers.", img: "https://cdn.henoticdiagnostics.com/Laboratory/laboratory-henotic-diagnostics-ct-scan-dexa-bone-scan-mri-scan-sonography-ultrasound-pet-scan-dopa-scan-kharghar-navi-mumbai.webp", link: "/services/blood-test" }
 ];
 
 const GALLERY_IMAGES = [
-  { src: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-reception-waiting-area_hero.webp", alt: "Premium Reception & Waiting Area" },
-  { src: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/mri-scan-henotic-diagnostics_hero.webp", alt: "3T MRI Scanner Suite" },
-  { src: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/reception-desk-henotic-diagnostics_hero.webp", alt: "Patient Service Desk" },
-  { src: "https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-pet-scan_hero.webp", alt: "PET-CT Imaging Center" },
+  { src: "https://cdn.henoticdiagnostics.com/Trust%20Signal/henotic-diagnostics-reception-waiting-area_hero.webp", alt: "Premium Reception & Waiting Area" },
+  { src: "https://cdn.henoticdiagnostics.com/Trust%20Signal/mri-scan-henotic-diagnostics_hero.webp", alt: "3T MRI Scanner Suite" },
+  { src: "https://cdn.henoticdiagnostics.com/Trust%20Signal/reception-desk-henotic-diagnostics_hero.webp", alt: "Patient Service Desk" },
+  { src: "https://cdn.henoticdiagnostics.com/Trust%20Signal/henotic-diagnostics-pet-scan_hero.webp", alt: "PET-CT Imaging Center" },
 ];
 
 const MODALITIES = [
@@ -93,7 +93,7 @@ export default function ServiceLines() {
                   }}
                 >
                   <Image
-                    src="https://storage.googleapis.com/wp-media-henoticbucket/Trust%20Signal/henotic-diagnostics-main-entrance_hero.webp"
+                    src="https://cdn.henoticdiagnostics.com/Trust%20Signal/henotic-diagnostics-main-entrance_hero.webp"
                     alt="Henotic Diagnostics Corporate Building — Main Entrance"
                     width={800}
                     height={450}
@@ -193,7 +193,7 @@ export default function ServiceLines() {
                       <Image
                         width={80}
                         height={80}
-                        src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/google-my-business-profile-icon.webp"
+                        src="https://cdn.henoticdiagnostics.com/ICONS-SYMBOLS/google-my-business-profile-icon.webp"
                         alt="Google Business Profile"
                         className="w-20 h-20 rounded-2xl object-cover shadow-[0_10px_30px_-8px_rgba(0,0,0,0.3)] border-2 border-white"
                         loading="lazy"
@@ -201,7 +201,7 @@ export default function ServiceLines() {
                       <Image
                         width={32}
                         height={32}
-                        src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp"
+                        src="https://cdn.henoticdiagnostics.com/ICONS-SYMBOLS/Google.webp"
                         alt="Google"
                         className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full p-1 shadow-lg border-2 border-white object-contain"
                         loading="lazy"
@@ -214,7 +214,7 @@ export default function ServiceLines() {
                         <Image
                           width={36}
                           height={36}
-                          src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google.webp"
+                          src="https://cdn.henoticdiagnostics.com/ICONS-SYMBOLS/Google.webp"
                           alt="Google"
                           className="w-9 h-9 object-contain drop-shadow-md"
                           loading="lazy"
@@ -243,7 +243,7 @@ export default function ServiceLines() {
                       <Image
                         width={28}
                         height={28}
-                        src="https://storage.googleapis.com/wp-media-henoticbucket/ICONS-SYMBOLS/Google-maps.webp"
+                        src="https://cdn.henoticdiagnostics.com/ICONS-SYMBOLS/Google-maps.webp"
                         alt="Google Maps"
                         className="w-7 h-7 object-contain drop-shadow-sm group-hover:scale-110 transition-transform"
                         loading="lazy"

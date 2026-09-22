@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Our Expert Medical Team | Henotic Diagnostics',
     description: 'Meet our team of experienced radiologists, pathologists, and cardiologists. NABL certified diagnostic experts.',
-    images: [{ url: 'https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp', width: 1200, height: 630, alt: 'Our Expert Medical Team | Henotic Diagnostics' }],
+    images: [{ url: 'https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp', width: 1200, height: 630, alt: 'Our Expert Medical Team | Henotic Diagnostics' }],
   },
 };
 

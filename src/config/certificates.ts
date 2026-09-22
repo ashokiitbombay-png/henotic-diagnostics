@@ -5,7 +5,7 @@
  * that displays accreditation logos.
  */
 
-const CERT_BASE = "https://storage.googleapis.com/wp-media-henoticbucket/Certificates";
+const CERT_BASE = "https://cdn.henoticdiagnostics.com/Certificates";
 
 export const CERTIFICATE_MAP: Record<string, string> = {
   "CAP":    `${CERT_BASE}/Certificates_henotic-diagnostics-cap-certified.webp`,

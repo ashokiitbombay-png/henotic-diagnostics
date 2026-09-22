@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Phone } from 'lucide-react';
 
-const VIDEO_URL = 'https://storage.googleapis.com/wp-media-henoticbucket/Videos/henotic_diagnostics_trusted_health_care-corporate-video.mp4';
-const THUMBNAIL_URL = 'https://storage.googleapis.com/wp-media-henoticbucket/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
+const VIDEO_URL = 'https://cdn.henoticdiagnostics.com/Videos/henotic_diagnostics_trusted_health_care-corporate-video.mp4';
+const THUMBNAIL_URL = 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
 const PAGE_URL = 'https://www.henoticdiagnostics.com/video/corporate-overview';
 
 export const metadata: Metadata = {

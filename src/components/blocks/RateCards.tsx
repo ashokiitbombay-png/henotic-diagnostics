@@ -34,7 +34,7 @@ const DEFAULT_PACKAGES: HealthPackage[] = [
     title: "Comprehensive Full Body",
     price: "₹2,999",
     oldPrice: "₹6,500",
-    img: "https://storage.googleapis.com/wp-media-henoticbucket/Laboratory/henotic-diagnostics-blood-test-lab.webp",
+    img: "https://cdn.henoticdiagnostics.com/Laboratory/henotic-diagnostics-blood-test-lab.webp",
     gradient: "from-blue-600 to-cyan-400",
     includes: ["Lipid Profile (Heart)", "Liver Function Test (LFT)", "Kidney Function Test (KFT)", "Thyroid Profile (T3, T4, TSH)", "Complete Hemogram (CBC)", "Diabetes Screening (HbA1c)"]
   },
@@ -42,7 +42,7 @@ const DEFAULT_PACKAGES: HealthPackage[] = [
     title: "Advanced Cardiac Care",
     price: "₹4,499",
     oldPrice: "₹8,000",
-    img: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/7f8eb649-tmt-test-stress-echo-test-stress-test-2d-echo-test-kharghar-henotic-diagnostics-navi-mumbai.webp",
+    img: "https://cdn.henoticdiagnostics.com/2026/01/7f8eb649-tmt-test-stress-echo-test-stress-test-2d-echo-test-kharghar-henotic-diagnostics-navi-mumbai.webp",
     gradient: "from-rose-500 to-pink-400",
     includes: ["2D Echocardiography", "Treadmill Test (TMT)", "Electrocardiogram (ECG)", "Advanced Lipid Profile", "Cardiac Risk Markers", "Physician Consultation"]
   },
@@ -50,7 +50,7 @@ const DEFAULT_PACKAGES: HealthPackage[] = [
     title: "Women's Wellness Profile",
     price: "₹3,499",
     oldPrice: "₹7,200",
-    img: "https://storage.googleapis.com/wp-media-henoticbucket/Ultrasound/henotic-diagnostics-sonography-ultrasound-pregnancy-scan-anomaly%20scan-nt-scan-kharghar-taloja%2C%20roadpali-navi%20mumbai.webp",
+    img: "https://cdn.henoticdiagnostics.com/Ultrasound/henotic-diagnostics-sonography-ultrasound-pregnancy-scan-anomaly%20scan-nt-scan-kharghar-taloja%2C%20roadpali-navi%20mumbai.webp",
     gradient: "from-purple-600 to-indigo-400",
     includes: ["Pelvic Ultrasound (USG)", "Thyroid Profile", "Vitamin D & B12 Levels", "Iron Deficiency Panel", "Hormonal Imbalance Check", "Breast Cancer Screening"]
   }

@@ -16,7 +16,7 @@ export interface DoctorProfile {
   imageUrl?: string;
 }
 
-const DOCTOR_IMAGE = 'https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp';
+const DOCTOR_IMAGE = 'https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp';
 
 export const DOCTORS: DoctorProfile[] = [
   // ────────────────────────────────────

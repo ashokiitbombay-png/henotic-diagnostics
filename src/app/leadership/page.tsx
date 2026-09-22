@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Leadership Team | Henotic Diagnostics",
     description: "Meet the visionary leadership team at Henotic Diagnostics — experts in healthcare, radiology, technology, operations, and strategy.",
-    images: [{ url: "https://storage.googleapis.com/wp-media-henoticbucket/Leadership/Ashok-Majji-Founder-CEO.webp", width: 1200, height: 630, alt: "Leadership Team at Henotic Diagnostics" }],
+    images: [{ url: "https://cdn.henoticdiagnostics.com/Leadership/Ashok-Majji-Founder-CEO.webp", width: 1200, height: 630, alt: "Leadership Team at Henotic Diagnostics" }],
   },
 };
 
@@ -143,7 +143,7 @@ export default function LeadershipPage() {
             <div className="lg:col-span-5 relative group">
               <div className="relative h-[380px] sm:h-[450px] w-full rounded-2xl overflow-hidden shadow-md border border-slate-100 bg-slate-100">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/Ashok-Majji-Founder-CEO.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/Ashok-Majji-Founder-CEO.webp"
                   alt="Ashok Majji, PhD — Founder & CEO"
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
@@ -203,7 +203,7 @@ export default function LeadershipPage() {
             <div className="lg:col-span-5 relative group order-1 lg:order-2">
               <div className="relative h-[380px] sm:h-[450px] w-full rounded-2xl overflow-hidden shadow-md border border-slate-100 bg-slate-100">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/williams-operational-head.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/williams-operational-head.webp"
                   alt="Williams — Co-Founder & Business Operations Head"
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
@@ -219,7 +219,7 @@ export default function LeadershipPage() {
             <div className="lg:col-span-5 relative group">
               <div className="relative h-[380px] sm:h-[450px] w-full rounded-2xl overflow-hidden shadow-md border border-slate-100 bg-slate-100">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/krishna-majji.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/krishna-majji.webp"
                   alt="Krishan Majji — Co-Founder & Chief Technology & Digital Officer"
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
@@ -279,7 +279,7 @@ export default function LeadershipPage() {
             <div className="bg-slate-50 rounded-2xl overflow-hidden border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group">
               <div className="relative h-72 sm:h-80 w-full bg-slate-200">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/dr-pratibha-patil-radiologist.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/dr-pratibha-patil-radiologist.webp"
                   alt="Dr. Pratibha Patil — Consultant Radiologist"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
@@ -330,7 +330,7 @@ export default function LeadershipPage() {
             <div className="bg-slate-50 rounded-2xl overflow-hidden border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group">
               <div className="relative h-72 sm:h-80 w-full bg-slate-200">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/dr-ajinky-patil.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/dr-ajinky-patil.webp"
                   alt="Dr. Ajinky Patil — Senior Consultant Neuroradiologist"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
@@ -381,7 +381,7 @@ export default function LeadershipPage() {
             <div className="bg-slate-50 rounded-2xl overflow-hidden border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group">
               <div className="relative h-72 sm:h-80 w-full bg-slate-200">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/dr.amulya-patil.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/dr.amulya-patil.webp"
                   alt="Dr. Amulya Patil — Senior Consultant Cardiologist"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
@@ -456,7 +456,7 @@ export default function LeadershipPage() {
             <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col text-center items-center group">
               <div className="relative h-48 w-48 sm:h-56 sm:w-56 rounded-2xl overflow-hidden shadow-inner bg-slate-100 mb-5 border-2 border-slate-100">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/miss-poonam-sharma.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/miss-poonam-sharma.webp"
                   alt="Miss Poonam Sharma — Global Chief Strategy & Marketing Officer"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
@@ -479,7 +479,7 @@ export default function LeadershipPage() {
             <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col text-center items-center group">
               <div className="relative h-48 w-48 sm:h-56 sm:w-56 rounded-2xl overflow-hidden shadow-inner bg-slate-100 mb-5 border-2 border-slate-100">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/mr-rahul-sharma.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/mr-rahul-sharma.webp"
                   alt="Mr. Rahul Sharma — Chief of Staff & Head of Operations"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
@@ -502,7 +502,7 @@ export default function LeadershipPage() {
             <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col text-center items-center group">
               <div className="relative h-48 w-48 sm:h-56 sm:w-56 rounded-2xl overflow-hidden shadow-inner bg-slate-100 mb-5 border-2 border-slate-100">
                 <Image
-                  src="https://storage.googleapis.com/wp-media-henoticbucket/Leadership/miss-pragati-patil.webp"
+                  src="https://cdn.henoticdiagnostics.com/Leadership/miss-pragati-patil.webp"
                   alt="Miss Pragati Patil — Head Human Resources"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"

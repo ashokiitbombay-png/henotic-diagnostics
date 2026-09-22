@@ -8,42 +8,42 @@ const FACILITIES = [
   {
     title: "128 Slice Advanced CT Scan",
     slug: "ct-scan",
-    image: "https://storage.googleapis.com/wp-media-henoticbucket/CT%20SCAN/henotic-diagnostics-ct-scan-kharghar.webp",
+    image: "https://cdn.henoticdiagnostics.com/CT%20SCAN/henotic-diagnostics-ct-scan-kharghar.webp",
     description: "Experience high-speed, high-precision imaging with our advanced 128 Slice CT Scanner. Designed to deliver exceptional diagnostic accuracy, providing detailed cross-sectional images within seconds.",
     highlights: ["Ultra-fast scan acquisition", "High-resolution imaging", "Advanced cardiac & vascular", "Low-radiation protocols"]
   },
   {
     title: "3 Tesla Advanced MRI",
     slug: "mri-scan",
-    image: "https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/henotic-diagnostics-mri-scan-belapur.webp",
+    image: "https://cdn.henoticdiagnostics.com/MRI%20SCAN/henotic-diagnostics-mri-scan-belapur.webp",
     description: "Our state-of-the-art 3 Tesla MRI system delivers exceptional image clarity and diagnostic confidence for neurological, musculoskeletal, spinal, cardiac, and abdominal imaging.",
     highlights: ["Superior image resolution", "Advanced neurological imaging", "Detailed spine evaluation", "Comfort-focused experience"]
   },
   {
     title: "Latest PET CT Technology",
     slug: "pet-scan",
-    image: "https://storage.googleapis.com/wp-media-henoticbucket/PET%20SCAN/pet-ct-scan-mri-scan-ct-scan-henotic-diagnostics-kharghar.webp",
+    image: "https://cdn.henoticdiagnostics.com/PET%20SCAN/pet-ct-scan-mri-scan-ct-scan-henotic-diagnostics-kharghar.webp",
     description: "Our latest-generation PET CT scanner combines metabolic and anatomical imaging to provide comprehensive insights into complex medical conditions including cancer and cardiac disorders.",
     highlights: ["Advanced cancer detection", "Accurate tumor staging", "Treatment monitoring", "Whole-body functional imaging"]
   },
   {
     title: "Advanced Cardiac Care",
     slug: "2d-echo",
-    image: "https://storage.googleapis.com/wp-media-henoticbucket/TMT%20Stress%20Test/tmt-stress-echo-test-henotic-diagnostics.webp",
+    image: "https://cdn.henoticdiagnostics.com/TMT%20Stress%20Test/tmt-stress-echo-test-henotic-diagnostics.webp",
     description: "Comprehensive cardiac diagnostics designed to support early detection and prevention of heart disease through advanced non-invasive cardiovascular testing.",
     highlights: ["TMT (Stress Test)", "Stress Echo & 2D Echo", "ECG & Holter Monitoring", "Preventive heart screening"]
   },
   {
     title: "Digital Mammography",
     slug: "mammography",
-    image: "https://storage.googleapis.com/wp-media-henoticbucket/Mammography/mammography-kharghar-panvel-belapur-vashi-henotic-diagnostics.webp",
+    image: "https://cdn.henoticdiagnostics.com/Mammography/mammography-kharghar-panvel-belapur-vashi-henotic-diagnostics.webp",
     description: "Advanced digital mammography technology supporting early breast cancer detection through high-quality, low-dose imaging and expert radiological evaluation.",
     highlights: ["Early breast cancer detection", "High-definition imaging", "Low-dose digital technology", "Fast and comfortable procedure"]
   },
   {
     title: "Automated Pathology Lab",
     slug: "blood-test",
-    image: "https://storage.googleapis.com/wp-media-henoticbucket/Laboratory/pathology-lab-near-me-henotic-diagnostics-kharghar.webp",
+    image: "https://cdn.henoticdiagnostics.com/Laboratory/pathology-lab-near-me-henotic-diagnostics-kharghar.webp",
     description: "Our fully automated pathology laboratory is equipped with advanced analyzers and stringent quality control systems to deliver precise, reliable, and timely diagnostic results.",
     highlights: ["Fully automated systems", "Rapid report turnaround", "Strict quality assurance", "Advanced diagnostic analyzers"]
   }

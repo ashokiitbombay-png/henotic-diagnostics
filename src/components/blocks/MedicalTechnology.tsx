@@ -12,7 +12,7 @@ export default function MedicalTechnology() {
             <Image
               width={700}
               height={450}
-              src="https://storage.googleapis.com/wp-media-henoticbucket/2026/01/1a401b0d-henotic-diagnostics-mri-scan-ct-scan-pet-scan-dopa-scan-dtpa-scan.webp"
+              src="https://cdn.henoticdiagnostics.com/2026/01/1a401b0d-henotic-diagnostics-mri-scan-ct-scan-pet-scan-dopa-scan-dtpa-scan.webp"
               alt="Siemens MRI Machine at Henotic Diagnostics"
               className="relative rounded-3xl shadow-2xl z-10 w-full border-4 border-white object-cover"
               loading="lazy"

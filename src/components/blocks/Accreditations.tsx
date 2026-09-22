@@ -14,8 +14,8 @@ export default function Accreditations() {
       title: "CAP Accredited", 
       sub: "College of American Pathologists", 
       desc: "Achieving CAP accreditation places us among an exclusive group globally. The 'Gold Standard' in pathology.", 
-      img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/cap-accredidation-logo.webp", 
-      certificateUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Certificates/Certificates_henotic-diagnostics-cap-certified.webp",
+      img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/cap-accredidation-logo.webp", 
+      certificateUrl: "https://cdn.henoticdiagnostics.com/Certificates/Certificates_henotic-diagnostics-cap-certified.webp",
       grad: "from-blue-600 to-cyan-400", 
       tag: "Global Gold Standard" 
     },
@@ -23,8 +23,8 @@ export default function Accreditations() {
       title: "NABL Accredited", 
       sub: "ISO 15189:2012 Certified", 
       desc: "Verifies strict adherence to ISO standards, ensuring every test result is precise, reproducible, and technically valid.", 
-      img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/NABL-henotic-diagnsotics-kharghar.webp", 
-      certificateUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Certificates/Certificates_henotic-diagnostics-nabl-certified.webp",
+      img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/NABL-henotic-diagnsotics-kharghar.webp", 
+      certificateUrl: "https://cdn.henoticdiagnostics.com/Certificates/Certificates_henotic-diagnostics-nabl-certified.webp",
       grad: "from-yellow-500 to-orange-400", 
       tag: "Technical Competence" 
     },
@@ -32,8 +32,8 @@ export default function Accreditations() {
       title: "ISO Certified", 
       sub: "ISO 9001:2015 Standard", 
       desc: "Demonstrates strict compliance with international quality management systems, ensuring operational safety and diagnostic reliability.", 
-      img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/iso-certification-for-henotic-diagnsotics-kharghar.webp",
-      certificateUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Certificates/Certificates_henotic-diagnostics-iso-certified.webp",
+      img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/iso-certification-for-henotic-diagnsotics-kharghar.webp",
+      certificateUrl: "https://cdn.henoticdiagnostics.com/Certificates/Certificates_henotic-diagnostics-iso-certified.webp",
       grad: "from-purple-600 to-indigo-500", 
       tag: "Quality Management" 
     },
@@ -41,8 +41,8 @@ export default function Accreditations() {
       title: "AERB Certified", 
       sub: "Radiation Safety Board", 
       desc: "Certifies strict adherence to safety codes and radiation protection standards for advanced X-Ray, CT, and MRI scans.", 
-      img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/Atomic_Energy_Regulatory_Board_Henotic-Diagnostics-LOGO.svg%20(1).webp",
-      certificateUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Certificates/henotic-diagnostics-aerb-certified.webp",
+      img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/Atomic_Energy_Regulatory_Board_Henotic-Diagnostics-LOGO.svg%20(1).webp",
+      certificateUrl: "https://cdn.henoticdiagnostics.com/Certificates/henotic-diagnostics-aerb-certified.webp",
       grad: "from-amber-600 to-yellow-500", 
       tag: "Radiation Safety Lock" 
     },
@@ -50,8 +50,8 @@ export default function Accreditations() {
       title: "PCPNDT Compliant", 
       sub: "Pre-Natal Diagnostics Act", 
       desc: "Verifies strict adherence to government healthcare laws and ethical guidelines for all pre-natal sonography scans.", 
-      img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/pcpndt-certified-henotic-diagnsotics-kharghar.webp",
-      certificateUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Certificates/henotic-diagnostics-pcpndt-certified.webp",
+      img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/pcpndt-certified-henotic-diagnsotics-kharghar.webp",
+      certificateUrl: "https://cdn.henoticdiagnostics.com/Certificates/henotic-diagnostics-pcpndt-certified.webp",
       grad: "from-rose-600 to-pink-500", 
       tag: "Ethical Clinical Scans" 
     },
@@ -59,8 +59,8 @@ export default function Accreditations() {
       title: "ISUOG Certified", 
       sub: "Int. Society of Ultrasound", 
       desc: "Certifies advanced training and execution of international guidelines in maternal-fetal imaging and ultrasound.", 
-      img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/isuog.webp",
-      certificateUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Certificates/henotic-diagnostics-isoug-certified.webp",
+      img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/isuog.webp",
+      certificateUrl: "https://cdn.henoticdiagnostics.com/Certificates/henotic-diagnostics-isoug-certified.webp",
       grad: "from-teal-600 to-emerald-500", 
       tag: "Obstetrics Excellence" 
     }

@@ -77,7 +77,7 @@ const nextConfig = {
     return [
       {
         source: '/media-cdn/:path*',
-        destination: 'https://storage.googleapis.com/wp-media-henoticbucket/:path*',
+        destination: 'https://cdn.henoticdiagnostics.com/:path*',
       },
       // Legacy backward compat: /sitemap-1.xml → /sitemap/0.xml (new dynamic route)
       {

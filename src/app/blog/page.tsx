@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Health Articles & Medical Insights | Henotic Diagnostics Blog",
     description:
       "Expert health articles, diagnostic guides, and medical insights from Henotic Diagnostics. Stay informed about your health.",
-    images: [{ url: 'https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp', width: 1200, height: 630, alt: 'Health Articles & Medical Insights | Henotic Diagnostics Blog' }],
+    images: [{ url: 'https://cdn.henoticdiagnostics.com/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp', width: 1200, height: 630, alt: 'Health Articles & Medical Insights | Henotic Diagnostics Blog' }],
   },
 };
 

@@ -33,7 +33,7 @@ export default function SiteHeader() {
           <Link href={routesConfig.home} className="flex items-center gap-3 relative z-50 group shrink-0">
             <div className="bg-white rounded-full p-1 shadow-md group-hover:scale-105 transition-transform duration-300">
               <Image 
-                src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.webp" 
+                src="https://cdn.henoticdiagnostics.com/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.webp" 
                 alt="Henotic Diagnostics Logo" 
                 width={48} 
                 height={48} 

@@ -11,8 +11,8 @@ export default function CorporateVideo() {
   const togglePlay = () => { if (videoRef.current) { isPlaying ? videoRef.current.pause() : videoRef.current.play(); setIsPlaying(!isPlaying); } };
   const toggleMute = () => { if (videoRef.current) { videoRef.current.muted = !isMuted; setIsMuted(!isMuted); } };
 
-  const videoPoster = "https://storage.googleapis.com/wp-media-henoticbucket/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp";
-  const videoUrl = "https://storage.googleapis.com/wp-media-henoticbucket/Videos/henotic_diagnostics_trusted_health_care-corporate-video.mp4";
+  const videoPoster = "https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp";
+  const videoUrl = "https://cdn.henoticdiagnostics.com/Videos/henotic_diagnostics_trusted_health_care-corporate-video.mp4";
 
   return (
     <section className="py-24 bg-slate-900 relative overflow-hidden border-y border-slate-800">

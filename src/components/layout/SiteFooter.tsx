@@ -85,7 +85,7 @@ export default function SiteFooter() {
                  <Image
                    width={128}
                    height={128}
-                   src="https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-name-plate.webp" 
+                   src="https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-name-plate.webp" 
                    alt="Henotic Diagnostics Facility" 
                    className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
                    loading="lazy"
@@ -170,14 +170,14 @@ export default function SiteFooter() {
            <p className="text-center text-[10px] font-bold text-white/90 uppercase tracking-[0.2em] mb-6">Secure Payment Partners</p>
            <div className="flex flex-wrap justify-center gap-4">
               {[
-                { name: "Paytm", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/4cc15576-paytm-banking-henotic-diagnostics.webp" },
-                { name: "GPay", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/22f37b85-google-pay-payment-transfer-henotic-diagnostics.webp" },
-                { name: "BHIM", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/9ee511bb-bhim-upi-transfer-banking-henotic-diagnostics.webp" },
-                { name: "Amex", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/8982a1eb-american-experss-payment-transfer-henotic-diagnostics.webp" },
-                { name: "Amazon", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/57673992-amazon-pay-payment-transfer-henotic-diagnostics.webp" },
-                { name: "Cards", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/d412e583-all-debitcards-creditcards-payment-transfer-henotic-diagnostics.webp" },
-                { name: "Visa", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/7ecc0645-visa-payment-transfer-henotic-diagnostics.webp" },
-                { name: "Paypal", url: "https://storage.googleapis.com/wp-media-henoticbucket/2026/01/3ffff106-paypal-banking-henotic-diagnostics.webp" }
+                { name: "Paytm", url: "https://cdn.henoticdiagnostics.com/2026/01/4cc15576-paytm-banking-henotic-diagnostics.webp" },
+                { name: "GPay", url: "https://cdn.henoticdiagnostics.com/2026/01/22f37b85-google-pay-payment-transfer-henotic-diagnostics.webp" },
+                { name: "BHIM", url: "https://cdn.henoticdiagnostics.com/2026/01/9ee511bb-bhim-upi-transfer-banking-henotic-diagnostics.webp" },
+                { name: "Amex", url: "https://cdn.henoticdiagnostics.com/2026/01/8982a1eb-american-experss-payment-transfer-henotic-diagnostics.webp" },
+                { name: "Amazon", url: "https://cdn.henoticdiagnostics.com/2026/01/57673992-amazon-pay-payment-transfer-henotic-diagnostics.webp" },
+                { name: "Cards", url: "https://cdn.henoticdiagnostics.com/2026/01/d412e583-all-debitcards-creditcards-payment-transfer-henotic-diagnostics.webp" },
+                { name: "Visa", url: "https://cdn.henoticdiagnostics.com/2026/01/7ecc0645-visa-payment-transfer-henotic-diagnostics.webp" },
+                { name: "Paypal", url: "https://cdn.henoticdiagnostics.com/2026/01/3ffff106-paypal-banking-henotic-diagnostics.webp" }
               ].map((pay, i) => (
                 <div key={i} className="bg-white rounded-xl w-20 h-12 md:w-28 md:h-14 flex items-center justify-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 px-2">
                   <Image width={72} height={28} src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" loading="lazy" />

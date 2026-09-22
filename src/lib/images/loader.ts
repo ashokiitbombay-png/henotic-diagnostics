@@ -9,13 +9,9 @@ interface ImageLoaderProps {
  * Optimizes media URLs dynamically depending on the source (WordPress media CDN, Google Cloud Storage, etc.).
  */
 export default function wordpressImageLoader({ src, width, quality }: ImageLoaderProps): string {
-  // Serve directly from GCS — bypasses middleware rate limiter.
-  // GCS URLs are already whitelisted in CSP and Next.js remotePatterns.
-  if (src.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
-    const relativePath = src.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
-    // Decode first to prevent double-encoding (%20 → %2520).
-    // WordPress URLs often arrive pre-encoded; decodeURIComponent normalizes them
-    // before re-encoding, so the final URL is always single-encoded.
+  // Serve directly from CDN — primary path for all media.
+  if (src.includes("cdn.henoticdiagnostics.com/")) {
+    const relativePath = src.split("cdn.henoticdiagnostics.com/")[1];
     const encodedPath = relativePath.split('/').map(seg => {
       try {
         return encodeURIComponent(decodeURIComponent(seg));
@@ -23,7 +19,20 @@ export default function wordpressImageLoader({ src, width, quality }: ImageLoade
         return encodeURIComponent(seg);
       }
     }).join('/');
-    return `https://storage.googleapis.com/wp-media-henoticbucket/${encodedPath}`;
+    return `https://cdn.henoticdiagnostics.com/${encodedPath}`;
+  }
+
+  // Legacy fallback: handle any stale GCS URLs from cached content
+  if (src.includes("storage.googleapis.com/wp-media-henoticbucket/")) {
+    const relativePath = src.split("storage.googleapis.com/wp-media-henoticbucket/")[1];
+    const encodedPath = relativePath.split('/').map(seg => {
+      try {
+        return encodeURIComponent(decodeURIComponent(seg));
+      } catch {
+        return encodeURIComponent(seg);
+      }
+    }).join('/');
+    return `https://cdn.henoticdiagnostics.com/${encodedPath}`;
   }
 
   // If the image is served from Google Cloud Storage generally, handle standard URL output

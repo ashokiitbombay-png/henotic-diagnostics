@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Henotic Diagnostics | Trusted Diagnostic Center in Navi Mumbai',
     description: 'Learn about Henotic Diagnostics — a NABL-accredited diagnostic imaging center in Kharghar, Navi Mumbai. 12+ years of trusted service with 3.0T MRI, 128-slice CT, and 1030+ Google reviews.',
-    images: [{ url: 'https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp', width: 1200, height: 630, alt: 'About Henotic Diagnostics | Trusted Diagnostic Center in Navi Mumbai' }],
+    images: [{ url: 'https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-waiting-area.webp', width: 1200, height: 630, alt: 'About Henotic Diagnostics | Trusted Diagnostic Center in Navi Mumbai' }],
   },
 };
 
@@ -50,10 +50,10 @@ const faqs = [
 ];
 
 const techImages = [
-  "https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/henotic-diagnostics-mri-scan-belapur.webp",
-  "https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-waiting-area.webp",
-  "https://storage.googleapis.com/wp-media-henoticbucket/CT%20SCAN/henotic-diagnostics-ct-scan-kharghar.webp",
-  "https://storage.googleapis.com/wp-media-henoticbucket/Front%20Office/henotic-diagnostics-main-building.webp",
+  "https://cdn.henoticdiagnostics.com/MRI%20SCAN/henotic-diagnostics-mri-scan-belapur.webp",
+  "https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-waiting-area.webp",
+  "https://cdn.henoticdiagnostics.com/CT%20SCAN/henotic-diagnostics-ct-scan-kharghar.webp",
+  "https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-main-building.webp",
 ];
 
 const flatFaqs = faqs.flatMap(cat => cat.items.map(item => ({ question: item.q, answer: item.a })));
@@ -90,7 +90,7 @@ export default function AboutUsPage() {
             </div>
             <div className="relative mt-8 lg:mt-0 group">
               <div className="absolute inset-0 bg-blue-600 rounded-3xl transform rotate-3 opacity-15 transition-transform duration-500 group-hover:rotate-6 blur-lg"></div>
-              <Image width={600} height={500} src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" alt="Henotic Diagnostics MRI Scan" className="relative rounded-[2.5rem] shadow-2xl object-cover h-[350px] md:h-[450px] lg:h-[500px] w-full border-[6px] border-white transition-transform hover:scale-[1.02] duration-500 z-10" loading="lazy" sizes="(max-width: 1024px) 100vw, 50vw" />
+              <Image width={600} height={500} src="https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" alt="Henotic Diagnostics MRI Scan" className="relative rounded-[2.5rem] shadow-2xl object-cover h-[350px] md:h-[450px] lg:h-[500px] w-full border-[6px] border-white transition-transform hover:scale-[1.02] duration-500 z-10" loading="lazy" sizes="(max-width: 1024px) 100vw, 50vw" />
             </div>
           </div>
         </div>

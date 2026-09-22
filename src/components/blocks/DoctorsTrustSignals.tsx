@@ -3,9 +3,9 @@ import Image from "next/image";
 import { Clock, Building2, Sparkles, Award } from "lucide-react";
 
 const TEAM_DATA = [
-  { name: "Dr. Esha Batra", qualifications: "MD, DNB, Radiology", experience: "14+ years experience", current: "Apollo & MGM", imageUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Doctors/dr-priyanka-patil-best-cardiologist-navi-mnumbai-henotic-diagnostics_team.webp", bgColor: "bg-[#FFF9F5]", primaryCircle: "bg-[#FDF2F0]", accent: "text-[#C2410C]", btnColor: "bg-[#C2410C]" },
-  { name: "Dr. Naresh Reddy", qualifications: "MD, DNB, Ortho", experience: "12+ years experience", current: "Apollo Hospitals", imageUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Doctors/dr-pramod-shukla-best-orthopedic-surgeon-kharghar-henotic-diagnostics_team.webp", bgColor: "bg-[#F8F9FF]", primaryCircle: "bg-[#F0F4FF]", accent: "text-[#364fc7]", btnColor: "bg-[#364fc7]" },
-  { name: "Dr. Vimala Choudhary", qualifications: "MD, Fetal Med", experience: "14+ years experience", current: "Apollo Hospitals", imageUrl: "https://storage.googleapis.com/wp-media-henoticbucket/Doctors/Doctors_dr-aarti-chavaun-best-radiologist-kharghar-henotic-diagnostics_team.webp", bgColor: "bg-[#F7FDF9]", primaryCircle: "bg-[#F0FDF4]", accent: "text-[#0F766E]", btnColor: "bg-[#0F766E]" }
+  { name: "Dr. Esha Batra", qualifications: "MD, DNB, Radiology", experience: "14+ years experience", current: "Apollo & MGM", imageUrl: "https://cdn.henoticdiagnostics.com/Doctors/dr-priyanka-patil-best-cardiologist-navi-mnumbai-henotic-diagnostics_team.webp", bgColor: "bg-[#FFF9F5]", primaryCircle: "bg-[#FDF2F0]", accent: "text-[#C2410C]", btnColor: "bg-[#C2410C]" },
+  { name: "Dr. Naresh Reddy", qualifications: "MD, DNB, Ortho", experience: "12+ years experience", current: "Apollo Hospitals", imageUrl: "https://cdn.henoticdiagnostics.com/Doctors/dr-pramod-shukla-best-orthopedic-surgeon-kharghar-henotic-diagnostics_team.webp", bgColor: "bg-[#F8F9FF]", primaryCircle: "bg-[#F0F4FF]", accent: "text-[#364fc7]", btnColor: "bg-[#364fc7]" },
+  { name: "Dr. Vimala Choudhary", qualifications: "MD, Fetal Med", experience: "14+ years experience", current: "Apollo Hospitals", imageUrl: "https://cdn.henoticdiagnostics.com/Doctors/Doctors_dr-aarti-chavaun-best-radiologist-kharghar-henotic-diagnostics_team.webp", bgColor: "bg-[#F7FDF9]", primaryCircle: "bg-[#F0FDF4]", accent: "text-[#0F766E]", btnColor: "bg-[#0F766E]" }
 ];
 
 export default function DoctorsTrustSignals() {

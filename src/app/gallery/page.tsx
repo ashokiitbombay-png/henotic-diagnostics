@@ -28,42 +28,42 @@ export interface GalleryImage {
 
 const galleryImages: GalleryImage[] = [
   {
-    src: 'https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp',
+    src: 'https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp',
     alt: 'Henotic Diagnostics Reception Area in Panvel',
     title: 'Reception',
     category: 'Facility',
     description: 'Modern, welcoming reception designed for patient comfort',
   },
   {
-    src: 'https://storage.googleapis.com/wp-media-henoticbucket/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp',
+    src: 'https://cdn.henoticdiagnostics.com/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp',
     alt: 'Henotic Diagnostics 3T MRI Scanner in Navi Mumbai',
     title: 'MRI Scanner',
     category: 'Equipment',
     description: 'State-of-the-art 3 Tesla MRI for precision imaging',
   },
   {
-    src: 'https://storage.googleapis.com/wp-media-henoticbucket/CT%20SCAN/Hero/henotic-diagnostics-ct-scan-service-panvel.webp',
+    src: 'https://cdn.henoticdiagnostics.com/CT%20SCAN/Hero/henotic-diagnostics-ct-scan-service-panvel.webp',
     alt: 'Henotic Diagnostics 128-Slice CT Scanner in Panvel',
     title: 'CT Scanner',
     category: 'Equipment',
     description: '128-Slice CT for rapid, high-resolution diagnostics',
   },
   {
-    src: 'https://storage.googleapis.com/wp-media-henoticbucket/PET-CT/Hero/henotic-diagnostics-pet-ct-scan-panvel.webp',
+    src: 'https://cdn.henoticdiagnostics.com/PET-CT/Hero/henotic-diagnostics-pet-ct-scan-panvel.webp',
     alt: 'Henotic Diagnostics PET-CT Scanner in Panvel',
     title: 'PET-CT Scanner',
     category: 'Equipment',
     description: 'Advanced PET-CT for oncology and metabolic imaging',
   },
   {
-    src: 'https://storage.googleapis.com/wp-media-henoticbucket/PATHOLOGY/Hero/henotic-diagnostics-pathology-lab-panvel.webp',
+    src: 'https://cdn.henoticdiagnostics.com/PATHOLOGY/Hero/henotic-diagnostics-pathology-lab-panvel.webp',
     alt: 'Henotic Diagnostics NABL Certified Pathology Lab in Panvel',
     title: 'Pathology Lab',
     category: 'Laboratory',
     description: 'NABL-accredited lab with automated analyzers',
   },
   {
-    src: 'https://storage.googleapis.com/wp-media-henoticbucket/CARDIOLOGY/Hero/henotic-diagnostics-cardiology-panvel.webp',
+    src: 'https://cdn.henoticdiagnostics.com/CARDIOLOGY/Hero/henotic-diagnostics-cardiology-panvel.webp',
     alt: 'Henotic Diagnostics Cardiology Department in Panvel',
     title: 'Cardiology',
     category: 'Equipment',

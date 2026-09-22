@@ -17,19 +17,19 @@ interface HeroBlockProps {
 const ACCREDITATIONS = [
   { 
     title: "PCPNDT", 
-    img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/pcpndt-certified-henotic-diagnsotics-kharghar.webp" 
+    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/pcpndt-certified-henotic-diagnsotics-kharghar.webp" 
   },
   { 
     title: "NABL", 
-    img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/NABL-henotic-diagnsotics-kharghar.webp" 
+    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/NABL-henotic-diagnsotics-kharghar.webp" 
   },
   { 
     title: "ISO", 
-    img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/iso-certification-for-henotic-diagnsotics-kharghar.webp" 
+    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/iso-certification-for-henotic-diagnsotics-kharghar.webp" 
   },
   { 
     title: "AERB", 
-    img: "https://storage.googleapis.com/wp-media-henoticbucket/Accreditation%20Logos/Atomic_Energy_Regulatory_Board_Henotic-Diagnostics-LOGO.svg%20(1).webp" 
+    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/Atomic_Energy_Regulatory_Board_Henotic-Diagnostics-LOGO.svg%20(1).webp" 
   }
 ];
 
@@ -104,7 +104,7 @@ export default function HeroBlock({ title, description, locationName, regionName
                 
                 <div className="relative bg-white p-2 sm:p-3 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] transform -rotate-2 hover:rotate-0 transition-transform duration-700 overflow-hidden border border-white/60">
                   <Image 
-                    src="https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" 
+                    src="https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp" 
                     alt="Premium 3T MRI Scan at Henotic Diagnostics" 
                     width={500}
                     height={500}
@@ -139,7 +139,7 @@ export default function HeroBlock({ title, description, locationName, regionName
     <section className="relative pt-16 pb-24 md:pt-24 md:pb-32 bg-slate-900 overflow-hidden">
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-30" 
-        style={{ backgroundImage: "url('https://storage.googleapis.com/wp-media-henoticbucket/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp')" }}
+        style={{ backgroundImage: "url('https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp')" }}
       ></div>
       <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-slate-900/40"></div>
       

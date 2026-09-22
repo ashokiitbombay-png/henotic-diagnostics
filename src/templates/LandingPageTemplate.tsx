@@ -30,7 +30,7 @@ export default function LandingPageTemplate({
         <div className="flex items-center gap-3">
           <div className="bg-white rounded-full p-1.5 shadow-md">
             <Image 
-              src="https://storage.googleapis.com/wp-media-henoticbucket/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.webp" 
+              src="https://cdn.henoticdiagnostics.com/Site-Icon-SVG%20files/henotic-diagnostics-logo-site-icon.webp" 
               alt="Henotic Diagnostics Logo" 
               width={36}
               height={36}
