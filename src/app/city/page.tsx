@@ -14,8 +14,21 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Diagnostic Centers by City | Henotic Diagnostics',
     description: 'Browse diagnostic centers across major cities. NABL accredited, 340+ tests, same-day reports.',
+    url: 'https://www.henoticdiagnostics.com/city',
     type: 'website',
-  }
+    images: [{
+      url: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
+      width: 1200,
+      height: 630,
+      alt: 'Diagnostic Centers by City | Henotic Diagnostics',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Diagnostic Centers by City | Henotic Diagnostics',
+    description: 'Find Henotic Diagnostics centers near you in Mumbai, Navi Mumbai, Thane, Pune.',
+    images: ['https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp'],
+  },
 };
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');

@@ -17,6 +17,18 @@ export const metadata: Metadata = {
     type: 'video.other',
     url: PAGE_URL,
     videos: [{ url: VIDEO_URL, type: 'video/mp4' }],
+    images: [{
+      url: THUMBNAIL_URL,
+      width: 1200,
+      height: 630,
+      alt: 'Henotic Diagnostics Corporate Video Overview',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Henotic Diagnostics — Corporate Video',
+    description: 'Corporate video overview of Henotic Diagnostics, a premier NABL-accredited diagnostic center.',
+    images: [THUMBNAIL_URL],
   },
 };
 

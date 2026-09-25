@@ -15,7 +15,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Contact Henotic Diagnostics | Book Appointment in Navi Mumbai',
     description: 'Contact Henotic Diagnostics in Kharghar, Navi Mumbai. Book diagnostic tests via WhatsApp or call 08879327184. Open 24 hours, NABL accredited center.',
+    url: 'https://www.henoticdiagnostics.com/contact',
+    type: 'website',
     images: [{ url: 'https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-name-plate.webp', width: 1200, height: 630, alt: 'Contact Henotic Diagnostics | Book Appointment in Navi Mumbai' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact Henotic Diagnostics | Book Appointment in Navi Mumbai',
+    description: 'Contact Henotic Diagnostics in Kharghar, Navi Mumbai. Open 24 hours, NABL accredited center.',
+    images: ['https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-name-plate.webp'],
   },
 };
 

@@ -84,6 +84,8 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
     ]
   };
 
+  const heroImageUrl = 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
+
   // Structured Data: LocalBusiness
   const localBusinessSchema = {
     '@context': 'https://schema.org',
@@ -91,6 +93,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
     name: `Henotic Diagnostics — ${city.name}`,
     description: city.description,
     url: `https://www.henoticdiagnostics.com/city/${city.slug}`,
+    image: heroImageUrl,
     telephone: '+918879327184',
     address: {
       '@type': 'PostalAddress',
@@ -102,11 +105,49 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
     priceRange: '₹₹'
   };
 
+  // Structured Data: MedicalWebPage with primaryImageOfPage for SERP thumbnail
+  const medicalWebPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    '@id': `https://www.henoticdiagnostics.com/city/${city.slug}`,
+    name: `Diagnostic Services in ${city.name} | Henotic Diagnostics`,
+    description: city.description,
+    url: `https://www.henoticdiagnostics.com/city/${city.slug}`,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: heroImageUrl,
+      contentUrl: heroImageUrl,
+      caption: `Diagnostic Services in ${city.name} — Henotic Diagnostics`,
+      width: 1200,
+      height: 630
+    },
+    image: [heroImageUrl],
+    publisher: {
+      '@type': 'Organization',
+      name: 'Henotic Diagnostics',
+      url: 'https://www.henoticdiagnostics.com'
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
       {/* ── Schema Markup ──────────────────────────────────────────────── */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }} />
+
+      {/* 🤖 Googlebot SERP Thumbnail Signal */}
+      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
+        <img
+          src={heroImageUrl}
+          alt={`Diagnostic Services in ${city.name} — Henotic Diagnostics`}
+          width={1200}
+          height={630}
+          itemProp="image"
+          loading="eager"
+        />
+        <figcaption itemProp="caption">Diagnostic Services in {city.name} — Henotic Diagnostics</figcaption>
+      </figure>
 
       {/* ── Hero Section ───────────────────────────────────────────────── */}
       <section className="relative bg-gradient-to-br from-blue-950 via-[#1e1b4b] to-blue-900 py-20 md:py-28 px-4 md:px-8 overflow-hidden">

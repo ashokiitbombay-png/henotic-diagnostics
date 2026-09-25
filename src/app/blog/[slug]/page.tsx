@@ -64,6 +64,7 @@ export async function generateMetadata({
   }
 
   const description = stripHtml(post.excerpt).slice(0, 160);
+  const postImageUrl = getBlogImageUrl(post);
 
   return {
     title: `${post.title} | Henotic Diagnostics Blog`,
@@ -76,9 +77,7 @@ export async function generateMetadata({
       title: post.title,
       description,
       url: `https://www.henoticdiagnostics.com/blog/${post.slug}`,
-      images: post.featuredImage?.node?.sourceUrl
-        ? [{ url: post.featuredImage.node.sourceUrl, width: 1200, height: 630 }]
-        : undefined,
+      images: [{ url: postImageUrl, width: 1200, height: 630, alt: post.title }],
       publishedTime: post.date,
       authors: [post.author?.node?.name ?? "Henotic Team"],
     },
@@ -86,9 +85,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description,
-      images: post.featuredImage?.node?.sourceUrl
-        ? [post.featuredImage.node.sourceUrl]
-        : undefined,
+      images: [postImageUrl],
     },
   };
 }
@@ -115,13 +112,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   ).slice(0, 5);
   const minutes = post.content ? readingTime(post.content) : 3;
 
+  const postImageUrl = getBlogImageUrl(post);
+
   // ── Structured Data ──────────────────────────────────────────────────
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     description: stripHtml(post.excerpt).slice(0, 160),
-    image: post.featuredImage?.node?.sourceUrl ?? undefined,
+    image: postImageUrl,
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: postImageUrl,
+      contentUrl: postImageUrl,
+      caption: post.title,
+      width: 1200,
+      height: 630
+    },
     datePublished: post.date,
     dateModified: post.date,
     author: {

@@ -36,11 +36,65 @@ export const metadata = {
   title: "Henotic Diagnostics | Premier Diagnostic Center in Mumbai",
   description: "Book highly accurate, NABL-accredited imaging and pathology tests with same-day reports. Find your nearest center in Mumbai & Navi Mumbai.",
   alternates: { canonical: 'https://www.henoticdiagnostics.com' },
+  openGraph: {
+    title: 'Henotic Diagnostics | Premier Diagnostic Center in Mumbai',
+    description: 'Book highly accurate, NABL-accredited imaging and pathology tests with same-day reports. 3.0T MRI, 128-Slice CT, PET-CT, Automated Pathology.',
+    url: 'https://www.henoticdiagnostics.com',
+    type: 'website',
+    images: [{
+      url: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
+      width: 1200,
+      height: 630,
+      alt: 'Henotic Diagnostics — Premier Diagnostic Center in Mumbai',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image' as const,
+    title: 'Henotic Diagnostics | Premier Diagnostic Center in Mumbai',
+    description: 'NABL-accredited MRI, CT, PET-CT, Ultrasound & Pathology in Mumbai. Same-day reports.',
+    images: ['https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp'],
+  },
 };
 
 export default function HomePage() {
+  const homeHeroImage = 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
+  const homeWebPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    '@id': 'https://www.henoticdiagnostics.com',
+    name: 'Henotic Diagnostics | Premier Diagnostic Center in Mumbai',
+    description: 'Book highly accurate, NABL-accredited imaging and pathology tests with same-day reports. Find your nearest center in Mumbai & Navi Mumbai.',
+    url: 'https://www.henoticdiagnostics.com',
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: homeHeroImage,
+      contentUrl: homeHeroImage,
+      caption: 'Henotic Diagnostics — Premier Diagnostic Center in Mumbai',
+      width: 1200,
+      height: 630
+    },
+    image: [homeHeroImage],
+  };
+
   return (
     <main className="w-full flex flex-col bg-white overflow-hidden mt-[80px]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeWebPageSchema) }}
+      />
+      {/* 🤖 Googlebot SERP Thumbnail Signal */}
+      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
+        <img
+          src={homeHeroImage}
+          alt="Henotic Diagnostics — Premier Diagnostic Center in Mumbai"
+          width={1200}
+          height={630}
+          itemProp="image"
+          loading="eager"
+        />
+        <figcaption itemProp="caption">Henotic Diagnostics Premier Diagnostic Facility</figcaption>
+      </figure>
+
       {/* 🌟 SIMPLE SUB-HEADER SEARCH BAR (JUST BELOW MAIN HEADER SECTION) 🌟 */}
       <SimpleSubHeaderSearchBar />
 

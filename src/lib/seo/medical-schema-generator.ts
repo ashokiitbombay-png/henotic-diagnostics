@@ -267,6 +267,10 @@ export function generateConditionSchema(conditionId: string) {
     }))
   };
 
+  const condHeroImage = condition.recommendedServices?.[0]
+    ? getHeroImageForService(condition.recommendedServices[0])
+    : 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
+
   const medicalWebPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'MedicalWebPage',
@@ -274,6 +278,15 @@ export function generateConditionSchema(conditionId: string) {
     name: `${condition.title} Symptoms & Diagnostic Tests | Henotic Diagnostics`,
     description: condition.description,
     url: pageUrl,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: condHeroImage,
+      contentUrl: condHeroImage,
+      caption: `${condition.title} Symptoms & Diagnostic Tests`,
+      width: 1200,
+      height: 630
+    },
+    image: [condHeroImage],
     aspect: 'Diagnosis',
     about: {
       '@id': `${pageUrl}#condition`
@@ -304,18 +317,40 @@ export function generateDoctorSchema(doctorId: string) {
   if (!doctor) return null;
 
   const pageUrl = `${BASE_URL}/doctors/${doctorId}`;
+  const docHeroImage = doctor.imageUrl || 'https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp';
 
   const physicianSchema = {
     '@context': 'https://schema.org',
     '@type': 'Physician',
     '@id': `${pageUrl}#doctor`,
     name: doctor.name,
+    image: docHeroImage,
     description: doctor.bio,
     medicalSpecialty: doctor.specializations,
     alumniOf: doctor.education,
     memberOf: doctor.memberships,
     worksFor: HENOTIC_MEDICAL_ORGANIZATION,
     hospitalAffiliation: HENOTIC_MEDICAL_ORGANIZATION
+  };
+
+  const medicalWebPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    '@id': pageUrl,
+    name: `${doctor.name} - ${doctor.designation} | Henotic Diagnostics`,
+    description: doctor.bio,
+    url: pageUrl,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: docHeroImage,
+      contentUrl: docHeroImage,
+      caption: `${doctor.name} - ${doctor.designation}`,
+      width: 1200,
+      height: 630
+    },
+    image: [docHeroImage],
+    about: { '@id': `${pageUrl}#doctor` },
+    publisher: HENOTIC_MEDICAL_ORGANIZATION
   };
 
   const breadcrumbSchema = {
@@ -330,6 +365,7 @@ export function generateDoctorSchema(doctorId: string) {
 
   return {
     physicianSchema,
+    medicalWebPageSchema,
     breadcrumbSchema
   };
 }
@@ -340,6 +376,7 @@ export function generateComparisonSchema(slug: string) {
   if (!comparison) return null;
 
   const pageUrl = `${BASE_URL}/compare/${slug}`;
+  const compHeroImage = getHeroImageForService(comparison.serviceA.slug);
 
   const medicalWebPageSchema = {
     '@context': 'https://schema.org',
@@ -348,6 +385,15 @@ export function generateComparisonSchema(slug: string) {
     name: comparison.title,
     description: comparison.metaDescription,
     url: pageUrl,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: compHeroImage,
+      contentUrl: compHeroImage,
+      caption: comparison.title,
+      width: 1200,
+      height: 630
+    },
+    image: [compHeroImage],
     aspect: 'Diagnosis',
     about: [
       {

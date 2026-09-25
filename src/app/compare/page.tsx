@@ -18,6 +18,18 @@ export const metadata: Metadata = {
     url: 'https://www.henoticdiagnostics.com/compare',
     type: 'website',
     siteName: 'Henotic Diagnostics',
+    images: [{
+      url: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
+      width: 1200,
+      height: 630,
+      alt: 'Compare Diagnostic Tests | Henotic Diagnostics',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Compare Diagnostic Tests | Henotic Diagnostics',
+    description: 'Expert-reviewed comparisons of popular diagnostic tests.',
+    images: ['https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp'],
   },
 };
 

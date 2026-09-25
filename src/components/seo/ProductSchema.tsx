@@ -1,4 +1,5 @@
 import React from 'react';
+import { getHeroImageForService } from '@/config/services';
 
 interface ProductSchemaProps {
   serviceName: string;
@@ -30,12 +31,14 @@ export default function ProductSchema({
 }: ProductSchemaProps) {
   const baseUrl = 'https://www.henoticdiagnostics.com';
   const url = `${baseUrl}/services/${serviceSlug}`;
+  const heroImage = getHeroImageForService(serviceSlug);
 
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: serviceName,
     description: `${serviceName} by Henotic Diagnostics — NABL & ISO accredited diagnostic service in Navi Mumbai. Same-day reporting available.`,
+    image: [heroImage],
     brand: {
       '@type': 'Brand',
       name: 'Henotic Diagnostics',

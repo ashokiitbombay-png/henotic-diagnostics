@@ -101,6 +101,7 @@ export default function MedicalPseoSchema({
   } else if (type === 'doctor' && doctorId) {
     const doctorSchemas = generateDoctorSchema(doctorId);
     if (doctorSchemas) {
+      schemasToRender.push(doctorSchemas.medicalWebPageSchema);
       schemasToRender.push(doctorSchemas.physicianSchema);
       schemasToRender.push(doctorSchemas.breadcrumbSchema);
     }

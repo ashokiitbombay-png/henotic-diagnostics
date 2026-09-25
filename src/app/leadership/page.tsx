@@ -25,7 +25,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Leadership Team | Henotic Diagnostics",
     description: "Meet the visionary leadership team at Henotic Diagnostics — experts in healthcare, radiology, technology, operations, and strategy.",
+    url: "https://www.henoticdiagnostics.com/leadership",
+    type: "website",
     images: [{ url: "https://cdn.henoticdiagnostics.com/Leadership/Ashok-Majji-Founder-CEO.webp", width: 1200, height: 630, alt: "Leadership Team at Henotic Diagnostics" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Leadership Team | Henotic Diagnostics",
+    description: "Meet the visionary leadership team at Henotic Diagnostics.",
+    images: ["https://cdn.henoticdiagnostics.com/Leadership/Ashok-Majji-Founder-CEO.webp"],
   },
 };
 

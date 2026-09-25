@@ -10,7 +10,25 @@ export const metadata: Metadata = {
   description: "Browse our directory of over 200+ NABL accredited diagnostic services, including 3T MRI, 128-Slice CT, Ultrasound, Cardiology, and Pathology tests.",
   alternates: {
     canonical: "https://www.henoticdiagnostics.com/services"
-  }
+  },
+  openGraph: {
+    title: "Diagnostic Services Directory | Henotic Diagnostics",
+    description: "Browse our directory of over 200+ NABL accredited diagnostic services, including 3T MRI, 128-Slice CT, Ultrasound, Cardiology, and Pathology tests.",
+    url: "https://www.henoticdiagnostics.com/services",
+    type: "website",
+    images: [{
+      url: "https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp",
+      width: 1200,
+      height: 630,
+      alt: "Henotic Diagnostics Services Directory",
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Diagnostic Services Directory | Henotic Diagnostics",
+    description: "Browse 200+ NABL accredited diagnostic services in Mumbai & Navi Mumbai.",
+    images: ["https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp"],
+  },
 };
 
 interface ServiceItem {

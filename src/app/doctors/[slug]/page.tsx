@@ -11,10 +11,32 @@ const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase(
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const doc = DOCTORS.find(d => d.id === slug);
+  const title = doc ? `${doc.name} - ${doc.designation} | Henotic Diagnostics` : 'Doctor Profile';
+  const description = doc?.bio || 'Expert medical professionals at Henotic Diagnostics.';
+  const doctorImage = doc?.imageUrl || 'https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp';
+
   return {
-    title: doc ? `${doc.name} - ${doc.designation} | Henotic Diagnostics` : 'Doctor Profile',
-    description: doc?.bio || 'Expert medical professionals at Henotic Diagnostics.',
-    alternates: { canonical: `https://www.henoticdiagnostics.com/doctors/${slug}` }
+    title,
+    description,
+    alternates: { canonical: `https://www.henoticdiagnostics.com/doctors/${slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `https://www.henoticdiagnostics.com/doctors/${slug}`,
+      type: 'profile',
+      images: [{
+        url: doctorImage,
+        width: 1200,
+        height: 630,
+        alt: `${doc?.name || 'Doctor'} — Henotic Diagnostics`,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [doctorImage],
+    },
   };
 }
 

@@ -16,7 +16,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Henotic Diagnostics | Trusted Diagnostic Center in Navi Mumbai',
     description: 'Learn about Henotic Diagnostics — a NABL-accredited diagnostic imaging center in Kharghar, Navi Mumbai. 12+ years of trusted service with 3.0T MRI, 128-slice CT, and 1030+ Google reviews.',
+    url: 'https://www.henoticdiagnostics.com/about-us',
+    type: 'website',
     images: [{ url: 'https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-waiting-area.webp', width: 1200, height: 630, alt: 'About Henotic Diagnostics | Trusted Diagnostic Center in Navi Mumbai' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About Henotic Diagnostics | Trusted Diagnostic Center in Navi Mumbai',
+    description: 'Learn about Henotic Diagnostics — a NABL-accredited diagnostic imaging center in Kharghar, Navi Mumbai.',
+    images: ['https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-waiting-area.webp'],
   },
 };
 

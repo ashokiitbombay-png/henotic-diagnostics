@@ -23,7 +23,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${product.title} — ₹${product.price.toLocaleString('en-IN')} | Henotic Diagnostics`,
     description: product.description,
-    robots: { index: true, follow: true },
     alternates: {
       canonical: `https://www.henoticdiagnostics.com/gmc/${slug}`,
     },
@@ -32,6 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: product.description,
       images: [{ url: product.imageUrl, width: 1200, height: 630 }],
       type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.title} — ₹${product.price.toLocaleString('en-IN')}`,
+      description: product.description,
+      images: [product.imageUrl],
     },
   };
 }
@@ -44,8 +49,43 @@ export default async function GMCProductPage({ params }: Props) {
   const savings = product.mrp - product.price;
   const savingsPercent = Math.round((savings / product.mrp) * 100);
 
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `https://www.henoticdiagnostics.com/gmc/${slug}`,
+    name: `${product.title} | Henotic Diagnostics`,
+    description: product.description,
+    url: `https://www.henoticdiagnostics.com/gmc/${slug}`,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: product.imageUrl,
+      contentUrl: product.imageUrl,
+      caption: product.title,
+      width: 1200,
+      height: 630
+    },
+    image: [product.imageUrl],
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 mt-[80px]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
+      />
+      {/* 🤖 Googlebot SERP Thumbnail Signal */}
+      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
+        <img
+          src={product.imageUrl}
+          alt={`${product.title} — Henotic Diagnostics`}
+          width={1200}
+          height={630}
+          itemProp="image"
+          loading="eager"
+        />
+        <figcaption itemProp="caption">{product.title}</figcaption>
+      </figure>
+
       {/* Product Schema for Google */}
       <ProductSchema
         serviceName={product.title}

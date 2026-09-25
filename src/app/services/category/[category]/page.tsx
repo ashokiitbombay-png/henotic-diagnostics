@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SERVICE_CATEGORIES, getCategoryById } from '@/config/categories';
+import { getHeroImageForService } from '@/config/services';
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
@@ -10,10 +11,33 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category } = await params;
   const cat = getCategoryById(category);
   const title = cat?.title || formatText(category);
+  const description = cat?.description || `Browse all ${title} diagnostic services at Henotic Diagnostics.`;
+  const heroImage = cat?.services?.[0]
+    ? getHeroImageForService(cat.services[0])
+    : 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
+
   return {
     title: `${title} Services | Henotic Diagnostics`,
-    description: cat?.description || `Browse all ${title} diagnostic services at Henotic Diagnostics.`,
-    alternates: { canonical: `https://www.henoticdiagnostics.com/services/category/${category}` }
+    description,
+    alternates: { canonical: `https://www.henoticdiagnostics.com/services/category/${category}` },
+    openGraph: {
+      title: `${title} Services | Henotic Diagnostics`,
+      description,
+      url: `https://www.henoticdiagnostics.com/services/category/${category}`,
+      type: 'website',
+      images: [{
+        url: heroImage,
+        width: 1200,
+        height: 630,
+        alt: `${title} Services — Henotic Diagnostics`,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} Services | Henotic Diagnostics`,
+      description,
+      images: [heroImage],
+    },
   };
 }
 
@@ -26,8 +50,61 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const cat = getCategoryById(category);
   if (!cat) return <div className="min-h-screen flex items-center justify-center mt-[80px]"><p>Category not found.</p></div>;
 
+  const heroImage = cat.services?.[0]
+    ? getHeroImageForService(cat.services[0])
+    : 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.henoticdiagnostics.com' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.henoticdiagnostics.com/services' },
+      { '@type': 'ListItem', position: 3, name: cat.title, item: `https://www.henoticdiagnostics.com/services/category/${category}` }
+    ]
+  };
+
+  const webPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    '@id': `https://www.henoticdiagnostics.com/services/category/${category}`,
+    name: `${cat.title} Services | Henotic Diagnostics`,
+    description: cat.description,
+    url: `https://www.henoticdiagnostics.com/services/category/${category}`,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: heroImage,
+      contentUrl: heroImage,
+      caption: `${cat.title} Services at Henotic Diagnostics`,
+      width: 1200,
+      height: 630
+    },
+    image: [heroImage],
+    publisher: {
+      '@type': 'Organization',
+      name: 'Henotic Diagnostics',
+      url: 'https://www.henoticdiagnostics.com'
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+
+      {/* 🤖 Googlebot SERP Thumbnail Signal */}
+      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
+        <img
+          src={heroImage}
+          alt={`${cat.title} Services — Henotic Diagnostics`}
+          width={1200}
+          height={630}
+          itemProp="image"
+          loading="eager"
+        />
+        <figcaption itemProp="caption">{cat.title} Services at Henotic Diagnostics</figcaption>
+      </figure>
+
       {/* Hero */}
       <section className="bg-gradient-to-r from-blue-950 to-[#1e1b4b] py-20 px-4 md:px-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#b06ab3] rounded-full mix-blend-screen filter blur-[120px] opacity-20"></div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { getHeroImageForService } from '@/config/services';
 
 interface ServiceSchemaProps {
   serviceName: string;
@@ -32,6 +33,7 @@ export default function ServiceSchema({
       ? `${baseUrl}/services/${serviceSlug}/${regionName}`
       : `${baseUrl}/services/${serviceSlug}`;
 
+  const heroImage = getHeroImageForService(serviceSlug);
   const schemas: object[] = [];
 
   // 1. MedicalTest Schema
@@ -41,6 +43,7 @@ export default function ServiceSchema({
     "name": serviceName,
     "description": description || `${serviceName} diagnostic service at Henotic Diagnostics. NABL accredited with same-day reports.`,
     "url": url,
+    "image": heroImage,
     "medicalSpecialty": "Radiology",
     "usesDevice": {
       "@type": "MedicalDevice",
@@ -79,6 +82,7 @@ export default function ServiceSchema({
       "name": `Henotic Diagnostics - ${formatName(locationName)}`,
       "description": `${serviceName} center in ${formatName(locationName)}, ${formatName(regionName)}. NABL & ISO certified.`,
       "url": url,
+      "image": heroImage,
       "telephone": "+91-8879327184",
       "address": {
         "@type": "PostalAddress",

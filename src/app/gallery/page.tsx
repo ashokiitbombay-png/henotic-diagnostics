@@ -9,11 +9,25 @@ export const metadata: Metadata = {
   title: 'Facility Gallery | Henotic Diagnostics — Premium Diagnostic Center',
   description:
     'Explore Henotic Diagnostics\' state-of-the-art facility, advanced MRI, CT, PET-CT scanners, pathology lab, and cardiology department in Panvel, Navi Mumbai.',
+  alternates: { canonical: 'https://www.henoticdiagnostics.com/gallery' },
   openGraph: {
     title: 'Facility Gallery | Henotic Diagnostics',
     description:
       'Tour our world-class diagnostic facility featuring cutting-edge medical imaging equipment and patient-centric spaces.',
+    url: 'https://www.henoticdiagnostics.com/gallery',
     type: 'website',
+    images: [{
+      url: 'https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp',
+      width: 1200,
+      height: 630,
+      alt: 'Henotic Diagnostics Facility Gallery',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Facility Gallery | Henotic Diagnostics',
+    description: 'Tour our world-class diagnostic facility in Panvel, Navi Mumbai.',
+    images: ['https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp'],
   },
 };
 

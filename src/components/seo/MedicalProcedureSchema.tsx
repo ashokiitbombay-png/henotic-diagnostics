@@ -1,4 +1,5 @@
 import React from 'react';
+import { getHeroImageForService } from '@/config/services';
 
 interface MedicalProcedureSchemaProps {
   procedureName: string;
@@ -24,6 +25,7 @@ export default function MedicalProcedureSchema({
     "name": procedureName,
     "description": description || `${procedureName} diagnostic procedure at Henotic Diagnostics. NABL accredited, same-day reports, affordable pricing.`,
     "url": `https://www.henoticdiagnostics.com/services/${procedureSlug}`,
+    "image": getHeroImageForService(procedureSlug),
     "procedureType": "https://schema.org/DiagnosticProcedure",
     "bodyLocation": bodyLocation || "Various",
     "howPerformed": howPerformed || `Advanced diagnostic imaging and laboratory analysis using state-of-the-art equipment for accurate ${procedureName} results.`,

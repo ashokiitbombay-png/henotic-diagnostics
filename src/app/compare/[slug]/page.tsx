@@ -25,6 +25,8 @@ const formatText = (t: string) =>
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(' ');
 
+import { getHeroImageForService } from '@/config/services';
+
 // ─── Static Params ────────────────────────────────────────────────────────────
 export async function generateStaticParams() {
   return COMPARISONS.map((c) => ({ slug: c.slug }));
@@ -40,6 +42,8 @@ export async function generateMetadata({
   const comparison = getComparisonBySlug(slug);
   if (!comparison) return { title: 'Comparison Not Found' };
 
+  const heroImage = getHeroImageForService(comparison.serviceA.slug);
+
   return {
     title: `${comparison.serviceA.name} vs ${comparison.serviceB.name} — Detailed Comparison`,
     description: comparison.metaDescription,
@@ -52,6 +56,18 @@ export async function generateMetadata({
       url: `https://www.henoticdiagnostics.com/compare/${comparison.slug}`,
       type: 'article',
       siteName: 'Henotic Diagnostics',
+      images: [{
+        url: heroImage,
+        width: 1200,
+        height: 630,
+        alt: `${comparison.serviceA.name} vs ${comparison.serviceB.name} — Henotic Diagnostics`,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: comparison.title,
+      description: comparison.metaDescription,
+      images: [heroImage],
     },
   };
 }
@@ -119,6 +135,18 @@ export default async function ComparisonPage({
   return (
     <main className="min-h-screen font-sans mt-[80px]">
       <MedicalPseoSchema type="compare" compareSlug={slug} />
+      {/* 🤖 Googlebot SERP Thumbnail Signal */}
+      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
+        <img
+          src={getHeroImageForService(comparison.serviceA.slug)}
+          alt={`${comparison.serviceA.name} vs ${comparison.serviceB.name} — Henotic Diagnostics`}
+          width={1200}
+          height={630}
+          itemProp="image"
+          loading="eager"
+        />
+        <figcaption itemProp="caption">{comparison.title}</figcaption>
+      </figure>
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-[#1e1b4b] py-20 md:py-28 px-4 md:px-8">
         {/* Decorative orbs */}

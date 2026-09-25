@@ -14,13 +14,40 @@ function getCondition(slug: string) {
   return CONDITIONS.find(c => c.id === slug);
 }
 
+import { getHeroImageForService } from '@/config/services';
+
 export async function generateMetadata({ params }: { params: Promise<{ condition: string }> }): Promise<Metadata> {
   const { condition } = await params;
   const cond = getCondition(condition);
+  const title = `${cond?.title || formatText(condition)} - Diagnostic Tests | Henotic Diagnostics`;
+  const description = cond?.description || `Find the right diagnostic tests for ${formatText(condition)}. NABL accredited, same-day reports.`;
+  // Use hero image from the first recommended service for a relevant thumbnail
+  const heroImage = cond?.recommendedServices?.[0]
+    ? getHeroImageForService(cond.recommendedServices[0])
+    : 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
+
   return {
-    title: `${cond?.title || formatText(condition)} - Diagnostic Tests | Henotic Diagnostics`,
-    description: cond?.description || `Find the right diagnostic tests for ${formatText(condition)}. NABL accredited, same-day reports.`,
-    alternates: { canonical: `https://www.henoticdiagnostics.com/conditions/${condition}` }
+    title,
+    description,
+    alternates: { canonical: `https://www.henoticdiagnostics.com/conditions/${condition}` },
+    openGraph: {
+      title,
+      description,
+      url: `https://www.henoticdiagnostics.com/conditions/${condition}`,
+      type: 'website',
+      images: [{
+        url: heroImage,
+        width: 1200,
+        height: 630,
+        alt: `${cond?.title || formatText(condition)} — Diagnostic Tests at Henotic Diagnostics`,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [heroImage],
+    },
   };
 }
 
@@ -52,6 +79,18 @@ export default async function ConditionPage({ params }: { params: Promise<{ cond
   return (
     <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       <MedicalPseoSchema type="condition" conditionId={condition} />
+      {/* 🤖 Googlebot SERP Thumbnail Signal */}
+      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
+        <img
+          src={cond.recommendedServices?.[0] ? getHeroImageForService(cond.recommendedServices[0]) : 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp'}
+          alt={`${cond.title} — Diagnostic Tests at Henotic Diagnostics`}
+          width={1200}
+          height={630}
+          itemProp="image"
+          loading="eager"
+        />
+        <figcaption itemProp="caption">{cond.title} Diagnostic Tests at Henotic Diagnostics</figcaption>
+      </figure>
       {/* Hero */}
       <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-[#1e1b4b] py-20 px-4 md:px-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E55D87] rounded-full mix-blend-screen filter blur-[120px] opacity-15"></div>
