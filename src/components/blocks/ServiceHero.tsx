@@ -155,6 +155,25 @@ export default function ServiceHero({
           <div className="absolute inset-0 bg-slate-900/20 md:bg-transparent transition-colors"></div>
         </div>
 
+        {/* 🤖 Googlebot SERP Thumbnail Signal — Crawlable <img> near page top.
+            Google's thumbnail algorithm prioritizes images that are:
+            1. In the DOM as standard <img> tags (not just CSS backgrounds)
+            2. Near the top of the page content
+            3. Have meaningful alt text matching page topic
+            4. Have itemprop="image" for schema.org association
+            The sr-only class hides it visually but keeps it crawlable. */}
+        <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
+          <img
+            src={getHeroImageForService(service || '')}
+            alt={`${heroTitle} — Henotic Diagnostics NABL Accredited Diagnostic Center`}
+            width={1200}
+            height={630}
+            itemProp="image"
+            loading="eager"
+          />
+          <figcaption itemProp="caption">{heroTitle} at Henotic Diagnostics</figcaption>
+        </figure>
+
         {/* Decorative Gradient Glow */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-[#b06ab3]"></div>
         <div className="absolute bottom-[-20%] left-[-10%] w-[400px] h-[400px] rounded-full mix-blend-screen filter blur-[100px] opacity-15 bg-[#4568dc]"></div>

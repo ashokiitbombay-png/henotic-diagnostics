@@ -152,7 +152,8 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     provider: HENOTIC_MEDICAL_ORGANIZATION
   };
 
-  // 1B. MedicalWebPage Schema
+  // 1B. MedicalWebPage Schema — with primaryImageOfPage for SERP thumbnails
+  const heroImageUrl = getHeroImageForService(serviceSlug);
   const medicalWebPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'MedicalWebPage',
@@ -160,6 +161,19 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     name: `${serviceName} in ${formattedLocation} | Henotic Diagnostics`,
     description: `Book ${serviceName} in ${formattedLocation}. Top NABL accredited diagnostic center with 3.0T MRI, 128-Slice CT, 4D Ultrasound, and Pathology.`,
     url: pageUrl,
+    // Google SERP thumbnail: primaryImageOfPage is the schema.org signal
+    // that tells Google which image to use as the page thumbnail
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: heroImageUrl,
+      contentUrl: heroImageUrl,
+      caption: `${serviceName} at Henotic Diagnostics, ${formattedLocation}`,
+      width: 1200,
+      height: 630
+    },
+    image: [heroImageUrl],
+    lastReviewed: new Date().toISOString().split('T')[0],
+    dateModified: new Date().toISOString().split('T')[0],
     aspect: 'Diagnosis',
     medicalAudience: {
       '@type': 'MedicalAudience',

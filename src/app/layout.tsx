@@ -72,8 +72,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
         <head>
-          <link rel="preconnect" href="https://storage.googleapis.com" crossOrigin="anonymous" />
-          <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+          <link rel="preconnect" href="https://cdn.henoticdiagnostics.com" crossOrigin="anonymous" />
+          <link rel="dns-prefetch" href="https://cdn.henoticdiagnostics.com" />
           {/* PWA — favicon/icon/apple-icon auto-detected by Next.js from src/app/ */}
           <link rel="manifest" href="/manifest.json" />
           <meta name="theme-color" content="#1e3a5f" />

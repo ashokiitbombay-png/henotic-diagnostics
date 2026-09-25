@@ -25,6 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
   const title = `Diagnostic Services in ${city.name} | MRI, CT, PET-CT, Pathology | Henotic Diagnostics`;
   const description = `Book ${city.name}'s best diagnostic services — MRI, CT Scan, PET-CT, Ultrasound, Blood Tests & Health Checkups. NABL accredited, same-day reports, 340+ tests available.`;
 
+  const heroImage = 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
+
   return {
     title,
     description,
@@ -37,7 +39,19 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
       description,
       type: 'website',
       url: `https://www.henoticdiagnostics.com/city/${city.slug}`,
-    }
+      images: [{
+        url: heroImage,
+        width: 1200,
+        height: 630,
+        alt: `Diagnostic Services in ${city.name} — Henotic Diagnostics`,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `Diagnostic Services in ${city.name} | Henotic Diagnostics`,
+      description,
+      images: [heroImage],
+    },
   };
 }
 
