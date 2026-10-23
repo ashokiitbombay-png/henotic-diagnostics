@@ -162,9 +162,12 @@ export const SERVICE_PRICING: ServicePricing[] = [
   { serviceSlug: 'carotid-doppler', serviceName: 'Carotid Artery Doppler', henoticPrice: 1500, marketPrice: 2800, savings: 46, currency: 'INR', category: 'Doppler Studies' },
 
   // ────────────────────────────────────
-  // DEXA & BONE HEALTH (1)
+  // DEXA & BONE HEALTH (4)
   // ────────────────────────────────────
-  { serviceSlug: 'dexa-bone-scan', serviceName: 'DEXA Bone Density Scan', henoticPrice: 1200, marketPrice: 2200, savings: 45, currency: 'INR', category: 'Bone Health' },
+  { serviceSlug: 'dexa-bone-scan', serviceName: 'DEXA Bone Scan', henoticPrice: 4000, marketPrice: 6500, savings: 38, currency: 'INR', category: 'Bone Health' },
+  { serviceSlug: 'bone-density-test', serviceName: 'Bone Density Test', henoticPrice: 4000, marketPrice: 6500, savings: 38, currency: 'INR', category: 'Bone Health' },
+  { serviceSlug: 'bmd-test', serviceName: 'BMD Test', henoticPrice: 4000, marketPrice: 6500, savings: 38, currency: 'INR', category: 'Bone Health' },
+  { serviceSlug: 'osteoporosis-screening', serviceName: 'Osteoporosis Screening', henoticPrice: 4000, marketPrice: 6500, savings: 38, currency: 'INR', category: 'Bone Health' },
 
   // ────────────────────────────────────
   // LIVER & FIBROSCAN (14)
