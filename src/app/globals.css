@@ -549,3 +549,12 @@ html.dark .lg\:hidden.fixed a { color: #e2e8f0; }
 
 /* Enable Native Smooth Scrolling */
 html { scroll-behavior: smooth !important; }
+
+/* -- Health checkup authority pages: modal / drawer entrance animations -- */
+@keyframes hc-slide-in-right { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes hc-fade-zoom { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.hc-slide-in-right { animation: hc-slide-in-right 300ms cubic-bezier(0.22, 1, 0.36, 1); }
+.hc-fade-zoom { animation: hc-fade-zoom 200ms ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .hc-slide-in-right, .hc-fade-zoom { animation: none; }
+}

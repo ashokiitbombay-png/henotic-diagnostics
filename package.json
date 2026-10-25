@@ -37,7 +37,8 @@
     "test:dataloader": "vitest run tests/dataloader.test.ts",
     "test:cache-tags": "vitest run tests/cache-tags.test.ts",
     "payload:preflight": "tsx --env-file=.env.local scripts/payload-preflight.ts",
-    "payload:indexes": "tsx --env-file=.env.local scripts/payload-create-indexes.ts"
+    "payload:indexes": "tsx --env-file=.env.local scripts/payload-create-indexes.ts",
+    "payload:seed:health": "tsx --env-file=.env.local scripts/payload-seed-health-checkups.ts"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.2.7",

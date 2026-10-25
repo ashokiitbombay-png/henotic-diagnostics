@@ -42,10 +42,10 @@ function detectCMSSource(request: NextRequest): CMSSource {
  */
 function normalizePayload(source: CMSSource, body: Record<string, unknown>): NormalizedWebhookPayload {
   if (source === 'payload') {
-    const collection = body.collection as string | undefined;
+    const collection = (body.collection as string | undefined) ?? (body.global ? `global:${body.global as string}` : undefined);
     const operation = (body.operation || 'update') as string;
     const doc = body.doc as Record<string, unknown> | undefined;
-    const slug = (doc?.slug || doc?.id || '') as string;
+    const slug = (doc?.slug || doc?.code || doc?.id || (body.global as string | undefined) || '') as string;
 
     // Map Payload CMS collections to our content types
     const typeMap: Record<string, string> = {
@@ -54,6 +54,11 @@ function normalizePayload(source: CMSSource, body: Record<string, unknown>): Nor
       pages: 'page',
       conditions: 'condition',
       'blog-posts': 'post',
+      // Health checkup authority pages → revalidates CACHE_TAGS.service(slug) + servicesList
+      'health-checkup-pages': 'service',
+      // Packages & trust global are shared by all 26 pages → servicesList tag is revalidated
+      'health-packages': 'service',
+      'global:health-checkup-trust': 'service',
     };
 
     return {

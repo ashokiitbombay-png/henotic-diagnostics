@@ -3,6 +3,8 @@ import type {
   PayloadCollectionSlug,
   PayloadListResponse,
   PayloadFindByIDResponse,
+  PayloadGlobalMap,
+  PayloadGlobalSlug,
 } from '@/types/payload';
 import { wpCacheThrough } from '@/lib/cache/wp-cache';
 
@@ -260,6 +262,47 @@ export async function payloadFindBySlug<T extends PayloadCollectionSlug>(
 
       const result = await response.json() as PayloadListResponse<PayloadCollectionMap[T]>;
       return result.docs[0] ?? null;
+    },
+    cacheTtl
+  );
+}
+
+/**
+ * Fetches a Payload CMS global (singleton document) by slug.
+ *
+ * Payload REST endpoint: `GET /api/globals/{slug}`.
+ *
+ * @param slug     The Payload global slug
+ * @param depth    Relationship population depth (default: 1)
+ * @param cacheTtl Cache TTL in seconds (default: 86400)
+ */
+export async function payloadFindGlobal<T extends PayloadGlobalSlug>(
+  slug: T,
+  depth: number = 1,
+  cacheTtl: number = 86400
+): Promise<PayloadGlobalMap[T] | null> {
+  const payloadUrl = getPayloadUrl();
+  if (!payloadUrl) return null;
+
+  return wpCacheThrough<PayloadGlobalMap[T] | null>(
+    'payload:globals',
+    slug,
+    async () => {
+      const url = new URL(`${payloadUrl}/api/globals/${slug}`);
+      url.searchParams.set('depth', String(depth));
+
+      const response = await fetchWithRetry(url.toString(), {
+        method: 'GET',
+        headers: buildHeaders(),
+        next: { revalidate: cacheTtl },
+      });
+
+      if (!response.ok) {
+        console.error(`[Payload] global ${slug} fetch failed: ${response.status}`);
+        return null;
+      }
+
+      return await response.json() as PayloadGlobalMap[T];
     },
     cacheTtl
   );

@@ -18,6 +18,11 @@ export async function GET() {
   }
 
   xml += `
+  <sitemap>
+    <loc>${BASE_URL}/sitemap-health-checkups.xml</loc>
+  </sitemap>`;
+
+  xml += `
 </sitemapindex>`;
 
   return new NextResponse(xml, {

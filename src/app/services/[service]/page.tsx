@@ -6,11 +6,21 @@ import { getService } from '@/lib/wordpress/getService';
 import { formatSlug } from '@/lib/utils';
 import { isValidServiceSlug } from '@/lib/seo/slug-validator';
 import { getHeroImageForService } from '@/config/services';
+import { isHealthCheckupAuthoritySlug } from '@/config/health-checkup';
+import { getHealthCheckupPageData } from '@/lib/payload/health-checkups';
+import HealthCheckupAuthorityPage, { buildHealthCheckupMetadata } from '@/components/health-checkup/HealthCheckupAuthorityPage';
 
 export const revalidate = 86400; // 24 hours cache revalidation
 
 export async function generateMetadata({ params }: { params: Promise<{ service: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
+
+  // 🩺 Health checkup authority pages (26 slugs) — Payload CMS-driven metadata
+  if (isHealthCheckupAuthoritySlug(resolvedParams.service)) {
+    const data = await getHealthCheckupPageData(resolvedParams.service);
+    if (data) return buildHealthCheckupMetadata(data);
+  }
+
   const serviceName = formatSlug(resolvedParams.service);
   const heroImage = getHeroImageForService(resolvedParams.service);
 
@@ -53,6 +63,13 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
   // Slug validation: prevent CDN cache pollution from invalid URLs
   if (!isValidServiceSlug(resolvedParams.service)) {
     notFound();
+  }
+
+  // 🩺 Health checkup authority pages (26 slugs) — dedicated template with
+  // Payload CMS content + static fallback. All other services unchanged.
+  if (isHealthCheckupAuthoritySlug(resolvedParams.service)) {
+    const data = await getHealthCheckupPageData(resolvedParams.service);
+    if (data) return <HealthCheckupAuthorityPage data={data} />;
   }
 
   let wpContent: any = null;

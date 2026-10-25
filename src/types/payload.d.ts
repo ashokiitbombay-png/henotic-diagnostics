@@ -120,6 +120,87 @@ export interface PayloadCondition {
   updatedAt: string;
 }
 
+// ── Health Checkup Authority Content ─────────────────────────────────────
+// Payload arrays of primitives are stored as `{ id, <field> }` rows; the
+// mapper in `src/lib/payload/health-checkups.ts` accepts both shapes.
+
+export type PayloadTextRow = string | { id?: string; text?: string; value?: string };
+
+export interface PayloadHealthPackage {
+  id: string;
+  code: string;
+  title: string;
+  subtitle?: string;
+  target?: Array<'Men' | 'Women' | 'Seniors'>;
+  totalTests: number;
+  pricing: PayloadPricing;
+  discountLabel?: string;
+  image?: PayloadMediaUpload | string | null;
+  /** External CDN URL — used when no Payload media upload is attached. */
+  imageUrl?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  theme?: Partial<Record<'archBg' | 'accentBorder' | 'badgeBg' | 'gradientBottom' | 'pillColor' | 'glow' | 'lineColor', string>>;
+  popular?: boolean;
+  fastingRequired?: boolean;
+  highlights?: PayloadTextRow[];
+  notes?: PayloadTextRow[];
+  categories?: Array<{ name: string; count?: number; tests?: PayloadTextRow[] }>;
+  sortOrder?: number;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PayloadHealthCheckupPage {
+  id: string;
+  slug: string;
+  keyword?: string;
+  secondaryKeywords?: PayloadTextRow[];
+  metaTitle?: string;
+  metaDescription?: string;
+  h1?: string;
+  eyebrow?: string;
+  intro?: string;
+  quickAnswer?: string;
+  primaryImage?: {
+    media?: PayloadMediaUpload | string | null;
+    url?: string;
+    alt?: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+  };
+  defaultFilter?: 'ALL' | 'Men' | 'Women' | 'Seniors';
+  featuredPackages?: Array<string | PayloadHealthPackage>;
+  featuredPackageCodes?: PayloadTextRow[];
+  whoShouldBook?: PayloadTextRow[];
+  sections?: Array<{ heading: string; body: string }>;
+  preparation?: PayloadTextRow[];
+  faqs?: Array<{ question: string; answer: string }>;
+  relatedSlugs?: PayloadTextRow[];
+  lastReviewed?: string;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PayloadHealthCheckupTrust {
+  googleRating?: { rating?: number; reviewCount?: number; profileUrl?: string; mapsUrl?: string };
+  infrastructure?: Array<{ title: string; subtitle?: string; image?: PayloadMediaUpload | string | null; imageUrl?: string; tag?: string }>;
+  doctors?: Array<{ name: string; degrees?: string; registration?: string; bio?: string; focus?: PayloadTextRow[]; image?: PayloadMediaUpload | string | null; imageUrl?: string }>;
+  certificates?: Array<{ certId?: string; name: string; authority?: string; logo?: PayloadMediaUpload | string | null; logoUrl?: string; certImage?: PayloadMediaUpload | string | null; certImageUrl?: string; desc?: string }>;
+  awards?: Array<{ awardId?: string; title: string; category?: string; year?: string; organization?: string; description?: string; image?: PayloadMediaUpload | string | null; imageUrl?: string; badgeLabel?: string; accentGlow?: string }>;
+  testimonials?: Array<{ name: string; service?: string; quote: string; image?: PayloadMediaUpload | string | null; imageUrl?: string; rating?: number }>;
+}
+
+/** Payload global slug → document type mapping */
+export interface PayloadGlobalMap {
+  'health-checkup-trust': PayloadHealthCheckupTrust;
+}
+
+export type PayloadGlobalSlug = keyof PayloadGlobalMap;
+
 // ── Payload API Response Wrappers ────────────────────────────────────────
 
 export interface PayloadListResponse<T> {
@@ -146,6 +227,8 @@ export interface PayloadCollectionMap {
   conditions: PayloadCondition;
   categories: PayloadCategory;
   media: PayloadMediaUpload;
+  'health-packages': PayloadHealthPackage;
+  'health-checkup-pages': PayloadHealthCheckupPage;
 }
 
 export type PayloadCollectionSlug = keyof PayloadCollectionMap;
