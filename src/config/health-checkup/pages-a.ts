@@ -23,6 +23,8 @@ export const HC_IMAGES = {
   seniorCouple: { url: `${CDN}/health-checkup/seniors-whole-body-health-profile-henotic-diagnostics.webp`, width: 1536, height: 1024 },
   womanNeckConcern: { url: `${CDN}/health-checkup/women-tumour-panel-henotic-diagnostics.webp`, width: 600, height: 600 },
   manNeckConcern: { url: `${CDN}/health-checkup/men-tumour-panel-henotic-diagnostics.webp`, width: 600, height: 600 },
+  executiveHealthCheckupHero: { url: `${CDN}/health-checkup/hero-images/Executive%20Health%20Checkup-henotic-diagnostics.webp`, width: 750, height: 1000 },
+  fullBodyCheckUpHero: { url: `${CDN}/health-checkup/hero-images/Full%20Body%20Check%20Up-henotic-diagnostics.webp`, width: 750, height: 1000 },
 } as const;
 
 export const img = (
@@ -56,7 +58,7 @@ export const HEALTH_CHECKUP_PAGES_A: HealthCheckupPageContent[] = [
     eyebrow: 'Health Checkup • Certified Laboratory Rate Cards',
     intro: 'A health checkup is a planned set of blood, urine and (optionally) imaging tests that shows how your heart, liver, kidneys, thyroid and metabolism are working — often before symptoms appear. Henotic Diagnostics offers {packageCount} transparent, pathologist-verified packages with free home sample collection across Navi Mumbai.',
     quickAnswer: 'A health checkup at Henotic Diagnostics starts at ₹{minPrice} and covers blood sugar, cholesterol, liver, kidney, thyroid and a complete blood count. Most adults choose a 70–100 parameter package once a year. Samples can be collected at home 24/7 after 8–12 hours of fasting, and reports usually arrive within 8–12 hours.',
-    primaryImage: img('familyThreeGen', 'Three-generation Indian family smiling together — health checkup packages for every age at Henotic Diagnostics, Navi Mumbai', 'Health checkup packages for every member of the family at Henotic Diagnostics, Kharghar'),
+    primaryImage: img('executiveHealthCheckupHero', 'Executive Health Checkup Packages at Henotic Diagnostics, Navi Mumbai', 'Health checkup packages for every member of the family at Henotic Diagnostics, Kharghar'),
     defaultFilter: 'ALL',
     featuredPackageCodes: ['CHP-85', 'WEL-100', 'HD-WEL-15.4', 'M-ADV-99', 'W-ADV-98', 'SNR-100'],
     whoShouldBook: [
@@ -91,7 +93,7 @@ export const HEALTH_CHECKUP_PAGES_A: HealthCheckupPageContent[] = [
     eyebrow: 'Full Body Check Up • 70–110 Parameters',
     intro: 'A full body check up screens every major organ system in a single visit — blood, liver, kidneys, heart risk, thyroid, blood sugar and vitamins. Our full body check up packages cover 72 to 110 parameters, are verified by senior pathologists, and can be collected from your home at any hour across Navi Mumbai.',
     quickAnswer: 'A full body check up is a bundled set of 70–110 blood and urine tests covering CBC, liver, kidney, lipid, thyroid, diabetes (HbA1c) and vitamin levels. At Henotic Diagnostics it starts at ₹{minPrice}, needs 8–12 hours of fasting, and reports are usually ready within 8–12 hours.',
-    primaryImage: img('familyDaughterParents', 'Smiling daughter with her parents — full body check up packages at Henotic Diagnostics, Kharghar', 'Full body check up for parents and adult children — one visit, every major organ system'),
+    primaryImage: img('fullBodyCheckUpHero', 'Full Body Check Up Packages with Home Sample Collection at Henotic Diagnostics, Kharghar', 'Full body check up for parents and adult children — one visit, every major organ system'),
     defaultFilter: 'ALL',
     featuredPackageCodes: ['CHP-85', 'WEL-100', 'HD-WEL-1.7', 'HD-WEL-3.2', 'HD-WEL-15.4', 'PREM-RAD'],
     whoShouldBook: [
