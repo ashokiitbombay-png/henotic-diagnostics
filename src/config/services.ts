@@ -46,6 +46,10 @@ const HERO = "https://cdn.henoticdiagnostics.com/Hero%20Image";
 
 /** Direct slug → image mapping (highest priority) */
 const DIRECT_HERO_MAP: Record<string, string> = {
+  // 🩺 HEALTH CHECKUPS & PREVENTIVE SCREENING
+  "health-checkup": "https://cdn.henoticdiagnostics.com/health-checkup/hero-images/Executive%20Health%20Checkup-henotic-diagnostics.webp",
+  "full-body-check-up": "https://cdn.henoticdiagnostics.com/health-checkup/hero-images/Full%20Body%20Check%20Up-henotic-diagnostics.webp",
+
   // 🫀 CARDIOLOGY — 2D Echo
   "2d-echo": `${HERO}/2d-echo-test-henotic-diagnostics_cta.webp`,
   "2d-echo-test": `${HERO}/2d-echo-test-henotic-diagnostics_cta.webp`,

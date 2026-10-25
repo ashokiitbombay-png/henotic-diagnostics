@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { services } from '../../config/services';
+import { services, getHeroImageForService } from '../../config/services';
 
 describe('Services configuration', () => {
   it('has services defined', () => {
@@ -33,5 +33,14 @@ describe('Services configuration', () => {
       expect(slug).not.toMatch(/\s/);
       expect(slug).toBe(slug.toLowerCase());
     }
+  });
+
+  it('maps correct hero images for health-checkup and full-body-check-up', () => {
+    expect(getHeroImageForService('health-checkup')).toBe(
+      'https://cdn.henoticdiagnostics.com/health-checkup/hero-images/Executive%20Health%20Checkup-henotic-diagnostics.webp'
+    );
+    expect(getHeroImageForService('full-body-check-up')).toBe(
+      'https://cdn.henoticdiagnostics.com/health-checkup/hero-images/Full%20Body%20Check%20Up-henotic-diagnostics.webp'
+    );
   });
 });
