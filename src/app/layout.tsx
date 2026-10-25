@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import Script from 'next/script';
 import MedicalClinicSchema from '@/components/seo/MedicalClinicSchema';
 import { OrganizationSchema } from '@/components/seo/OrganizationSchema';
 import { Analytics } from '@vercel/analytics/next';
@@ -81,11 +82,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
           <meta name="apple-mobile-web-app-title" content="Henotic Diagnostics" />
           <meta name="msvalidate.01" content="478B90B2BD25B2CF940C5CD10D182CAB" />
-          {/* Microsoft Clarity */}
-          <script
-            type="text/javascript"
-            dangerouslySetInnerHTML={{ __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "y5fb4rz2a2");` }}
-          />
           {/* Hreflang for multi-language SEO */}
           <link rel="alternate" hrefLang="en-IN" href="https://www.henoticdiagnostics.com" />
           <link rel="alternate" hrefLang="hi-IN" href="https://www.henoticdiagnostics.com" />
@@ -109,6 +105,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Skip to main content
           </a>
 
+          {/* Microsoft Clarity */}
+          <Script
+            id="microsoft-clarity"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "y5fb4rz2a2");`
+            }}
+          />
           <ThirdPartyScripts />
           <MedicalClinicSchema />
           <OrganizationSchema />
