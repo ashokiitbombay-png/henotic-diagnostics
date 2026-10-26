@@ -153,7 +153,7 @@ export function getHealthPackagesSEO(
       : 'Women Health Checkup';
     defaultFilter = 'Women';
     highlightCategory = 'women';
-  } else if (serviceSlug.includes('men')) {
+  } else if (!serviceSlug.includes('women') && /(^|-)men(-|$)/.test(serviceSlug)) {
     topic = serviceSlug.includes('screening')
       ? 'Men Health Screening'
       : 'Men Health Checkup';
@@ -243,7 +243,7 @@ export function getSortedPackagesForCategory(category: HighlightCategory): Healt
   const prioritySet = new Set(priorityIds);
   const prioritized = priorityIds
     .map(id => HEALTH_PACKAGES.find(p => p.id === id))
-    .filter((p) => Boolean(p));
+    .filter((p): p is HealthPackage => Boolean(p));
   const remaining = HEALTH_PACKAGES.filter(p => !prioritySet.has(p.id));
 
   return [...prioritized, ...remaining];

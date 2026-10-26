@@ -12,6 +12,7 @@ import { getPricingForService } from "@/config/pricing";
 import { Activity, CheckCircle2, Calendar } from "lucide-react";
 import ServiceHero from '@/components/blocks/ServiceHero';
 import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
+import HealthPackagesSchema from '@/components/health-packages/HealthPackagesSchema';
 import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
 import { isHealthCheckupService } from '@/config/health-packages';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
@@ -64,14 +65,23 @@ export default function LocationTemplate({
 
       {/* 🌟 Health Checkup Packages Suite (When applicable) */}
       {isHealthCheckupService(service) && (
-        <div className="max-w-7xl mx-auto px-4 md:px-8 my-8">
-          <HealthPackagesSection 
+        <>
+          <HealthPackagesSchema 
             serviceSlug={service}
-            serviceName={formattedService}
+            heading={`${formattedService} Packages`}
             regionName={formattedRegion}
             locationName={formattedLocation}
           />
-        </div>
+          <div className="max-w-7xl mx-auto px-4 md:px-8 my-8">
+            <HealthPackagesSection 
+              key={service}
+              serviceSlug={service}
+              serviceName={formattedService}
+              regionName={formattedRegion}
+              locationName={formattedLocation}
+            />
+          </div>
+        </>
       )}
 
       {/* 2. DYNAMIC CONTENT & STICKY SIDEBAR SPLIT */}

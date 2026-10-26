@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
 import { 
   HEALTH_PACKAGES, 
@@ -15,7 +15,6 @@ import PathologistsSection from './PathologistsSection';
 import AccreditationsSection from './AccreditationsSection';
 import AwardsCoverflow from './AwardsCoverflow';
 import TestimonialsSlider from './TestimonialsSlider';
-import HealthPackagesSchema from './HealthPackagesSchema';
 
 interface HealthPackagesSectionProps {
   serviceSlug?: string;
@@ -42,6 +41,10 @@ export default function HealthPackagesSection({
   const [activeDrawerPackage, setActiveDrawerPackage] = useState<HealthPackage | null>(null);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [selectedPackageForBooking, setSelectedPackageForBooking] = useState<HealthPackage>(HEALTH_PACKAGES[0]);
+
+  useEffect(() => {
+    setSelectedFilter(seo.defaultFilter || 'ALL');
+  }, [seo.defaultFilter]);
 
   const basePackages = useMemo(() => {
     return getSortedPackagesForCategory(seo.highlightCategory);
@@ -72,13 +75,7 @@ export default function HealthPackagesSection({
         background: 'linear-gradient(135deg, #e3f0fc 0%, #edf3fd 25%, #f4effb 60%, #fbe4f3 100%)',
       }}
     >
-      <HealthPackagesSchema 
-        serviceSlug={serviceSlug}
-        heading={seo.heading}
-        regionName={regionName}
-        locationName={locationName}
-      />
-
+      
       {/* Content Body Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-20">
 
@@ -86,10 +83,10 @@ export default function HealthPackagesSection({
         <section className="text-center pt-2">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-purple-200 shadow-sm text-xs font-semibold text-purple-900 mb-4 tracking-wide uppercase">
             <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-            <span>{seo.badge}</span>
+            <span suppressHydrationWarning>{seo.badge}</span>
           </div>
           
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 tracking-tight">
+          <h2 suppressHydrationWarning className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 tracking-tight">
             {seo.heading}
           </h2>
           <p className="mt-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto font-normal leading-relaxed">

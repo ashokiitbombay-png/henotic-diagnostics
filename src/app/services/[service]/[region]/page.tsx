@@ -1,5 +1,6 @@
 import ServiceHero from '@/components/blocks/ServiceHero';
 import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
+import HealthPackagesSchema from '@/components/health-packages/HealthPackagesSchema';
 import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
 import { isHealthCheckupService } from '@/config/health-packages';
 import React from "react";
@@ -155,13 +156,21 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
 
       {/* 🌟 Health Checkup Packages Suite (When applicable) */}
       {isHealthCheckupService(resolvedParams.service) && (
-        <div className="max-w-7xl mx-auto px-4 md:px-8 my-8">
-          <HealthPackagesSection 
+        <>
+          <HealthPackagesSchema 
             serviceSlug={resolvedParams.service}
-            serviceName={serviceName}
+            heading={`${serviceName} Packages`}
             regionName={regionName}
           />
-        </div>
+          <div className="max-w-7xl mx-auto px-4 md:px-8 my-8">
+            <HealthPackagesSection 
+              key={resolvedParams.service}
+              serviceSlug={resolvedParams.service}
+              serviceName={serviceName}
+              regionName={regionName}
+            />
+          </div>
+        </>
       )}
 
       {/* 3. MEDICAL CONTENT */}

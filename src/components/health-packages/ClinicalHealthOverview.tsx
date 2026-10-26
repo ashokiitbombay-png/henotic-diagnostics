@@ -29,7 +29,7 @@ export default function ClinicalHealthOverview({
 }: ClinicalHealthOverviewProps) {
   const isFullBody = serviceSlug.includes('full-body') || serviceSlug.includes('master');
   const isWomen = serviceSlug.includes('women');
-  const isMen = serviceSlug.includes('men');
+  const isMen = !isWomen && /(^|-)men(-|$)/.test(serviceSlug);
   const isSenior = serviceSlug.includes('senior');
   const isCancer = serviceSlug.includes('cancer');
   const isDiabetes = serviceSlug.includes('diabet');

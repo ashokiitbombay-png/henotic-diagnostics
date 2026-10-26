@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import ServiceHero from '@/components/blocks/ServiceHero';
 import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
+import HealthPackagesSchema from '@/components/health-packages/HealthPackagesSchema';
 import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
 import { isHealthCheckupService } from '@/config/health-packages';
 import MedicalProcedureSchema from "@/components/seo/MedicalProcedureSchema";
@@ -46,12 +47,19 @@ export default function ServiceTemplate({
 
       {/* 🌟 Health Checkup Packages Suite (17 Comprehensive Packages) */}
       {isHealthCheckupService(service) && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-          <HealthPackagesSection 
+        <>
+          <HealthPackagesSchema 
             serviceSlug={service}
-            serviceName={formattedService}
+            heading={`${formattedService} Packages`}
           />
-        </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+            <HealthPackagesSection 
+              key={service}
+              serviceSlug={service}
+              serviceName={formattedService}
+            />
+          </div>
+        </>
       )}
       <div className="max-w-5xl mx-auto px-0 sm:px-4 lg:px-8">
         

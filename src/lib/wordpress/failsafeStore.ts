@@ -51,8 +51,8 @@ const MAX_CACHE_ENTRIES = 200;
 // In-memory cache layer to avoid reading/writing to disk on every single request
 let fileCache: Record<string, { title: string; content: string }> | null = null;
 
-function loadCacheFromFile(): Record<string, { title: string; content: string }> {
-  if (fileCache !== null) {
+function loadCacheFromFile(forceReload = false): Record<string, { title: string; content: string }> {
+  if (!forceReload && fileCache !== null) {
     return fileCache;
   }
   
