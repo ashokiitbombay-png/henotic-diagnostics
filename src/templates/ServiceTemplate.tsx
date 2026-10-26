@@ -3,6 +3,9 @@ import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import ServiceHero from '@/components/blocks/ServiceHero';
+import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
+import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
+import { isHealthCheckupService } from '@/config/health-packages';
 import MedicalProcedureSchema from "@/components/seo/MedicalProcedureSchema";
 import ProductSchema from "@/components/seo/ProductSchema";
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
@@ -40,6 +43,16 @@ export default function ServiceTemplate({
         wpContent={content}
       />
       <ServiceHero service={service} />
+
+      {/* 🌟 Health Checkup Packages Suite (17 Comprehensive Packages) */}
+      {isHealthCheckupService(service) && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+          <HealthPackagesSection 
+            serviceSlug={service}
+            serviceName={formattedService}
+          />
+        </div>
+      )}
       <div className="max-w-5xl mx-auto px-0 sm:px-4 lg:px-8">
         
         <Link href="/services" className="inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors mb-6 mx-4 sm:mx-0 mt-8">
@@ -54,6 +67,11 @@ export default function ServiceTemplate({
               <div className="wp-content-wrapper text-slate-700 font-medium leading-relaxed space-y-6">
                 <WordPressRenderer content={content} context={context} />
               </div>
+            ) : isHealthCheckupService(service) ? (
+              <ClinicalHealthOverview
+                serviceSlug={service}
+                formattedService={formattedService}
+              />
             ) : (
               <div className="py-16 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
                 <div className="w-16 h-16 bg-slate-200 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -82,7 +100,9 @@ export default function ServiceTemplate({
       </div>
 
       {/* Pricing */}
-      <PricingTable serviceSlug={service} serviceName={formattedService} />
+      {!isHealthCheckupService(service) && (
+        <PricingTable serviceSlug={service} serviceName={formattedService} />
+      )}
 
       {/* FAQ Section */}
       <ServiceFAQ faqs={faqs} serviceName={formattedService} />

@@ -1,4 +1,7 @@
 import ServiceHero from '@/components/blocks/ServiceHero';
+import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
+import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
+import { isHealthCheckupService } from '@/config/health-packages';
 import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -31,7 +34,10 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   const heroImage = getHeroImageForService(resolvedParams.service);
 
   const title = `Best ${serviceName} in ${regionName} | Book Online | Henotic Diagnostics`;
-  const description = `Looking for a reliable ${serviceName} in ${regionName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`;
+  const isHealth = isHealthCheckupService(resolvedParams.service);
+  const description = isHealth
+    ? `Looking for ${serviceName} in ${regionName}? Henotic Diagnostics offers up to 63% off on certified health checkup packages with 24/7 home blood collection across ${regionName}. NABL-accredited pathology & same-day reports.`
+    : `Looking for a reliable ${serviceName} in ${regionName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`;
 
   return {
     title,
@@ -147,6 +153,17 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
       {/* 🌟 Parent Diagnostic Centers Section */}
       <PartnerCenters service={resolvedParams.service} region={resolvedParams.region} />
 
+      {/* 🌟 Health Checkup Packages Suite (When applicable) */}
+      {isHealthCheckupService(resolvedParams.service) && (
+        <div className="max-w-7xl mx-auto px-4 md:px-8 my-8">
+          <HealthPackagesSection 
+            serviceSlug={resolvedParams.service}
+            serviceName={serviceName}
+            regionName={regionName}
+          />
+        </div>
+      )}
+
       {/* 3. MEDICAL CONTENT */}
       <section className="py-16 px-4 md:px-8 max-w-5xl mx-auto">
         <div className="bg-white rounded-[2rem] p-8 md:p-12 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] border border-slate-100">
@@ -165,6 +182,12 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
               suppressHydrationWarning
               dangerouslySetInnerHTML={{ __html: optimizeWordPressHTML(wpContent) }} 
             />
+          ) : isHealthCheckupService(resolvedParams.service) ? (
+            <ClinicalHealthOverview
+              serviceSlug={resolvedParams.service}
+              formattedService={serviceName}
+              regionName={regionName}
+            />
           ) : (
             <p className="text-slate-500 italic text-center py-10">Detailed medical information for this service is being updated.</p>
           )}
@@ -172,7 +195,9 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
       </section>
 
       {/* 4. PRICING TABLE */}
-      <PricingTable serviceSlug={resolvedParams.service} serviceName={serviceName} locationName={regionName} />
+      {!isHealthCheckupService(resolvedParams.service) && (
+        <PricingTable serviceSlug={resolvedParams.service} serviceName={serviceName} locationName={regionName} />
+      )}
 
       {/* 5. FAQ SECTION */}
       <ServiceFAQ faqs={getFAQsForService(resolvedParams.service, serviceName)} serviceName={serviceName} />

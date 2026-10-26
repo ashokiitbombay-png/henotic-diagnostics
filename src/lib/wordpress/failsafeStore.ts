@@ -118,3 +118,83 @@ export function saveFailsafeData(key: string, data: { title: string; content: st
     // Fail silently in read-only environments
   }
 }
+
+/**
+ * Deletes a cached entry from both in-memory cache and failsafe-cache.json.
+ * Called when a post, page, or service is trashed or deleted in WordPress.
+ *
+ * @param key The slug or URI to remove (e.g. "mri-scan" or "/about-us")
+ * @returns true if the key was found and removed, false otherwise
+ */
+export function deleteFailsafeData(key: string): boolean {
+  let modified = false;
+
+  // 1. Remove from in-memory fallbackDatabase if present
+  if (key in fallbackDatabase) {
+    delete fallbackDatabase[key];
+    modified = true;
+  }
+
+  // 2. Remove from fileCache and persistent JSON (force reload from disk)
+  const cache = loadCacheFromFile(true);
+  if (key in cache) {
+    delete cache[key];
+    modified = true;
+  }
+
+  // Check alternative slashed key
+  const altKey = key.startsWith('/') ? key.slice(1) : `/${key}`;
+  if (altKey in fallbackDatabase) {
+    delete fallbackDatabase[altKey];
+    modified = true;
+  }
+  if (altKey in cache) {
+    delete cache[altKey];
+    modified = true;
+  }
+
+  if (modified) {
+    try {
+      const cachePath = path.join(process.cwd(), 'src/lib/wordpress/failsafe-cache.json');
+      fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2), 'utf8');
+      fileCache = cache;
+      console.log(`🗑️ [FAILSAFE PURGE] Removed trashed/deleted key "${key}" from failsafe cache.`);
+    } catch (e) {
+      console.warn(`[FAILSAFE PURGE] Failed to write failsafe cache after deleting key "${key}":`, e);
+    }
+  }
+
+  return modified;
+}
+
+/**
+ * Purges multiple or all keys from the failsafe cache.
+ *
+ * @param keys Optional array of keys to purge. If omitted, clears all keys in failsafe-cache.json.
+ * @returns Number of keys evicted
+ */
+export function clearFailsafeData(keys?: string[]): number {
+  const cache = loadCacheFromFile();
+  let count = 0;
+
+  if (keys && Array.isArray(keys)) {
+    for (const k of keys) {
+      if (deleteFailsafeData(k)) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  // Purge all keys
+  count = Object.keys(cache).length;
+  fileCache = {};
+  try {
+    const cachePath = path.join(process.cwd(), 'src/lib/wordpress/failsafe-cache.json');
+    fs.writeFileSync(cachePath, JSON.stringify({}, null, 2), 'utf8');
+    console.log(`🗑️ [FAILSAFE PURGE] Flushed all ${count} entries from failsafe cache.`);
+  } catch (e) {
+    console.warn('[FAILSAFE PURGE] Failed to write empty failsafe cache:', e);
+  }
+  return count;
+}

@@ -5,6 +5,7 @@ import ServiceTemplate from '@/templates/ServiceTemplate';
 import { getService } from '@/lib/wordpress/getService';
 import { formatSlug } from '@/lib/utils';
 import { isValidServiceSlug } from '@/lib/seo/slug-validator';
+import { isHealthCheckupService } from '@/config/health-packages';
 import { getHeroImageForService } from '@/config/services';
 import { isHealthCheckupAuthoritySlug } from '@/config/health-checkup';
 import { getHealthCheckupPageData } from '@/lib/payload/health-checkups';
@@ -26,7 +27,9 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
 
   return {
     title: `Best ${serviceName} | Book Online | Henotic Diagnostics`,
-    description: `Looking for a reliable ${serviceName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`,
+    description: isHealthCheckupService(resolvedParams.service)
+      ? `Book comprehensive ${serviceName} packages at Henotic Diagnostics. Up to 63% off on 17 certified profiles with NABL-accredited pathology, 24/7 home blood sample pickup, and same-day digital reports.`
+      : `Looking for a reliable ${serviceName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`,
     alternates: {
       canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`
     },

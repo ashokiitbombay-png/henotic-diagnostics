@@ -120,16 +120,25 @@ export interface PayloadCondition {
   updatedAt: string;
 }
 
+// ── Health Packages & Test Categories ──────────────────────────────
+export interface PayloadTestCategory {
+  name: string;
+  count: number;
+  tests: string[];
+}
+
 // ── Health Checkup Authority Content ─────────────────────────────────────
 // Payload arrays of primitives are stored as `{ id, <field> }` rows; the
 // mapper in `src/lib/payload/health-checkups.ts` accepts both shapes.
 
 export type PayloadTextRow = string | { id?: string; text?: string; value?: string };
 
+
 export interface PayloadHealthPackage {
   id: string;
   code: string;
   title: string;
+
   subtitle?: string;
   target?: Array<'Men' | 'Women' | 'Seniors'>;
   totalTests: number;
@@ -200,6 +209,7 @@ export interface PayloadGlobalMap {
 }
 
 export type PayloadGlobalSlug = keyof PayloadGlobalMap;
+
 
 // ── Payload API Response Wrappers ────────────────────────────────────────
 

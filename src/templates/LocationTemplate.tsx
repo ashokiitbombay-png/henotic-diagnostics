@@ -11,6 +11,9 @@ import { getFAQsForService } from "@/config/faqs";
 import { getPricingForService } from "@/config/pricing";
 import { Activity, CheckCircle2, Calendar } from "lucide-react";
 import ServiceHero from '@/components/blocks/ServiceHero';
+import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
+import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
+import { isHealthCheckupService } from '@/config/health-packages';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 // 🛡️ Booking Engine Isolation — Client Component wrapper handles dynamic({ ssr: false })
 import ClientBookingForm from "@/components/forms/ClientBookingForm";
@@ -59,6 +62,18 @@ export default function LocationTemplate({
         location={location}
       />
 
+      {/* 🌟 Health Checkup Packages Suite (When applicable) */}
+      {isHealthCheckupService(service) && (
+        <div className="max-w-7xl mx-auto px-4 md:px-8 my-8">
+          <HealthPackagesSection 
+            serviceSlug={service}
+            serviceName={formattedService}
+            regionName={formattedRegion}
+            locationName={formattedLocation}
+          />
+        </div>
+      )}
+
       {/* 2. DYNAMIC CONTENT & STICKY SIDEBAR SPLIT */}
       <section className="max-w-7xl mx-auto px-0 sm:px-4 md:px-8 -mt-16 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 sm:gap-10">
@@ -76,6 +91,13 @@ export default function LocationTemplate({
             <div className="wp-content-wrapper text-slate-700 font-medium leading-relaxed space-y-6">
               {content ? (
                 <WordPressRenderer content={content} context={context} />
+              ) : isHealthCheckupService(service) ? (
+                <ClinicalHealthOverview
+                  serviceSlug={service}
+                  formattedService={formattedService}
+                  regionName={formattedRegion}
+                  locationName={formattedLocation}
+                />
               ) : (
                 <div className="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
                   <Activity size={48} className="mx-auto text-slate-300 mb-4 animate-pulse" />
@@ -110,7 +132,9 @@ export default function LocationTemplate({
       </section>
 
       {/* 3. PRICING TABLE */}
-      <PricingTable serviceSlug={service} serviceName={formattedService} locationName={formattedLocation} />
+      {!isHealthCheckupService(service) && (
+        <PricingTable serviceSlug={service} serviceName={formattedService} locationName={formattedLocation} />
+      )}
 
       {/* 4. FAQ SECTION WITH RICH SNIPPETS */}
       <ServiceFAQ faqs={faqs} serviceName={formattedService} />

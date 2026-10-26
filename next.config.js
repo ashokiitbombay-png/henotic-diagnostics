@@ -15,6 +15,8 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.henoticdiagnostics.com',
+        port: '',
+        pathname: '/**',
       },
       // Keep GCS listed temporarily during transition
       {

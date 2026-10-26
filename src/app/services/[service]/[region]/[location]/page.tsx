@@ -5,6 +5,7 @@ import LocationTemplate from "@/templates/LocationTemplate";
 import { getService } from "@/lib/wordpress/getService";
 import { formatSlug } from "@/lib/utils";
 import { isValidServiceSlug, isValidLocationForRegion } from '@/lib/seo/slug-validator';
+import { isHealthCheckupService } from '@/config/health-packages';
 import { getHeroImageForService } from '@/config/services';
 
 export const revalidate = 86400; // 24 hours cache revalidation
@@ -19,7 +20,10 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   const regionName = formatSlug(resolvedParams.region);
 
   const title = `Best ${serviceName} in ${locationName}, ${regionName} | Henotic Diagnostics`;
-  const description = `Looking for a ${serviceName} in ${locationName}? Henotic Diagnostics offers highly accurate, NABL-accredited imaging and pathology with same-day reports. Book now!`;
+  const isHealth = isHealthCheckupService(resolvedParams.service);
+  const description = isHealth
+    ? `Looking for ${serviceName} in ${locationName}, ${regionName}? Book certified health checkup packages with 24/7 home sample collection in ${locationName}. NABL-accredited pathology & same-day reports.`
+    : `Looking for a ${serviceName} in ${locationName}? Henotic Diagnostics offers highly accurate, NABL-accredited imaging and pathology with same-day reports. Book now!`;
   const canonicalUrl = `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}/${resolvedParams.location}`;
   const heroImage = getHeroImageForService(resolvedParams.service);
 

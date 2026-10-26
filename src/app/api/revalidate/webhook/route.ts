@@ -7,6 +7,7 @@ import { enqueueRevalidation, flushAndProcess, FLUSH_DELAY_MS } from '@/lib/webh
 import { wpCacheInvalidate, wpCachePurgeByPrefix } from '@/lib/cache/wp-cache';
 import { CACHE_TAGS } from '@/lib/cache/tags';
 import { getRedis } from '@/lib/cache/redis';
+import { deleteFailsafeData } from '@/lib/wordpress/failsafeStore';
 
 // ── CMS Source Detection ─────────────────────────────────────────────────
 
@@ -224,6 +225,16 @@ export async function POST(request: NextRequest) {
     }
 
     console.log(`📡 [Webhook] Received: ${action} ${contentType}/${slug} from ${source} (IP: ${ip})`);
+
+    // If item was sent to trash or deleted in WordPress, evict from disk failsafe immediately
+    const isTrashOrDelete = ['trash', 'delete', 'unpublish', 'trash_post', 'before_delete_post', 'deleted_post'].includes(String(action).toLowerCase());
+    if (isTrashOrDelete) {
+      deleteFailsafeData(slug);
+      if (contentType === 'page') {
+        deleteFailsafeData(`/${slug}`);
+      }
+      console.log(`🗑️ [Webhook] Evicted trashed/deleted item from failsafe store: ${contentType}/${slug}`);
+    }
 
     // ── 6. Enqueue for Batch Processing ────────────────────────────────
     const { queued, shouldFlush, queueSize } = await enqueueRevalidation(contentType, slug);
