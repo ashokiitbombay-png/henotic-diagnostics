@@ -22,7 +22,7 @@ export default function PackageCard({ pkg, onViewTests, onBook }: PackageCardPro
     <article
       id={`package-${pkg.code.toLowerCase()}`}
       aria-labelledby={`package-title-${pkg.code.toLowerCase()}`}
-      className="group relative flex flex-col rounded-3xl bg-white/90 backdrop-blur-md border border-white/70 shadow-[0_12px_36px_rgba(0,0,0,0.06)] hover:shadow-[0_24px_55px_rgba(0,0,0,0.13)] transition-all duration-300 overflow-visible scroll-mt-28"
+      className="silver-shiny-card group relative flex flex-col rounded-[2rem] bg-white transition-all duration-300 overflow-hidden scroll-mt-28 w-full"
     >
       {pkg.popular && (
         <div className="absolute top-3 left-4 z-20">
@@ -40,9 +40,9 @@ export default function PackageCard({ pkg, onViewTests, onBook }: PackageCardPro
       )}
 
       {/* Pastel arch with medical wave lines + 3D pop-out cut-out */}
-      <div className="relative pt-4 pb-0 px-4 flex justify-center items-end min-h-[265px] overflow-visible">
+      <div className="relative pt-4 pb-0 px-4 flex justify-center items-end min-h-[230px] sm:min-h-[265px] overflow-visible">
         <div
-          className={`absolute bottom-0 w-[84%] h-[215px] rounded-t-[115px] ${pkg.archTheme.archBg} border-t-2 ${pkg.archTheme.accentBorder} shadow-inner transition-transform duration-300 group-hover:scale-[1.02] overflow-hidden`}
+          className={`absolute bottom-0 w-[88%] sm:w-[84%] h-[185px] sm:h-[215px] rounded-t-[90px] sm:rounded-t-[115px] ${pkg.archTheme.archBg} border-t-2 ${pkg.archTheme.accentBorder} shadow-inner transition-transform duration-300 group-hover:scale-[1.02] overflow-hidden`}
         >
           <CurvedMedicalLines strokeColor={pkg.archTheme.lineColor} />
         </div>
@@ -55,10 +55,15 @@ export default function PackageCard({ pkg, onViewTests, onBook }: PackageCardPro
             alt={`${pkg.title} health checkup package (${pkg.totalTests} tests) at Henotic Diagnostics`}
             width={pkg.imageWidth}
             height={pkg.imageHeight}
-            className="max-h-[250px] w-auto object-contain drop-shadow-[0_18px_20px_rgba(0,0,0,0.22)] select-none pointer-events-none"
+            className="max-h-[210px] sm:max-h-[250px] w-auto object-contain drop-shadow-[0_18px_20px_rgba(0,0,0,0.22)] select-none pointer-events-none"
             loading="lazy"
             decoding="async"
           />
+        </div>
+        {/* Floating Price Pill (Home Page Style) */}
+        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 bg-white/95 backdrop-blur-md px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-lg border border-slate-200/90 text-right">
+          <div className="text-[10px] sm:text-xs text-slate-400 line-through font-bold">MRP ₹{formatINR(pkg.mrp)}</div>
+          <div className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">₹{formatINR(pkg.offerPrice)}</div>
         </div>
         <div className={`absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t ${pkg.archTheme.gradientBottom} pointer-events-none`} aria-hidden="true" />
       </div>

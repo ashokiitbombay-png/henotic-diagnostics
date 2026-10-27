@@ -72,15 +72,13 @@ export default function LocationTemplate({
             regionName={formattedRegion}
             locationName={formattedLocation}
           />
-          <div className="max-w-7xl mx-auto px-4 md:px-8 my-8">
-            <HealthPackagesSection 
+          <HealthPackagesSection 
               key={service}
               serviceSlug={service}
               serviceName={formattedService}
               regionName={formattedRegion}
               locationName={formattedLocation}
             />
-          </div>
         </>
       )}
 

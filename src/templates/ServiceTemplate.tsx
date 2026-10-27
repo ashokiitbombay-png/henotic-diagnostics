@@ -52,13 +52,11 @@ export default function ServiceTemplate({
             serviceSlug={service}
             heading={`${formattedService} Packages`}
           />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-            <HealthPackagesSection 
+          <HealthPackagesSection 
               key={service}
               serviceSlug={service}
               serviceName={formattedService}
             />
-          </div>
         </>
       )}
       <div className="max-w-5xl mx-auto px-0 sm:px-4 lg:px-8">

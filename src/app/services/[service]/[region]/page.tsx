@@ -162,14 +162,12 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
             heading={`${serviceName} Packages`}
             regionName={regionName}
           />
-          <div className="max-w-7xl mx-auto px-4 md:px-8 my-8">
-            <HealthPackagesSection 
+          <HealthPackagesSection 
               key={resolvedParams.service}
               serviceSlug={resolvedParams.service}
               serviceName={serviceName}
               regionName={regionName}
             />
-          </div>
         </>
       )}
 

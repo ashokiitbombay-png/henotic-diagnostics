@@ -73,7 +73,7 @@ export default function RateCards({ items, title, variant = 'list', packages = D
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {packages.map((pkg, idx) => (
-              <Card key={idx} className="group relative border border-white rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-700 bg-white/70 backdrop-blur-xl !p-0">
+              <Card key={idx} className="silver-shiny-card group relative rounded-[2.5rem] overflow-hidden transition-all duration-700 bg-white/90 backdrop-blur-xl !p-0 w-full">
                 <div className="relative h-64 overflow-hidden bg-slate-200">
                   <div className={`absolute inset-0 bg-gradient-to-t ${pkg.gradient} opacity-40 group-hover:opacity-20 transition-opacity z-10`}></div>
                   <Image 
@@ -84,7 +84,7 @@ export default function RateCards({ items, title, variant = 'list', packages = D
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   
-                  <div className="absolute bottom-4 right-4 z-20 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg border border-white">
+                  <div className="absolute bottom-4 right-4 z-20 bg-white/95 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg border border-slate-200/90">
                     <div className="text-xs text-slate-500 line-through font-bold">{pkg.oldPrice}</div>
                     <div className="text-2xl font-black text-slate-900">{pkg.price}</div>
                   </div>
