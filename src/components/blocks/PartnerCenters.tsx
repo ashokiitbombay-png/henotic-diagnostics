@@ -243,6 +243,48 @@ const centersData: Center[] = [
     embedUrl: "https://maps.google.com/maps?q=Balaji%20Bhavan,%20Sector%2011,%20CBD%20Belapur&z=15&output=embed",
     services: ["2d-echo", "ecg", "tmt"],
     regionGroup: "navi-mumbai"
+  },
+  // 17. MEDIVISION THANE
+  {
+    name: "Medivision Diagnostic Centre - Thane",
+    subtitle: "Pathology Lab & Preventive Health Screening",
+    type: "pathology",
+    address: "Bldg.No3 Inshan residency opposite hanuman mandir / gaodevi market, Gokhale Rd, behind Kumar shirts, Naupada, Thane West, Maharashtra 400602",
+    phone: "+91 77158 00344",
+    hours: "Everyday 7:30 am – 9:00 pm",
+    gbpUrl: "https://share.google/1A3X8C5JKXusRABg0",
+    mapsUrl: "https://share.google/1A3X8C5JKXusRABg0",
+    embedUrl: "https://maps.google.com/maps?q=Naupada,%20Thane%20West,%20Maharashtra%20400602&z=15&output=embed",
+    services: ["blood-test", "pathology"],
+    regionGroup: "mumbai"
+  },
+  // 18. AV SCAN DADAR
+  {
+    name: "AV Scan Diagnostic Centre - Dadar",
+    subtitle: "MRI, CT Scan, Sonography & Comprehensive Diagnostics",
+    type: "imaging",
+    address: "Ground Floor, Shilpa Apartments Opposite Silver Apartment, Shankar Ghanekar Marg Dadar, Prabhadevi, Worli, Mumbai, Maharashtra 400028",
+    phone: "098200 51511",
+    hours: "Open 24 hours",
+    gbpUrl: "https://share.google/YP48dpfVAXQu33Adu",
+    mapsUrl: "https://share.google/YP48dpfVAXQu33Adu",
+    embedUrl: "https://maps.google.com/maps?q=Shilpa%20Apartments,%20Shankar%20Ghanekar%20Marg,%20Prabhadevi,%20Mumbai&z=15&output=embed",
+    services: ["mri-scan", "ct-scan", "ultrasound", "2d-echo", "blood-test"],
+    regionGroup: "mumbai"
+  },
+  // 19. INDRAYANI PANVEL
+  {
+    name: "Indrayani Imaging Centre & PathLabs - Panvel",
+    subtitle: "Advanced Imaging & Pathology Centre",
+    type: "imaging",
+    address: "Sector - 1, Khanda Colony, Panvel, Maharashtra 410206",
+    phone: "08879327184",
+    hours: "Everyday 7:00 am – 10:00 pm",
+    gbpUrl: "https://share.google/F5pUoLMjMMtaFGJmO",
+    mapsUrl: "https://share.google/F5pUoLMjMMtaFGJmO",
+    embedUrl: "https://maps.google.com/maps?q=Sector%201,%20Khanda%20Colony,%20Panvel,%20Maharashtra%20410206&z=15&output=embed",
+    services: ["mri-scan", "ct-scan", "ultrasound", "blood-test", "pathology"],
+    regionGroup: "navi-mumbai"
   }
 ];
 

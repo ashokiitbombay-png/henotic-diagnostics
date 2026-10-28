@@ -78,6 +78,14 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: '/booking-system',
+        destination: '/booking-system/index.html',
+      },
+      {
+        source: '/booking-system/',
+        destination: '/booking-system/index.html',
+      },
+      {
         source: '/media-cdn/:path*',
         destination: 'https://cdn.henoticdiagnostics.com/:path*',
       },

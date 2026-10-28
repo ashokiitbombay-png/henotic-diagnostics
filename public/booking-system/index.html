@@ -475,19 +475,20 @@
                                     <label class="block text-sm font-bold text-slate-800 dark:text-slate-100">
                                         Partner Center / Diagnostic Branch <span class="text-rose-500">*</span>
                                     </label>
-                                    <span class="text-xs font-black text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950 px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800">30 Certified Centers</span>
+                                    <span id="certifiedCentersBadge" class="text-xs font-black text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950 px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800">35 Certified Centers</span>
                                 </div>
 
                                 <!-- Region Filter Pills -->
                                 <div class="flex items-center gap-1.5 overflow-x-auto pb-2 mb-2 text-xs font-bold">
                                     <span class="text-slate-400 uppercase text-[11px] font-extrabold shrink-0 mr-1">Filter City:</span>
-                                    <button type="button" onclick="filterPartnerRegion('ALL', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-indigo-600 text-white shrink-0 font-extrabold shadow-xs text-xs">All (30)</button>
+                                    <button id="allFilterBtn" type="button" onclick="filterPartnerRegion('ALL', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-indigo-600 text-white shrink-0 font-extrabold shadow-xs text-xs">All (35)</button>
                                     <button type="button" onclick="filterPartnerRegion('Kharghar', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Kharghar</button>
                                     <button type="button" onclick="filterPartnerRegion('Panvel', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Panvel</button>
                                     <button type="button" onclick="filterPartnerRegion('Sanpada', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Sanpada / Vashi</button>
                                     <button type="button" onclick="filterPartnerRegion('Chembur', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Chembur / Kurla</button>
                                     <button type="button" onclick="filterPartnerRegion('Belapur', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Belapur / Nerul</button>
                                     <button type="button" onclick="filterPartnerRegion('Kalyan', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Kalyan / Thane</button>
+                                    <button type="button" onclick="filterPartnerRegion('Dadar', this)" class="partner-region-btn px-3 py-1 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0 hover:border-indigo-400 transition-all text-xs">Dadar / Mumbai</button>
                                 </div>
 
                                 <select id="partnerSelect" onchange="onPartnerChange()" required class="custom-input w-full px-4 py-3.5 bg-white dark:bg-slate-900 border-2 border-indigo-200 dark:border-indigo-900 rounded-xl text-base font-extrabold text-slate-900 dark:text-white outline-none cursor-pointer focus:ring-2 focus:ring-indigo-500 shadow-sm">
@@ -1352,6 +1353,30 @@
                 map: "https://maps.app.goo.gl/VcGQ31k1ZYsvU1AD7", 
                 phone: "08879327184",
                 logo: "https://storage.googleapis.com/wp-media-henoticbucket/Partners-Logos/white-lotus-nternational-hospital.webp"
+            },
+            { 
+                id: "medivision_thane", 
+                name: "Medivision Diagnostic Centre - Pathology Lab, Thane", 
+                address: "Bldg.No3 Inshan residency opposite hanuman mandir / gaodevi market, Gokhale Rd, behind Kumar shirts, Naupada, Thane West, Maharashtra 400602", 
+                map: "https://share.google/1A3X8C5JKXusRABg0", 
+                phone: "+91 77158 00344",
+                logo: "https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp"
+            },
+            { 
+                id: "av_scan_dadar", 
+                name: "AV Scan Diagnostic Centre - Dadar, Mumbai", 
+                address: "Ground Floor, Shilpa Apartments Opposite Silver Apartment, Shankar Ghanekar Marg Dadar, Prabhadevi, Worli, Mumbai, Maharashtra 400028", 
+                map: "https://share.google/YP48dpfVAXQu33Adu", 
+                phone: "098200 51511",
+                logo: "https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp"
+            },
+            { 
+                id: "indrayani_panvel", 
+                name: "Indrayani Imaging Centre & PathLabs - Panvel", 
+                address: "Sector - 1, Khanda Colony, Panvel, Maharashtra 410206", 
+                map: "https://share.google/F5pUoLMjMMtaFGJmO", 
+                phone: "08879327184",
+                logo: "https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp"
             }
         ];
 
@@ -1885,6 +1910,12 @@
             updateHistoryBadge();
 
             // Populate Partners Dropdown (Guaranteed A-Z Alphabetical Order)
+            // Dynamic count update
+            const badge = document.getElementById('certifiedCentersBadge');
+            if (badge) badge.textContent = `${partners.length} Certified Centers`;
+            const allBtn = document.getElementById('allFilterBtn');
+            if (allBtn) allBtn.textContent = `All (${partners.length})`;
+
             partners.sort((a, b) => a.name.localeCompare(b.name));
             formEls.partner.innerHTML = '';
             partners.forEach(p => {
@@ -2307,7 +2338,8 @@
                     if (searchRegion === 'sanpada') return text.includes('sanpada') || text.includes('vashi') || text.includes('turbhe');
                     if (searchRegion === 'belapur') return text.includes('belapur') || text.includes('nerul') || text.includes('seawoods');
                     if (searchRegion === 'chembur') return text.includes('chembur') || text.includes('ghatkopar') || text.includes('vidyavihar') || text.includes('kurla');
-                    if (searchRegion === 'kalyan') return text.includes('kalyan') || text.includes('thane');
+                    if (searchRegion === 'kalyan') return text.includes('kalyan') || text.includes('thane') || text.includes('naupada');
+                    if (searchRegion === 'dadar' || searchRegion === 'mumbai') return text.includes('dadar') || text.includes('prabhadevi') || text.includes('worli') || text.includes('mumbai') || text.includes('andheri') || text.includes('malad');
                     return text.includes(searchRegion);
                 });
             }
