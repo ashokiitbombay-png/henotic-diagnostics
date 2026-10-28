@@ -285,6 +285,20 @@ const centersData: Center[] = [
     embedUrl: "https://maps.google.com/maps?q=Sector%201,%20Khanda%20Colony,%20Panvel,%20Maharashtra%20410206&z=15&output=embed",
     services: ["mri-scan", "ct-scan", "ultrasound", "blood-test", "pathology"],
     regionGroup: "navi-mumbai"
+  },
+  // 20. GASTROHUB ANDHERI WEST
+  {
+    name: "Gastrohub - Andheri West",
+    subtitle: "Gastroenterology, Endoscopy & Diagnostic Center",
+    type: "imaging",
+    address: "Chsl, First Floor, Platinum Tower, Nakshatra Hospital, No : 4 Ganesh Chowk, Shiv Krupa, Shanti Nagar, D.N.Nagar, Andheri West, Mumbai, Maharashtra 400053",
+    phone: "08879327184",
+    hours: "Everyday 8:00 am – 9:00 pm",
+    gbpUrl: "https://share.google/ZbaAXAR6Er4A9Q34a",
+    mapsUrl: "https://share.google/ZbaAXAR6Er4A9Q34a",
+    embedUrl: "https://maps.google.com/maps?q=Nakshatra%20Hospital,%20D.N.Nagar,%20Andheri%20West,%20Mumbai&z=15&output=embed",
+    services: ["blood-test", "pathology", "ultrasound"],
+    regionGroup: "mumbai"
   }
 ];
 
