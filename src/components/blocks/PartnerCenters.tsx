@@ -299,6 +299,48 @@ const centersData: Center[] = [
     embedUrl: "https://maps.google.com/maps?q=Nakshatra%20Hospital,%20D.N.Nagar,%20Andheri%20West,%20Mumbai&z=15&output=embed",
     services: ["blood-test", "pathology", "ultrasound"],
     regionGroup: "mumbai"
+  },
+  // 21. HR SCAN BADLAPUR
+  {
+    name: "HR Scan Centre - Badlapur",
+    subtitle: "Advanced CT Scan, Ultrasound & Diagnostic Centre",
+    type: "imaging",
+    address: "Trident A Building Raut chowk, Mohan Palms Rd, Shirgaon, Badlapur, Maharashtra 421503",
+    phone: "08879327184",
+    hours: "Open 24 hours",
+    gbpUrl: "https://share.google/2z6tCpg2k3D89uHyF",
+    mapsUrl: "https://share.google/2z6tCpg2k3D89uHyF",
+    embedUrl: "https://maps.google.com/maps?q=Trident%20A%20Building,%20Shirgaon,%20Badlapur&z=15&output=embed",
+    services: ["ct-scan", "ultrasound", "blood-test"],
+    regionGroup: "mumbai"
+  },
+  // 22. SPECT LAB BAVDHAN PUNE
+  {
+    name: "Spect Lab - Bavdhan, Pune",
+    subtitle: "Diagnostic Pathology & Imaging Laboratory",
+    type: "pathology",
+    address: "Sr. No. 268, Bengaluru - Mumbai Hwy, behind Crystal Honda Showroom, Sunarwadi, Bhunde Vasti, Bavdhan, Pune, Maharashtra 411021",
+    phone: "08879327184",
+    hours: "Everyday 7:00 am – 10:00 pm",
+    gbpUrl: "https://share.google/ElcJ6YnIxl7gSFqRe",
+    mapsUrl: "https://share.google/ElcJ6YnIxl7gSFqRe",
+    embedUrl: "https://maps.google.com/maps?q=Bavdhan,%20Pune,%20Maharashtra%20411021&z=15&output=embed",
+    services: ["blood-test", "pathology"],
+    regionGroup: "mumbai"
+  },
+  // 23. DR RAJESH DHAKE PUNE
+  {
+    name: "Dr Rajesh Dhake - Urologist in Pune",
+    subtitle: "Urology Consultation & Diagnostic Care",
+    type: "flagship",
+    address: "Shop. No. 107, First Floor, KHINVASARA TRADE CENTER, Wakad Rd, near Dange Chowk Road, Mangal Nagar, Thergaon, Pune, Pimpri-Chinchwad, Maharashtra 411033",
+    phone: "08879327184",
+    hours: "Everyday 9:00 am – 9:00 pm",
+    gbpUrl: "https://share.google/tvTIrZfXv9ykawvD7",
+    mapsUrl: "https://share.google/tvTIrZfXv9ykawvD7",
+    embedUrl: "https://maps.google.com/maps?q=Khinvasara%20Trade%20Center,%20Thergaon,%20Pune&z=15&output=embed",
+    services: ["ultrasound", "blood-test"],
+    regionGroup: "mumbai"
   }
 ];
 
