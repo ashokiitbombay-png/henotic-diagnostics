@@ -193,3 +193,35 @@ export function getStoredLeads(limit: number = 100): BookingLead[] {
     return [];
   }
 }
+
+/**
+ * Retrieves all stored payments for financial audit / reconciliation.
+ */
+export function getStoredPayments(limit: number = 100): PaymentRecord[] {
+  try {
+    if (!fs.existsSync(PAYMENTS_FILE)) return [];
+    const lines = fs.readFileSync(PAYMENTS_FILE, 'utf8').trim().split('\n').filter(Boolean);
+    return lines
+      .slice(-limit)
+      .reverse()
+      .map((line) => JSON.parse(line) as PaymentRecord);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Retrieves all stored inquiries/subscribers.
+ */
+export function getStoredInquiries(limit: number = 100): NewsletterInquiry[] {
+  try {
+    if (!fs.existsSync(INQUIRIES_FILE)) return [];
+    const lines = fs.readFileSync(INQUIRIES_FILE, 'utf8').trim().split('\n').filter(Boolean);
+    return lines
+      .slice(-limit)
+      .reverse()
+      .map((line) => JSON.parse(line) as NewsletterInquiry);
+  } catch {
+    return [];
+  }
+}

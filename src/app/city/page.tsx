@@ -16,18 +16,26 @@ export const metadata: Metadata = {
     description: 'Browse diagnostic centers across major cities. NABL accredited, 340+ tests, same-day reports.',
     url: 'https://www.henoticdiagnostics.com/city',
     type: 'website',
-    images: [{
-      url: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
-      width: 1200,
-      height: 630,
-      alt: 'Diagnostic Centers by City | Henotic Diagnostics',
-    }],
+    images: [
+      {
+        url: 'https://www.henoticdiagnostics.com/api/og?title=Diagnostic%20Centers%20by%20City&subtitle=Mumbai%20%E2%80%A2%20Navi%20Mumbai%20%E2%80%A2%20Thane%20%E2%80%A2%20Pune%20%E2%80%A2%20Panvel%20%E2%80%A2%20PCMC%20%E2%80%A2%20Raigad',
+        width: 1200,
+        height: 630,
+        alt: 'Diagnostic Centers by City — Henotic Diagnostics',
+      },
+      {
+        url: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Diagnostic Centers by City | Henotic Diagnostics',
+      }
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Diagnostic Centers by City | Henotic Diagnostics',
     description: 'Find Henotic Diagnostics centers near you in Mumbai, Navi Mumbai, Thane, Pune.',
-    images: ['https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp'],
+    images: ['https://www.henoticdiagnostics.com/api/og?title=Diagnostic%20Centers%20by%20City&subtitle=Mumbai%20%E2%80%A2%20Navi%20Mumbai%20%E2%80%A2%20Thane%20%E2%80%A2%20Pune%20%E2%80%A2%20Panvel%20%E2%80%A2%20PCMC%20%E2%80%A2%20Raigad'],
   },
 };
 
