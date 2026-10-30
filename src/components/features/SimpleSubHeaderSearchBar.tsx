@@ -2,11 +2,11 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { 
-  MapPin, Search, ChevronDown, Activity, Orbit, Droplets, Heart, Baby, 
+  Search, Activity, Orbit, Droplets, Heart, Baby, 
   Stethoscope, Scale, ShoppingBag, UserCheck, Sparkles, X, ArrowRight,
-  Crosshair, ShieldCheck, CheckCircle2, Flame, Navigation, Clock, Zap, Check
+  Crosshair, ShieldCheck, CheckCircle2, Flame, Clock, Zap
 } from "lucide-react";
-import { LOCATION_DATABASE, LocationItem, REGION_LOCATIONS, REGION_NAMES } from "@/config/locations";
+import { LOCATION_DATABASE, LocationItem } from "@/config/locations";
 import { services } from "@/config/services";
 import { CONDITIONS } from "@/config/conditions";
 import { COMPARISONS } from "@/config/comparisons";
@@ -100,30 +100,6 @@ const CATEGORY_ICONS: Record<string, any> = {
   "Product": ShoppingBag,
 };
 
-// Popular location shortcuts for fast 1-tap selection
-const POPULAR_LOCATIONS = [
-  { city: "kharghar", region: "navi-mumbai", displayName: "Kharghar", regionName: "Navi Mumbai", pincode: "410210" },
-  { city: "panvel", region: "navi-mumbai", displayName: "Panvel", regionName: "Navi Mumbai", pincode: "410206" },
-  { city: "vashi", region: "navi-mumbai", displayName: "Vashi", regionName: "Navi Mumbai", pincode: "400703" },
-  { city: "nerul", region: "navi-mumbai", displayName: "Nerul", regionName: "Navi Mumbai", pincode: "400706" },
-  { city: "colaba", region: "south-mumbai", displayName: "Colaba", regionName: "South Mumbai", pincode: "400005" },
-  { city: "bandra", region: "western-suburbs", displayName: "Bandra", regionName: "Western Suburbs", pincode: "400050" },
-  { city: "andheri", region: "western-suburbs", displayName: "Andheri", regionName: "Western Suburbs", pincode: "400058" },
-  { city: "thane-west", region: "thane", displayName: "Thane West", regionName: "Thane", pincode: "400601" },
-  { city: "pune-city", region: "pune", displayName: "Pune City", regionName: "Pune", pincode: "411001" },
-];
-
-// Region Filter Tabs for Location Drawer
-const REGION_TABS = [
-  { label: "All Areas (350+)", value: "all" },
-  { label: "Navi Mumbai", value: "navi-mumbai" },
-  { label: "South Mumbai", value: "south-mumbai" },
-  { label: "Western Suburbs", value: "western-suburbs" },
-  { label: "Central Suburbs", value: "central-suburbs" },
-  { label: "Thane", value: "thane" },
-  { label: "Pune", value: "pune" },
-];
-
 // Trending High-Intent Diagnostics
 const TRENDING_SEARCHES = [
   { title: "3.0 Tesla MRI Scan", subtitle: "Brain, Spine & Joint Imaging", slug: "mri-scan", category: "MRI Services", icon: Orbit },
@@ -156,10 +132,8 @@ export default function SimpleSubHeaderSearchBar() {
   // Query & Open States
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isLocationOpen, setIsLocationOpen] = useState(false);
-  const [locationQuery, setLocationQuery] = useState("");
-  const [activeRegionTab, setActiveRegionTab] = useState("all");
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
+  const [isGpsActive, setIsGpsActive] = useState(false);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
   // Keyboard navigation index
@@ -168,7 +142,6 @@ export default function SimpleSubHeaderSearchBar() {
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const locationInputRef = useRef<HTMLInputElement>(null);
 
   // Hydration safety: restore saved location from localStorage
   useEffect(() => {
@@ -201,7 +174,6 @@ export default function SimpleSubHeaderSearchBar() {
     function handleClickOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsSearchOpen(false);
-        setIsLocationOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -215,11 +187,9 @@ export default function SimpleSubHeaderSearchBar() {
         e.preventDefault();
         searchInputRef.current?.focus();
         setIsSearchOpen(true);
-        setIsLocationOpen(false);
       }
       if (e.key === "Escape") {
         setIsSearchOpen(false);
-        setIsLocationOpen(false);
       }
     }
     window.addEventListener("keydown", handleKeyDown);
@@ -265,51 +235,28 @@ export default function SimpleSubHeaderSearchBar() {
             regionName: closestLocation.regionName,
             pincode: closestLocation.pincode
           });
+          setIsGpsActive(true);
           setLocationMessage(`Located: ${closestLocation.name} (${closestLocation.pincode})`);
           setTimeout(() => {
             setIsDetectingLocation(false);
             setLocationMessage(null);
-            setIsLocationOpen(false);
-          }, 1000);
+          }, 2000);
         } else {
           setIsDetectingLocation(false);
+          setIsGpsActive(false);
           setLocationMessage("No nearby center found; defaulted to Kharghar");
           setTimeout(() => setLocationMessage(null), 2500);
         }
       },
       () => {
         setIsDetectingLocation(false);
-        setLocationMessage("Location permission denied. Please select your city manually.");
+        setIsGpsActive(false);
+        setLocationMessage("Location permission denied. Defaulted to Kharghar center.");
         setTimeout(() => setLocationMessage(null), 3000);
       },
       { timeout: 8000, enableHighAccuracy: true }
     );
   }, []);
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  // 📍 LOCATION FILTERING (All 350+ Locations + PIN Codes + Regions)
-  // ═══════════════════════════════════════════════════════════════════════════
-  const filteredLocations = useMemo(() => {
-    const q = locationQuery.trim().toLowerCase();
-    let pool = LOCATION_DATABASE;
-
-    if (activeRegionTab !== "all") {
-      pool = pool.filter((loc) => loc.region === activeRegionTab);
-    }
-
-    if (!q) {
-      return pool.slice(0, 18);
-    }
-
-    // Filter by PIN code, micro-neighbourhood, city or region
-    return pool.filter((loc) => 
-      loc.pincode.includes(q) ||
-      loc.name.toLowerCase().includes(q) ||
-      loc.city.toLowerCase().includes(q) ||
-      loc.regionName.toLowerCase().includes(q) ||
-      loc.formattedAddress.toLowerCase().includes(q)
-    ).slice(0, 20);
-  }, [locationQuery, activeRegionTab]);
 
   // ═══════════════════════════════════════════════════════════════════════════
   // 🔍 COMPREHENSIVE SEARCH SCORING ENGINE (Services + Products + Doctors)
@@ -348,121 +295,105 @@ export default function SimpleSubHeaderSearchBar() {
           url: `/services/${slug}/${selectedLocation.region}/${selectedLocation.city}`,
           badge: category,
           icon: CATEGORY_ICONS[category] || Activity,
-          score: score + 15,
+          score: score + 10,
         });
       }
     });
 
-    // 2. High-Authority Products (GMC 17 Packages)
-    GMC_PRODUCTS.forEach((prod) => {
-      const score = computeScore(prod.title, [prod.category, prod.description]);
-      if (score > 0) {
-        results.push({
-          type: "product",
-          title: prod.title,
-          subtitle: `₹${prod.price.toLocaleString("en-IN")} • Save ${Math.round(((prod.mrp - prod.price) / prod.mrp) * 100)}% • NABL Accredited`,
-          url: `/gmc/${prod.slug}`,
-          badge: "Package",
-          icon: ShoppingBag,
-          score: score + 12,
-        });
-      }
-    });
-
-    // 3. Medical Specialists / Doctors (12 Profiles)
+    // 2. Doctors Directory
     DOCTORS.forEach((doc) => {
       const score = computeScore(doc.name, [doc.designation, doc.credentials, ...doc.specializations]);
       if (score > 0) {
         results.push({
           type: "doctor",
           title: doc.name,
-          subtitle: `${doc.designation} • ${doc.experience}`,
+          subtitle: `${doc.designation} (${doc.credentials})`,
           url: `/doctors/${doc.id}`,
-          badge: "Doctor",
+          badge: "Specialist Doctor",
           icon: UserCheck,
-          score: score + 8,
-        });
-      }
-    });
-
-    // 4. Clinical Conditions (30 Conditions)
-    CONDITIONS.forEach((cond) => {
-      const score = computeScore(cond.title, [cond.description, ...(cond.symptoms || [])]);
-      if (score > 0) {
-        results.push({
-          type: "condition",
-          title: cond.title,
-          subtitle: `Recommended diagnostic scans & symptom analysis`,
-          url: `/conditions/${cond.id}`,
-          badge: "Condition",
-          icon: Stethoscope,
           score: score + 5,
         });
       }
     });
 
-    // 5. Diagnostic Scan Comparisons (12 Comparisons)
-    COMPARISONS.forEach((comp) => {
-      const score = computeScore(comp.title, [comp.serviceA.name, comp.serviceB.name]);
+    // 3. Clinical Conditions
+    CONDITIONS.forEach((cond) => {
+      const score = computeScore(cond.title, [cond.description, cond.id]);
       if (score > 0) {
         results.push({
-          type: "comparison",
-          title: comp.title,
-          subtitle: `Clinical comparison: radiation, duration & indications`,
-          url: `/compare/${comp.slug}`,
-          badge: "Compare",
-          icon: Scale,
-          score: score + 4,
+          type: "condition",
+          title: cond.title,
+          subtitle: `Recommended diagnostic tests & scan indications`,
+          url: `/conditions/${cond.id}`,
+          badge: "Condition",
+          icon: Stethoscope,
+          score,
         });
       }
     });
 
-    // 6. Geographic Localities & PIN Codes (Search within location index)
-    LOCATION_DATABASE.forEach((loc) => {
-      const score = computeScore(loc.name, [loc.pincode, loc.city, loc.regionName]);
-      if (score > 40) {
+    // 4. Test Comparisons
+    COMPARISONS.forEach((comp) => {
+      const score = computeScore(comp.title, [comp.serviceA.name, comp.serviceB.name, comp.slug]);
+      if (score > 0) {
         results.push({
-          type: "location",
-          title: `${loc.name} Center Hub`,
-          subtitle: `PIN ${loc.pincode} • ${loc.regionName} (Home Collection Available)`,
-          url: `/services/mri-scan/${loc.region}/${loc.slug}`,
-          badge: "Location",
-          icon: MapPin,
+          type: "comparison",
+          title: comp.title,
+          subtitle: `${comp.serviceA.name} vs ${comp.serviceB.name}`,
+          url: `/compare/${comp.slug}`,
+          badge: "Scan Comparison",
+          icon: Scale,
+          score,
+        });
+      }
+    });
+
+    // 5. GMC High-Authority Products
+    GMC_PRODUCTS.forEach((prod) => {
+      const score = computeScore(prod.title, [prod.brand, prod.availability]);
+      if (score > 0) {
+        results.push({
+          type: "product",
+          title: prod.title,
+          subtitle: `Price: ₹${prod.price} • Same-Day Report`,
+          url: `/gmc/${prod.slug}`,
+          badge: "Diagnostic Test",
+          icon: ShoppingBag,
+          score: score + 2,
+        });
+      }
+    });
+
+    // 6. Core Pages
+    CORE_PAGES.forEach((page) => {
+      const score = computeScore(page.title, [page.badge]);
+      if (score > 0) {
+        results.push({
+          type: "page",
+          title: page.title,
+          subtitle: `Official Henotic Diagnostics portal page`,
+          url: page.url,
+          badge: page.badge,
+          icon: ShieldCheck,
           score: score - 5,
         });
       }
     });
 
-    // 7. Core Site Architecture Pages
-    CORE_PAGES.forEach((page) => {
-      const score = computeScore(page.title);
-      if (score > 0) {
-        results.push({
-          type: "page",
-          title: page.title,
-          subtitle: `Henotic Diagnostics official page`,
-          url: page.url,
-          badge: page.badge,
-          icon: ArrowRight,
-          score: score - 10,
-        });
-      }
-    });
-
-    // Sort descending by relevance score, limit to top 10
-    return results.sort((a, b) => b.score - a.score).slice(0, 10);
+    // Sort by descending score
+    return results.sort((a, b) => b.score - a.score).slice(0, 15);
   }, [searchQuery, selectedLocation]);
 
-  // Navigate to Selected Item
-  const handleSelectResult = useCallback((url: string) => {
+  // Handle Result Navigation
+  const handleSelectResult = (url: string) => {
     setIsSearchOpen(false);
-    setIsLocationOpen(false);
+    setSearchQuery("");
     router.push(url);
-  }, [router]);
+  };
 
-  // Keyboard Navigation inside Search Results
+  // Keyboard Navigation inside search results
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!isSearchOpen) return;
+    if (!isSearchOpen || searchResults.length === 0) return;
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -476,26 +407,24 @@ export default function SimpleSubHeaderSearchBar() {
         handleSelectResult(searchResults[selectedIndex].url);
       } else if (searchResults.length > 0) {
         handleSelectResult(searchResults[0].url);
-      } else if (searchQuery.trim()) {
-        router.push(`/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`);
       }
     }
   };
 
-  // Submit Handler
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchResults.length > 0) {
       handleSelectResult(searchResults[0].url);
     } else if (searchQuery.trim()) {
-      router.push(`/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`);
+      router.push(`/services?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
   return (
     <div 
-      suppressHydrationWarning 
-      className="w-full relative z-40 px-3 sm:px-6 md:px-8 py-3.5 sm:py-5 transition-all"
+      role="search"
+      aria-label="Diagnostic search console"
+      className="w-full relative z-40 px-3 sm:px-6 md:px-8 -mt-6 sm:-mt-8 mb-6"
     >
       {/* 🌟 3D VOLUMETRIC BACKDROP GLOW (Soft atmospheric light behind glass) */}
       <div 
@@ -527,215 +456,49 @@ export default function SimpleSubHeaderSearchBar() {
           `}
         >
           {/* =============================================================== */}
-          {/* 📍 SEGMENT 1: TACTILE LOCATION SELECTOR (LEFT)                   */}
+          {/* 📍 SEGMENT 1: USE GPS LOCATION OPTION (LEFT - NO POPUP BAR)     */}
           {/* =============================================================== */}
           <div className="relative shrink-0">
             <button
               type="button"
               suppressHydrationWarning
-              onClick={() => {
-                setIsLocationOpen(!isLocationOpen);
-                setIsSearchOpen(false);
-              }}
+              onClick={handleDetectLocation}
+              disabled={isDetectingLocation}
               className={`
-                flex items-center gap-1.5 sm:gap-2 px-1.5 sm:px-2.5 py-1.5 text-left
+                flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 text-left
                 rounded-xl transition-all duration-200 cursor-pointer group
-                hover:bg-slate-100/70 select-none
-                max-w-[130px] sm:max-w-[220px] md:max-w-[260px]
+                bg-blue-50/70 hover:bg-blue-100/90 active:scale-95 select-none
+                border border-blue-200/60
+                ${isDetectingLocation ? "opacity-75 cursor-wait" : ""}
               `}
-              title={`Active diagnostic center: ${selectedLocation.displayName} (${selectedLocation.regionName})`}
+              title="Click to detect nearest diagnostic center via GPS"
             >
-              {/* Clean MapPin Outline Icon (Matching Screenshot) */}
-              <MapPin 
-                size={18} 
-                className="text-slate-500 shrink-0 group-hover:text-blue-600 transition-colors" 
+              <Crosshair 
+                size={16} 
+                className={`text-blue-600 shrink-0 transition-transform duration-300 ${
+                  isDetectingLocation ? "animate-spin text-pink-500" : "group-hover:rotate-45"
+                }`} 
               />
 
-              {/* Location Text (Kharghar bold, Navi Mumbai subtle) */}
-              <span className="text-xs sm:text-sm font-black text-slate-800 truncate leading-none group-hover:text-blue-900 transition-colors">
-                {selectedLocation.displayName}
-                <span className="hidden sm:inline text-xs text-slate-500 font-semibold ml-1">
-                  ({selectedLocation.regionName})
-                </span>
+              <span className="text-xs sm:text-sm font-bold text-blue-950 whitespace-nowrap leading-none">
+                {isDetectingLocation ? "Detecting GPS..." : (isGpsActive ? selectedLocation.displayName : "Use GPS")}
               </span>
 
-              {/* Subtle Rotating Chevron */}
-              <ChevronDown 
-                size={14} 
-                className={`text-slate-400 shrink-0 transition-transform duration-300 ease-out group-hover:text-slate-600 ${isLocationOpen ? "rotate-180 text-blue-600" : ""}`} 
-              />
+              {isGpsActive && (
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-100/80 px-1.5 py-0.5 rounded border border-emerald-300/60 hidden sm:inline-block">
+                  GPS Active
+                </span>
+              )}
             </button>
 
-            {/* ============================================================= */}
-            {/* 📍 3D LOCATION AUTOCOMPLETE MODAL / DROPDOWN                  */}
-            {/* ============================================================= */}
-            {isLocationOpen && (
+            {/* Status Tooltip / Toast when detecting or updated */}
+            {locationMessage && (
               <div 
-                suppressHydrationWarning 
-                className={`
-                  absolute top-[125%] left-0 w-full sm:w-[420px] md:w-[460px] max-w-[calc(100vw-32px)]
-                  bg-white/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl
-                  border border-white/90
-                  shadow-[0_28px_60px_-12px_rgba(20,15,45,0.28),0_12px_24px_-6px_rgba(20,15,45,0.14),inset_0_1.5px_0_rgba(255,255,255,1)]
-                  p-3.5 sm:p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200 text-slate-800
-                `}
+                role="status"
+                className="absolute top-[125%] left-0 z-50 px-3 py-2 bg-slate-900/95 backdrop-blur-xl text-white text-xs font-bold rounded-xl shadow-xl border border-white/10 flex items-center gap-2 whitespace-nowrap animate-in fade-in slide-in-from-top-1 duration-200"
               >
-                {/* Header with Title & GPS Auto-Detect Button */}
-                <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-100">
-                  <div>
-                    <h3 className="text-xs font-black uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
-                      <Navigation size={14} className="text-[#4568dc]" />
-                      Select Diagnostic Center Hub
-                    </h3>
-                    <p className="text-[10px] text-slate-500 font-medium">350+ Micro-neighbourhoods &amp; PIN Codes Covered</p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleDetectLocation}
-                    disabled={isDetectingLocation}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 text-[#4568dc] text-[11px] font-black border border-blue-200/60 shadow-xs transition-all active:scale-95 cursor-pointer disabled:opacity-50"
-                  >
-                    <Crosshair size={13} className={isDetectingLocation ? "animate-spin text-pink-500" : ""} />
-                    <span>{isDetectingLocation ? "Detecting..." : "Use GPS"}</span>
-                  </button>
-                </div>
-
-                {/* Status Message (if detecting or error) */}
-                {locationMessage && (
-                  <div className="mb-2.5 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-800 text-[11px] font-bold border border-blue-200/60 flex items-center gap-2 animate-in fade-in">
-                    <CheckCircle2 size={13} className="text-blue-600 shrink-0" />
-                    <span>{locationMessage}</span>
-                  </div>
-                )}
-
-                {/* Search Input for Areas or PIN */}
-                <div className="relative mb-2.5">
-                  <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    ref={locationInputRef}
-                    type="text"
-                    placeholder="Search by locality, sector, or 6-digit PIN..."
-                    value={locationQuery}
-                    onChange={(e) => setLocationQuery(e.target.value)}
-                    suppressHydrationWarning
-                    className="w-full pl-9 pr-8 py-2 text-base sm:text-xs font-bold text-slate-800 bg-slate-50/90 border border-slate-200 rounded-xl outline-none focus:border-[#4568dc] focus:bg-white focus:ring-2 focus:ring-[#4568dc]/20 transition-all placeholder:text-slate-400 placeholder:font-normal"
-                  />
-                  {locationQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setLocationQuery("")}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
-                    >
-                      <X size={13} />
-                    </button>
-                  )}
-                </div>
-
-                {/* Region Filter Tabs (scrollable horizontally) */}
-                <div className="flex items-center gap-1 overflow-x-auto pb-2 mb-2 scrollbar-none">
-                  {REGION_TABS.map((tab) => (
-                    <button
-                      key={tab.value}
-                      type="button"
-                      onClick={() => setActiveRegionTab(tab.value)}
-                      className={`text-[10px] font-extrabold px-2.5 py-1 rounded-lg shrink-0 transition-all cursor-pointer ${
-                        activeRegionTab === tab.value
-                          ? "bg-gradient-to-r from-[#4568dc] to-[#b06ab3] text-white shadow-xs"
-                          : "bg-slate-100/90 text-slate-600 hover:bg-slate-200/90"
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Fast Popular Chips (when query is empty) */}
-                {!locationQuery && (
-                  <div className="mb-2.5 px-1">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block mb-1.5">
-                      Popular Hubs
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {POPULAR_LOCATIONS.map((pop) => {
-                        const isSelected = selectedLocation.city === pop.city;
-                        return (
-                          <button
-                            key={pop.city}
-                            type="button"
-                            onClick={() => {
-                              setSelectedLocation(pop);
-                              setIsLocationOpen(false);
-                            }}
-                            className={`text-[11px] font-bold px-2.5 py-1 rounded-xl transition-all flex items-center gap-1 cursor-pointer ${
-                              isSelected
-                                ? "bg-gradient-to-r from-[#E55D87] to-[#b06ab3] text-white shadow-xs"
-                                : "bg-slate-100 hover:bg-slate-200/80 text-slate-700"
-                            }`}
-                          >
-                            <span>{pop.displayName}</span>
-                            <span className={`text-[9px] px-1 rounded ${isSelected ? "bg-white/20 text-white" : "bg-white text-slate-500"}`}>
-                              {pop.pincode}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Scrollable Locations List */}
-                <div className="max-h-56 overflow-y-auto scrollbar-thin pr-1 space-y-1">
-                  <div className="px-1 text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center justify-between">
-                    <span>{locationQuery ? "Matching Localities" : "Serving Areas"}</span>
-                    <span className="text-[9px] font-semibold text-slate-500">{filteredLocations.length} Locations</span>
-                  </div>
-
-                  {filteredLocations.map((loc) => {
-                    const isSelected = selectedLocation.city === loc.slug;
-                    return (
-                      <button
-                        key={`${loc.region}-${loc.slug}-${loc.id}`}
-                        type="button"
-                        onClick={() => {
-                          setSelectedLocation({
-                            city: loc.slug,
-                            region: loc.region,
-                            displayName: loc.name,
-                            regionName: loc.regionName,
-                            pincode: loc.pincode
-                          });
-                          setIsLocationOpen(false);
-                          setLocationQuery("");
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all cursor-pointer group ${
-                          isSelected
-                            ? "bg-pink-50/90 text-pink-700 font-extrabold border border-pink-200/60"
-                            : "hover:bg-slate-100/80 text-slate-700 border border-transparent"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2 min-w-0">
-                          <MapPin size={13} className={isSelected ? "text-pink-600 shrink-0" : "text-slate-400 group-hover:text-slate-600 shrink-0"} />
-                          <div className="min-w-0">
-                            <span className="font-extrabold text-slate-800 group-hover:text-[#4568dc] transition-colors block truncate">
-                              {loc.name}
-                            </span>
-                            <span className="text-[10px] text-slate-500 font-medium block truncate">
-                              {loc.regionName} {loc.hasHomeCollection ? "• Home Collection Available" : ""}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                          <span className="text-[10px] font-mono font-bold text-slate-600 bg-white px-1.5 py-0.5 rounded border border-slate-200/70 shadow-xs">
-                            {loc.pincode}
-                          </span>
-                          {isSelected && <Check size={14} className="text-pink-600" />}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+                <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
+                <span>{locationMessage}</span>
               </div>
             )}
           </div>
@@ -765,13 +528,11 @@ export default function SimpleSubHeaderSearchBar() {
               placeholder="Search MRI, CT Scan, blood test, doctors, locations..."
               value={searchQuery}
               onFocus={() => {
-                setIsLocationOpen(false);
                 setIsSearchOpen(true);
               }}
               onChange={(e) => {
                 const val = e.target.value;
                 setSearchQuery(val);
-                setIsLocationOpen(false);
                 setIsSearchOpen(true);
               }}
               onKeyDown={handleSearchKeyDown}
@@ -829,116 +590,130 @@ export default function SimpleSubHeaderSearchBar() {
                       </span>
                     </div>
 
-                    {/* Quick Category Chips */}
-                    <div className="flex flex-wrap gap-1.5 mb-3 px-1">
-                      {[
-                        { label: "⚡ 3T MRI", slug: "mri-scan" },
-                        { label: "🔬 128 CT Scan", slug: "ct-scan" },
-                        { label: "🩸 Blood Tests", slug: "blood-test" },
-                        { label: "🩺 Full Body Checkup", slug: "full-body-check-up" },
-                        { label: "👶 4D Ultrasound", slug: "ultrasound" },
-                        { label: "❤️ 2D Echo", slug: "2d-echo" },
-                        { label: "🎗️ PET-CT Scan", slug: "pet-scan" },
-                      ].map((chip) => (
-                        <button
-                          key={chip.slug}
-                          type="button"
-                          onClick={() => handleSelectResult(`/services/${chip.slug}/${selectedLocation.region}/${selectedLocation.city}`)}
-                          className="text-[11px] font-extrabold px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 text-slate-700 hover:text-blue-700 border border-slate-200/70 hover:border-blue-200 transition-all cursor-pointer shadow-xs"
-                        >
-                          {chip.label}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Trending Grid Items */}
-                    <div className="grid sm:grid-cols-2 gap-1.5">
+                    {/* Trending Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
                       {TRENDING_SEARCHES.map((item) => {
-                        const IconComp = item.icon || Activity;
+                        const Icon = item.icon;
                         return (
                           <button
                             key={item.slug}
                             type="button"
                             onClick={() => handleSelectResult(`/services/${item.slug}/${selectedLocation.region}/${selectedLocation.city}`)}
-                            className="flex items-center gap-2.5 p-2 rounded-xl text-left hover:bg-slate-100/90 transition-all cursor-pointer group"
+                            className="flex items-center gap-2.5 p-2 rounded-xl text-left hover:bg-slate-100/80 transition-colors group cursor-pointer"
                           >
-                            <div className="w-8 h-8 rounded-lg bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white flex items-center justify-center transition-colors shrink-0">
-                              <IconComp size={15} />
+                            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                              <Icon size={16} />
                             </div>
-                            <div className="min-w-0">
-                              <span className="text-xs font-extrabold text-slate-800 group-hover:text-blue-600 transition-colors block truncate">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-black text-slate-800 truncate group-hover:text-blue-600 transition-colors">
                                 {item.title}
-                              </span>
-                              <span className="text-[10px] text-slate-500 font-medium block truncate">
+                              </p>
+                              <p className="text-[10px] text-slate-500 truncate">
                                 {item.subtitle}
-                              </span>
+                              </p>
                             </div>
                           </button>
                         );
                       })}
                     </div>
+
+                    {/* Quick Category Chips */}
+                    <div className="pt-2.5 border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                      <span className="text-[10px] font-black uppercase text-slate-400 mr-1 shrink-0">Categories:</span>
+                      {[
+                        { name: "MRI Scan (3.0T)", slug: "mri-scan" },
+                        { name: "128-Slice CT", slug: "ct-scan" },
+                        { name: "PET-CT Scan", slug: "pet-scan" },
+                        { name: "Blood Tests", slug: "blood-test" },
+                        { name: "Health Checkups", slug: "health-checkup" },
+                        { name: "Pregnancy USG", slug: "pregnancy-sonography" },
+                      ].map((cat) => (
+                        <button
+                          key={cat.slug}
+                          type="button"
+                          onClick={() => handleSelectResult(`/services/${cat.slug}/${selectedLocation.region}/${selectedLocation.city}`)}
+                          className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[10px] font-bold shrink-0 hover:bg-gradient-to-r hover:from-blue-600 hover:to-indigo-600 hover:text-white transition-all cursor-pointer"
+                        >
+                          {cat.name}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
 
-                {/* ── CASE B: WHEN USER TYPES QUERY -> SHOW REAL-TIME SCORED RESULTS ── */}
+                {/* ── CASE B: WHEN USER TYPES -> SHOW SCORING SEARCH RESULTS ── */}
                 {searchQuery.trim() && (
                   <div>
-                    <div className="px-2 pb-2 mb-2 border-b border-slate-100 flex items-center justify-between text-[11px] font-black uppercase tracking-wider text-slate-400">
-                      <span>Matching Diagnostic Inquiries</span>
-                      <span>{searchResults.length} Results</span>
-                    </div>
-
-                    {searchResults.length === 0 ? (
-                      <div className="p-6 text-center text-slate-500">
-                        <Search size={24} className="mx-auto mb-2 text-slate-300" />
-                        <p className="text-xs font-bold">No exact diagnostic matches found</p>
-                        <p className="text-[11px] text-slate-400 mt-1">Try searching for &quot;MRI&quot;, &quot;CT&quot;, &quot;Blood Test&quot;, or &quot;Doctor&quot;</p>
-                      </div>
-                    ) : (
+                    {searchResults.length > 0 ? (
                       <div className="space-y-1">
-                        {searchResults.map((result, idx) => {
-                          const IconComp = result.icon || Activity;
-                          const isHighlighted = idx === selectedIndex;
+                        <div className="px-2 pb-1.5 mb-1.5 border-b border-slate-100 flex items-center justify-between text-[11px] text-slate-400 font-bold">
+                          <span>Diagnostic Results ({searchResults.length})</span>
+                          <span>Press Enter to select</span>
+                        </div>
 
+                        {searchResults.map((item, idx) => {
+                          const Icon = item.icon;
+                          const isHighlighted = idx === selectedIndex;
                           return (
                             <button
-                              key={`${result.type}-${result.url}-${idx}`}
+                              key={`${item.type}-${item.url}-${idx}`}
                               type="button"
-                              onClick={() => handleSelectResult(result.url)}
+                              onClick={() => handleSelectResult(item.url)}
                               onMouseEnter={() => setSelectedIndex(idx)}
-                              className={`w-full text-left p-2.5 rounded-xl flex items-center justify-between gap-3 transition-all cursor-pointer group ${
-                                isHighlighted
-                                  ? "bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 shadow-xs"
-                                  : "hover:bg-slate-50 border border-transparent"
-                              }`}
+                              className={`
+                                w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all cursor-pointer group
+                                ${isHighlighted ? "bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/60 shadow-xs" : "hover:bg-slate-50 border border-transparent"}
+                              `}
                             >
-                              <div className="flex items-center gap-2.5 min-w-0">
-                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                                  isHighlighted
-                                    ? "bg-blue-600 text-white shadow-xs"
-                                    : "bg-slate-100 text-slate-600 group-hover:bg-blue-50 group-hover:text-blue-600"
-                                }`}>
-                                  <IconComp size={15} />
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div className={`
+                                  w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors
+                                  ${isHighlighted ? "bg-[#4568dc] text-white" : "bg-slate-100 text-slate-600 group-hover:bg-[#4568dc] group-hover:text-white"}
+                                `}>
+                                  <Icon size={17} />
                                 </div>
                                 <div className="min-w-0">
-                                  <span className="text-xs font-black text-slate-800 group-hover:text-blue-600 transition-colors block truncate">
-                                    {result.title}
-                                  </span>
-                                  <span className="text-[10px] text-slate-500 font-medium block truncate">
-                                    {result.subtitle}
-                                  </span>
+                                  <p className="text-xs sm:text-sm font-black text-slate-900 truncate group-hover:text-[#4568dc] transition-colors">
+                                    {item.title}
+                                  </p>
+                                  <p className="text-[10px] sm:text-xs text-slate-500 truncate font-medium">
+                                    {item.subtitle}
+                                  </p>
                                 </div>
                               </div>
 
-                              <div className="flex items-center gap-1.5 shrink-0">
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200/60 uppercase">
-                                  {result.badge}
+                              <div className="flex items-center gap-2 shrink-0 ml-2">
+                                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200/60 shadow-xs hidden sm:inline-block">
+                                  {item.badge}
                                 </span>
-                                <ArrowRight size={13} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+                                <ArrowRight size={14} className={`text-slate-400 transition-transform ${isHighlighted ? "translate-x-1 text-[#4568dc]" : "group-hover:text-[#4568dc]"}`} />
                               </div>
                             </button>
                           );
                         })}
+                      </div>
+                    ) : (
+                      /* No Results State */
+                      <div className="py-8 text-center px-4">
+                        <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center mx-auto mb-3 shadow-inner">
+                          <Search size={22} />
+                        </div>
+                        <h4 className="text-sm font-black text-slate-900 mb-1">
+                          No diagnostic match for &ldquo;{searchQuery}&rdquo;
+                        </h4>
+                        <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">
+                          Search for tests like <strong className="text-slate-700">MRI Brain, CT Chest, CBC, Thyroid, 2D Echo</strong>, or explore our full medical catalog.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsSearchOpen(false);
+                            router.push(`/services?q=${encodeURIComponent(searchQuery.trim())}`);
+                          }}
+                          className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-black shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all cursor-pointer"
+                        >
+                          Browse All 250+ Services
+                        </button>
                       </div>
                     )}
                   </div>

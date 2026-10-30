@@ -30,6 +30,15 @@ export default function SiteHeader() {
     }
   };
 
+  const handleOpenBooking = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("open-booking-modal"));
+    }
+    setIsBookingOpen(true);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out bg-header-footer-gradient ${scrolled ? "shadow-lg py-2" : "py-4"}`}>
@@ -53,15 +62,22 @@ export default function SiteHeader() {
             </div>
           </Link>
 
-          {/* DESKTOP NAV */}
-          <nav role="navigation" aria-label="Main navigation" className="hidden lg:flex items-center justify-center gap-7 text-white font-bold text-sm flex-grow">
-            <Link href={routesConfig.home} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">Home</Link>
-            <Link href={routesConfig.aboutUs} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">About Us</Link>
+          {/* DESKTOP NAV (Only: Home, About Us, Services, Contact) */}
+          <nav role="navigation" aria-label="Main navigation" className="hidden lg:flex items-center justify-center gap-8 text-white font-bold text-sm flex-grow">
+            <Link href={routesConfig.home} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">
+              Home
+            </Link>
+            <Link href={routesConfig.aboutUs} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">
+              About Us
+            </Link>
             
             <div className="relative group py-2" onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)}>
-              <button className="flex items-center gap-1 hover:text-white/80 transition-colors duration-200 drop-shadow-sm cursor-pointer">
+              <Link 
+                href={routesConfig.services} 
+                className="flex items-center gap-1 hover:text-white/80 transition-colors duration-200 drop-shadow-sm cursor-pointer"
+              >
                 Services <ChevronDown size={16} className={`transition-transform duration-200 ${isServicesOpen ? "rotate-180" : ""}`} />
-              </button>
+              </Link>
               <div className={`absolute top-[120%] left-1/2 -translate-x-1/2 w-[450px] bg-white rounded-2xl shadow-xl p-6 transition-all duration-300 grid grid-cols-2 gap-6 border border-gray-100 ${isServicesOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-4 pointer-events-none"}`}>
                 <div className="flex flex-col gap-2">
                   <h4 className="text-xs font-bold text-blue-800 uppercase tracking-widest mb-2 border-b border-gray-100 pb-2 w-full text-left">Advanced Imaging</h4>
@@ -70,7 +86,7 @@ export default function SiteHeader() {
                   <Link href={routesConfig.getServiceUrl("pet-scan")} className="hover:text-blue-600 font-medium transition-colors block text-gray-600 text-sm text-left">PET-CT Scan</Link>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h4 className="text-xs font-bold text-pink-600 uppercase tracking-widest mb-2 border-b border-gray-100 pb-2 w-full text-left">Pathology & More</h4>
+                  <h4 className="text-xs font-bold text-pink-600 uppercase tracking-widest mb-2 border-b border-gray-100 pb-2 w-full text-left">Pathology &amp; More</h4>
                   <Link href={routesConfig.getServiceUrl("blood-test")} className="hover:text-pink-600 font-medium transition-colors block text-gray-600 text-sm text-left">Blood Tests</Link>
                   <Link href={routesConfig.getServiceUrl("full-body-check-up")} className="hover:text-pink-600 font-medium transition-colors block text-gray-600 text-sm text-left">Full Body Checkup</Link>
                   <Link href={routesConfig.getServiceUrl("ultrasound")} className="hover:text-pink-600 font-medium transition-colors block text-gray-600 text-sm text-left">Ultrasound / USG</Link>
@@ -78,16 +94,12 @@ export default function SiteHeader() {
               </div>
             </div>
 
-            <Link href={routesConfig.pricing} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm flex items-center gap-1.5">
-              <span>Pricing</span>
-              <span className="text-[10px] bg-emerald-400/25 border border-emerald-300/40 text-emerald-200 font-black px-1.5 py-0.2 rounded-full">Save 30-50%</span>
+            <Link href={routesConfig.contact} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">
+              Contact
             </Link>
-
-            <Link href={routesConfig.locations} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">Locations</Link>
-            <Link href={routesConfig.contact} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">Contact</Link>
           </nav>
 
-          {/* DESKTOP CTA */}
+          {/* DESKTOP CTA (Search, Theme, Call button, Book appointment) */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             {/* Global Search Trigger Pill */}
             <button
@@ -103,13 +115,16 @@ export default function SiteHeader() {
 
             <ThemeToggle />
 
-            <a href={siteConfig.contact.phonePrimaryRaw} className="flex items-center justify-center gap-2 text-white border border-white/40 hover:bg-white/20 px-4 py-2 rounded-full font-bold text-sm transition-colors duration-200 shadow-sm">
+            <a 
+              href={siteConfig.contact.phonePrimaryRaw} 
+              className="flex items-center justify-center gap-2 text-white border border-white/40 hover:bg-white/20 px-4 py-2 rounded-full font-bold text-sm transition-colors duration-200 shadow-sm"
+            >
               <Phone size={15} /> {siteConfig.contact.phonePrimary}
             </a>
 
             <button 
               type="button"
-              onClick={(e) => { e.preventDefault(); setIsBookingOpen(true); }}
+              onClick={handleOpenBooking}
               className="btn-grad flex items-center justify-center gap-2 text-sm font-bold shadow-lg cursor-pointer"
             >
               <CalendarCheck size={16} /> Book Appointment
@@ -137,7 +152,7 @@ export default function SiteHeader() {
           </div>
         </div>
 
-        {/* MOBILE DRAWER */}
+        {/* MOBILE DRAWER (Only: Home, About Us, Services, Contact, Theme, Call, Book Appointment) */}
         <div className={`lg:hidden fixed inset-0 top-[70px] bg-white transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} overflow-y-auto pb-20 w-full`}>
            <div className="flex flex-col p-6 text-gray-800 font-semibold text-lg w-full max-w-md mx-auto">
               {/* Quick Search in Drawer */}
@@ -156,15 +171,18 @@ export default function SiteHeader() {
                 <span className="text-xs bg-white text-slate-500 font-mono px-2 py-0.5 rounded border border-slate-200">⌘K</span>
               </button>
 
-              <Link href={routesConfig.home} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Home</Link>
-              <Link href={routesConfig.aboutUs} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>About Us</Link>
-              <Link href={routesConfig.services} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Diagnostic Services</Link>
-              <Link href={routesConfig.pricing} className="py-4 border-b border-gray-100 flex items-center justify-between" onClick={() => setIsOpen(false)}>
-                <span>Pricing &amp; Cost Estimator</span>
-                <span className="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Save 30-50%</span>
+              <Link href={routesConfig.home} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>
+                Home
               </Link>
-              <Link href={routesConfig.locations} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>350+ Locations &amp; PINs</Link>
-              <Link href={routesConfig.contact} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Contact</Link>
+              <Link href={routesConfig.aboutUs} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>
+                About Us
+              </Link>
+              <Link href={routesConfig.services} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>
+                Services
+              </Link>
+              <Link href={routesConfig.contact} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>
+                Contact
+              </Link>
               <div className="py-4 border-b border-gray-100 flex items-center justify-between">
                 <span>Theme</span>
                 <ThemeToggle />
@@ -175,7 +193,7 @@ export default function SiteHeader() {
                 </a>
                 <button 
                   type="button"
-                  onClick={(e) => { e.preventDefault(); setIsBookingOpen(true); setIsOpen(false); }} 
+                  onClick={handleOpenBooking} 
                   className="btn-grad w-full flex justify-center items-center gap-2 shadow-lg cursor-pointer"
                 >
                   <CalendarCheck size={20} /> Book Appointment
