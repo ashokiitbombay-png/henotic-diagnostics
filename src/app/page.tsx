@@ -77,7 +77,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="w-full flex flex-col bg-white overflow-hidden mt-[80px]">
+    <main className="w-full flex flex-col bg-slate-50 overflow-hidden mt-[72px] md:mt-[80px]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeWebPageSchema) }}

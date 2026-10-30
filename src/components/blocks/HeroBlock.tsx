@@ -37,7 +37,7 @@ export default function HeroBlock({ title, description, locationName, regionName
 
   if (variant === 'home') {
     return (
-      <section className="relative pt-20 pb-24 md:pt-28 md:pb-32 overflow-hidden bg-slate-50">
+      <section className="relative pt-6 sm:pt-8 md:pt-12 pb-20 md:pb-28 overflow-hidden bg-slate-50">
         {/* Aesthetic Background Glows */}
         <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full mix-blend-multiply filter blur-[150px] opacity-40 bg-gradient-to-br from-[#b06ab3] to-pink-300"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-[120px] opacity-40 bg-gradient-to-tr from-[#4568dc] to-blue-300"></div>

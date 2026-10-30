@@ -424,7 +424,7 @@ export default function SimpleSubHeaderSearchBar() {
     <div 
       role="search"
       aria-label="Diagnostic search console"
-      className="w-full relative z-40 px-3 sm:px-6 md:px-8 -mt-6 sm:-mt-8 mb-6"
+      className="w-full relative z-40 px-3 sm:px-6 md:px-8 pt-5 sm:pt-7 pb-2 sm:pb-3"
     >
       {/* 🌟 3D VOLUMETRIC BACKDROP GLOW (Soft atmospheric light behind glass) */}
       <div 
