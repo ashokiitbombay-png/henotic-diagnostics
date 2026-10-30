@@ -7,6 +7,7 @@ import { COMPARISONS } from '../src/config/comparisons';
 import { CONDITIONS } from '../src/config/conditions';
 import { DOCTORS } from '../src/config/doctors';
 import { SERVICE_CATEGORIES } from '../src/config/categories';
+import { STATIC_BLOG_ARTICLES } from '../src/config/blog-articles';
 
 const BASE_URL = 'https://www.henoticdiagnostics.com';
 const CHUNK_SIZE = 10000;
@@ -136,6 +137,16 @@ function* generateAllUrls(today: string): Generator<SitemapUrl> {
       lastmod: today,
       changefreq: 'monthly',
       priority: 0.8,
+    };
+  }
+
+  // 3b. Static Clinical Blog Articles
+  for (const article of STATIC_BLOG_ARTICLES) {
+    yield {
+      loc: `${BASE_URL}/blog/${article.slug}`,
+      lastmod: today,
+      changefreq: 'monthly',
+      priority: 0.75,
     };
   }
 

@@ -20,6 +20,7 @@ import { CONDITIONS } from '../src/config/conditions';
 import { COMPARISONS } from '../src/config/comparisons';
 import { GMC_PRODUCTS } from '../src/config/gmc-products';
 import { HEALTH_CHECKUP_SLUGS } from '../src/config/health-checkup';
+import { STATIC_BLOG_ARTICLES } from '../src/config/blog-articles';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -93,6 +94,12 @@ async function collectUrls(mode: string, customUrl?: string): Promise<string[]> 
   // Health Checkup Authority Hubs (26 slugs)
   for (const slug of HEALTH_CHECKUP_SLUGS) {
     urlSet.add(`${BASE_URL}/services/${slug}`);
+  }
+
+  // Clinical Knowledge Base Blog Articles
+  urlSet.add(`${BASE_URL}/blog`);
+  for (const article of STATIC_BLOG_ARTICLES) {
+    urlSet.add(`${BASE_URL}/blog/${article.slug}`);
   }
 
   // Include 4,486 build priority URLs if file exists

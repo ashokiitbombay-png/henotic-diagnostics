@@ -1,125 +1,166 @@
 import React from "react";
 import Link from "next/link";
 import { Metadata } from "next";
-import { ArrowRight, PenLine, Newspaper } from "lucide-react";
+import { PenLine, ShieldCheck, Stethoscope, ArrowRight, Award } from "lucide-react";
 import { getBlogPosts } from "@/lib/wordpress/getBlogPosts";
-import BlogCard from "@/components/blog/BlogCard";
+import { getStaticBlogArticles } from "@/config/blog-articles";
+import BlogListClient from "@/components/blog/BlogListClient";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Health Articles & Medical Insights | Henotic Diagnostics Blog",
+  title: "Clinical Knowledge Base & Health Insights | Henotic Diagnostics",
   description:
-    "Expert health articles, diagnostic guides, and medical insights from Henotic Diagnostics. Stay informed about your health.",
+    "Evidence-based diagnostic guides, scan preparation instructions, and clinical insights reviewed by board-certified radiologists and pathologists at Henotic Diagnostics.",
   alternates: { canonical: "https://www.henoticdiagnostics.com/blog" },
   openGraph: {
-    title: "Health Articles & Medical Insights | Henotic Diagnostics Blog",
+    title: "Clinical Knowledge Base & Health Insights | Henotic Diagnostics",
     description:
-      "Expert health articles, diagnostic guides, and medical insights from Henotic Diagnostics. Stay informed about your health.",
+      "Evidence-based diagnostic guides, scan preparation instructions, and clinical insights reviewed by board-certified radiologists and pathologists.",
     url: "https://www.henoticdiagnostics.com/blog",
     type: "website",
-    images: [{ url: 'https://cdn.henoticdiagnostics.com/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp', width: 1200, height: 630, alt: 'Health Articles & Medical Insights | Henotic Diagnostics Blog' }],
+    images: [
+      {
+        url: "https://cdn.henoticdiagnostics.com/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp",
+        width: 1200,
+        height: 630,
+        alt: "Clinical Knowledge Base & Diagnostic Guides | Henotic Diagnostics",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Health Articles & Medical Insights | Henotic Diagnostics Blog",
-    description: "Expert health articles, diagnostic guides, and medical insights from Henotic Diagnostics.",
-    images: ['https://cdn.henoticdiagnostics.com/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp'],
+    title: "Clinical Knowledge Base & Health Insights | Henotic Diagnostics",
+    description:
+      "Evidence-based diagnostic guides and scan preparation instructions reviewed by MD radiologists and pathologists.",
+    images: [
+      "https://cdn.henoticdiagnostics.com/MRI%20SCAN/Hero/henotic-diagnostics-mri-scan-panvel-navi-mumbai.webp",
+    ],
   },
 };
 
 export default async function BlogPage() {
   const postsData = await getBlogPosts(12);
-  const posts = postsData?.nodes ?? [];
-  const hasWordPressPosts = posts.length > 0;
+  const wpPosts = postsData?.nodes ?? [];
+  const staticArticles = getStaticBlogArticles();
+
+  // Merge: Avoid duplicating any slugs that already exist in WordPress
+  const wpSlugs = new Set(wpPosts.map((p) => p.slug));
+  const fallbackArticles = staticArticles.filter((art) => !wpSlugs.has(art.slug));
+  const allPosts = [...wpPosts, ...fallbackArticles];
+
+  // ItemList Schema for SEO
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Henotic Diagnostics Clinical Knowledge Base",
+    description: "Medical diagnostic guides, preparation protocols, and health articles.",
+    itemListElement: allPosts.map((post, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: post.title,
+      url: `https://www.henoticdiagnostics.com/blog/${post.slug}`,
+    })),
+  };
 
   return (
     <main className="min-h-screen font-sans mt-[80px]">
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Health Blog & Guides", url: "/blog" },
+        ]}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* HERO                                                              */}
+      {/* HERO SECTION                                                      */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="bg-gradient-to-r from-blue-950 to-[#1e1b4b] py-20 px-4 md:px-8 relative overflow-hidden">
-        {/* Ambient glow */}
+      <section className="bg-gradient-to-r from-blue-950 via-[#0f172a] to-[#1e1b4b] py-16 md:py-20 px-4 md:px-8 relative overflow-hidden">
+        {/* Ambient lighting glows */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#b06ab3] rounded-full mix-blend-screen filter blur-[120px] opacity-15" />
         <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] bg-blue-500 rounded-full mix-blend-screen filter blur-[100px] opacity-10" />
 
         <div className="max-w-7xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/20 text-blue-200 text-sm font-extrabold uppercase tracking-widest mb-6 backdrop-blur-md">
-            <PenLine size={16} /> Health Blog
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-blue-200 text-xs font-black uppercase tracking-widest mb-6 backdrop-blur-md">
+            <PenLine size={15} /> Clinical Knowledge Base
           </div>
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight">
-            Health Articles &{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-400">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight leading-tight">
+            Diagnostic Guides &{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-pink-400">
               Medical Insights
             </span>
           </h1>
-          <p className="text-lg text-blue-100 font-medium max-w-2xl mx-auto">
-            Expert-written guides on diagnostic procedures, health screenings,
-            and preventive care.
+          <p className="text-base md:text-lg text-blue-100/90 font-medium max-w-2xl mx-auto mb-8 leading-relaxed">
+            Evidence-based preparation instructions, procedure explanations, and health screening
+            checklists authored and reviewed by certified medical specialists.
           </p>
+
+          {/* Trust Highlights Strip */}
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold text-blue-200/90">
+            <div className="flex items-center gap-1.5 bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 backdrop-blur-sm">
+              <ShieldCheck size={14} className="text-emerald-400" />
+              <span>MD Radiologist & Pathologist Reviewed</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 backdrop-blur-sm">
+              <Award size={14} className="text-amber-400" />
+              <span>NABL ISO 15189 Quality Standards</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 backdrop-blur-sm">
+              <Stethoscope size={14} className="text-blue-400" />
+              <span>Patient-Centered Clinical Guidance</span>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* CONTENT                                                           */}
+      {/* EDITORIAL TRUST BANNER                                             */}
       {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 px-4 md:px-8">
+      <section className="bg-blue-50/70 border-b border-blue-100 py-3.5 px-4">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 font-medium">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+            <span>
+              <strong>Clinical Policy:</strong> All content is verified against Indian medical council
+              and international radiological (IRIA/RSNA) standards.
+            </span>
+          </div>
+          <Link
+            href="/doctors"
+            className="text-blue-700 font-extrabold hover:underline flex items-center gap-1 shrink-0"
+          >
+            Meet Our Medical Faculty <ArrowRight size={12} />
+          </Link>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* ARTICLES GRID & FILTERS                                           */}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-12 md:py-16 px-4 md:px-8 bg-slate-50/50">
         <div className="max-w-7xl mx-auto">
-          {hasWordPressPosts ? (
-            <>
-              {/* Section Header */}
-              <div className="flex items-center gap-3 mb-10">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                  <Newspaper size={18} className="text-white" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-black text-slate-900">
-                    Latest Articles
-                  </h2>
-                  <p className="text-sm text-slate-500 font-medium">
-                    {posts.length} article{posts.length !== 1 ? "s" : ""}{" "}
-                    published
-                  </p>
-                </div>
-              </div>
+          <BlogListClient posts={allPosts} />
+        </div>
+      </section>
 
-              {/* Blog Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                {posts.map((post) => (
-                  <BlogCard key={post.id} post={post} />
-                ))}
-              </div>
-
-              {/* Pagination CTA (if more pages available) */}
-              {postsData?.pageInfo?.hasNextPage && (
-                <div className="mt-12 text-center">
-                  <span className="inline-flex items-center gap-2 text-blue-600 font-extrabold text-sm">
-                    More articles available — stay tuned!
-                  </span>
-                </div>
-              )}
-            </>
-          ) : (
-            /* ─────────────────────────────────────────────────────────── */
-            /* Graceful Fallback — Coming Soon                            */
-            /* ─────────────────────────────────────────────────────────── */
-            <div className="mt-8 text-center p-12 bg-white/80 backdrop-blur-sm rounded-3xl border border-white/60 shadow-sm">
-              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <PenLine size={28} />
-              </div>
-              <h3 className="text-2xl font-black text-slate-900 mb-3">
-                Expert Articles Coming Soon
-              </h3>
-              <p className="text-slate-600 font-medium max-w-lg mx-auto mb-8">
-                Our medical team is preparing in-depth articles on diagnostic
-                procedures, preparation guides, and preventive health tips.
-              </p>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 bg-blue-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors"
-              >
-                Browse Our Services <ArrowRight size={16} />
-              </Link>
-            </div>
-          )}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* MEDICAL DISCLAIMER                                                */}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-8 px-4 border-t border-slate-200 bg-white">
+        <div className="max-w-4xl mx-auto text-center text-xs text-slate-500 leading-relaxed">
+          <p className="mb-2 font-bold text-slate-700 uppercase tracking-wider">
+            Medical Disclaimer & Clinical Context
+          </p>
+          <p>
+            The health articles and diagnostic guides published on Henotic Diagnostics are intended
+            solely for educational awareness and patient preparation purposes. They do not constitute
+            personal medical advice, diagnosis, or clinical treatment plans. Always consult your
+            attending physician or certified healthcare provider regarding medical conditions or test
+            interpretation.
+          </p>
         </div>
       </section>
     </main>

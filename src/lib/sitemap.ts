@@ -6,6 +6,7 @@ import { COMPARISONS } from '@/config/comparisons';
 import { DOCTORS } from '@/config/doctors';
 import { SERVICE_CATEGORIES } from '@/config/categories';
 import { GMC_PRODUCTS } from '@/config/gmc-products';
+import { STATIC_BLOG_ARTICLES } from '@/config/blog-articles';
 
 export const CHUNK_SIZE = 40000;
 export const BASE_URL = 'https://www.henoticdiagnostics.com';
@@ -50,6 +51,7 @@ export function getTotalUrlsCount(): number {
   count += COMPARISONS.length;
   count += DOCTORS.length;
   count += SERVICE_CATEGORIES.length;
+  count += STATIC_BLOG_ARTICLES.length;
   
   return count;
 }
@@ -110,5 +112,9 @@ export function* generateUrls(): Generator<SitemapUrl> {
 
   for (const cat of SERVICE_CATEGORIES) {
     yield { loc: `${BASE_URL}/services/category/${cat.id}`, priority: '0.7', lastmod: now };
+  }
+
+  for (const article of STATIC_BLOG_ARTICLES) {
+    yield { loc: `${BASE_URL}/blog/${article.slug}`, priority: '0.75', lastmod: now };
   }
 }
