@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 const WhatsAppWidget = dynamic(() => import('@/components/ui/WhatsAppWidget'), { ssr: false });
 const StickyMobileCTA = dynamic(() => import('@/components/ui/StickyMobileCTA'), { ssr: false });
 const GlobalSearchModal = dynamic(() => import('@/components/search/GlobalSearchModal'), { ssr: false });
+const MultiStepBookingModal = dynamic(() => import('@/components/features/MultiStepBookingModal'), { ssr: false });
 const SocialProofNotification = dynamic(() => import('@/components/ui/SocialProofNotification'), { ssr: false });
 const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent'), { ssr: false });
 const TawkToChat = dynamic(() => import('@/components/ui/TawkToChat'), { ssr: false });
@@ -26,6 +27,7 @@ export default function ClientWidgets() {
       <WhatsAppWidget />
       <StickyMobileCTA />
       <GlobalSearchModal />
+      <MultiStepBookingModal />
       <SocialProofNotification />
       <CookieConsent />
       <TawkToChat />

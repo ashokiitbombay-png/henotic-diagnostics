@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Phone, CalendarCheck, Percent, Sparkles } from 'lucide-react';
-import Modal from '@/components/ui/Modal';
-import BookingForm from '@/components/forms/BookingForm';
+import { Phone, CalendarCheck, Percent } from 'lucide-react';
 
 function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
@@ -21,11 +19,10 @@ function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
  * 1. 📞 Call Desk (24/7 Hotline)
  * 2. 💬 WhatsApp (Instant chat)
  * 3. 🏷️ Pricing & Cost Estimator (Save 30-50%)
- * 4. 📅 Book Scan (Opens Booking Modal directly)
+ * 4. 📅 Book Scan (Opens Multi-Step Interactive Booking Modal with Rx Upload)
  */
 export default function StickyMobileCTA() {
   const [visible, setVisible] = useState(false);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,75 +37,74 @@ export default function StickyMobileCTA() {
   const phoneTel = "tel:08879327184";
   const whatsappUrl = "https://wa.me/918879327184?text=Hello%20Henotic%20Diagnostics%2C%20I%20would%20like%20to%20inquire%20about%20a%20diagnostic%20scan%20or%20blood%20test%20appointment.";
 
+  const handleOpenBooking = () => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('open-booking-modal', { detail: { service: 'mri-scan' } }));
+    }
+  };
+
   return (
-    <>
-      <div 
-        role="region"
-        aria-label="Mobile quick action navigation"
-        className="fixed bottom-0 left-0 right-0 z-[100] md:hidden animate-in slide-in-from-bottom duration-300"
-      >
-        <div className="bg-slate-900/95 backdrop-blur-2xl px-3 py-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgba(0,0,0,0.35)] border-t border-white/15">
-          <div className="flex items-center justify-between gap-1.5 max-w-md mx-auto">
-            
-            {/* 1. CALL DESK */}
-            <a
-              href={phoneTel}
-              className="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 active:scale-95 transition-all text-center"
-              aria-label="Call Henotic 24/7 Helpline"
-            >
-              <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center mb-0.5">
-                <Phone size={16} />
-              </div>
-              <span className="text-[10px] font-extrabold leading-tight">Call 24/7</span>
-            </a>
+    <div 
+      role="region"
+      aria-label="Mobile quick action navigation"
+      className="fixed bottom-0 left-0 right-0 z-[100] md:hidden animate-in slide-in-from-bottom duration-300"
+    >
+      <div className="bg-slate-900/95 backdrop-blur-2xl px-3 py-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgba(0,0,0,0.35)] border-t border-white/15">
+        <div className="flex items-center justify-between gap-1.5 max-w-md mx-auto">
+          
+          {/* 1. CALL DESK */}
+          <a
+            href={phoneTel}
+            className="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 active:scale-95 transition-all text-center"
+            aria-label="Call Henotic 24/7 Helpline"
+          >
+            <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center mb-0.5">
+              <Phone size={16} />
+            </div>
+            <span className="text-[10px] font-extrabold leading-tight">Call 24/7</span>
+          </a>
 
-            {/* 2. WHATSAPP */}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 active:scale-95 transition-all text-center"
-              aria-label="Chat on WhatsApp"
-            >
-              <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-0.5">
-                <WhatsAppIcon className="w-4 h-4 fill-emerald-400" />
-              </div>
-              <span className="text-[10px] font-extrabold leading-tight">WhatsApp</span>
-            </a>
+          {/* 2. WHATSAPP */}
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 active:scale-95 transition-all text-center"
+            aria-label="Chat with clinical desk on WhatsApp"
+          >
+            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-0.5">
+              <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
+            </div>
+            <span className="text-[10px] font-extrabold leading-tight">WhatsApp</span>
+          </a>
 
-            {/* 3. PRICING & COST ESTIMATOR */}
-            <Link
-              href="/pricing"
-              className="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 active:scale-95 transition-all text-center relative"
-              aria-label="View diagnostic pricing and savings"
-            >
-              <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center mb-0.5">
-                <Percent size={15} />
-              </div>
-              <span className="text-[10px] font-extrabold leading-tight">Prices</span>
-              <span className="absolute -top-1 right-2 text-[8px] font-black px-1 rounded-full bg-emerald-500 text-white leading-tight">
-                -50%
-              </span>
-            </Link>
+          {/* 3. PRICING & COST ESTIMATOR */}
+          <Link
+            href="/pricing"
+            className="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-200 hover:text-white hover:bg-white/10 active:scale-95 transition-all text-center relative"
+            aria-label="View diagnostic pricing and savings"
+          >
+            <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center mb-0.5">
+              <Percent size={15} />
+            </div>
+            <span className="text-[10px] font-extrabold leading-tight">Prices</span>
+            <span className="absolute -top-1 right-2 text-[8px] font-black px-1 rounded-full bg-emerald-500 text-white leading-tight">
+              -50%
+            </span>
+          </Link>
 
-            {/* 4. INSTANT BOOK SCAN (PRIMARY CTA) */}
-            <button
-              type="button"
-              onClick={() => setIsBookingOpen(true)}
-              className="flex-[1.4] flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-pink-600 text-white font-black text-xs shadow-lg shadow-blue-500/30 active:scale-95 transition-all cursor-pointer border border-white/20"
-              aria-label="Book appointment"
-            >
-              <CalendarCheck size={16} className="shrink-0" />
-              <span className="truncate">Book Scan</span>
-            </button>
-          </div>
+          {/* 4. INSTANT BOOK SCAN (PRIMARY CTA - OPENS MULTI-STEP MODAL) */}
+          <button
+            type="button"
+            onClick={handleOpenBooking}
+            className="flex-[1.4] flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-pink-600 text-white font-black text-xs shadow-lg shadow-blue-500/30 active:scale-95 transition-all cursor-pointer border border-white/20"
+            aria-label="Book appointment"
+          >
+            <CalendarCheck size={16} className="shrink-0" />
+            <span className="truncate">Book Scan</span>
+          </button>
         </div>
       </div>
-
-      {/* Embedded Mobile Booking Modal */}
-      <Modal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)}>
-        <BookingForm />
-      </Modal>
-    </>
+    </div>
   );
 }
