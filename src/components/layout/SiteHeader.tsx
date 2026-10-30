@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Phone, CalendarCheck, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, CalendarCheck, ChevronDown, Search } from "lucide-react";
 import BookingForm from "@/components/forms/BookingForm"; 
 import Modal from "@/components/ui/Modal";
 import { siteConfig } from "@/config/site";
@@ -23,6 +23,12 @@ export default function SiteHeader() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleOpenSearch = () => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("open-global-search"));
+    }
+  };
 
   return (
     <>
@@ -83,10 +89,24 @@ export default function SiteHeader() {
 
           {/* DESKTOP CTA */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
+            {/* Global Search Trigger Pill */}
+            <button
+              type="button"
+              onClick={handleOpenSearch}
+              className="flex items-center gap-1.5 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 border border-white/25 px-3 py-1.5 rounded-full text-xs font-bold transition shadow-xs cursor-pointer backdrop-blur-md"
+              title="Search medical scans & tests (⌘K)"
+            >
+              <Search size={14} />
+              <span>Search</span>
+              <kbd className="text-[10px] font-mono bg-white/20 text-white px-1 py-0.2 rounded border border-white/20">⌘K</kbd>
+            </button>
+
             <ThemeToggle />
-            <a href={siteConfig.contact.phonePrimaryRaw} className="flex items-center justify-center gap-2 text-white border border-white/40 hover:bg-white/20 px-5 py-2.5 rounded-full font-bold text-sm transition-colors duration-200 shadow-sm">
-              <Phone size={16} /> {siteConfig.contact.phonePrimary}
+
+            <a href={siteConfig.contact.phonePrimaryRaw} className="flex items-center justify-center gap-2 text-white border border-white/40 hover:bg-white/20 px-4 py-2 rounded-full font-bold text-sm transition-colors duration-200 shadow-sm">
+              <Phone size={15} /> {siteConfig.contact.phonePrimary}
             </a>
+
             <button 
               type="button"
               onClick={(e) => { e.preventDefault(); setIsBookingOpen(true); }}
@@ -96,15 +116,46 @@ export default function SiteHeader() {
             </button>
           </div>
 
-          {/* MOBILE TOGGLE */}
-          <button aria-label="Toggle Mobile Menu" aria-expanded={isOpen} className="lg:hidden text-white z-50 p-2 shrink-0 flex items-center justify-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {/* MOBILE ACTIONS */}
+          <div className="flex items-center gap-1 lg:hidden">
+            <button
+              type="button"
+              onClick={handleOpenSearch}
+              aria-label="Search diagnostic tests"
+              className="text-white p-2 flex items-center justify-center cursor-pointer hover:bg-white/10 rounded-full transition"
+            >
+              <Search size={22} />
+            </button>
+            <button 
+              aria-label="Toggle Mobile Menu" 
+              aria-expanded={isOpen} 
+              className="text-white z-50 p-2 shrink-0 flex items-center justify-center cursor-pointer" 
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
         </div>
 
         {/* MOBILE DRAWER */}
         <div className={`lg:hidden fixed inset-0 top-[70px] bg-white transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} overflow-y-auto pb-20 w-full`}>
            <div className="flex flex-col p-6 text-gray-800 font-semibold text-lg w-full max-w-md mx-auto">
+              {/* Quick Search in Drawer */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsOpen(false);
+                  handleOpenSearch();
+                }}
+                className="w-full flex items-center justify-between py-3.5 px-4 mb-3 rounded-2xl bg-slate-100 text-slate-700 text-sm font-bold border border-slate-200 cursor-pointer hover:bg-blue-50 hover:text-blue-700 transition"
+              >
+                <span className="flex items-center gap-2.5">
+                  <Search size={17} className="text-blue-600" /> 
+                  Search Scans, Tests &amp; Doctors
+                </span>
+                <span className="text-xs bg-white text-slate-500 font-mono px-2 py-0.5 rounded border border-slate-200">⌘K</span>
+              </button>
+
               <Link href={routesConfig.home} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Home</Link>
               <Link href={routesConfig.aboutUs} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>About Us</Link>
               <Link href={routesConfig.services} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Diagnostic Services</Link>
