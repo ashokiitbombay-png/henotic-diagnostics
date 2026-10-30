@@ -7,6 +7,7 @@ export interface City {
   slug: string;
   name: string;
   regions: string[];            // region slugs from locations.ts
+  locationSlugs?: string[];     // optional explicit list of location slugs for focused hubs
   description: string;
   popularServices: string[];    // top 10 service slugs for this city
   mapEmbed?: string;            // optional Google Maps embed URL
@@ -47,6 +48,103 @@ export const CITIES: City[] = [
     regions: ['navi-mumbai', 'raigad'],
     description: 'Walk-in diagnostics near Panvel — MRI, CT, PET-CT, all pathology tests. NABL certified center serving Panvel, New Panvel & Raigad district.',
     popularServices: ['mri-scan', 'ct-scan', 'pet-ct', 'ultrasound', 'blood-test', 'health-checkup', 'sonography', 'dexa-bone-scan', 'fibroscan', 'color-doppler']
+  },
+  {
+    slug: 'kalyan-dombivli',
+    name: 'Kalyan-Dombivli',
+    regions: ['thane'],
+    locationSlugs: [
+      'kalyan',
+      'kalyan-east',
+      'kalyan-west',
+      'khadakpada',
+      'dombivli',
+      'dombivli-east',
+      'dombivli-west',
+      'ulhasnagar',
+      'ambernath',
+      'badlapur',
+      'diva',
+      'mumbra'
+    ],
+    description: 'Comprehensive diagnostic & pathology services in Kalyan-Dombivli — NABL accredited MRI, CT, Ultrasound, Blood Tests with same-day reports & doorstep sample collection.',
+    popularServices: ['mri-scan', 'ct-scan', 'ultrasound', 'blood-test', 'health-checkup', '2d-echo', 'sonography', 'thyroid-test', 'lipid-profile', 'hrct-chest']
+  },
+  {
+    slug: 'mira-bhayandar',
+    name: 'Mira-Bhayandar',
+    regions: ['mumbai-suburban', 'thane'],
+    locationSlugs: [
+      'mira-road',
+      'bhayandar',
+      'mira-bhayandar-east',
+      'shanti-park',
+      'beverly-park',
+      'vasai',
+      'vasai-east',
+      'vasai-west',
+      'nalasopara',
+      'virar'
+    ],
+    description: 'Advanced diagnostic scans and pathology testing in Mira-Bhayandar — Mira Road, Bhayandar East & West. NABL certified testing with home sample collection.',
+    popularServices: ['mri-scan', 'ct-scan', 'ultrasound', 'blood-test', 'health-checkup', '2d-echo', 'pregnancy-sonography', 'thyroid-test', 'mammography', 'color-doppler']
+  },
+  {
+    slug: 'pimpri-chinchwad',
+    name: 'Pimpri-Chinchwad',
+    regions: ['pune'],
+    locationSlugs: [
+      'pimpri-chinchwad',
+      'pimpri',
+      'chinchwad',
+      'akurdi',
+      'nigdi',
+      'pradhikaran',
+      'bhosari',
+      'moshi',
+      'chikhali',
+      'talawade',
+      'thergaon',
+      'punawale',
+      'tathawade',
+      'ravet',
+      'dehu-road',
+      'kasarwadi',
+      'charholi',
+      'alandi',
+      'indrayani-nagar',
+      'spine-road'
+    ],
+    description: 'Accredited diagnostic imaging & pathology services across PCMC (Pimpri-Chinchwad, Nigdi, Akurdi, Bhosari, Moshi, Ravet). MRI, 32-slice CT, and home sample collection.',
+    popularServices: ['mri-scan', 'ct-scan', 'pet-ct', 'ultrasound', 'blood-test', 'health-checkup', '2d-echo', 'sonography', 'hrct-chest', 'thyroid-test']
+  },
+  {
+    slug: 'raigad',
+    name: 'Raigad',
+    regions: ['raigad', 'navi-mumbai'],
+    locationSlugs: [
+      'alibag',
+      'nagaon',
+      'revdanda',
+      'uran',
+      'jnpt-township',
+      'jasai',
+      'chirner',
+      'pen',
+      'nagothane',
+      'karjat',
+      'neral',
+      'khopoli',
+      'pali',
+      'roha',
+      'mangaon',
+      'murud',
+      'old-panvel',
+      'khandeshwar',
+      'karanjade'
+    ],
+    description: 'NABL accredited diagnostic network serving Raigad district — Alibag, Pen, Karjat, Khopoli, Uran & Panvel. Same-day reports, 3T MRI, CT & complete pathology.',
+    popularServices: ['mri-scan', 'ct-scan', 'pet-ct', 'ultrasound', 'blood-test', 'health-checkup', 'sonography', '2d-echo', 'dexa-bone-scan', 'color-doppler']
   }
 ];
 

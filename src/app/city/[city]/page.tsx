@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { MapPin, ArrowRight, Clock, Shield, Stethoscope, Phone, Building2, ChevronRight } from 'lucide-react';
 import { CITIES, getCityBySlug, SERVICE_ICONS } from '@/config/cities';
-import { REGION_LOCATIONS, REGION_NAMES } from '@/config/locations';
+import { REGION_LOCATIONS, REGION_NAMES, getLocationBySlug } from '@/config/locations';
 import { services } from '@/config/services';
 import { notFound } from 'next/navigation';
 
@@ -61,12 +61,19 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
   const city = getCityBySlug(citySlug);
   if (!city) notFound();
 
-  // Gather all locations from the city's regions
+  // Gather all locations from explicit locationSlugs or city regions
   const cityLocations: { location: string; region: string }[] = [];
-  for (const regionSlug of city.regions) {
-    const locs = REGION_LOCATIONS[regionSlug] || [];
-    for (const loc of locs) {
-      cityLocations.push({ location: loc, region: regionSlug });
+  if (city.locationSlugs && city.locationSlugs.length > 0) {
+    for (const locSlug of city.locationSlugs) {
+      const locData = getLocationBySlug(locSlug);
+      cityLocations.push({ location: locSlug, region: locData?.region || city.regions[0] });
+    }
+  } else {
+    for (const regionSlug of city.regions) {
+      const locs = REGION_LOCATIONS[regionSlug] || [];
+      for (const loc of locs) {
+        cityLocations.push({ location: loc, region: regionSlug });
+      }
     }
   }
 
@@ -277,39 +284,71 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           </div>
 
           <div className="space-y-8">
-            {city.regions.map(regionSlug => {
-              const regionName = REGION_NAMES[regionSlug] || formatText(regionSlug);
-              const locs = REGION_LOCATIONS[regionSlug] || [];
-              if (locs.length === 0) return null;
-
-              return (
-                <div key={regionSlug} className="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-100">
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
-                      <Building2 size={18} className="text-white" />
-                    </div>
-                    <h3 className="text-xl font-black text-slate-800">{regionName}</h3>
-                    <span className="text-xs font-bold text-slate-400 bg-slate-200 px-3 py-1 rounded-full">
-                      {locs.length} locations
-                    </span>
+            {city.locationSlugs && city.locationSlugs.length > 0 ? (
+              <div className="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-100">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
+                    <Building2 size={18} className="text-white" />
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                    {locs.map(loc => (
+                  <h3 className="text-xl font-black text-slate-800">{city.name} Localities</h3>
+                  <span className="text-xs font-bold text-slate-400 bg-slate-200 px-3 py-1 rounded-full">
+                    {city.locationSlugs.length} locations
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                  {city.locationSlugs.map(locSlug => {
+                    const locData = getLocationBySlug(locSlug);
+                    const regionSlug = locData?.region || city.regions[0];
+                    return (
                       <Link
-                        key={loc}
-                        href={`/services/mri-scan/${regionSlug}/${loc}`}
+                        key={locSlug}
+                        href={`/services/mri-scan/${regionSlug}/${locSlug}`}
                         className="group flex items-center gap-2 bg-white hover:bg-blue-50 rounded-xl px-4 py-3 border border-slate-100 hover:border-blue-200 transition-all duration-200 shadow-sm hover:shadow-md"
                       >
                         <MapPin size={14} className="text-blue-500 shrink-0" />
                         <span className="text-sm font-bold text-slate-700 group-hover:text-blue-700 truncate transition-colors">
-                          {formatText(loc)}
+                          {locData?.name || formatText(locSlug)}
                         </span>
                       </Link>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              </div>
+            ) : (
+              city.regions.map(regionSlug => {
+                const regionName = REGION_NAMES[regionSlug] || formatText(regionSlug);
+                const locs = REGION_LOCATIONS[regionSlug] || [];
+                if (locs.length === 0) return null;
+
+                return (
+                  <div key={regionSlug} className="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-100">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
+                        <Building2 size={18} className="text-white" />
+                      </div>
+                      <h3 className="text-xl font-black text-slate-800">{regionName}</h3>
+                      <span className="text-xs font-bold text-slate-400 bg-slate-200 px-3 py-1 rounded-full">
+                        {locs.length} locations
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                      {locs.map(loc => (
+                        <Link
+                          key={loc}
+                          href={`/services/mri-scan/${regionSlug}/${loc}`}
+                          className="group flex items-center gap-2 bg-white hover:bg-blue-50 rounded-xl px-4 py-3 border border-slate-100 hover:border-blue-200 transition-all duration-200 shadow-sm hover:shadow-md"
+                        >
+                          <MapPin size={14} className="text-blue-500 shrink-0" />
+                          <span className="text-sm font-bold text-slate-700 group-hover:text-blue-700 truncate transition-colors">
+                            {formatText(loc)}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </section>

@@ -39,7 +39,11 @@ const CITY_GRADIENTS: Record<string, string> = {
   'navi-mumbai': 'from-cyan-600 via-blue-600 to-blue-800',
   'thane':       'from-violet-600 via-purple-700 to-indigo-800',
   'pune':        'from-emerald-600 via-teal-700 to-cyan-800',
-  'panvel':      'from-rose-600 via-pink-700 to-purple-800',
+  'panvel':           'from-rose-600 via-pink-700 to-purple-800',
+  'kalyan-dombivli': 'from-amber-600 via-orange-700 to-red-800',
+  'mira-bhayandar':  'from-fuchsia-600 via-purple-700 to-pink-800',
+  'pimpri-chinchwad':'from-teal-600 via-cyan-700 to-blue-800',
+  'raigad':          'from-sky-600 via-indigo-700 to-blue-900',
 };
 
 export default function CitiesListingPage() {
@@ -94,7 +98,7 @@ export default function CitiesListingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {CITIES.map(city => {
               // Count total locations in this city
-              const locCount = city.regions.reduce((sum, r) => sum + (REGION_LOCATIONS[r]?.length || 0), 0);
+              const locCount = city.locationSlugs?.length ?? city.regions.reduce((sum, r) => sum + (REGION_LOCATIONS[r]?.length || 0), 0);
               const gradient = CITY_GRADIENTS[city.slug] || 'from-blue-600 to-blue-800';
 
               return (

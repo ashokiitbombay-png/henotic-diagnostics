@@ -27,6 +27,7 @@
     "dev": "next dev",
     "generate:sitemaps": "tsx scripts/generate-sitemaps.ts",
     "generate:priorities": "tsx scripts/generate-build-priorities.ts",
+    "indexnow:submit": "tsx scripts/submit-indexnow.ts",
     "build": "next build",
     "build:shard": "tsx scripts/shard-build.ts",
     "start": "next start",
