@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { timingSafeCompare } from '@/lib/webhook/security';
 import { rateLimit, getClientIP } from '@/lib/rate-limit';
-
+import { recordPayment } from '@/lib/leads/lead-service';
 
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = await request.json();
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, amount, patientName, patientPhone, serviceSlug } = await request.json();
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
       return NextResponse.json({ verified: false, message: 'Missing parameters' }, { status: 400 });
@@ -26,6 +26,17 @@ export async function POST(request: NextRequest) {
 
     // If Razorpay not configured, auto-verify (mock mode)
     if (!RAZORPAY_KEY_SECRET) {
+      await recordPayment({
+        orderId: razorpay_order_id,
+        paymentId: razorpay_payment_id,
+        amount: amount || 0,
+        currency: 'INR',
+        serviceSlug,
+        patientName,
+        patientPhone,
+        status: 'mock_verified',
+      }).catch(() => {});
+
       return NextResponse.json({ verified: true, mock: true });
     }
 
@@ -37,6 +48,19 @@ export async function POST(request: NextRequest) {
       .digest('hex');
 
     const verified = timingSafeCompare(expectedSignature, razorpay_signature);
+
+    if (verified) {
+      await recordPayment({
+        orderId: razorpay_order_id,
+        paymentId: razorpay_payment_id,
+        amount: amount || 0,
+        currency: 'INR',
+        serviceSlug,
+        patientName,
+        patientPhone,
+        status: 'verified',
+      }).catch(err => console.warn('[payment/verify] Record payment error:', err.message));
+    }
 
     return NextResponse.json({
       verified,

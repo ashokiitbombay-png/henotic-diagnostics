@@ -43,28 +43,31 @@ export default function NewsletterSignup({ variant = 'full' }: NewsletterSignupP
       await new Promise((r) => setTimeout(r, 800));
 
       try {
-        // TODO: Integrate with Mailchimp/SendGrid API here for actual submission
-        if (process.env.NODE_ENV === 'development') {
-          console.info('ℹ️ [Newsletter] Storing subscriber in localStorage mode:', trimmed);
+        const response = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: trimmed }),
+        });
+
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || 'Subscription failed');
         }
 
         const existing: string[] = JSON.parse(
           localStorage.getItem(STORAGE_KEY) || '[]'
         );
 
-        if (existing.includes(trimmed)) {
-          setStatus('error');
-          setErrorMsg('This email is already subscribed!');
-          return;
+        if (!existing.includes(trimmed)) {
+          existing.push(trimmed);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
         }
 
-        existing.push(trimmed);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
         setStatus('success');
         setEmail('');
-      } catch {
+      } catch (err: any) {
         setStatus('error');
-        setErrorMsg('Something went wrong. Please try again.');
+        setErrorMsg(err.message || 'Something went wrong. Please try again.');
       }
     },
     [email]

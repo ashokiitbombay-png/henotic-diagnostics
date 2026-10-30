@@ -39,28 +39,57 @@ const REGION_PRIORITY = [
   'raigad', 'mumbai-suburban',
 ];
 
-// Top 20 metro locations (highest booking volume)
+// Top metro locations across all regions (highest patient booking & traffic volume)
 const TOP_LOCATIONS = [
+  // Navi Mumbai Hubs
   { city: 'kharghar', region: 'navi-mumbai' },
   { city: 'panvel', region: 'navi-mumbai' },
   { city: 'vashi', region: 'navi-mumbai' },
   { city: 'nerul', region: 'navi-mumbai' },
   { city: 'cbd-belapur', region: 'navi-mumbai' },
+  { city: 'seawoods', region: 'navi-mumbai' },
   { city: 'kamothe', region: 'navi-mumbai' },
   { city: 'kalamboli', region: 'navi-mumbai' },
   { city: 'taloja', region: 'navi-mumbai' },
   { city: 'kopar-khairane', region: 'navi-mumbai' },
   { city: 'airoli', region: 'navi-mumbai' },
+  // South Mumbai Hubs
+  { city: 'colaba', region: 'south-mumbai' },
+  { city: 'cuffe-parade', region: 'south-mumbai' },
+  { city: 'fort', region: 'south-mumbai' },
+  { city: 'marine-lines', region: 'south-mumbai' },
+  { city: 'worli', region: 'south-mumbai' },
+  { city: 'lower-parel', region: 'south-mumbai' },
+  { city: 'dadar', region: 'south-mumbai' },
+  // Western Suburbs Hubs
+  { city: 'andheri', region: 'western-suburbs' },
+  { city: 'bandra', region: 'western-suburbs' },
+  { city: 'juhu', region: 'western-suburbs' },
+  { city: 'goregaon', region: 'western-suburbs' },
+  { city: 'malad', region: 'western-suburbs' },
+  { city: 'kandivali', region: 'western-suburbs' },
+  { city: 'borivali', region: 'western-suburbs' },
+  // Central Suburbs Hubs
+  { city: 'ghatkopar', region: 'central-suburbs' },
+  { city: 'kurla', region: 'central-suburbs' },
+  { city: 'chembur', region: 'central-suburbs' },
+  { city: 'mulund', region: 'central-suburbs' },
+  { city: 'powai', region: 'central-suburbs' },
+  // Thane Hubs
   { city: 'thane-west', region: 'thane' },
   { city: 'dombivli', region: 'thane' },
   { city: 'kalyan', region: 'thane' },
-  { city: 'andheri', region: 'western-suburbs' },
-  { city: 'bandra', region: 'western-suburbs' },
-  { city: 'borivali', region: 'western-suburbs' },
-  { city: 'ghatkopar', region: 'central-suburbs' },
+  { city: 'mira-road', region: 'thane' },
+  { city: 'bhiwandi', region: 'thane' },
+  // Pune Hubs
   { city: 'pune-city', region: 'pune' },
+  { city: 'kothrud', region: 'pune' },
+  { city: 'baner', region: 'pune' },
   { city: 'hinjewadi', region: 'pune' },
   { city: 'hadapsar', region: 'pune' },
+  { city: 'viman-nagar', region: 'pune' },
+  { city: 'wakad', region: 'pune' },
+  { city: 'pimpri-chinchwad', region: 'pune' },
 ];
 
 // ============================================================
@@ -132,7 +161,7 @@ for (const s of t3Services) {
 // 3. Location priorities
 const locationEntries: LocationEntry[] = [];
 
-// T1: T1 services × top 20 locations
+// T1: T1 services × top locations
 for (const s of t1ServiceList) {
   for (const loc of TOP_LOCATIONS) {
     locationEntries.push({
@@ -144,10 +173,10 @@ for (const s of t1ServiceList) {
   }
 }
 
-// T2: T2 services × top 10 locations
-const top10Locations = TOP_LOCATIONS.slice(0, 10);
+// T2: T2 services × top 15 locations
+const top15Locations = TOP_LOCATIONS.slice(0, 15);
 for (const s of t2Services) {
-  for (const loc of top10Locations) {
+  for (const loc of top15Locations) {
     locationEntries.push({
       service: s,
       region: loc.region,
@@ -187,7 +216,7 @@ fs.writeFileSync(outputPath, JSON.stringify(manifest, null, 2), 'utf-8');
 
 console.log('✅ Generated build-priorities.json');
 console.log(`   Services:   ${serviceEntries.length} (T1: ${t1ServiceList.length}, T2: ${t2Services.length}, T3: ${t3Services.length})`);
-console.log(`   Regions:    ${regionEntries.length} (T1: ${t1ServiceList.length * 9}, T2: ${t2Services.length * 5}, T3: ${t3Services.length * 3})`);
-console.log(`   Locations:  ${locationEntries.length} (T1: ${t1ServiceList.length * 20}, T2: ${t2Services.length * 10})`);
+console.log(`   Regions:    ${regionEntries.length}`);
+console.log(`   Locations:  ${locationEntries.length} (covering ${TOP_LOCATIONS.length} top metro hubs)`);
 console.log(`   Conditions: ${conditionEntries.length}`);
 console.log(`   Total pre-build paths: ${serviceEntries.length + regionEntries.length + locationEntries.length + conditionEntries.length}`);

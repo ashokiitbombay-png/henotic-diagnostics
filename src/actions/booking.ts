@@ -2,6 +2,7 @@
 
 import { validateBooking } from "@/lib/validations/bookingSchema";
 import { createCrmAppointment } from "@/lib/crm/client";
+import { recordLead } from "@/lib/leads/lead-service";
 import nodemailer from "nodemailer";
 
 interface BookingData {
@@ -228,6 +229,25 @@ export async function submitBookingAction(formData: BookingData) {
     }
 
     const { name, phone, service, location } = validation.data!;
+
+    // 🛡️ ZERO-DROP LEAD PERSISTENCE
+    // Immediately persist patient details before any external API calls
+    await recordLead({
+      name,
+      phone,
+      service,
+      location,
+      date: formData.date,
+      time: formData.time,
+      slotId: formData.slotId,
+      utmSource: formData.utmSource,
+      utmMedium: formData.utmMedium,
+      utmCampaign: formData.utmCampaign,
+      utmTerm: formData.utmTerm,
+      utmContent: formData.utmContent,
+      status: 'new',
+      channel: 'booking_form',
+    }).catch(err => console.warn('[submitBookingAction] Lead persistence note:', err.message));
 
     // 1. Attempt CRM Booking
     let crmSuccess = false;

@@ -15,6 +15,7 @@ import ServiceHero from '@/components/blocks/ServiceHero';
 import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
 import HealthPackagesSchema from '@/components/health-packages/HealthPackagesSchema';
 import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
+import ClinicalServiceOverview from '@/components/clinical/ClinicalServiceOverview';
 import { isHealthCheckupService } from '@/config/health-packages';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 // 🛡️ Booking Engine Isolation — Client Component wrapper handles dynamic({ ssr: false })
@@ -108,10 +109,15 @@ export default function LocationTemplate({
                   locationName={formattedLocation}
                 />
               ) : (
-                <div className="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-                  <Activity size={48} className="mx-auto text-slate-300 mb-4 animate-pulse" />
-                  <p className="text-slate-500 italic font-bold text-lg">Detailed medical information for this service is currently being updated by our experts.</p>
-                </div>
+                <ClinicalServiceOverview
+                  serviceSlug={service}
+                  formattedService={formattedService}
+                  regionName={formattedRegion}
+                  locationName={formattedLocation}
+                />
+
+
+
               )}
             </div>
           </div>

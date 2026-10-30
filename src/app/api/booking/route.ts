@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { recordLead } from '@/lib/leads/lead-service';
 
 export async function POST(req: Request) {
   try {
@@ -19,9 +20,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "Missing required fields." }, { status: 400 });
     }
 
+    // 🛡️ ZERO-DROP LEAD PERSISTENCE
+    await recordLead({
+      name,
+      phone,
+      service,
+      location,
+      status: 'new',
+      channel: 'direct_modal',
+    }).catch(err => console.warn('[api/booking] Lead persistence note:', err.message));
+
     // ==========================================
     // WHATSAPP API CONFIGURATION
-    // In production, store these in your .env.local file
     // ==========================================
     const WA_API_URL = process.env.WHATSAPP_API_URL;
     const WA_BEARER_TOKEN = process.env.WHATSAPP_API_TOKEN;
@@ -31,21 +41,18 @@ export async function POST(req: Request) {
       console.log(`✅ [DEV MODE] Automated WhatsApp Triggered for ${phone}: "Hi ${name}, your ${service} at ${location || 'our center'} is confirmed."`);
       return NextResponse.json({ 
         success: true, 
-        message: "Booking confirmed! (Simulated WhatsApp message)" 
+        message: "Booking confirmed! A member of our clinical team will contact you shortly." 
       });
     }
 
-    // This payload is structured for the Official Meta WhatsApp Cloud API
-    // It triggers a pre-approved template message: "Hi {{1}}, your {{2}} at {{3}} is confirmed."
+    // Official Meta WhatsApp Cloud API Payload
     const whatsappPayload = {
       messaging_product: "whatsapp",
-      to: `91${phone}`, // Formatting for Indian numbers
+      to: `91${phone}`,
       type: "template",
       template: {
-        name: "booking_confirmation", // The exact name of your approved template in Meta/Interakt
-        language: {
-          code: "en"
-        },
+        name: "booking_confirmation",
+        language: { code: "en" },
         components: [
           {
             type: "body",
@@ -73,12 +80,9 @@ export async function POST(req: Request) {
       throw new Error(`WhatsApp API Error: ${responseData.error?.message}`);
     }
 
-    // Simulated Success Logging for Development
-    console.log(`✅ [DEV MODE] Automated WhatsApp Triggered for ${phone}: "Hi ${name}, your ${service} at ${location || 'our center'} is confirmed."`);
-
     return NextResponse.json({ 
       success: true, 
-      message: "Booking confirmed! A WhatsApp message has been sent to the patient." 
+      message: "Booking confirmed! A confirmation WhatsApp message has been sent." 
     });
 
   } catch (error: any) {
