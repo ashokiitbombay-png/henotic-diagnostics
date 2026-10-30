@@ -39,6 +39,7 @@
     "payload:preflight": "tsx --env-file=.env.local scripts/payload-preflight.ts",
     "payload:indexes": "tsx --env-file=.env.local scripts/payload-create-indexes.ts",
     "payload:seed:health": "tsx --env-file=.env.local scripts/payload-seed-health-checkups.ts",
+    "payload:seed:locations": "tsx --env-file=.env.local scripts/payload-seed-locations.ts",
     "cache:clean-trashed": "tsx scripts/clear-trashed-cache.ts"
   },
   "devDependencies": {

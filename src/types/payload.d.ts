@@ -59,9 +59,30 @@ export interface PayloadLocation {
   id: string;
   name: string;
   slug: string;
-  address?: string;
+  city: string;
+  region: string;
+  regionName?: string;
+  pincode: string;
   coordinates?: { latitude: number; longitude: number };
+  latitude?: number;
+  longitude?: number;
+  section?: string;
+  formattedAddress?: string;
+  address?: string;
+  serviceTier?: 'Tier 1 - Immediate Diagnostic Hub' | 'Tier 2 - Extended Service Area' | 'Tier 3 - Home Sample Collection Network';
+  hasHomeCollection?: boolean;
+  homeCollectionTurnaround?: string;
+  sameDayReportDelivery?: boolean;
+  nearestPartnerHub?: string;
+  microNeighborhoods?: Array<{ text: string } | string>;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string;
+  };
   isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // ── Region ───────────────────────────────────────────────────────────────

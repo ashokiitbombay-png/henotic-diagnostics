@@ -34,7 +34,7 @@ const STATIC_PAGES = [
 ];
 
 export function getTotalUrlsCount(): number {
-  let count = 7; // Home, services, blog, about-us, contact, gallery, reports
+  let count = 9; // Home, services, locations, city, blog, about-us, contact, gallery, reports
   count += STATIC_PAGES.length;
   count += GMC_PRODUCTS.length;
   count += services.length;
@@ -61,6 +61,8 @@ export function* generateUrls(): Generator<SitemapUrl> {
   
   yield { loc: `${BASE_URL}/`, priority: '1.0', lastmod: now };
   yield { loc: `${BASE_URL}/services`, priority: '0.9', lastmod: now };
+  yield { loc: `${BASE_URL}/locations`, priority: '0.9', lastmod: now };
+  yield { loc: `${BASE_URL}/city`, priority: '0.85', lastmod: now };
   yield { loc: `${BASE_URL}/blog`, priority: '0.8', lastmod: now };
   yield { loc: `${BASE_URL}/about-us`, priority: '0.5', lastmod: now };
   yield { loc: `${BASE_URL}/contact`, priority: '0.5', lastmod: now };

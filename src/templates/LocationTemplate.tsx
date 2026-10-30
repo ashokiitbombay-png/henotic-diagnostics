@@ -2,6 +2,7 @@ import React from "react";
 import WordPressRenderer from "@/components/content/WordPressRenderer";
 import LocalSEOMastery from "@/components/seo/LocalSEOMastery";
 import CrossLocationLinks from "@/components/seo/CrossLocationLinks";
+import ServiceAreaTargeting from "@/components/seo/ServiceAreaTargeting";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PeopleAlsoSearchFor from "@/components/seo/PeopleAlsoSearchFor";
 import PricingTable from "@/components/blocks/PricingTable";
@@ -158,6 +159,9 @@ export default function LocationTemplate({
 
       {/* 5. CROSS-LOCATION LINKS */}
       <CrossLocationLinks service={service} region={region} currentLocation={location} />
+
+      {/* 5b. HYPER-LOCAL SERVICE AREA TARGETING & PINCODE COVERAGE */}
+      <ServiceAreaTargeting service={service} region={region} location={location} />
 
       {/* 6. RELATED SERVICES — Internal Linking */}
       <PeopleAlsoSearchFor currentServiceSlug={service} />

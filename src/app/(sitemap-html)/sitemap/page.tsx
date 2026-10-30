@@ -96,6 +96,8 @@ export default function HTMLSitemap() {
               { name: 'About Us', href: '/about-us' },
               { name: 'Contact', href: '/contact' },
               { name: 'Services Directory', href: '/services' },
+              { name: 'Geographical Directory (350+ Areas)', href: '/locations' },
+              { name: 'City Diagnostic Hubs', href: '/city' },
               { name: 'Doctors', href: '/doctors' },
               { name: 'Conditions', href: '/conditions' },
               { name: 'Blog', href: '/blog' },

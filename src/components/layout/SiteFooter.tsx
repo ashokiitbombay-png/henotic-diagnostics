@@ -2,7 +2,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { 
-  MapPin, Phone, Mail, Clock, ExternalLink, 
+  MapPin, Building2, Phone, Mail, Clock, ExternalLink, 
   FileText, Globe, Navigation, ArrowUpRight 
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
@@ -155,6 +155,8 @@ export default function SiteFooter() {
           <div>
             <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Sitemap &amp; Dev</h4>
             <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
+              <li><Link href="/locations" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><MapPin size={14}/> Geographical Directory</Link></li>
+              <li><Link href="/city" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Building2 size={14}/> City Hubs</Link></li>
               <li><Link href="/sitemap" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Navigation size={14}/> HTML Sitemap</Link></li>
               <li><a href="/sitemap.xml" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> XML Sitemap</a></li>
               <li><a href="/api/products/feed" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> Product Feed</a></li>

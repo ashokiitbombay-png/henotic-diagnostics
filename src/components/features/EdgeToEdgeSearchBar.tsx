@@ -5,7 +5,7 @@ import {
   MapPin, Search, ChevronDown, Activity, Orbit, Droplets, Heart, Baby, 
   Stethoscope, Scale, ShoppingBag, UserCheck, Sparkles, Filter, Check, ArrowRight
 } from "lucide-react";
-import { REGION_LOCATIONS, REGION_NAMES } from "@/config/locations";
+import { REGION_LOCATIONS, REGION_NAMES, LOCATION_DATABASE } from "@/config/locations";
 import { services } from "@/config/services";
 import { CONDITIONS } from "@/config/conditions";
 import { COMPARISONS } from "@/config/comparisons";

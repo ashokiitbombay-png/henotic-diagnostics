@@ -34,6 +34,12 @@ export const CACHE_TAGS = {
   /** Tag for a specific city landing page */
   city: (slug: string) => `wp:city:${slug}`,
 
+  // ── Location Tags ───────────────────────────────────────────────────
+  /** Tag for a specific location */
+  location: (slug: string) => `loc:${slug}`,
+  /** Tag for the locations directory listing */
+  locationsList: 'loc:locations-list',
+
   // ── Global Tags ─────────────────────────────────────────────────────
   /** Tag for site-wide configuration (header, footer, menus) */
   siteConfig: 'wp:site-config',
