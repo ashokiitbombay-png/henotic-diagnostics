@@ -110,6 +110,9 @@ export default function MedicalPseoSchema({
     if (compareSchemas) {
       schemasToRender.push(compareSchemas.medicalWebPageSchema);
       schemasToRender.push(compareSchemas.breadcrumbSchema);
+      if (compareSchemas.faqSchema) {
+        schemasToRender.push(compareSchemas.faqSchema);
+      }
     }
   }
 

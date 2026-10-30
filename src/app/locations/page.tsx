@@ -19,18 +19,26 @@ export const metadata: Metadata = {
     description: 'Explore our complete diagnostic network across 350+ micro-neighbourhoods in Maharashtra. NABL certified scans & same-day blood collection.',
     url: 'https://www.henoticdiagnostics.com/locations',
     type: 'website',
-    images: [{
-      url: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
-      width: 1200,
-      height: 630,
-      alt: 'Henotic Diagnostics Geographical Directory'
-    }]
+    images: [
+      {
+        url: 'https://www.henoticdiagnostics.com/api/og?title=350%2B%20Diagnostic%20Service%20Locations&subtitle=Mumbai%20%E2%80%A2%20Navi%20Mumbai%20%E2%80%A2%20Thane%20%E2%80%A2%20Pune%20%E2%80%A2%20Raigad',
+        width: 1200,
+        height: 630,
+        alt: 'Henotic Diagnostics Geographical Directory',
+      },
+      {
+        url: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Henotic Diagnostics Geographical Directory',
+      }
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Geographical Directory — Henotic Diagnostics',
     description: 'Find diagnostic centers & doorstep blood sample collection across 350+ PIN codes in Mumbai, Navi Mumbai, Thane & Pune.',
-    images: ['https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp']
+    images: ['https://www.henoticdiagnostics.com/api/og?title=350%2B%20Diagnostic%20Service%20Locations&subtitle=Mumbai%20%E2%80%A2%20Navi%20Mumbai%20%E2%80%A2%20Thane%20%E2%80%A2%20Pune%20%E2%80%A2%20Raigad'],
   }
 };
 

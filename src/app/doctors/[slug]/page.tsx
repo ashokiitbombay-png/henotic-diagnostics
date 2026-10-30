@@ -24,18 +24,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       url: `https://www.henoticdiagnostics.com/doctors/${slug}`,
       type: 'profile',
-      images: [{
-        url: doctorImage,
-        width: 1200,
-        height: 630,
-        alt: `${doc?.name || 'Doctor'} — Henotic Diagnostics`,
-      }],
+      images: [
+        {
+          url: `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(doc?.name || 'Doctor Profile')}&subtitle=${encodeURIComponent(`${doc?.designation || 'Medical Specialist'} • Henotic Diagnostics`)}`,
+          width: 1200,
+          height: 630,
+          alt: `${doc?.name || 'Doctor'} — Henotic Diagnostics`,
+        },
+        {
+          url: doctorImage,
+          width: 1200,
+          height: 630,
+          alt: `${doc?.name || 'Doctor'} — Henotic Diagnostics`,
+        }
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [doctorImage],
+      images: [`https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(doc?.name || 'Doctor Profile')}&subtitle=${encodeURIComponent(`${doc?.designation || 'Medical Specialist'} • Henotic Diagnostics`)}`],
     },
   };
 }

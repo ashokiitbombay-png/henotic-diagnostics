@@ -35,18 +35,26 @@ export async function generateMetadata({ params }: { params: Promise<{ condition
       description,
       url: `https://www.henoticdiagnostics.com/conditions/${condition}`,
       type: 'website',
-      images: [{
-        url: heroImage,
-        width: 1200,
-        height: 630,
-        alt: `${cond?.title || formatText(condition)} — Diagnostic Tests at Henotic Diagnostics`,
-      }],
+      images: [
+        {
+          url: `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(cond?.title || formatText(condition))}&subtitle=${encodeURIComponent('Diagnostic Tests • Indications & NABL Labs')}`,
+          width: 1200,
+          height: 630,
+          alt: `${cond?.title || formatText(condition)} — Diagnostic Tests at Henotic Diagnostics`,
+        },
+        {
+          url: heroImage,
+          width: 1200,
+          height: 630,
+          alt: `${cond?.title || formatText(condition)} — Diagnostic Tests`,
+        }
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [heroImage],
+      images: [`https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(cond?.title || formatText(condition))}&subtitle=${encodeURIComponent('Diagnostic Tests • Indications & NABL Labs')}`],
     },
   };
 }

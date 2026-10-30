@@ -420,9 +420,26 @@ export function generateComparisonSchema(slug: string) {
     ]
   };
 
+  let faqSchema = null;
+  if (comparison.faqs && comparison.faqs.length > 0) {
+    faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: comparison.faqs.map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer
+        }
+      }))
+    };
+  }
+
   return {
     medicalWebPageSchema,
-    breadcrumbSchema
+    breadcrumbSchema,
+    faqSchema
   };
 }
 

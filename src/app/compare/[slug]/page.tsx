@@ -56,18 +56,26 @@ export async function generateMetadata({
       url: `https://www.henoticdiagnostics.com/compare/${comparison.slug}`,
       type: 'article',
       siteName: 'Henotic Diagnostics',
-      images: [{
-        url: heroImage,
-        width: 1200,
-        height: 630,
-        alt: `${comparison.serviceA.name} vs ${comparison.serviceB.name} — Henotic Diagnostics`,
-      }],
+      images: [
+        {
+          url: `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(`${comparison.serviceA.name} vs ${comparison.serviceB.name}`)}&subtitle=${encodeURIComponent('Detailed Clinical Diagnostic Comparison')}`,
+          width: 1200,
+          height: 630,
+          alt: `${comparison.serviceA.name} vs ${comparison.serviceB.name} — Henotic Diagnostics`,
+        },
+        {
+          url: heroImage,
+          width: 1200,
+          height: 630,
+          alt: `${comparison.serviceA.name} vs ${comparison.serviceB.name}`,
+        }
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: comparison.title,
       description: comparison.metaDescription,
-      images: [heroImage],
+      images: [`https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(`${comparison.serviceA.name} vs ${comparison.serviceB.name}`)}&subtitle=${encodeURIComponent('Detailed Clinical Diagnostic Comparison')}`],
     },
   };
 }
