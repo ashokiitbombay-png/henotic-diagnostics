@@ -132,6 +132,7 @@ export default function SiteFooter() {
               <li><Link href={routesConfig.getServiceUrl("ct-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">CT Scan (128 Slice)</Link></li>
               <li><Link href={routesConfig.getServiceUrl("pet-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">PET-CT Scan</Link></li>
               <li><Link href={routesConfig.getServiceUrl("ultrasound")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Ultrasound / USG</Link></li>
+              <li><Link href="/pricing" className="hover:text-white hover:translate-x-1 transition-all duration-200 block text-emerald-300 font-bold">Test Pricing &amp; Cost Estimator</Link></li>
             </ul>
           </div>
           <div>

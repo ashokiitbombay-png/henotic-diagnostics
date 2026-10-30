@@ -3,6 +3,12 @@ export const routesConfig = {
   aboutUs: "/about-us",
   contact: "/contact",
   services: "/services",
+  pricing: "/pricing",
+  locations: "/locations",
+  city: "/city",
+  compare: "/compare",
+  conditions: "/conditions",
+  doctors: "/doctors",
   privacy: "/privacy",
   terms: "/terms",
   

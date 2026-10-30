@@ -34,6 +34,8 @@ async function collectUrls(mode: string, customUrl?: string): Promise<string[]> 
 
   if (mode === 'cities') {
     urlSet.add(`${BASE_URL}/city`);
+  urlSet.add(`${BASE_URL}/pricing`);
+  urlSet.add(`${BASE_URL}/locations`);
     for (const city of CITIES) {
       urlSet.add(`${BASE_URL}/city/${city.slug}`);
     }

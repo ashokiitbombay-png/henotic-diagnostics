@@ -48,7 +48,7 @@ export default function SiteHeader() {
           </Link>
 
           {/* DESKTOP NAV */}
-          <nav role="navigation" aria-label="Main navigation" className="hidden lg:flex items-center justify-center gap-8 text-white font-bold text-sm flex-grow">
+          <nav role="navigation" aria-label="Main navigation" className="hidden lg:flex items-center justify-center gap-7 text-white font-bold text-sm flex-grow">
             <Link href={routesConfig.home} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">Home</Link>
             <Link href={routesConfig.aboutUs} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">About Us</Link>
             
@@ -71,6 +71,13 @@ export default function SiteHeader() {
                 </div>
               </div>
             </div>
+
+            <Link href={routesConfig.pricing} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm flex items-center gap-1.5">
+              <span>Pricing</span>
+              <span className="text-[10px] bg-emerald-400/25 border border-emerald-300/40 text-emerald-200 font-black px-1.5 py-0.2 rounded-full">Save 30-50%</span>
+            </Link>
+
+            <Link href={routesConfig.locations} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">Locations</Link>
             <Link href={routesConfig.contact} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">Contact</Link>
           </nav>
 
@@ -100,6 +107,12 @@ export default function SiteHeader() {
            <div className="flex flex-col p-6 text-gray-800 font-semibold text-lg w-full max-w-md mx-auto">
               <Link href={routesConfig.home} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Home</Link>
               <Link href={routesConfig.aboutUs} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>About Us</Link>
+              <Link href={routesConfig.services} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Diagnostic Services</Link>
+              <Link href={routesConfig.pricing} className="py-4 border-b border-gray-100 flex items-center justify-between" onClick={() => setIsOpen(false)}>
+                <span>Pricing &amp; Cost Estimator</span>
+                <span className="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Save 30-50%</span>
+              </Link>
+              <Link href={routesConfig.locations} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>350+ Locations &amp; PINs</Link>
               <Link href={routesConfig.contact} className="py-4 border-b border-gray-100" onClick={() => setIsOpen(false)}>Contact</Link>
               <div className="py-4 border-b border-gray-100 flex items-center justify-between">
                 <span>Theme</span>
