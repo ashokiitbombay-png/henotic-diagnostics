@@ -42,6 +42,7 @@ export interface ActiveLocation {
 
 const CORE_PAGES = [
   { title: "Home", url: "/", badge: "Page" },
+  { title: "Diagnostic Pricing & Cost Estimator", url: "/pricing", badge: "Pricing" },
   { title: "About Us", url: "/about-us", badge: "Page" },
   { title: "Leadership Team", url: "/leadership", badge: "Page" },
   { title: "Contact", url: "/contact", badge: "Page" },
@@ -149,83 +150,98 @@ export default function SimpleSubHeaderSearchBar() {
     region: "navi-mumbai",
     displayName: "Kharghar",
     regionName: "Navi Mumbai",
-    pincode: "410210"
+    pincode: "410210",
   });
 
-  // Location Drawer State
+  // Query & Open States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [locationQuery, setLocationQuery] = useState("");
   const [activeRegionTab, setActiveRegionTab] = useState("all");
-  const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
 
-  // Medical Search State
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [activeSearchFilter, setActiveSearchFilter] = useState<string>("all");
+  // Keyboard navigation index
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
+  // Refs
   const containerRef = useRef<HTMLDivElement>(null);
-  const locationInputRef = useRef<HTMLInputElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const locationInputRef = useRef<HTMLInputElement>(null);
 
-  // Hydration sync
+  // Hydration safety: restore saved location from localStorage
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Keyboard shortcut listener (Ctrl+K or Cmd+K to focus search)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        searchInputRef.current?.focus();
-        setIsSearchOpen(true);
-        setIsLocationOpen(false);
+    try {
+      const saved = localStorage.getItem("henotic_active_location");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed?.city && parsed?.region) {
+          setSelectedLocation(parsed);
+        }
       }
-      if (e.key === "Escape") {
-        setIsLocationOpen(false);
-        setIsSearchOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  // Focus location input when opened
-  useEffect(() => {
-    if (isLocationOpen && locationInputRef.current) {
-      setTimeout(() => locationInputRef.current?.focus(), 80);
+    } catch {
+      // fallback to default Kharghar
     }
-  }, [isLocationOpen]);
+  }, []);
 
-  // Click outside listener
+  // Save selected location to localStorage
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsLocationOpen(false);
+    if (!mounted) return;
+    try {
+      localStorage.setItem("henotic_active_location", JSON.stringify(selectedLocation));
+    } catch {
+      // ignore
+    }
+  }, [selectedLocation, mounted]);
+
+  // Global click-outside listener to dismiss modals
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsSearchOpen(false);
+        setIsLocationOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Keyboard shortcut listener (Cmd/Ctrl + K to focus search)
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+        setIsSearchOpen(true);
+        setIsLocationOpen(false);
+      }
+      if (e.key === "Escape") {
+        setIsSearchOpen(false);
+        setIsLocationOpen(false);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   // ═══════════════════════════════════════════════════════════════════════════
-  // 📍 GPS CURRENT LOCATION AUTO-DETECTION
+  // 📍 GPS GEOLOCATION DETECTOR (Finds nearest center from coordinates)
   // ═══════════════════════════════════════════════════════════════════════════
   const handleDetectLocation = useCallback(() => {
-    if (!navigator.geolocation) {
-      setLocationMessage("Geolocation is not supported by your browser");
+    if (typeof window === "undefined" || !navigator.geolocation) {
+      setLocationMessage("Geolocation is not supported by your browser.");
       setTimeout(() => setLocationMessage(null), 3000);
       return;
     }
 
     setIsDetectingLocation(true);
-    setLocationMessage("Locating nearest diagnostic center...");
+    setLocationMessage("Acquiring GPS coordinates...");
 
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
+      (position) => {
+        const { latitude, longitude } = position.coords;
         let closestLocation: LocationItem | null = null;
         let minDistance = Infinity;
 
@@ -271,7 +287,7 @@ export default function SimpleSubHeaderSearchBar() {
   }, []);
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // 📍 LOCATION FILTERING (All 353 Locations + PIN Codes + Regions)
+  // 📍 LOCATION FILTERING (All 350+ Locations + PIN Codes + Regions)
   // ═══════════════════════════════════════════════════════════════════════════
   const filteredLocations = useMemo(() => {
     const q = locationQuery.trim().toLowerCase();
@@ -298,162 +314,181 @@ export default function SimpleSubHeaderSearchBar() {
   // ═══════════════════════════════════════════════════════════════════════════
   // 🔍 COMPREHENSIVE SEARCH SCORING ENGINE (Services + Products + Doctors)
   // ═══════════════════════════════════════════════════════════════════════════
-  const searchResults = useMemo(() => {
-    const rawQuery = searchQuery.trim().toLowerCase();
-    if (!rawQuery) return [];
+  const searchResults = useMemo<SitemapSearchResult[]>(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q || q.length < 1) return [];
 
-    const tokens = rawQuery.split(/\s+/).filter(Boolean);
     const results: SitemapSearchResult[] = [];
 
-    const matchScore = (target: string): number => {
-      const lower = target.toLowerCase();
-      let score = 0;
-      for (const token of tokens) {
-        if (lower === token) score += 12;
-        else if (lower.startsWith(token)) score += 6;
-        else if (lower.includes(token)) score += 2;
-        else return 0;
+    // Helper: Compute Match Score
+    const computeScore = (title: string, keywords: string[] = []): number => {
+      const lowerTitle = title.toLowerCase();
+      if (lowerTitle === q) return 100;
+      if (lowerTitle.startsWith(q)) return 80;
+      if (lowerTitle.includes(` ${q}`)) return 70;
+      if (lowerTitle.includes(q)) return 50;
+      for (const kw of keywords) {
+        const lowerKw = kw.toLowerCase();
+        if (lowerKw === q) return 60;
+        if (lowerKw.includes(q)) return 40;
       }
-      return score;
+      return 0;
     };
 
-    // 1. Core Pages
-    CORE_PAGES.forEach((page) => {
-      const score = matchScore(page.title);
-      if (score > 0) {
-        results.push({
-          type: "page",
-          title: page.title,
-          subtitle: "Henotic Diagnostics Hub",
-          url: page.url,
-          badge: page.badge,
-          icon: ArrowRight,
-          score: score + 15
-        });
-      }
-    });
-
-    // 2. All 401 Diagnostic Services (Mapped to active location)
+    // 1. Core Services Search (Ranked High)
     services.forEach((slug) => {
-      const name = formatSlug(slug);
-      const score = Math.max(matchScore(name), matchScore(slug));
+      const formatted = formatSlug(slug);
+      const category = SERVICE_CATEGORY_MAP[slug] || "Diagnostic Service";
+      const score = computeScore(formatted, [category, slug.replace(/-/g, " ")]);
       if (score > 0) {
-        const category = SERVICE_CATEGORY_MAP[slug] || "Diagnostic Service";
-        const IconComponent = CATEGORY_ICONS[category] || Orbit;
         results.push({
           type: "service",
-          title: name,
-          subtitle: `Available in ${selectedLocation.displayName} (PIN ${selectedLocation.pincode})`,
+          title: formatted,
+          subtitle: `${category} • Available in ${selectedLocation.displayName}`,
           url: `/services/${slug}/${selectedLocation.region}/${selectedLocation.city}`,
           badge: category,
-          icon: IconComponent,
-          score: score + 25
+          icon: CATEGORY_ICONS[category] || Activity,
+          score: score + 15,
         });
       }
     });
 
-    // 3. GMC Products (Health checkup packages with prices)
-    GMC_PRODUCTS.forEach((product) => {
-      const prodText = `${product.title} ${product.description} ${product.category}`;
-      const score = Math.max(matchScore(product.title), matchScore(prodText));
+    // 2. High-Authority Products (GMC 17 Packages)
+    GMC_PRODUCTS.forEach((prod) => {
+      const score = computeScore(prod.title, [prod.category, prod.description]);
       if (score > 0) {
         results.push({
           type: "product",
-          title: product.title,
-          subtitle: `₹${product.price.toLocaleString()} (MRP ₹${product.mrp.toLocaleString()}) • Same Day Report`,
-          url: `/products/${product.slug}`,
-          badge: product.category,
+          title: prod.title,
+          subtitle: `₹${prod.price.toLocaleString("en-IN")} • Save ${Math.round(((prod.mrp - prod.price) / prod.mrp) * 100)}% • NABL Accredited`,
+          url: `/gmc/${prod.slug}`,
+          badge: "Package",
           icon: ShoppingBag,
-          score: score + 22
+          score: score + 12,
         });
       }
     });
 
-    // 4. Specialist Doctors & Radiologists
+    // 3. Medical Specialists / Doctors (12 Profiles)
     DOCTORS.forEach((doc) => {
-      const doctorText = `${doc.name} ${doc.designation} ${doc.credentials} ${doc.specializations.join(" ")}`;
-      const score = Math.max(matchScore(doc.name), matchScore(doctorText));
-      if (score > 0 || tokens.some(t => "doctor".includes(t) || "dr".includes(t) || "radiologist".includes(t))) {
+      const score = computeScore(doc.name, [doc.designation, doc.credentials, ...doc.specializations]);
+      if (score > 0) {
         results.push({
           type: "doctor",
           title: doc.name,
-          subtitle: `${doc.designation} (${doc.credentials})`,
+          subtitle: `${doc.designation} • ${doc.experience}`,
           url: `/doctors/${doc.id}`,
-          badge: "Specialist",
+          badge: "Doctor",
           icon: UserCheck,
-          score: (score > 0 ? score : 3) + 18
+          score: score + 8,
         });
       }
     });
 
-    // 5. Medical Conditions & Symptoms
+    // 4. Clinical Conditions (30 Conditions)
     CONDITIONS.forEach((cond) => {
-      const condText = `${cond.title} ${cond.description} ${cond.symptoms.join(" ")}`;
-      const score = Math.max(matchScore(cond.title), matchScore(condText));
+      const score = computeScore(cond.title, [cond.description, ...(cond.symptoms || [])]);
       if (score > 0) {
         results.push({
           type: "condition",
           title: cond.title,
-          subtitle: `Symptoms & Diagnostics (${cond.bodySystem})`,
+          subtitle: `Recommended diagnostic scans & symptom analysis`,
           url: `/conditions/${cond.id}`,
           badge: "Condition",
           icon: Stethoscope,
-          score: score + 10
+          score: score + 5,
         });
       }
     });
 
-    // 6. Scan Comparisons
+    // 5. Diagnostic Scan Comparisons (12 Comparisons)
     COMPARISONS.forEach((comp) => {
-      const compText = `${comp.title} ${comp.metaDescription}`;
-      const score = Math.max(matchScore(comp.title), matchScore(compText));
+      const score = computeScore(comp.title, [comp.serviceA.name, comp.serviceB.name]);
       if (score > 0) {
         results.push({
           type: "comparison",
           title: comp.title,
-          subtitle: comp.metaDescription || "Diagnostic test comparison",
+          subtitle: `Clinical comparison: radiation, duration & indications`,
           url: `/compare/${comp.slug}`,
-          badge: "Comparison",
+          badge: "Compare",
           icon: Scale,
-          score: score + 8
+          score: score + 4,
         });
       }
     });
 
-    // 7. Location Hubs (from 353 locations)
+    // 6. Geographic Localities & PIN Codes (Search within location index)
     LOCATION_DATABASE.forEach((loc) => {
-      const locText = `${loc.name} ${loc.regionName} ${loc.pincode} ${loc.city}`;
-      const score = matchScore(locText);
-      if (score > 0) {
+      const score = computeScore(loc.name, [loc.pincode, loc.city, loc.regionName]);
+      if (score > 40) {
         results.push({
           type: "location",
-          title: `Diagnostic Center in ${loc.name}`,
-          subtitle: `Serving PIN ${loc.pincode} • ${loc.regionName}`,
-          url: `/services/diagnostic-center/${loc.region}/${loc.slug}`,
-          badge: `PIN ${loc.pincode}`,
+          title: `${loc.name} Center Hub`,
+          subtitle: `PIN ${loc.pincode} • ${loc.regionName} (Home Collection Available)`,
+          url: `/services/mri-scan/${loc.region}/${loc.slug}`,
+          badge: "Location",
           icon: MapPin,
-          score: score + 12
+          score: score - 5,
         });
       }
     });
 
-    results.sort((a, b) => b.score - a.score);
-    return results.slice(0, 16);
+    // 7. Core Site Architecture Pages
+    CORE_PAGES.forEach((page) => {
+      const score = computeScore(page.title);
+      if (score > 0) {
+        results.push({
+          type: "page",
+          title: page.title,
+          subtitle: `Henotic Diagnostics official page`,
+          url: page.url,
+          badge: page.badge,
+          icon: ArrowRight,
+          score: score - 10,
+        });
+      }
+    });
+
+    // Sort descending by relevance score, limit to top 10
+    return results.sort((a, b) => b.score - a.score).slice(0, 10);
   }, [searchQuery, selectedLocation]);
 
-  // Navigate handler
-  const handleSelectResult = (url: string) => {
+  // Navigate to Selected Item
+  const handleSelectResult = useCallback((url: string) => {
     setIsSearchOpen(false);
     setIsLocationOpen(false);
     router.push(url);
+  }, [router]);
+
+  // Keyboard Navigation inside Search Results
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isSearchOpen) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev < searchResults.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : searchResults.length - 1));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (selectedIndex >= 0 && selectedIndex < searchResults.length) {
+        handleSelectResult(searchResults[selectedIndex].url);
+      } else if (searchResults.length > 0) {
+        handleSelectResult(searchResults[0].url);
+      } else if (searchQuery.trim()) {
+        router.push(`/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`);
+      }
+    }
   };
 
+  // Submit Handler
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchResults.length > 0) {
       handleSelectResult(searchResults[0].url);
     } else if (searchQuery.trim()) {
-      router.push(`/services?search=${encodeURIComponent(searchQuery.trim())}`);
+      router.push(`/services/mri-scan/${selectedLocation.region}/${selectedLocation.city}`);
     }
   };
 
@@ -465,35 +500,36 @@ export default function SimpleSubHeaderSearchBar() {
       {/* 🌟 3D VOLUMETRIC BACKDROP GLOW (Soft atmospheric light behind glass) */}
       <div 
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 max-w-4xl h-16 bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-blue-500/15 blur-2xl rounded-full pointer-events-none -z-10"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 max-w-4xl h-14 bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-blue-500/15 blur-2xl rounded-full pointer-events-none -z-10"
       />
 
       <div ref={containerRef} className="max-w-5xl mx-auto">
         
         {/* ================================================================= */}
-        {/* 🌟 DEEP 3D NEO-GLASS SEARCH CONSOLE                             */}
+        {/* 🌟 UNIFIED 3D SINGLE-PILL CONSOLE (EXACT MATCH TO DESIGN MOCKUP)  */}
         {/* ================================================================= */}
         <form
           onSubmit={handleFormSubmit}
           suppressHydrationWarning
           className={`
-            relative flex flex-col lg:flex-row items-stretch gap-2 lg:gap-0 p-2 sm:p-2.5
+            relative flex flex-row items-center w-full
+            px-3 sm:px-4 py-2 sm:py-2.5
             rounded-2xl sm:rounded-3xl
-            bg-white/90 backdrop-blur-2xl
-            border border-white/95
+            bg-white/95 backdrop-blur-2xl
+            border border-slate-200/90
             transition-all duration-300 ease-out
-            shadow-[0_22px_45px_-12px_rgba(25,18,50,0.18),0_10px_20px_-6px_rgba(25,18,50,0.10),0_2px_4px_rgba(25,18,50,0.05),inset_0_2px_0_rgba(255,255,255,1),inset_0_-2px_3px_rgba(0,0,0,0.04)]
-            hover:shadow-[0_28px_60px_-12px_rgba(25,18,50,0.24),0_14px_28px_-6px_rgba(25,18,50,0.14),inset_0_2px_0_rgba(255,255,255,1)]
+            shadow-[0_16px_36px_-6px_rgba(20,15,45,0.14),0_6px_16px_-4px_rgba(20,15,45,0.08),inset_0_1.5px_0_rgba(255,255,255,1),inset_0_-1.5px_2px_rgba(0,0,0,0.02)]
+            hover:shadow-[0_22px_45px_-8px_rgba(20,15,45,0.18),0_8px_20px_-4px_rgba(20,15,45,0.10),inset_0_1.5px_0_rgba(255,255,255,1)]
             hover:-translate-y-0.5
-            focus-within:border-blue-400/60
-            focus-within:shadow-[0_30px_70px_-10px_rgba(69,104,220,0.28),0_12px_24px_-4px_rgba(176,106,179,0.2),inset_0_2px_0_rgba(255,255,255,1)]
-            focus-within:ring-2 focus-within:ring-[#4568dc]/30
+            focus-within:border-blue-400/80
+            focus-within:shadow-[0_24px_50px_-8px_rgba(69,104,220,0.22),0_10px_20px_-4px_rgba(176,106,179,0.15),inset_0_2px_0_rgba(255,255,255,1)]
+            focus-within:ring-2 focus-within:ring-[#4568dc]/25
           `}
         >
           {/* =============================================================== */}
-          {/* 📍 3D SEGMENT 1: TACTILE LOCATION SELECTOR PILL                 */}
+          {/* 📍 SEGMENT 1: TACTILE LOCATION SELECTOR (LEFT)                   */}
           {/* =============================================================== */}
-          <div className="relative lg:w-[310px] shrink-0">
+          <div className="relative shrink-0">
             <button
               type="button"
               suppressHydrationWarning
@@ -502,45 +538,32 @@ export default function SimpleSubHeaderSearchBar() {
                 setIsSearchOpen(false);
               }}
               className={`
-                w-full flex items-center gap-2.5 sm:gap-3 px-3.5 py-2.5 sm:py-3 text-left
-                rounded-xl sm:rounded-2xl
-                bg-gradient-to-b from-white/90 to-slate-50/70 hover:from-white hover:to-slate-100/90
-                border border-slate-200/70 hover:border-slate-300
-                shadow-[0_2px_6px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)]
-                active:scale-[0.99] transition-all duration-200 cursor-pointer group
+                flex items-center gap-1.5 sm:gap-2 px-1.5 sm:px-2.5 py-1.5 text-left
+                rounded-xl transition-all duration-200 cursor-pointer group
+                hover:bg-slate-100/70 select-none
+                max-w-[130px] sm:max-w-[220px] md:max-w-[260px]
               `}
+              title={`Active diagnostic center: ${selectedLocation.displayName} (${selectedLocation.regionName})`}
             >
-              {/* 3D GPS Icon Badge */}
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#E55D87] to-[#b06ab3] text-white flex items-center justify-center shadow-[0_4px_12px_rgba(229,93,135,0.4),inset_0_1px_0_rgba(255,255,255,0.5)] shrink-0 group-hover:scale-105 transition-transform">
-                <MapPin size={18} className="drop-shadow-xs" />
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 border-2 border-white rounded-full animate-pulse" />
-              </div>
+              {/* Clean MapPin Outline Icon (Matching Screenshot) */}
+              <MapPin 
+                size={18} 
+                className="text-slate-500 shrink-0 group-hover:text-blue-600 transition-colors" 
+              />
 
-              {/* Text Hierarchy */}
-              <div className="flex flex-col min-w-0 flex-grow text-left leading-tight">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#E55D87]">
-                    Location
-                  </span>
-                  <span className="text-[10px] font-bold text-slate-500 px-1.5 py-0.2 bg-slate-100/90 rounded border border-slate-200/50">
-                    PIN {selectedLocation.pincode}
-                  </span>
-                </div>
-                <span className="text-xs sm:text-sm font-extrabold text-slate-800 truncate mt-0.5 group-hover:text-blue-900 transition-colors">
-                  {selectedLocation.displayName}
-                  <span className="text-xs text-slate-500 font-semibold ml-1.5">
-                    ({selectedLocation.regionName})
-                  </span>
+              {/* Location Text (Kharghar bold, Navi Mumbai subtle) */}
+              <span className="text-xs sm:text-sm font-black text-slate-800 truncate leading-none group-hover:text-blue-900 transition-colors">
+                {selectedLocation.displayName}
+                <span className="hidden sm:inline text-xs text-slate-500 font-semibold ml-1">
+                  ({selectedLocation.regionName})
                 </span>
-              </div>
+              </span>
 
-              {/* 3D Rotating Chevron */}
-              <div className="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center shrink-0 group-hover:bg-pink-50 group-hover:text-pink-600 transition-colors">
-                <ChevronDown 
-                  size={14} 
-                  className={`transition-transform duration-300 ease-out ${isLocationOpen ? "rotate-180 text-pink-600" : ""}`} 
-                />
-              </div>
+              {/* Subtle Rotating Chevron */}
+              <ChevronDown 
+                size={14} 
+                className={`text-slate-400 shrink-0 transition-transform duration-300 ease-out group-hover:text-slate-600 ${isLocationOpen ? "rotate-180 text-blue-600" : ""}`} 
+              />
             </button>
 
             {/* ============================================================= */}
@@ -550,7 +573,7 @@ export default function SimpleSubHeaderSearchBar() {
               <div 
                 suppressHydrationWarning 
                 className={`
-                  absolute top-[115%] left-0 w-full sm:w-[420px] md:w-[460px] max-w-[calc(100vw-32px)]
+                  absolute top-[125%] left-0 w-full sm:w-[420px] md:w-[460px] max-w-[calc(100vw-32px)]
                   bg-white/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl
                   border border-white/90
                   shadow-[0_28px_60px_-12px_rgba(20,15,45,0.28),0_12px_24px_-6px_rgba(20,15,45,0.14),inset_0_1.5px_0_rgba(255,255,255,1)]
@@ -564,7 +587,7 @@ export default function SimpleSubHeaderSearchBar() {
                       <Navigation size={14} className="text-[#4568dc]" />
                       Select Diagnostic Center Hub
                     </h3>
-                    <p className="text-[10px] text-slate-500 font-medium">350+ Micro-neighbourhoods & PIN Codes Covered</p>
+                    <p className="text-[10px] text-slate-500 font-medium">350+ Micro-neighbourhoods &amp; PIN Codes Covered</p>
                   </div>
 
                   <button
@@ -718,88 +741,63 @@ export default function SimpleSubHeaderSearchBar() {
           </div>
 
           {/* =============================================================== */}
-          {/* 🌟 3D ETCHED GLASS DIVIDER (Desktop Only)                       */}
+          {/* 🌟 3D CRISP VERTICAL DIVIDER (SEPARATING LOCATION & SEARCH)      */}
           {/* =============================================================== */}
           <div 
             aria-hidden="true"
-            className="hidden lg:block w-[1.5px] h-10 self-center mx-2 bg-gradient-to-b from-transparent via-slate-300 to-transparent shadow-[1px_0_0_rgba(255,255,255,0.9)]" 
+            className="w-[1px] h-6 sm:h-7 bg-slate-200/90 mx-2 sm:mx-3 shrink-0 self-center" 
           />
 
           {/* =============================================================== */}
-          {/* 🔍 3D SEGMENT 2: LIVE MEDICAL INTENT SEARCH BAR                 */}
+          {/* 🔍 SEGMENT 2: LIVE MEDICAL INTENT SEARCH BAR (RIGHT)             */}
           {/* =============================================================== */}
           <div className="relative flex-grow flex items-center min-w-0">
-            <div className="relative w-full flex items-center px-3 sm:px-4 py-2 sm:py-2.5">
-              
-              {/* 3D Magnifying Lens Badge */}
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 text-[#4568dc] flex items-center justify-center border border-indigo-100/80 shadow-xs shrink-0 mr-2.5">
-                <Search size={17} className="drop-shadow-xs" />
-              </div>
+            {/* Search Icon (Clean Outline Matching Screenshot) */}
+            <Search 
+              size={18} 
+              className="text-slate-400 shrink-0 mr-2 sm:mr-3 pointer-events-none" 
+            />
 
-              {/* Main Input Field */}
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="Search MRI, CT Scan, blood test, doctors, locations..."
-                value={searchQuery}
-                onFocus={() => {
-                  setIsLocationOpen(false);
-                  setIsSearchOpen(true);
-                }}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setSearchQuery(val);
-                  setIsLocationOpen(false);
-                  setIsSearchOpen(true);
-                }}
-                suppressHydrationWarning
-                className="w-full text-slate-800 placeholder-slate-400 text-base sm:text-sm md:text-base font-bold outline-none bg-transparent"
-              />
+            {/* Main Input Field */}
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search MRI, CT Scan, blood test, doctors, locations..."
+              value={searchQuery}
+              onFocus={() => {
+                setIsLocationOpen(false);
+                setIsSearchOpen(true);
+              }}
+              onChange={(e) => {
+                const val = e.target.value;
+                setSearchQuery(val);
+                setIsLocationOpen(false);
+                setIsSearchOpen(true);
+              }}
+              onKeyDown={handleSearchKeyDown}
+              suppressHydrationWarning
+              className="w-full text-slate-800 placeholder-slate-400 text-xs sm:text-sm md:text-base font-semibold outline-none bg-transparent truncate"
+            />
 
-              {/* Clear (X) Button */}
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearchQuery("");
-                    searchInputRef.current?.focus();
-                  }}
-                  className="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center p-1 mr-2 transition-colors cursor-pointer shrink-0"
-                >
-                  <X size={13} />
-                </button>
-              )}
-
-              {/* Keyboard Shortcut Hint (Desktop) */}
-              <span className="hidden md:inline-flex items-center gap-0.5 text-[10px] font-mono font-bold text-slate-500 bg-slate-100/90 border border-slate-200/80 px-2 py-0.5 rounded-md shrink-0 shadow-xs mr-2">
-                ⌘K
-              </span>
-
-              {/* =========================================================== */}
-              {/* 🚀 3D SEGMENT 3: GRADIENT SEARCH & BOOK ACTION BUTTON       */}
-              {/* =========================================================== */}
+            {/* Clear (X) Button */}
+            {searchQuery && (
               <button
-                type="submit"
-                className={`
-                  relative shrink-0 flex items-center justify-center gap-1.5 sm:gap-2
-                  px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl
-                  text-white font-black text-xs sm:text-sm tracking-wide
-                  bg-gradient-to-r from-[#4568dc] via-[#7d4bbb] to-[#b06ab3]
-                  shadow-[0_8px_20px_-3px_rgba(176,106,179,0.5),0_3px_6px_rgba(69,104,220,0.3),inset_0_1px_1px_rgba(255,255,255,0.45)]
-                  hover:shadow-[0_12px_26px_-2px_rgba(176,106,179,0.65),inset_0_1px_1px_rgba(255,255,255,0.6)]
-                  hover:-translate-y-0.5 active:translate-y-0.5 active:scale-[0.98]
-                  transition-all duration-200 cursor-pointer overflow-hidden group
-                `}
+                type="button"
+                onClick={() => {
+                  setSearchQuery("");
+                  searchInputRef.current?.focus();
+                }}
+                className="w-5 h-5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center p-0.5 mr-1.5 transition-colors cursor-pointer shrink-0"
+                title="Clear search"
               >
-                {/* 3D Sheen Reflection Layer */}
-                <div 
-                  aria-hidden="true"
-                  className="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-12 -translate-x-full group-hover:translate-x-[250%] transition-transform duration-700 ease-out pointer-events-none" 
-                />
-                <Search size={15} strokeWidth={2.5} className="group-hover:scale-110 transition-transform" />
-                <span className="hidden sm:inline">Search</span>
+                <X size={12} />
               </button>
-            </div>
+            )}
+
+            {/* Keyboard Shortcut Hint (Desktop) */}
+            <span className="hidden md:inline-flex items-center gap-0.5 text-[10px] font-mono font-bold text-slate-400 bg-slate-100/90 border border-slate-200/70 px-1.5 py-0.5 rounded-md shrink-0 shadow-xs mr-1 select-none">
+              ⌘K
+            </span>
 
             {/* ============================================================= */}
             {/* 🔍 3D MEDICAL AUTOCOMPLETE MODAL / DROPDOWN                  */}
@@ -808,7 +806,7 @@ export default function SimpleSubHeaderSearchBar() {
               <div 
                 suppressHydrationWarning 
                 className={`
-                  absolute top-[115%] left-0 right-0
+                  absolute top-[140%] -left-12 sm:left-0 right-0
                   bg-white/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl
                   border border-white/90
                   shadow-[0_30px_70px_-15px_rgba(20,15,45,0.3),0_12px_24px_-6px_rgba(20,15,45,0.15),inset_0_1.5px_0_rgba(255,255,255,1)]
@@ -862,24 +860,19 @@ export default function SimpleSubHeaderSearchBar() {
                             key={item.slug}
                             type="button"
                             onClick={() => handleSelectResult(`/services/${item.slug}/${selectedLocation.region}/${selectedLocation.city}`)}
-                            className="text-left p-2.5 rounded-xl hover:bg-gradient-to-r hover:from-blue-50/80 hover:to-indigo-50/80 border border-transparent hover:border-blue-100 transition-all flex items-center justify-between group cursor-pointer"
+                            className="flex items-center gap-2.5 p-2 rounded-xl text-left hover:bg-slate-100/90 transition-all cursor-pointer group"
                           >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              <div className="w-8 h-8 rounded-xl bg-blue-50 group-hover:bg-[#4568dc] text-[#4568dc] group-hover:text-white flex items-center justify-center shrink-0 shadow-xs transition-colors">
-                                <IconComp size={16} />
-                              </div>
-                              <div className="min-w-0">
-                                <span className="text-xs font-black text-slate-800 group-hover:text-[#4568dc] block truncate transition-colors">
-                                  {item.title}
-                                </span>
-                                <span className="text-[10px] text-slate-500 font-medium block truncate">
-                                  {item.subtitle}
-                                </span>
-                              </div>
+                            <div className="w-8 h-8 rounded-lg bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white flex items-center justify-center transition-colors shrink-0">
+                              <IconComp size={15} />
                             </div>
-                            <span className="text-[9px] font-black uppercase text-slate-500 bg-slate-100 group-hover:bg-blue-100 group-hover:text-blue-800 px-2 py-0.5 rounded-md shrink-0 ml-1">
-                              {item.category}
-                            </span>
+                            <div className="min-w-0">
+                              <span className="text-xs font-extrabold text-slate-800 group-hover:text-blue-600 transition-colors block truncate">
+                                {item.title}
+                              </span>
+                              <span className="text-[10px] text-slate-500 font-medium block truncate">
+                                {item.subtitle}
+                              </span>
+                            </div>
                           </button>
                         );
                       })}
@@ -887,67 +880,62 @@ export default function SimpleSubHeaderSearchBar() {
                   </div>
                 )}
 
-                {/* ── CASE B: WHEN PATIENT TYPES A QUERY -> LIVE SEARCH RESULTS ── */}
-                {searchQuery.trim().length > 0 && (
+                {/* ── CASE B: WHEN USER TYPES QUERY -> SHOW REAL-TIME SCORED RESULTS ── */}
+                {searchQuery.trim() && (
                   <div>
-                    {/* Header */}
-                    <div className="px-2 pb-2 mb-2 border-b border-slate-100 flex items-center justify-between">
-                      <span className="text-[11px] font-black text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                        <Sparkles size={13} className="text-amber-500" />
-                        Matches for &ldquo;{searchQuery}&rdquo;
-                      </span>
-                      <span className="text-[10px] font-bold text-[#4568dc] bg-blue-50 px-2 py-0.5 rounded-full">
-                        {searchResults.length} {searchResults.length === 1 ? "Result" : "Results"}
-                      </span>
+                    <div className="px-2 pb-2 mb-2 border-b border-slate-100 flex items-center justify-between text-[11px] font-black uppercase tracking-wider text-slate-400">
+                      <span>Matching Diagnostic Inquiries</span>
+                      <span>{searchResults.length} Results</span>
                     </div>
 
-                    {/* No matches */}
                     {searchResults.length === 0 ? (
-                      <div className="p-6 text-center">
-                        <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-2 shadow-inner">
-                          <Search size={20} />
-                        </div>
-                        <h4 className="text-sm font-black text-slate-800 mb-1">
-                          No direct matches for &ldquo;{searchQuery}&rdquo;
-                        </h4>
-                        <p className="text-xs text-slate-500 max-w-sm mx-auto mb-3">
-                          Press Enter to browse all 400+ diagnostic tests, scans, and packages in our complete directory.
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => handleSelectResult(`/services?search=${encodeURIComponent(searchQuery)}`)}
-                          className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#4568dc] to-[#b06ab3] text-white text-xs font-black shadow-md hover:shadow-lg transition-all"
-                        >
-                          Browse Full Services Directory →
-                        </button>
+                      <div className="p-6 text-center text-slate-500">
+                        <Search size={24} className="mx-auto mb-2 text-slate-300" />
+                        <p className="text-xs font-bold">No exact diagnostic matches found</p>
+                        <p className="text-[11px] text-slate-400 mt-1">Try searching for &quot;MRI&quot;, &quot;CT&quot;, &quot;Blood Test&quot;, or &quot;Doctor&quot;</p>
                       </div>
                     ) : (
                       <div className="space-y-1">
-                        {searchResults.map((item, idx) => {
-                          const IconComponent = item.icon || Orbit;
+                        {searchResults.map((result, idx) => {
+                          const IconComp = result.icon || Activity;
+                          const isHighlighted = idx === selectedIndex;
+
                           return (
                             <button
-                              key={`${item.url}-${idx}`}
+                              key={`${result.type}-${result.url}-${idx}`}
                               type="button"
-                              onClick={() => handleSelectResult(item.url)}
-                              className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-gradient-to-r hover:from-blue-50/90 hover:to-indigo-50/90 border border-transparent hover:border-blue-100/80 transition-all flex items-center justify-between group cursor-pointer"
+                              onClick={() => handleSelectResult(result.url)}
+                              onMouseEnter={() => setSelectedIndex(idx)}
+                              className={`w-full text-left p-2.5 rounded-xl flex items-center justify-between gap-3 transition-all cursor-pointer group ${
+                                isHighlighted
+                                  ? "bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 shadow-xs"
+                                  : "hover:bg-slate-50 border border-transparent"
+                              }`}
                             >
-                              <div className="flex items-center gap-3 min-w-0">
-                                <div className="w-8 h-8 rounded-xl bg-blue-50 group-hover:bg-[#4568dc] text-[#4568dc] group-hover:text-white flex items-center justify-center shrink-0 shadow-xs transition-colors">
-                                  <IconComponent size={16} />
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                                  isHighlighted
+                                    ? "bg-blue-600 text-white shadow-xs"
+                                    : "bg-slate-100 text-slate-600 group-hover:bg-blue-50 group-hover:text-blue-600"
+                                }`}>
+                                  <IconComp size={15} />
                                 </div>
                                 <div className="min-w-0">
-                                  <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-blue-700 block truncate transition-colors">
-                                    {item.title}
+                                  <span className="text-xs font-black text-slate-800 group-hover:text-blue-600 transition-colors block truncate">
+                                    {result.title}
                                   </span>
-                                  <span className="text-[10px] sm:text-[11px] text-slate-500 font-medium block truncate">
-                                    {item.subtitle}
+                                  <span className="text-[10px] text-slate-500 font-medium block truncate">
+                                    {result.subtitle}
                                   </span>
                                 </div>
                               </div>
-                              <span className="text-[10px] font-black uppercase text-slate-500 bg-slate-100 group-hover:bg-blue-100 group-hover:text-blue-800 px-2.5 py-1 rounded-lg shrink-0 ml-2 shadow-xs transition-colors">
-                                {item.badge}
-                              </span>
+
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200/60 uppercase">
+                                  {result.badge}
+                                </span>
+                                <ArrowRight size={13} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+                              </div>
                             </button>
                           );
                         })}
@@ -959,7 +947,6 @@ export default function SimpleSubHeaderSearchBar() {
             )}
           </div>
         </form>
-
       </div>
     </div>
   );
