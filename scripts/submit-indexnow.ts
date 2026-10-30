@@ -18,6 +18,8 @@ import { CITIES } from '../src/config/cities';
 import { services } from '../src/config/services';
 import { CONDITIONS } from '../src/config/conditions';
 import { COMPARISONS } from '../src/config/comparisons';
+import { GMC_PRODUCTS } from '../src/config/gmc-products';
+import { HEALTH_CHECKUP_SLUGS } from '../src/config/health-checkup';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -81,6 +83,16 @@ async function collectUrls(mode: string, customUrl?: string): Promise<string[]> 
     urlSet.add(`${BASE_URL}/compare/${comp.slug}`);
   }
 
+  // GMC High-Authority Product Landing Pages (17 products)
+  for (const prod of GMC_PRODUCTS) {
+    urlSet.add(`${BASE_URL}/gmc/${prod.slug}`);
+  }
+
+  // Health Checkup Authority Hubs (26 slugs)
+  for (const slug of HEALTH_CHECKUP_SLUGS) {
+    urlSet.add(`${BASE_URL}/services/${slug}`);
+  }
+
   // Include 4,486 build priority URLs if file exists
   const prioritiesPath = path.resolve(process.cwd(), 'src/config/build-priorities.json');
   if (fs.existsSync(prioritiesPath)) {
@@ -114,7 +126,7 @@ async function submitBatch(endpoint: string, urls: string[], dryRun: boolean): P
 
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    const timeout = setTimeout(() => controller.abort(), 30000);
 
     const res = await fetch(endpoint, {
       method: 'POST',

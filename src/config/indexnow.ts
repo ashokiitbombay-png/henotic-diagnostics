@@ -15,6 +15,5 @@ export const INDEXNOW_KEY_LOCATION = `https://${INDEXNOW_HOST}/${INDEXNOW_KEY}.t
 
 export const INDEXNOW_ENDPOINTS = [
   'https://api.indexnow.org/indexnow',
-  'https://www.bing.com/indexnow',
-  'https://yandex.com/indexnow'
+  'https://www.bing.com/indexnow'
 ];
