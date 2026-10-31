@@ -163,14 +163,6 @@ const CATEGORY_SLUGS: Record<string, string[]> = {
     "uroflowmetry", "urodynamic-study", "complete-urodynamic-study", "video-urodynamic-study",
     "cystometry", "pressure-flow-study", "post-void-residual-urine", "urethral-pressure-profile",
     "leak-point-pressure-test", "pelvic-floor-electromyography"
-  ],
-  "Ambulance Services": [
-    "emergency-ambulance", "24x7-ambulance-service", "ambulance-booking", "icu-ambulance",
-    "als-ambulance", "bls-ambulance", "ventilator-ambulance", "cardiac-ambulance", "oxygen-ambulance",
-    "neonatal-ambulance", "pediatric-ambulance", "patient-transport-ambulance",
-    "hospital-transfer-ambulance", "long-distance-ambulance", "wheelchair-ambulance",
-    "stretcher-ambulance", "air-ambulance", "event-medical-ambulance", "dead-body-ambulance",
-    "mortuary-ambulance", "freezer-box-service"
   ]
 };
 

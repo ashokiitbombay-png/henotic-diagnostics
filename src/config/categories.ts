@@ -554,36 +554,6 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
       "pelvic-floor-electromyography",
     ],
   },
-  {
-    id: "ambulance",
-    title: "Ambulance Services",
-    description:
-      "24x7 emergency and non-emergency ambulance services including ICU ambulance, ALS/BLS ambulance, ventilator ambulance, cardiac ambulance, neonatal ambulance, patient transport, hospital transfer, long-distance ambulance, wheelchair ambulance, and mortuary/freezer box services.",
-    icon: "Siren",
-    services: [
-      "emergency-ambulance",
-      "24x7-ambulance-service",
-      "ambulance-booking",
-      "icu-ambulance",
-      "als-ambulance",
-      "bls-ambulance",
-      "ventilator-ambulance",
-      "cardiac-ambulance",
-      "oxygen-ambulance",
-      "neonatal-ambulance",
-      "pediatric-ambulance",
-      "patient-transport-ambulance",
-      "hospital-transfer-ambulance",
-      "long-distance-ambulance",
-      "wheelchair-ambulance",
-      "stretcher-ambulance",
-      "air-ambulance",
-      "event-medical-ambulance",
-      "dead-body-ambulance",
-      "mortuary-ambulance",
-      "freezer-box-service",
-    ],
-  },
 ];
 
 export function getCategoryForService(

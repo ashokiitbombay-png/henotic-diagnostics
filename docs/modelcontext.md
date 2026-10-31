@@ -17,7 +17,6 @@ Contains 400+ diagnostic modalities categorized into 14 core medical parent cate
 11. **Microbiome & Specialty** (Gut Health, Allergy Panels)
 12. **Urology & Urodynamics** (Uroflowmetry)
 13. **X-Ray & Digital Radiology** (Chest, Bone, Dental OPG)
-14. **Ambulance & Emergency Support**
 
 ---
 

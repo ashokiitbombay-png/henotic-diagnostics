@@ -32,9 +32,7 @@ export const services = [
   // MICROBIOME TESTING
   "gut-microbiome-test", "gut-health-test", "stool-microbiome-analysis", "gut-dysbiosis-test", "gut-flora-analysis", "microbiome-dna-sequencing",
   // UROLOGY
-  "uroflowmetry", "urodynamic-study", "complete-urodynamic-study", "video-urodynamic-study", "cystometry", "pressure-flow-study", "post-void-residual-urine", "urethral-pressure-profile", "leak-point-pressure-test", "pelvic-floor-electromyography",
-  // AMBULANCE SERVICES
-  "emergency-ambulance", "24x7-ambulance-service", "ambulance-booking", "icu-ambulance", "als-ambulance", "bls-ambulance", "ventilator-ambulance", "cardiac-ambulance", "oxygen-ambulance", "neonatal-ambulance", "pediatric-ambulance", "patient-transport-ambulance", "hospital-transfer-ambulance", "long-distance-ambulance", "wheelchair-ambulance", "stretcher-ambulance", "air-ambulance", "event-medical-ambulance", "dead-body-ambulance", "mortuary-ambulance", "freezer-box-service"
+  "uroflowmetry", "urodynamic-study", "complete-urodynamic-study", "video-urodynamic-study", "cystometry", "pressure-flow-study", "post-void-residual-urine", "urethral-pressure-profile", "leak-point-pressure-test", "pelvic-floor-electromyography"
 ];
 
 

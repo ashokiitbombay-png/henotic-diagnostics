@@ -111,7 +111,6 @@ Category 13: Genetic Testing & Genomic Sequencing
 Category 14: Microbiome, Urology & Emergency Transport
   ├── Gut Microbiome: gut-health-test, stool-microbiome-analysis, gut-dysbiosis-test
   ├── Urology: uroflowmetry, urodynamic-study, cystometry, post-void-residual-urine
-  └── Ambulance Services: emergency-ambulance, icu-ambulance, als-ambulance, bls-ambulance, wheelchair-ambulance
 ```
 
 ---

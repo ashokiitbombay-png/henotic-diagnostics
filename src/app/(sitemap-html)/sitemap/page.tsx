@@ -42,7 +42,6 @@ const CATEGORY_ICONS: Record<string, string> = {
   "genomic-sequencing": "🧬",
   "microbiome": "🦠",
   "urology": "🏥",
-  "ambulance": "🚑",
 };
 
 // Build grouped map from the authoritative categories config

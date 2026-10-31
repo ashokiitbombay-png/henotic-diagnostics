@@ -73,7 +73,6 @@ const CATEGORY_RANGES: [string, number, number][] = [
   ["Genomic Sequencing", 344, 363],
   ["Microbiome Testing", 364, 369],
   ["Urology", 370, 379],
-  ["Ambulance Services", 380, 400],
 ];
 
 const SERVICE_CATEGORY_MAP: Record<string, string> = {};
