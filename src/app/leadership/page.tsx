@@ -156,7 +156,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={95}
                 />
               </div>
             </div>
@@ -216,7 +215,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={95}
                 />
               </div>
             </div>
@@ -232,7 +230,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={95}
                 />
               </div>
             </div>
@@ -292,7 +289,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={90}
                 />
               </div>
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
@@ -343,7 +339,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={90}
                 />
               </div>
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
@@ -394,7 +389,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={90}
                 />
               </div>
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
@@ -469,7 +463,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={90}
                 />
               </div>
               <h3 className="text-xl font-bold text-slate-900">
@@ -492,7 +485,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={90}
                 />
               </div>
               <h3 className="text-xl font-bold text-slate-900">
@@ -515,7 +507,6 @@ export default function LeadershipPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  quality={90}
                 />
               </div>
               <h3 className="text-xl font-bold text-slate-900">

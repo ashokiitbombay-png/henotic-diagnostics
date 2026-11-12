@@ -16,7 +16,6 @@ export default function MedicalTechnology() {
               alt="Siemens MRI Machine at Henotic Diagnostics"
               className="relative rounded-3xl shadow-2xl z-10 w-full border-4 border-white object-cover"
               loading="lazy"
-              quality={80}
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div className="absolute -bottom-6 -right-6 bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-xl border border-white/50 z-20 hidden md:block">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import {
   ArrowRight,
   CheckCircle2,
@@ -32,6 +33,8 @@ export async function generateStaticParams() {
   return COMPARISONS.map((c) => ({ slug: c.slug }));
 }
 
+export const dynamicParams = false;
+
 // ─── SEO Metadata ─────────────────────────────────────────────────────────────
 export async function generateMetadata({
   params,
@@ -40,7 +43,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const comparison = getComparisonBySlug(slug);
-  if (!comparison) return { title: 'Comparison Not Found' };
+  if (!comparison) notFound();
 
   const heroImage = getHeroImageForService(comparison.serviceA.slug);
 
@@ -88,73 +91,13 @@ export default async function ComparisonPage({
 }) {
   const { slug } = await params;
   const comparison = getComparisonBySlug(slug);
-
-  if (!comparison) {
-    return (
-      <div className="min-h-screen flex items-center justify-center mt-[80px]">
-        <p className="text-slate-500 text-lg font-semibold">
-          Comparison not found.
-        </p>
-      </div>
-    );
-  }
+  if (!comparison) notFound();
 
   const related = getRelatedComparisons(slug);
 
-  // ─── Structured Data ─────────────────────────────────────────────────────────
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://www.henoticdiagnostics.com',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Compare Tests',
-        item: 'https://www.henoticdiagnostics.com/compare',
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: `${comparison.serviceA.name} vs ${comparison.serviceB.name}`,
-        item: `https://www.henoticdiagnostics.com/compare/${comparison.slug}`,
-      },
-    ],
-  };
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: comparison.faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
-  };
-
   return (
-    <main className="min-h-screen font-sans mt-[80px]">
+    <div className="min-h-screen font-sans mt-[80px]">
       <MedicalPseoSchema type="compare" compareSlug={slug} />
-      {/* 🤖 Googlebot SERP Thumbnail Signal */}
-      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
-        <img
-          src={getHeroImageForService(comparison.serviceA.slug)}
-          alt={`${comparison.serviceA.name} vs ${comparison.serviceB.name} — Henotic Diagnostics`}
-          width={1200}
-          height={630}
-          itemProp="image"
-          loading="eager"
-        />
-        <figcaption itemProp="caption">{comparison.title}</figcaption>
-      </figure>
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-[#1e1b4b] py-20 md:py-28 px-4 md:px-8">
         {/* Decorative orbs */}
@@ -539,20 +482,6 @@ export default async function ComparisonPage({
           </div>
         </div>
       </section>
-
-      {/* ═══════════════ STRUCTURED DATA ═══════════════ */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqSchema),
-        }}
-      />
-    </main>
+    </div>
   );
 }

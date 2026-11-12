@@ -8,7 +8,7 @@ import { isValidServiceSlug, isValidLocationForRegion } from '@/lib/seo/slug-val
 import { isHealthCheckupService } from '@/config/health-packages';
 import { getHeroImageForService } from '@/config/services';
 
-export const revalidate = 86400; // 24 hours cache revalidation
+export const revalidate = 604800; // 7 days cache revalidation
 
 // ==========================================
 // 1. DYNAMIC SEO METADATA GENERATOR

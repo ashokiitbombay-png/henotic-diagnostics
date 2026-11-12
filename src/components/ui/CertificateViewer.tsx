@@ -277,7 +277,6 @@ export default function CertificateViewer({ src, alt, onClose }: CertificateView
             alt={alt}
             width={1200}
             height={900}
-            quality={95}
             className="max-w-[90vw] max-h-[80vh] object-contain rounded-2xl select-none pointer-events-none"
             style={{ 
               filter: 'drop-shadow(0 20px 60px rgba(0,0,0,0.5))',

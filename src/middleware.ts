@@ -9,7 +9,7 @@ import type { NextRequest } from 'next/server';
  * 2. Scraper protection (blocks python-requests, empty UA, script engines)
  * 3. Whitelists verified search bots (Googlebot, Bingbot, Yandex, Applebot)
  * 4. Canonical 301 www redirect (henoticdiagnostics.com → www.henoticdiagnostics.com)
- * 5. Strict security headers (nosniff, DENY, XSS-protection, strict-origin)
+ * 5. Strict security headers (nosniff, DENY, strict-origin)
  */
 
 // Legitimate search engine bots and accredited crawlers to always whitelist
@@ -75,7 +75,6 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-Frame-Options', 'DENY');
-  response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
   return response;
@@ -83,6 +82,17 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|icon.svg|robots.txt|.*\\.txt|sitemap.xml|sitemap/|sitemaps/).*)',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - booking-system (static portal)
+     * - seo-image-optimizer (static tool)
+     * - favicon.ico, icon.svg, manifest.json, sw.js
+     * - robots.txt, sitemap*.xml
+     * - static files with extensions (.png, .jpg, .webp, .avif, .svg, .woff2, .css, .js, etc.)
+     */
+    '/((?!api|_next/static|_next/image|booking-system|seo-image-optimizer|favicon\\.ico|icon\\.svg|manifest\\.json|sw\\.js|robots\\.txt|sitemap.*|.*\\.(?:png|jpg|jpeg|webp|avif|svg|ico|js|css|woff2|xml|json|txt)$).*)',
   ],
 };

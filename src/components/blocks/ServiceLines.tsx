@@ -56,7 +56,6 @@ export default function ServiceLines() {
                   alt={s.title}
                   className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-40"
                   loading="lazy"
-                  quality={80}
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-900/60 to-transparent"></div>
@@ -99,7 +98,6 @@ export default function ServiceLines() {
                     height={450}
                     className="w-full h-[220px] sm:h-[280px] md:h-[340px] object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
-                    quality={80}
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 sm:p-6">
@@ -129,7 +127,6 @@ export default function ServiceLines() {
                         height={200}
                         className="w-full h-[100px] sm:h-[120px] object-cover transition-transform duration-500 group-hover:scale-110"
                         loading="lazy"
-                        quality={80}
                         sizes="25vw"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2">

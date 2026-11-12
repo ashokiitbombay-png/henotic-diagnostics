@@ -29,16 +29,16 @@ export const HENOTIC_MEDICAL_ORGANIZATION = {
   isAcceptingNewPatients: true,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Sector 15, Hiranandani Crystal Plaza',
-    addressLocality: 'Kharghar, Navi Mumbai',
+    streetAddress: 'Second floor, Millennium Empire, Business Park, Plot No 47, D Mart Rd',
+    addressLocality: 'Sector 15, Kharghar, Navi Mumbai',
     addressRegion: 'Maharashtra',
     postalCode: '410210',
     addressCountry: 'IN'
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 19.033,
-    longitude: 73.067
+    latitude: 19.0445195,
+    longitude: 73.0787376
   },
   openingHoursSpecification: [
     {
@@ -122,7 +122,7 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
   const faqs = getFAQsForService(serviceSlug, serviceName);
 
   // 1A. DiagnosticProcedure Schema
-  const diagnosticProcedureSchema = {
+  const diagnosticProcedureSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'DiagnosticProcedure',
     '@id': `${pageUrl}#procedure`,
@@ -131,24 +131,19 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     description: wpMeta.cleanSummary || `Accurate NABL-accredited ${serviceName} in ${formattedLocation} by Henotic Diagnostics. Fast digital reporting, high precision equipment.`,
     url: pageUrl,
     image: getHeroImageForService(serviceSlug),
-    procedureType: 'https://schema.org/DiagnosticProcedure',
     bodyLocation,
     howPerformed: wpMeta.howPerformedText || `High-resolution diagnostic imaging and laboratory testing performed by certified technicians and interpreted by senior radiologists/pathologists.`,
-    status: 'https://schema.org/EventScheduled',
-    code: {
-      '@type': 'MedicalCode',
-      code: serviceSlug,
-      codingSystem: 'Henotic-Internal-PSEO'
-    },
-    offers: {
-      '@type': 'Offer',
-      price: pricingData?.henoticPrice ? String(pricingData.henoticPrice) : '1500',
-      priceCurrency: 'INR',
-      availability: 'https://schema.org/InStock',
-      url: pageUrl,
-      validFrom: '2026-01-01',
-      seller: HENOTIC_MEDICAL_ORGANIZATION
-    },
+    ...(pricingData?.henoticPrice ? {
+      offers: {
+        '@type': 'Offer',
+        price: String(pricingData.henoticPrice),
+        priceCurrency: 'INR',
+        availability: 'https://schema.org/InStock',
+        url: pageUrl,
+        validFrom: '2026-01-01',
+        seller: HENOTIC_MEDICAL_ORGANIZATION
+      }
+    } : {}),
     provider: HENOTIC_MEDICAL_ORGANIZATION
   };
 
@@ -172,8 +167,7 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
       height: 630
     },
     image: [heroImageUrl],
-    lastReviewed: new Date().toISOString().split('T')[0],
-    dateModified: new Date().toISOString().split('T')[0],
+    dateModified: '2026-10-31',
     aspect: 'Diagnosis',
     medicalAudience: {
       '@type': 'MedicalAudience',
@@ -549,19 +543,21 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
       name: 'National Accreditation Board for Testing and Calibration Laboratories (NABL)',
       url: 'https://nabl-india.org/'
     },
-    offers: {
-      '@type': 'Offer',
-      price: pricingData?.henoticPrice ? String(pricingData.henoticPrice) : '1500',
-      priceCurrency: 'INR',
-      availability: 'https://schema.org/InStock',
-      priceValidUntil: '2027-12-31',
-      url: pageUrl,
-      seller: {
-        '@type': 'MedicalBusiness',
-        name: 'Henotic Diagnostics',
-        '@id': `${BASE_URL}/#clinic`
+    ...(pricingData?.henoticPrice ? {
+      offers: {
+        '@type': 'Offer',
+        price: String(pricingData.henoticPrice),
+        priceCurrency: 'INR',
+        availability: 'https://schema.org/InStock',
+        priceValidUntil: '2027-12-31',
+        url: pageUrl,
+        seller: {
+          '@type': 'MedicalBusiness',
+          name: 'Henotic Diagnostics',
+          '@id': `${BASE_URL}/#clinic`
+        }
       }
-    },
+    } : {}),
     provider: HENOTIC_MEDICAL_ORGANIZATION
   };
 
@@ -589,29 +585,17 @@ export function generateLocationClinicSchema(params: LocationClinicParams) {
     ? `${BASE_URL}/services/${serviceSlug}/${regionSlug}/${locationSlug}`
     : `${BASE_URL}/services`;
 
-  // Review stats from verified reviews or stable hash
-  let ratingValue = '4.8';
-  let reviewCount = '200';
-  if (REAL_LOCATION_REVIEWS[locationSlug]) {
-    ratingValue = REAL_LOCATION_REVIEWS[locationSlug].ratingValue;
-    reviewCount = REAL_LOCATION_REVIEWS[locationSlug].reviewCount;
-  } else {
-    let hash = 0;
-    for (let i = 0; i < locationSlug.length; i++) {
-      hash = locationSlug.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    reviewCount = (380 + (Math.abs(hash) % 870)).toString();
-    ratingValue = (4.7 + (Math.abs(hash) % 3) * 0.1).toFixed(1);
-  }
+  // Only emit real, verified reviews from configuration; never generate synthetic ratings
+  const realReview = REAL_LOCATION_REVIEWS[locationSlug];
 
-  const medicalClinicSchema = {
+  const medicalClinicSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'MedicalClinic',
     '@id': `${pageUrl}#clinic`,
     name: `Henotic Diagnostics - ${locationName}`,
-    alternateName: `Henotic Diagnostic Center ${locationName}, ${regionName}`,
+    alternateName: `Henotic Diagnostics serving ${locationName}`,
     description: serviceName
-      ? `Book ${serviceName} at Henotic Diagnostics ${locationName}, ${regionName}. NABL accredited center with 24/7 availability, instant digital reports, and up to 50% savings.`
+      ? `Book ${serviceName} at Henotic Diagnostics serving ${locationName}, ${regionName}. NABL accredited center with 24/7 availability, instant digital reports, and up to 50% savings.`
       : `Premium NABL-accredited diagnostic center serving ${locationName}, ${regionName}. MRI, CT, PET-CT, Ultrasound, Pathology & more.`,
     url: pageUrl,
     image: serviceSlug ? getHeroImageForService(serviceSlug) : `${BASE_URL}/icon.svg`,
@@ -639,41 +623,37 @@ export function generateLocationClinicSchema(params: LocationClinicParams) {
     ],
     address: {
       '@type': 'PostalAddress',
-      streetAddress: loc?.formattedAddress || `Henotic Diagnostics, ${locationName}`,
+      streetAddress: loc?.formattedAddress || `Henotic Diagnostics serving ${locationName}`,
       addressLocality: loc?.name || locationName,
       addressRegion: loc ? `${loc.city}, Maharashtra` : regionName,
       postalCode: loc?.pincode,
       addressCountry: 'IN'
     },
-    geo: {
+    geo: loc ? {
       '@type': 'GeoCoordinates',
-      latitude: loc?.latitude ?? 19.033,
-      longitude: loc?.longitude ?? 73.067
-    },
+      latitude: loc.latitude,
+      longitude: loc.longitude
+    } : HENOTIC_MEDICAL_ORGANIZATION.geo,
     areaServed: {
       '@type': 'AdministrativeArea',
       name: loc ? `${loc.name} (${loc.pincode})` : locationName,
       postalCode: loc?.pincode
     },
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '00:00',
-      closes: '23:59'
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue,
-      reviewCount,
-      bestRating: '5',
-      worstRating: '1'
-    },
+    openingHoursSpecification: HENOTIC_MEDICAL_ORGANIZATION.openingHoursSpecification,
+    ...(realReview ? {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: realReview.ratingValue,
+        reviewCount: realReview.reviewCount,
+        bestRating: '5',
+        worstRating: '1'
+      }
+    } : {}),
     availableService: serviceSlug ? {
       '@type': 'MedicalTest',
       name: serviceName || serviceSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
       url: `${BASE_URL}/services/${serviceSlug}`
     } : undefined,
-
     parentOrganization: {
       '@type': 'MedicalBusiness',
       name: 'Henotic Diagnostics',

@@ -20,6 +20,15 @@ interface BookingData {
   utmContent?: string;
 }
 
+function escapeHtml(str: string = ''): string {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 /**
  * Sends a notification email to the clinic administration with patient details.
  */
@@ -28,52 +37,63 @@ async function sendBookingEmail(data: BookingData, appointmentId: string) {
   const port = parseInt(process.env.SMTP_PORT || "587");
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS || process.env.SMTP_PASSWORD;
+  const adminEmail = process.env.ADMIN_EMAIL || "info@henoticdiagnostics.com";
 
-  const emailSubject = `🚨 NEW PRIORITY BOOKING - ${data.name} (${data.service})`;
-  // HTML template omitted for brevity in variables below, kept in the file
+  const safeName = escapeHtml(data.name);
+  const safePhone = escapeHtml(data.phone);
+  const safeService = escapeHtml(data.service);
+  const safeLocation = escapeHtml(data.location || "General / Not Specified");
+  const safeDate = escapeHtml(data.date || "Not Specified");
+  const safeTime = escapeHtml(data.time || "Not Specified");
+  const safeApptId = escapeHtml(appointmentId);
+  const safeUtmSource = escapeHtml(data.utmSource || "Organic / Direct");
+  const safeUtmMedium = escapeHtml(data.utmMedium || "Organic / Direct");
+  const safeUtmCampaign = escapeHtml(data.utmCampaign || "Organic / Direct");
+
+  const emailSubject = `🚨 NEW PRIORITY BOOKING - ${safeName} (${safeService})`;
   const emailHtml = `
-    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; rounded-2xl;">
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 16px;">
       <h2 style="color: #0f172a; margin-bottom: 20px;">New Appointment Booking Details</h2>
       <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%; border-color: #cbd5e1;">
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; width: 35%; color: #334155;">Patient Name</td>
-          <td style="color: #0f172a;">${data.name}</td>
+          <td style="color: #0f172a;">${safeName}</td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">Mobile Phone</td>
-          <td style="color: #0f172a;">${data.phone}</td>
+          <td style="color: #0f172a;">${safePhone}</td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">Selected Scan/Test</td>
-          <td style="color: #0f172a;">${data.service}</td>
+          <td style="color: #0f172a;">${safeService}</td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">Clinic Location</td>
-          <td style="color: #0f172a;">${data.location || "General / Not Specified"}</td>
+          <td style="color: #0f172a;">${safeLocation}</td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">Date</td>
-          <td style="color: #0f172a;">${data.date || "Not Specified"}</td>
+          <td style="color: #0f172a;">${safeDate}</td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">Time Slot</td>
-          <td style="color: #0f172a;">${data.time || "Not Specified"}</td>
+          <td style="color: #0f172a;">${safeTime}</td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">Appointment ID</td>
-          <td style="color: #0f172a;"><strong>${appointmentId}</strong></td>
+          <td style="color: #0f172a;"><strong>${safeApptId}</strong></td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">UTM Source</td>
-          <td style="color: #0f172a;">${data.utmSource || "Organic / Direct"}</td>
+          <td style="color: #0f172a;">${safeUtmSource}</td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">UTM Medium</td>
-          <td style="color: #0f172a;">${data.utmMedium || "Organic / Direct"}</td>
+          <td style="color: #0f172a;">${safeUtmMedium}</td>
         </tr>
         <tr>
           <td style="background-color: #f8fafc; font-weight: bold; color: #334155;">UTM Campaign</td>
-          <td style="color: #0f172a;">${data.utmCampaign || "Organic / Direct"}</td>
+          <td style="color: #0f172a;">${safeUtmCampaign}</td>
         </tr>
       </table>
       <p style="color: #64748b; font-size: 12px; margin-top: 25px; text-align: center;">Sent from Henotic Diagnostics Portal Booking Server Action.</p>
@@ -95,12 +115,12 @@ async function sendBookingEmail(data: BookingData, appointmentId: string) {
 
     await transporter.sendMail({
       from: `"Henotic Diagnostics" <${user}>`,
-      to: "ashokiitbombay@gmail.com",
+      to: adminEmail,
       subject: emailSubject,
       html: emailHtml
     });
 
-    console.log(`✅ [EMAIL SUCCESS] Booking alert email successfully sent to "ashokiitbombay@gmail.com".`);
+    console.log(`✅ [EMAIL SUCCESS] Booking alert email successfully sent to ${adminEmail}.`);
     return { success: true };
   } catch (error: any) {
     console.error("❌ [EMAIL ERROR] Failed sending SMTP email:", error.message);

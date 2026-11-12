@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { MapPin, Star, HelpCircle, CheckCircle2 } from 'lucide-react';
-import { REGION_LOCATIONS, REAL_LOCATION_REVIEWS, CITY_MICRO_NEIGHBORHOODS } from '@/config/locations';
+import { MapPin, HelpCircle } from 'lucide-react';
+import { REGION_LOCATIONS, CITY_MICRO_NEIGHBORHOODS } from '@/config/locations';
 
 const formatSlug = (slug: string) => slug?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '';
 
@@ -14,53 +14,19 @@ export default function LocalSEOMastery({ service, region, location }: { service
   const faqs = [
     {
       question: `How much does a ${serviceName} cost in ${locationName}?`,
-      answer: `The cost of a ${serviceName} at our ${locationName} diagnostic center is highly competitive. We offer transparent pricing with zero hidden fees. Contact us directly for today's discounted rate.`
+      answer: `The cost of a ${serviceName} serving ${locationName} is highly competitive. We offer transparent pricing with zero hidden fees. Contact us directly for today's discounted rate.`
     },
     {
       question: `How quickly can I get my ${serviceName} reports in ${regionName}?`,
       answer: `For patients visiting from ${locationName} and across ${regionName}, Henotic Diagnostics guarantees fast turnaround times. Most ${serviceName} reports are available the same day via secure WhatsApp delivery.`
     },
     {
-      question: `Is the ${locationName} center NABL & AERB accredited?`,
-      answer: `Yes! Our entire facility serving ${locationName} maintains strict NABL, ISO, and AERB accreditations to guarantee 100% precision for your ${serviceName}.`
+      question: `Is the diagnostic facility serving ${locationName} NABL & AERB accredited?`,
+      answer: `Yes! Our central diagnostic facility serving ${locationName} maintains strict NABL, ISO, and AERB accreditations to guarantee 100% precision for your ${serviceName}.`
     }
   ];
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
-  };
-
-  // 2. AGGREGATE REVIEW SCHEMA (Queries real reviews from config, falls back to deterministic hashes)
-  const getStableReviewStats = (loc: string) => {
-    const normalizedKey = loc.toLowerCase().trim();
-    if (REAL_LOCATION_REVIEWS[normalizedKey]) {
-      return {
-        count: REAL_LOCATION_REVIEWS[normalizedKey].reviewCount,
-        ratingValue: REAL_LOCATION_REVIEWS[normalizedKey].ratingValue
-      };
-    }
-    
-    let hash = 0;
-    for (let i = 0; i < loc.length; i++) {
-      hash = loc.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const count = 380 + (Math.abs(hash) % 870); // Stable count between 380 and 1250
-    const ratingValue = (4.7 + (Math.abs(hash) % 3) * 0.1).toFixed(1); // Stable rating of 4.7, 4.8, or 4.9
-    return { count: count.toString(), ratingValue };
-  };
-
-  const { count: reviewCount, ratingValue } = getStableReviewStats(location);
-
-  // 3. PROGRAMMATIC CROSS-LINKING (Nearby Hubs resolved dynamically from the same region)
+  // 2. PROGRAMMATIC CROSS-LINKING (Nearby Hubs resolved dynamically from the same region)
   const regionCities = REGION_LOCATIONS[region] || [];
   const nearbyLocations = regionCities.filter(l => l !== location).slice(0, 4);
 
@@ -71,12 +37,12 @@ export default function LocalSEOMastery({ service, region, location }: { service
       {/* THIN CONTENT KILLER: Hyper-Local Dynamic Text Block */}
       <div className="bg-white/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-sm border border-white mb-12">
         <h3 className="text-2xl font-black text-slate-800 mb-4 flex items-center gap-2">
-          <MapPin className="text-[#EC6EAD]" /> Precision {serviceName} in {locationName}
+          <MapPin className="text-[#EC6EAD]" /> Precision {serviceName} serving {locationName}
         </h3>
         <p className="text-slate-600 leading-relaxed font-medium mb-6">
-          If you are looking for a highly accurate <strong>{serviceName}</strong> near <strong>{locationName}</strong>, Henotic Diagnostics is your trusted partner. 
-          Easily accessible from all major points in <strong>{regionName}</strong>, our world-class facility combines highly experienced radiologists with state-of-the-art medical technology. 
-          Patients from {locationName} consistently rate us <strong className="text-amber-500">{ratingValue}/5 Stars</strong> (based on {reviewCount} reviews) for our compassionate care, zero wait times, and instant report delivery.
+          If you are looking for a highly accurate <strong>{serviceName}</strong> serving <strong>{locationName}</strong>, Henotic Diagnostics is your trusted partner. 
+          Easily accessible from all major points across <strong>{regionName}</strong>, our state-of-the-art diagnostic facilities combine certified technologists with senior specialist reporting. 
+          Patients from across {locationName} and {regionName} trust Henotic Diagnostics for comprehensive diagnostic excellence, seamless appointment scheduling, and rapid digital report delivery.
         </p>
 
         {/* Dynamic Micro-neighborhood Targeting */}
@@ -121,7 +87,7 @@ export default function LocalSEOMastery({ service, region, location }: { service
             </h3>
             <div className="grid grid-cols-2 gap-4">
               {nearbyLocations.map((loc) => (
-                <Link key={loc} href={`/services/${service}/${region}/${loc}`} className="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-white shadow-sm hover:-translate-y-1 hover:shadow-md transition-all flex items-center gap-2 group">
+                <Link key={loc} href={`/services/${service}/${region}/${loc}`} prefetch={false} className="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-white shadow-sm hover:-translate-y-1 hover:shadow-md transition-all flex items-center gap-2 group">
                   <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-[#3494E6]/10 transition-colors">
                     <MapPin size={14} className="text-slate-500 group-hover:text-[#3494E6]" />
                   </div>

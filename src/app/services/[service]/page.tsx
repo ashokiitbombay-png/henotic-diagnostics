@@ -11,7 +11,7 @@ import { isHealthCheckupAuthoritySlug } from '@/config/health-checkup';
 import { getHealthCheckupPageData } from '@/lib/payload/health-checkups';
 import HealthCheckupAuthorityPage, { buildHealthCheckupMetadata } from '@/components/health-checkup/HealthCheckupAuthorityPage';
 
-export const revalidate = 86400; // 24 hours cache revalidation
+export const revalidate = 604800; // 7 days cache revalidation
 
 export async function generateMetadata({ params }: { params: Promise<{ service: string }> }): Promise<Metadata> {
   const resolvedParams = await params;

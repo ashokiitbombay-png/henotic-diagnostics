@@ -110,7 +110,6 @@ export default function HeroBlock({ title, description, locationName, regionName
                     height={500}
                     className="rounded-[2.5rem] w-full h-auto object-cover aspect-[4/3] lg:aspect-square"
                     priority
-                    quality={85}
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </div>

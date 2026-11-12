@@ -1,5 +1,5 @@
 import { revalidateTag } from 'next/cache';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { getClientIP } from '@/lib/rate-limit';
 import { verifyHMAC, verifyPayloadCMSSignature, timingSafeCompare, verifyTimestamp, checkNonce } from '@/lib/webhook/security';
 import { webhookRateLimit } from '@/lib/webhook/rate-limiter';
@@ -55,11 +55,11 @@ function normalizePayload(source: CMSSource, body: Record<string, unknown>): Nor
       pages: 'page',
       conditions: 'condition',
       'blog-posts': 'post',
-      // Health checkup authority pages → revalidates CACHE_TAGS.service(slug) + servicesList
-      'health-checkup-pages': 'service',
-      // Packages & trust global are shared by all 26 pages → servicesList tag is revalidated
-      'health-packages': 'service',
-      'global:health-checkup-trust': 'service',
+      // Health checkup authority pages → revalidates CACHE_TAGS.service(slug) + healthPackages
+      'health-checkup-pages': 'health-checkup-page',
+      // Packages & trust global are shared by the 26 authority pages → healthPackages tag is revalidated
+      'health-packages': 'health-packages',
+      'global:health-checkup-trust': 'health-packages',
     };
 
     return {
@@ -261,7 +261,11 @@ export async function POST(request: NextRequest) {
     if (contentType === 'service') {
       await wpCacheInvalidate('service', slug);
       revalidateTag(CACHE_TAGS.service(slug), 'max');
-      revalidateTag(CACHE_TAGS.servicesList, 'max');
+    } else if (contentType === 'health-packages') {
+      revalidateTag(CACHE_TAGS.healthPackages, 'max');
+    } else if (contentType === 'health-checkup-page') {
+      revalidateTag(CACHE_TAGS.service(slug), 'max');
+      revalidateTag(CACHE_TAGS.healthPackages, 'max');
     } else if (contentType === 'post') {
       await wpCacheInvalidate('post', slug);
       await wpCachePurgeByPrefix('posts');
@@ -295,16 +299,17 @@ export async function POST(request: NextRequest) {
 /**
  * Schedule a flush of the dedup queue after the debounce window.
  *
- * In serverless (Vercel), the function has a generous execution timeout
- * (10s default, 60s max on Pro). The 5s debounce window fits within this.
+ * Uses Next.js after() to keep serverless execution alive until the background
+ * debounce promise and flush finish, preventing dropped revalidations.
  */
 function scheduleFlush(type: string): void {
-  setTimeout(async () => {
+  after(async () => {
+    await new Promise((resolve) => setTimeout(resolve, FLUSH_DELAY_MS));
     try {
       const result = await flushAndProcess(type);
       console.log(`🔄 [Flush] ${type}: ${result.mode} — ${result.processed} slug(s) processed`);
     } catch (err) {
       console.error(`[Flush] Error processing ${type} queue:`, err);
     }
-  }, FLUSH_DELAY_MS);
+  });
 }

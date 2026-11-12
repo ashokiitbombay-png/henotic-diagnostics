@@ -8,6 +8,7 @@ import ThirdPartyScripts from '@/components/seo/ThirdPartyScripts';
 import SiteHeader from "@/components/layout/SiteHeader";
 import ClientWidgets from "@/components/layout/ClientWidgets";
 import Providers from '@/providers/Providers';
+import SecondFooter from "@/components/layout/SecondFooter";
 import "./globals.css";
 
 /**
@@ -17,24 +18,20 @@ import "./globals.css";
  */
 const systemFontClass = 'font-system';
 
-// 🚀 Lazy-load below-fold server components
-const SecondFooter = dynamic(() => import("@/components/layout/SecondFooter"));
+// Lazy-load footer
 const SiteFooter = dynamic(() => import("@/components/layout/SiteFooter"));
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.henoticdiagnostics.com'),
   title: {
     default: 'Henotic Diagnostics | Premier Diagnostic Center',
-    template: '%s | Henotic Diagnostics'
+    template: '%s',
   },
   description: "Mumbai & Navi Mumbai's premier diagnostic center featuring advanced 3.0T MRI, low-dose CT, and automated pathology. NABL Accredited.",
   verification: {
     other: {
       'google-adsense-account': 'ca-pub-2224247495448831',
     },
-  },
-  alternates: {
-    canonical: 'https://www.henoticdiagnostics.com',
   },
   robots: {
     index: true,
@@ -82,18 +79,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
           <meta name="apple-mobile-web-app-title" content="Henotic Diagnostics" />
           <meta name="msvalidate.01" content="478B90B2BD25B2CF940C5CD10D182CAB" />
-          {/* Hreflang for multi-language SEO */}
-          <link rel="alternate" hrefLang="en-IN" href="https://www.henoticdiagnostics.com" />
-          <link rel="alternate" hrefLang="hi-IN" href="https://www.henoticdiagnostics.com" />
-          <link rel="alternate" hrefLang="mr-IN" href="https://www.henoticdiagnostics.com" />
-          <link rel="alternate" hrefLang="x-default" href="https://www.henoticdiagnostics.com" />
-          {/* Preload LCP hero image — direct from GCS CDN, no /_next/image proxy */}
-          <link
-            rel="preload"
-            as="image"
-            href="https://cdn.henoticdiagnostics.com/Reception%20Area/henotic-diagnostics-mri-scan-panvel.webp"
-            type="image/webp"
-          />
         </head>
       <body suppressHydrationWarning className={`${systemFontClass} flex flex-col min-h-screen bg-gray-50`}>
         <Providers>
@@ -114,7 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
           <ThirdPartyScripts />
-                    <MedicalClinicSchema />
+          <MedicalClinicSchema />
           <OrganizationSchema />
           {/* WebSite Schema for Sitelinks Search Box */}
           <script
@@ -124,11 +109,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               '@type': 'WebSite',
               name: 'Henotic Diagnostics',
               url: 'https://www.henoticdiagnostics.com',
-              potentialAction: {
-                '@type': 'SearchAction',
-                target: 'https://www.henoticdiagnostics.com/services?q={search_term_string}',
-                'query-input': 'required name=search_term_string',
-              },
             }) }}
           />
           <SiteHeader />
@@ -142,7 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ClientWidgets />
           <Analytics />
         </Providers>
-        </body>
+      </body>
     </html>
   );
 }

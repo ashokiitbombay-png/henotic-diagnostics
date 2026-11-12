@@ -111,6 +111,7 @@ export default function PeopleAlsoSearchFor({ currentServiceSlug }: Props) {
           <Link
             key={item.slug}
             href={item.slug.startsWith('/') ? item.slug : `/services/${item.slug}`}
+            prefetch={false}
             className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm font-bold text-slate-600 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200"
           >
             {item.label}

@@ -5,20 +5,20 @@ import Image from "next/image";
 import { Network, Shield, MapPin } from "lucide-react";
 
 const allPartners = [
-  { name: "Apollo Hospitals", logo: "/media-cdn/Partners-Logos/apollo-hospitals.webp" },
-  { name: "White Lotus International Hospital", logo: "/media-cdn/Partners-Logos/white-lotus-nternational-hospital.webp" },
-  { name: "Nuclear Healthcare", logo: "/media-cdn/Partners-Logos/nuclear-healthcare.webp" },
-  { name: "MPCT Hospital", logo: "/media-cdn/Partners-Logos/mpct-hospital.webp" },
-  { name: "Medicover Hospital", logo: "/media-cdn/Partners-Logos/medicover-hospital.webp" },
-  { name: "Agarwal Diagnostics", logo: "/media-cdn/Partners-Logos/agarwal-diagnostics.webp" },
-  { name: "WeCare Diagnostics", logo: "/media-cdn/Partners-Logos/wecare-diagnostics.webp" },
-  { name: "Polaris Hospitals", logo: "/media-cdn/Partners-Logos/polaris-hopsital.webp" },
-  { name: "Neuberg Diagnostics", logo: "/media-cdn/Partners-Logos/neuberg-diagnostics-logo.webp" },
-  { name: "NDC Diagnostics", logo: "/media-cdn/Partners-Logos/ndc-diagnostics.webp" },
-  { name: "Medcare", logo: "/media-cdn/Partners-Logos/medcare.webp" },
-  { name: "Lotus Panvel", logo: "/media-cdn/Partners-Logos/lotus-panvel-ct-mri-scan.webp" },
-  { name: "Heart Mate", logo: "/media-cdn/Partners-Logos/heart-mate-logo.webp" },
-  { name: "General Diagnostics", logo: "/media-cdn/Partners-Logos/general-diagnostics.webp" },
+  { name: "Apollo Hospitals", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/apollo-hospitals.webp" },
+  { name: "White Lotus International Hospital", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/white-lotus-nternational-hospital.webp" },
+  { name: "Nuclear Healthcare", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/nuclear-healthcare.webp" },
+  { name: "MPCT Hospital", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/mpct-hospital.webp" },
+  { name: "Medicover Hospital", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/medicover-hospital.webp" },
+  { name: "Agarwal Diagnostics", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/agarwal-diagnostics.webp" },
+  { name: "WeCare Diagnostics", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/wecare-diagnostics.webp" },
+  { name: "Polaris Hospitals", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/polaris-hopsital.webp" },
+  { name: "Neuberg Diagnostics", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/neuberg-diagnostics-logo.webp" },
+  { name: "NDC Diagnostics", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/ndc-diagnostics.webp" },
+  { name: "Medcare", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/medcare.webp" },
+  { name: "Lotus Panvel", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/lotus-panvel-ct-mri-scan.webp" },
+  { name: "Heart Mate", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/heart-mate-logo.webp" },
+  { name: "General Diagnostics", logo: "https://cdn.henoticdiagnostics.com/Partners-Logos/general-diagnostics.webp" },
 ];
 
 function LogoCard({ partner }: { partner: typeof allPartners[0] }) {
@@ -30,6 +30,7 @@ function LogoCard({ partner }: { partner: typeof allPartners[0] }) {
         title={partner.name}
         width={180}
         height={120}
+        unoptimized
         className="max-w-full max-h-full object-contain transition-all duration-300 group-hover:drop-shadow-lg"
       />
     </div>

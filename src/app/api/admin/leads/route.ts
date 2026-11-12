@@ -1,24 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStoredLeads, getStoredPayments, getStoredInquiries } from '@/lib/leads/lead-service';
+import { timingSafeCompare } from '@/lib/webhook/security';
 
 export const dynamic = 'force-dynamic';
 
+const NO_STORE_HEADERS = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+};
+
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization') || '';
+  const adminHeader = request.headers.get('x-admin-token') || '';
+  const token = adminHeader || authHeader.replace(/^Bearer\s+/i, '');
   const searchParams = request.nextUrl.searchParams;
-  const token = searchParams.get('token') || authHeader.replace(/^Bearer\s+/i, '');
   const format = searchParams.get('format') || 'json';
   const type = searchParams.get('type') || 'leads';
 
-  // Secure token access: uses PAYLOAD_SECRET or development fallback
-  const validSecrets = [
-    process.env.PAYLOAD_SECRET,
-    process.env.ADMIN_EXPORT_TOKEN,
-    process.env.NODE_ENV === 'development' ? 'henotic_admin_lead_export' : null,
-  ].filter(Boolean);
+  const expectedToken = process.env.ADMIN_EXPORT_TOKEN ||
+    (process.env.NODE_ENV === 'development' ? 'henotic_admin_lead_export' : '');
 
-  if (!token || !validSecrets.includes(token)) {
-    return NextResponse.json({ error: 'Unauthorized lead export access' }, { status: 401 });
+  if (!token || !expectedToken || !timingSafeCompare(token, expectedToken)) {
+    return NextResponse.json(
+      { error: 'Unauthorized lead export access' },
+      { status: 401, headers: NO_STORE_HEADERS }
+    );
   }
 
   // 1. Payments Export
@@ -43,10 +48,11 @@ export async function GET(request: NextRequest) {
         headers: {
           'Content-Type': 'text/csv; charset=utf-8',
           'Content-Disposition': `attachment; filename="henotic_payments_${new Date().toISOString().split('T')[0]}.csv"`,
+          ...NO_STORE_HEADERS,
         },
       });
     }
-    return NextResponse.json({ total: payments.length, payments });
+    return NextResponse.json({ total: payments.length, payments }, { headers: NO_STORE_HEADERS });
   }
 
   // 2. Newsletter / Inquiries Export
@@ -65,10 +71,11 @@ export async function GET(request: NextRequest) {
         headers: {
           'Content-Type': 'text/csv; charset=utf-8',
           'Content-Disposition': `attachment; filename="henotic_inquiries_${new Date().toISOString().split('T')[0]}.csv"`,
+          ...NO_STORE_HEADERS,
         },
       });
     }
-    return NextResponse.json({ total: inquiries.length, inquiries });
+    return NextResponse.json({ total: inquiries.length, inquiries }, { headers: NO_STORE_HEADERS });
   }
 
   // 3. Leads Export (Default)
@@ -96,6 +103,7 @@ export async function GET(request: NextRequest) {
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
         'Content-Disposition': `attachment; filename="henotic_leads_${new Date().toISOString().split('T')[0]}.csv"`,
+        ...NO_STORE_HEADERS,
       },
     });
   }
@@ -103,5 +111,5 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     total: leads.length,
     leads,
-  });
+  }, { headers: NO_STORE_HEADERS });
 }

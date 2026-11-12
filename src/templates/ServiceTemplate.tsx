@@ -6,6 +6,7 @@ import ServiceHero from '@/components/blocks/ServiceHero';
 import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
 import HealthPackagesSchema from '@/components/health-packages/HealthPackagesSchema';
 import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
+import ClinicalServiceOverview from '@/components/clinical/ClinicalServiceOverview';
 import { isHealthCheckupService } from '@/config/health-packages';
 import MedicalProcedureSchema from "@/components/seo/MedicalProcedureSchema";
 import ProductSchema from "@/components/seo/ProductSchema";
@@ -33,7 +34,7 @@ export default function ServiceTemplate({
   const pricing = getPricingForService(service);
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       {/* MedicalPseoSchema generates ALL core schemas: DiagnosticProcedure, MedicalTest, 
           MedicalWebPage, BreadcrumbList, and FAQPage.
           DO NOT add duplicate ServiceSchema, BreadcrumbSchema, or FAQSchema here. */}
@@ -79,15 +80,10 @@ export default function ServiceTemplate({
                 formattedService={formattedService}
               />
             ) : (
-              <div className="py-16 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
-                <div className="w-16 h-16 bg-slate-200 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                </div>
-                <h3 className="text-xl font-bold text-slate-600 mb-2">Connecting to Backend...</h3>
-                <p className="text-slate-500 max-w-md mx-auto">
-                  No content found for <strong>{service}</strong>. Please ensure the page is published in WordPress and WPGraphQL is active.
-                </p>
-              </div>
+              <ClinicalServiceOverview
+                serviceSlug={service}
+                formattedService={formattedService}
+              />
             )}
           </div>
 
@@ -149,6 +145,6 @@ export default function ServiceTemplate({
       <PeopleAlsoSearchFor currentServiceSlug={service} />
       <RelatedServices currentService={service} />
 
-    </main>
+    </div>
   );
 }

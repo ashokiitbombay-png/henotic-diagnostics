@@ -5,9 +5,13 @@ export const runtime = 'edge';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const title = searchParams.get('title') || 'Henotic Diagnostics';
-  const subtitle = searchParams.get('subtitle') || 'Premier Diagnostic Center';
-  const price = searchParams.get('price') || '';
+  const rawTitle = searchParams.get('title') || 'Henotic Diagnostics';
+  const rawSubtitle = searchParams.get('subtitle') || 'Premier Diagnostic Center';
+  const rawPrice = searchParams.get('price') || '';
+
+  const title = rawTitle.slice(0, 80);
+  const subtitle = rawSubtitle.slice(0, 120);
+  const price = rawPrice.slice(0, 20);
 
   return new ImageResponse(
     (
@@ -157,6 +161,9 @@ export async function GET(request: NextRequest) {
     {
       width: 1200,
       height: 630,
+      headers: {
+        'Cache-Control': 'public, max-age=86400, s-maxage=31536000, stale-while-revalidate=86400',
+      },
     },
   );
 }

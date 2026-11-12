@@ -77,7 +77,6 @@ export default function GoogleReviews() {
               alt="Henotic Diagnostics Main Building Facility"
               className="relative z-10 w-full h-60 sm:h-72 object-cover rounded-3xl border-4 border-white shadow-xl"
               loading="lazy"
-              quality={80}
             />
 
             {/* Google Verified Float Badge */}

@@ -61,14 +61,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ── Mode A: Development / Staging Mock OTP (123456 or 999999) ──
+    // ── Mode A: Development Only Mock OTP (123456 or 999999) ──
+    // Strictly disallowed in production environments
+    const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
     const otpProvider = process.env.OTP_PROVIDER;
-    if (process.env.NODE_ENV === 'development' || otpProvider === 'mock' || otpProvider === 'demo') {
+    if (!isProd && (process.env.NODE_ENV === 'development' || otpProvider === 'mock' || otpProvider === 'demo')) {
       if (cleanOtp === '123456' || cleanOtp === '999999') {
         return NextResponse.json({
           verified: true,
           mock: true,
-          message: 'OTP verified successfully.',
+          message: 'OTP verified successfully (development mode).',
         });
       }
     }

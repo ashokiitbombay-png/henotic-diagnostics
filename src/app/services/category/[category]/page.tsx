@@ -1,11 +1,14 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
 import { SERVICE_CATEGORIES, getCategoryById } from '@/config/categories';
 import { getHeroImageForService } from '@/config/services';
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+export const dynamicParams = false;
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const { category } = await params;
@@ -48,7 +51,7 @@ export async function generateStaticParams() {
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
   const { category } = await params;
   const cat = getCategoryById(category);
-  if (!cat) return <div className="min-h-screen flex items-center justify-center mt-[80px]"><p>Category not found.</p></div>;
+  if (!cat) notFound();
 
   const heroImage = cat.services?.[0]
     ? getHeroImageForService(cat.services[0])
@@ -88,22 +91,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
-
-      {/* 🤖 Googlebot SERP Thumbnail Signal */}
-      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
-        <img
-          src={heroImage}
-          alt={`${cat.title} Services — Henotic Diagnostics`}
-          width={1200}
-          height={630}
-          itemProp="image"
-          loading="eager"
-        />
-        <figcaption itemProp="caption">{cat.title} Services at Henotic Diagnostics</figcaption>
-      </figure>
 
       {/* Hero */}
       <section className="bg-gradient-to-r from-blue-950 to-[#1e1b4b] py-20 px-4 md:px-8 relative overflow-hidden">
@@ -137,6 +127,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

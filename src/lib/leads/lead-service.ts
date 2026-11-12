@@ -41,35 +41,47 @@ export interface NewsletterInquiry {
   source: string;
 }
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const isVercel = !!process.env.VERCEL;
+const DATA_DIR = isVercel
+  ? path.join('/tmp', 'henotic-data')
+  : path.join(process.cwd(), 'data');
 const LEADS_FILE = path.join(DATA_DIR, 'leads.jsonl');
 const PAYMENTS_FILE = path.join(DATA_DIR, 'payments.jsonl');
 const INQUIRIES_FILE = path.join(DATA_DIR, 'inquiries.jsonl');
 
 function ensureDataDirectory() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+  } catch (err) {
+    // Graceful fallback on read-only environments
   }
 }
 
+let cachedClientPromise: Promise<any> | null = null;
+
 /**
  * Connect to MongoDB if available and valid.
- * Uses a short 2.5s connect timeout so it never blocks or slows down user submissions.
+ * Uses a cached singleton connection pool with a short 2.5s connect timeout.
  */
 async function getMongoCollection(collectionName: string) {
   const uri = process.env.MONGODB_URI;
   if (!uri) return null;
 
   try {
-    const { MongoClient } = await import('mongodb');
-    const client = new MongoClient(uri, {
-      connectTimeoutMS: 2500,
-      serverSelectionTimeoutMS: 2500,
-    });
-    await client.connect();
+    if (!cachedClientPromise) {
+      const { MongoClient } = await import('mongodb');
+      const client = new MongoClient(uri, {
+        connectTimeoutMS: 2500,
+        serverSelectionTimeoutMS: 2500,
+      });
+      cachedClientPromise = client.connect();
+    }
+    const client = await cachedClientPromise;
     return { client, collection: client.db('henotic_production').collection(collectionName) };
   } catch (err) {
-    // Expected when running offline or if SRV DNS is unresolvable
+    cachedClientPromise = null;
     return null;
   }
 }
@@ -98,11 +110,7 @@ export async function recordLead(lead: Omit<BookingLead, 'id' | 'createdAt'>): P
   getMongoCollection('leads')
     .then(async (mongo) => {
       if (mongo) {
-        try {
-          await mongo.collection.insertOne({ _id: fullLead.id as any, ...fullLead });
-        } finally {
-          await mongo.client.close();
-        }
+        await mongo.collection.insertOne({ _id: fullLead.id as any, ...fullLead });
       }
     })
     .catch((mongoErr) => {
@@ -133,11 +141,7 @@ export async function recordPayment(payment: Omit<PaymentRecord, 'id' | 'created
   getMongoCollection('payments')
     .then(async (mongo) => {
       if (mongo) {
-        try {
-          await mongo.collection.insertOne({ _id: fullRecord.id as any, ...fullRecord });
-        } finally {
-          await mongo.client.close();
-        }
+        await mongo.collection.insertOne({ _id: fullRecord.id as any, ...fullRecord });
       }
     })
     .catch(() => {});
@@ -166,11 +170,7 @@ export async function recordInquiry(email: string, source: string = 'newsletter'
   getMongoCollection('inquiries')
     .then(async (mongo) => {
       if (mongo) {
-        try {
-          await mongo.collection.insertOne({ _id: inquiry.id as any, ...inquiry });
-        } finally {
-          await mongo.client.close();
-        }
+        await mongo.collection.insertOne({ _id: inquiry.id as any, ...inquiry });
       }
     })
     .catch(() => {});

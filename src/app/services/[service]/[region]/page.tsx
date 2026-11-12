@@ -9,8 +9,6 @@ import Link from "next/link";
 import { notFound } from 'next/navigation';
 import { ArrowRight, Activity } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
-import ServiceSchema from "@/components/seo/ServiceSchema";
-import FAQSchema from "@/components/seo/FAQSchema";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PricingTable from "@/components/blocks/PricingTable";
 import ServiceFAQ from "@/components/blocks/ServiceFAQ";
@@ -23,7 +21,7 @@ import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 import { isValidServiceSlug, isValidRegionSlug } from '@/lib/seo/slug-validator';
 import { getHeroImageForService } from '@/config/services';
 
-export const revalidate = 86400; // 24 hours cache revalidation
+export const revalidate = 604800; // 7 days cache revalidation
 
 // ==========================================
 // 1. DYNAMIC SEO METADATA GENERATOR
@@ -106,7 +104,7 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       <MedicalPseoSchema
         type="service"
         serviceSlug={resolvedParams.service}
@@ -136,6 +134,7 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
                 <Link 
                   key={loc}
                   href={`/services/${resolvedParams.service}/${resolvedParams.region}/${loc}`}
+                  prefetch={false}
                   className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all group"
                 >
                   <span className="font-bold text-slate-700 group-hover:text-blue-700">{formatSlug(loc)}</span>
@@ -208,17 +207,13 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
 
       {/* 5. FAQ SECTION */}
       <ServiceFAQ faqs={getFAQsForService(resolvedParams.service, serviceName)} serviceName={serviceName} />
-      <FAQSchema faqs={getFAQsForService(resolvedParams.service, serviceName)} />
 
-      {/* 6. ENHANCED SCHEMA */}
-      <ServiceSchema serviceName={serviceName} serviceSlug={resolvedParams.service} regionName={resolvedParams.region} />
-
-      {/* 7. RELATED SERVICES */}
+      {/* 6. RELATED SERVICES */}
       <RelatedServices currentService={resolvedParams.service} region={resolvedParams.region} />
 
-      {/* 8. TRUST SIGNALS */}
+      {/* 7. TRUST SIGNALS */}
       <GoogleReviews />
 
-    </main>
+    </div>
   );
 }

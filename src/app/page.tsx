@@ -77,23 +77,11 @@ export default function HomePage() {
   };
 
   return (
-    <main className="w-full flex flex-col bg-slate-50 overflow-hidden mt-[72px] md:mt-[80px]">
+    <div className="w-full flex flex-col bg-slate-50 overflow-hidden mt-[72px] md:mt-[80px]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeWebPageSchema) }}
       />
-      {/* 🤖 Googlebot SERP Thumbnail Signal */}
-      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
-        <img
-          src={homeHeroImage}
-          alt="Henotic Diagnostics — Premier Diagnostic Center in Mumbai"
-          width={1200}
-          height={630}
-          itemProp="image"
-          loading="eager"
-        />
-        <figcaption itemProp="caption">Henotic Diagnostics Premier Diagnostic Facility</figcaption>
-      </figure>
 
       {/* 🌟 SIMPLE SUB-HEADER SEARCH BAR (JUST BELOW MAIN HEADER SECTION) 🌟 */}
       <SimpleSubHeaderSearchBar />
@@ -131,6 +119,6 @@ export default function HomePage() {
       <CorporateVideo />
       <Accreditations />
       <HomeFAQSection />
-    </main>
+    </div>
   );
 }

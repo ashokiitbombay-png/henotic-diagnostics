@@ -240,7 +240,7 @@ const fetchPackages = unstable_cache(
     }
   },
   ['health-checkup-packages'],
-  { tags: [CACHE_TAGS.servicesList], revalidate: REVALIDATE_SECONDS },
+  { tags: [CACHE_TAGS.healthPackages], revalidate: REVALIDATE_SECONDS },
 );
 
 const fetchTrust = unstable_cache(
@@ -254,7 +254,7 @@ const fetchTrust = unstable_cache(
     }
   },
   ['health-checkup-trust'],
-  { tags: [CACHE_TAGS.servicesList], revalidate: REVALIDATE_SECONDS },
+  { tags: [CACHE_TAGS.healthPackages], revalidate: REVALIDATE_SECONDS },
 );
 
 async function fetchPageDoc(slug: string): Promise<PayloadHealthCheckupPage | null> {
@@ -269,7 +269,7 @@ async function fetchPageDoc(slug: string): Promise<PayloadHealthCheckupPage | nu
       }
     },
     ['health-checkup-page', slug],
-    { tags: [CACHE_TAGS.service(slug), CACHE_TAGS.servicesList], revalidate: REVALIDATE_SECONDS },
+    { tags: [CACHE_TAGS.service(slug), CACHE_TAGS.healthPackages], revalidate: REVALIDATE_SECONDS },
   )();
 }
 

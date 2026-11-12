@@ -15,10 +15,12 @@ export async function generateStaticParams() {
   return GMC_PRODUCTS.map(p => ({ product: p.slug }));
 }
 
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { product: slug } = await params;
   const product = getGMCProduct(slug);
-  if (!product) return { title: 'Product Not Found' };
+  if (!product) notFound();
 
   return {
     title: `${product.title} — ₹${product.price.toLocaleString('en-IN')} | Henotic Diagnostics`,
@@ -68,23 +70,11 @@ export default async function GMCProductPage({ params }: Props) {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 mt-[80px]">
+    <div className="min-h-screen bg-slate-50 mt-[80px]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
       />
-      {/* 🤖 Googlebot SERP Thumbnail Signal */}
-      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
-        <img
-          src={product.imageUrl}
-          alt={`${product.title} — Henotic Diagnostics`}
-          width={1200}
-          height={630}
-          itemProp="image"
-          loading="eager"
-        />
-        <figcaption itemProp="caption">{product.title}</figcaption>
-      </figure>
 
       {/* Product Schema for Google */}
       <ProductSchema
@@ -426,6 +416,6 @@ export default async function GMCProductPage({ params }: Props) {
           </p>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

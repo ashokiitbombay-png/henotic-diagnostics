@@ -1,7 +1,7 @@
 export const seoConfig = {
   defaultTitle: "Henotic Diagnostics | Premier Diagnostic Center",
   titleTemplate: "%s | Henotic Diagnostics",
-  defaultDescription: "Mumbai & Navi Mumbai's premier diagnostic center featuring advanced 3.0T MRI, low-dose CT, and automated pathology. NABH Accredited.",
+  defaultDescription: "Mumbai & Navi Mumbai's premier diagnostic center featuring advanced 3.0T MRI, low-dose CT, and automated pathology. NABL Accredited.",
   openGraph: {
     type: 'website',
     locale: 'en_IN',

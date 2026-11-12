@@ -91,7 +91,6 @@ export async function POST(request: NextRequest) {
       // Single tag call invalidates ALL pages using this service data:
       // /services/[slug] + /services/[slug]/[region] + /services/[slug]/[region]/[location]
       revalidateTag(CACHE_TAGS.service(service), 'max');
-      revalidateTag(CACHE_TAGS.servicesList, 'max');
       revalidatePath(`/services/${service}`, 'page');
 
       return NextResponse.json({
@@ -173,15 +172,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ revalidated: true, mode: 'single-path', path, now: Date.now() });
     }
 
-    // ── Fallback: Revalidate all services ──────────────────────────────
-    revalidateTag(CACHE_TAGS.servicesList, 'max');
-    revalidatePath('/services', 'layout');
+    // ── No Valid Target Provided ───────────────────────────────────────
     return NextResponse.json({
-      revalidated: true,
-      mode: 'fallback',
-      message: 'All services layout and tags revalidated',
-      now: Date.now()
-    });
+      message: 'Bad Request: Missing revalidation target. Specify service, post, page, path, tag, or purge: true.',
+    }, { status: 400 });
 
   } catch (error) {
     console.error('Revalidation Error:', error);

@@ -14,6 +14,10 @@ export const CACHE_TAGS = {
   /** Tag for the services directory listing */
   servicesList: 'wp:services-list',
 
+  // ── Health Packages Tag ─────────────────────────────────────────────
+  /** Isolated tag for health checkup packages (does not invalidate all general services) */
+  healthPackages: 'payload:health-packages',
+
   // ── Blog Tags ───────────────────────────────────────────────────────
   /** Tag for a specific blog post */
   post: (slug: string) => `wp:post:${slug}`,

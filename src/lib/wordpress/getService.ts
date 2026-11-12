@@ -21,7 +21,7 @@ import { CACHE_TAGS } from "@/lib/cache/tags";
  */
 async function _getService(slug: string): Promise<WordPressService | null> {
   try {
-    // Wrap in unstable_cache with CACHE_TAGS so revalidateTag() works
+    // Wrap in unstable_cache with CACHE_TAGS so revalidateTag() works precisely
     const fetchWithTags = unstable_cache(
       async () => {
         return wpCacheThrough<WordPressService | null>(
@@ -41,39 +41,21 @@ async function _getService(slug: string): Promise<WordPressService | null> {
       // Cache key segments
       ['wp-service', slug],
       {
-        tags: [CACHE_TAGS.service(slug), CACHE_TAGS.servicesList],
-        revalidate: 86400, // 24 hours — matches ISR period
+        tags: [CACHE_TAGS.service(slug)],
+        revalidate: 604800, // 7 days — invalidated on-demand via CMS webhook
       }
     );
 
-    let service = await fetchWithTags();
-
-    // If cache returned null, attempt direct query before falling back to failsafe
-    if (!service) {
-      try {
-        const client = getClient();
-        const { data } = await client.query<GetServiceResponse>({
-          query: GET_SERVICE_BY_SLUG,
-          variables: { slug },
-          fetchPolicy: "no-cache"
-        });
-        if (data?.service) {
-          service = data.service;
-        }
-      } catch (directErr) {
-        console.warn(`[getService] Direct fetch retry failed for slug ${slug}:`, directErr);
-      }
-    }
+    const service = await fetchWithTags();
 
     if (service) {
       saveFailsafeData(slug, { title: service.title, content: service.content });
       return service;
     }
 
-    // Check fallback if service data is missing
+    // Check fallback if service data is missing in CMS
     const fallback = getFailsafeData(slug);
     if (fallback) {
-      console.log(`🛡️ [FAILSAFE ACTIVE] Serving mirrored service content for slug "${slug}".`);
       return fallback;
     }
     return null;
@@ -81,7 +63,6 @@ async function _getService(slug: string): Promise<WordPressService | null> {
     console.error(`Failed to fetch service data for slug ${slug}:`, error);
     const fallback = getFailsafeData(slug);
     if (fallback) {
-      console.log(`🛡️ [FAILSAFE ACTIVE] Serving mirrored service content for slug "${slug}" after error.`);
       return fallback;
     }
     return null;

@@ -6,12 +6,27 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/reports/', '/services/_trap/'],
+        disallow: ['/api/', '/reports', '/reports/'],
       },
-      // Explicitly allow AI crawlers for AEO/GEO/LLMO compliance
+      // Block known aggressive training scrapers that consume massive crawl budget without sending search traffic
       {
-        userAgent: ['GPTBot', 'ChatGPT-User', 'Google-Extended', 'ClaudeBot', 'PerplexityBot', 'CCBot', 'Applebot-Extended', 'anthropic-ai', 'Bytespider', 'cohere-ai'],
+        userAgent: ['Bytespider', 'CCBot'],
+        disallow: ['/'],
+      },
+      // Allowed AI search & conversational engine crawlers
+      {
+        userAgent: [
+          'GPTBot',
+          'ChatGPT-User',
+          'Google-Extended',
+          'ClaudeBot',
+          'PerplexityBot',
+          'Applebot-Extended',
+          'anthropic-ai',
+          'cohere-ai',
+        ],
         allow: '/',
+        disallow: ['/api/', '/reports', '/reports/'],
       },
     ],
     sitemap: 'https://www.henoticdiagnostics.com/sitemap.xml',

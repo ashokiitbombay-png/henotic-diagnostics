@@ -54,6 +54,7 @@ export default function CrossLocationLinks({
               <Link
                 key={loc}
                 href={`/services/${service}/${region}/${loc}`}
+                prefetch={false}
                 className="group relative px-4 py-3.5 bg-white/60 backdrop-blur-md border border-slate-100 rounded-2xl text-sm font-bold text-slate-600 hover:text-[#3494E6] hover:border-[#3494E6]/30 hover:bg-[#3494E6]/5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-between gap-2"
               >
                 <div className="flex items-center gap-2 min-w-0">

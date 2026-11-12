@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeCompare } from '@/lib/webhook/security';
 import { PAYLOAD_INDEXES } from '@/lib/payload/indexes';
 
+export const dynamic = 'force-dynamic';
+
+const NO_STORE_HEADERS = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+};
+
 /**
  * Admin API Endpoint: Payload CMS MongoDB Index Creation
  * 
@@ -9,21 +15,31 @@ import { PAYLOAD_INDEXES } from '@/lib/payload/indexes';
  * directly within the production Vercel server environment where MONGODB_URI is available.
  * 
  * POST /api/admin/payload-indexes
- * Body: { "secret": "<REVALIDATION_SECRET>" }
+ * Headers: Authorization: Bearer <ADMIN_TASK_TOKEN> or x-admin-token: <ADMIN_TASK_TOKEN>
  */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { secret } = body;
+    const authHeader = request.headers.get('authorization') || '';
+    const adminHeader = request.headers.get('x-admin-token') || '';
+    let secret = adminHeader || authHeader.replace(/^Bearer\s+/i, '');
 
-    const expectedSecret = process.env.REVALIDATION_SECRET;
+    if (!secret) {
+      try {
+        const body = await request.json();
+        secret = body.secret || '';
+      } catch {
+        // body not json
+      }
+    }
+
+    const expectedSecret = process.env.ADMIN_TASK_TOKEN || process.env.REVALIDATION_SECRET;
     if (!expectedSecret || !secret || !timingSafeCompare(secret, expectedSecret)) {
-      return NextResponse.json({ message: 'Invalid secret token' }, { status: 401 });
+      return NextResponse.json({ message: 'Invalid secret token' }, { status: 401, headers: NO_STORE_HEADERS });
     }
 
     const MONGODB_URI = process.env.MONGODB_URI;
     if (!MONGODB_URI) {
-      return NextResponse.json({ message: 'MONGODB_URI environment variable is missing' }, { status: 400 });
+      return NextResponse.json({ message: 'MONGODB_URI environment variable is missing' }, { status: 400, headers: NO_STORE_HEADERS });
     }
 
     // Dynamic import mongodb driver
@@ -90,10 +106,9 @@ export async function POST(request: NextRequest) {
         total: results.length,
       },
       results,
-    });
+    }, { headers: NO_STORE_HEADERS });
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : String(error);
     console.error('[Admin] Index creation error:', error);
-    return NextResponse.json({ message: 'Failed to create indexes', error: msg }, { status: 500 });
+    return NextResponse.json({ message: 'Failed to create indexes' }, { status: 500, headers: NO_STORE_HEADERS });
   }
 }

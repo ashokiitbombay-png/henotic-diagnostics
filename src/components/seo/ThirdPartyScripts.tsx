@@ -4,17 +4,6 @@ import { useEffect } from "react";
 
 export default function ThirdPartyScripts() {
   useEffect(() => {
-    // Check if the user agent is Lighthouse or PageSpeed Insights
-    const isLighthouse = typeof navigator !== "undefined" && (
-      navigator.userAgent.includes("Lighthouse") || 
-      navigator.userAgent.includes("Chrome-Lighthouse")
-    );
-
-    if (isLighthouse) {
-      console.log("🚫 [PSEO Performance] Lighthouse detected. Bypassing GTM/AdSense loading.");
-      return;
-    }
-
     let scriptsLoaded = false;
 
     const loadScripts = () => {

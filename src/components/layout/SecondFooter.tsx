@@ -1,148 +1,143 @@
-"use client";
-
+import React from "react";
 import Link from "next/link";
-import { useState } from "react";
-import { ChevronDown, MapPin, Activity } from "lucide-react";
+import { MapPin, Activity, ShieldCheck, ChevronRight } from "lucide-react";
 
-// Helper for conditional classNames
-const cn = (...classes: (string | undefined | null | false)[]) => {
-  return classes.filter(Boolean).join(" ");
-};
+/**
+ * 🌐 Regional Diagnostic Hubs & Service Directory
+ * Server-rendered, high-equity internal linking hub.
+ * Replaces the heavy 1,600-link client accordion with an optimized, accessible directory.
+ */
+const REGIONAL_HUBS = [
+  { name: "Navi Mumbai Hub", href: "/city/navi-mumbai", sub: "Kharghar, Panvel, Vashi, Nerul & Belapur" },
+  { name: "Mumbai Central & Suburbs", href: "/city/mumbai", sub: "Bandra, Andheri, Chembur, Kurla & Borivali" },
+  { name: "Thane & Kalyan-Dombivli", href: "/city/thane", sub: "Thane West, Ghodbunder, Kalyan & Dombivli" },
+  { name: "Pune & PCMC Network", href: "/city/pune", sub: "Kothrud, Wakad, Baner, Hinjawadi & Pimpri" },
+  { name: "Panvel & Raigad Region", href: "/city/panvel", sub: "New Panvel, Khandeshwar, Kamothe & Taloja" },
+];
 
-// --- DYNAMIC LOCATION MATRIX ---
-const REGIONS = {
-  "South Mumbai": ["colaba", "cuffe-parade", "fort", "churchgate", "marine-lines", "nariman-point", "worli", "parel", "lower-parel", "mahalaxmi", "byculla", "dadar"],
-  "Central Mumbai": ["sion", "kurla", "chembur", "ghatkopar", "vikhroli", "kanjurmarg", "bhandup", "mulund"],
-  "Western Suburbs": ["bandra", "khar", "santacruz", "vile-parle", "andheri", "jogeshwari", "goregaon", "malad", "kandivali", "borivali", "dahisar"],
-  "Eastern Suburbs": ["kurla-east", "chembur-east", "ghatkopar-east", "vikhroli-east", "mulund-east"],
-  "Navi Mumbai": ["vashi", "sanpada", "juinagar", "nerul", "seawoods", "cbd-belapur", "kharghar", "kamothe", "kalamboli", "panvel", "new-panvel", "taloja", "ghansoli", "kopar-khairane", "airoli", "turbhe"]
-};
+const CORE_MODALITIES = [
+  { name: "3.0T MRI Scan", href: "/services/mri-scan" },
+  { name: "128-Slice CT Scan", href: "/services/ct-scan" },
+  { name: "Whole Body PET-CT", href: "/services/pet-scan" },
+  { name: "Ultrasound & Sonography", href: "/services/ultrasound" },
+  { name: "Pathology Blood Tests", href: "/services/blood-test" },
+  { name: "Full Body Checkup", href: "/services/full-body-check-up" },
+  { name: "Digital Mammography", href: "/services/mammography" },
+  { name: "2D Echocardiography", href: "/services/2d-echo" },
+  { name: "HRCT Chest Scan", href: "/services/hrct-scan" },
+  { name: "DEXA Bone Mineral Scan", href: "/services/dexa-bone-scan" },
+  { name: "Pregnancy Sonography", href: "/services/pregnancy-sonography" },
+  { name: "Master Health Checkup", href: "/services/master-health-checkup" },
+];
 
-// --- DYNAMIC SERVICE MATRIX ---
-const SERVICE_CATEGORIES = {
-  "Health Screening": ["diagnostic-center", "medical-imaging-center", "radiology-center", "pathology-lab", "health-checkup", "full-body-check-up", "executive-health-checkup", "preventive-health-checkup", "cancer-screening"],
-  "Pathology & Labs": ["blood-test", "lab-test", "home-blood-collection", "cbc-test", "lipid-profile", "thyroid-test", "liver-function-test", "kidney-function-test", "diabetes-test", "vitamin-d-test", "covid-test", "dengue-test"],
-  "Ultrasound & Sonography": ["ultrasound", "sonography", "usg-scan", "abdominal-ultrasound", "pelvic-ultrasound", "kidney-ultrasound", "prostate-ultrasound", "thyroid-ultrasound", "breast-ultrasound", "guided-biopsy"],
-  "Pregnancy & Fetal": ["pregnancy-sonography", "obstetric-ultrasound", "early-pregnancy-scan", "nt-scan", "anomaly-scan", "target-scan", "growth-scan", "fetal-echo", "fetal-doppler", "high-risk-pregnancy-scan"],
-  "Doppler Studies": ["color-doppler", "doppler-scan", "pregnancy-doppler", "arterial-doppler", "venous-doppler", "carotid-doppler", "renal-doppler", "dvt-doppler"],
-  "Women's Health": ["mammography", "digital-mammography", "3d-mammography", "sonomammography", "breast-screening", "follicular-study", "fertility-scan", "hsg-test"],
-  "MRI Services": ["mri-scan", "mri-brain", "mri-spine", "whole-spine-mri", "mri-joint", "pelvis-mri", "abdominal-mri", "cardiac-mri", "mri-mrcp", "whole-body-mri"],
-  "CT Scan Services": ["ct-scan", "hrct-scan", "hrct-chest", "ct-brain", "ct-angiography", "ct-coronary-angiography", "whole-body-ct-scan", "low-dose-ct"],
-  "PET CT & Nuclear": ["pet-scan", "pet-ct", "whole-body-pet-scan", "fdg-pet-ct", "bone-scan", "thyroid-scan", "renal-scan", "myocardial-perfusion-scan"],
-  "Cardiology Diagnostics": ["ecg", "2d-echo", "stress-echo", "tmt-test", "holter-monitoring", "ambulatory-bp-monitoring", "angiography", "angioplasty"],
-  "Liver & Bones": ["fibroscan", "liver-fibroscan", "liver-elastography", "dexa-bone-scan", "bone-density-test"],
-  "Genetics": ["prenatal-test", "nipt-test", "karyotype-test", "dna-test"]
-};
-
-// Format region name to URL slug (e.g., "Navi Mumbai" -> "navi-mumbai")
-const getRegionSlug = (regionCategory: string) => {
-  return regionCategory.toLowerCase().replace(/ /g, "-");
-};
-
-// Format slug to readable text (e.g., "mri-scan" -> "Mri Scan")
-const formatText = (slug: string) => {
-  return slug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-};
+const QUICK_NAV = [
+  { name: "350+ Service Locations", href: "/locations" },
+  { name: "Diagnostic Price Transparency", href: "/pricing" },
+  { name: "Medical Faculty & Radiologists", href: "/doctors" },
+  { name: "Test Comparison Matrix", href: "/compare" },
+  { name: "Health Checkup Packages", href: "/services/health-checkup" },
+  { name: "All 340+ Diagnostic Services", href: "/services" },
+];
 
 export default function SecondFooter() {
-  const [openRegion, setOpenRegion] = useState<string | null>("Navi Mumbai");
-
   return (
-    <footer 
-      className="text-white py-16 font-sans relative"
+    <section 
+      aria-label="Regional Diagnostic Network"
+      className="text-white py-12 md:py-16 font-sans relative border-t border-white/10"
       style={{
-        background: "linear-gradient(90deg, #4568dc 0%, #b06ab3 100%)",
-        transform: "translateZ(0)"
+        background: "linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #4338ca 100%)",
       }}
     >
-      <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         
-        {/* Header Section */}
+        {/* Header */}
         <div className="mb-10 text-center">
-          <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-widest mb-3 drop-shadow-md">
-            Global Service Directory
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold uppercase tracking-wider mb-3">
+            <ShieldCheck size={14} /> NABL Accredited Regional Diagnostic Network
+          </div>
+          <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+            Accredited Centers & Diagnostic Services Across Mumbai & Pune
           </h2>
-          <div className="w-32 h-1.5 bg-white mx-auto rounded-full opacity-50"></div>
-          <p className="mt-4 text-white/80 font-bold max-w-2xl mx-auto">
-            Find premium diagnostic services near you. Select a region below to explore our state-of-the-art facilities across Mumbai and Navi Mumbai.
+          <p className="mt-2 text-white/80 text-sm md:text-base font-medium max-w-2xl mx-auto">
+            Explore our state-of-the-art diagnostic facilities, NABL-accredited pathology, and advanced imaging centers.
           </p>
         </div>
 
-        {/* Region Selector Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {Object.keys(REGIONS).map((region) => (
-            <button
-              key={region}
-              onClick={() => setOpenRegion(openRegion === region ? null : region)}
-              className={cn(
-                "px-5 py-2.5 rounded-full text-xs sm:text-sm font-black uppercase tracking-widest transition-all border shadow-sm",
-                openRegion === region 
-                  ? "bg-white text-[#6d2870] border-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] scale-105" 
-                  : "bg-white/10 text-white border-white/30 hover:bg-white/20"
-              )}
-            >
-              {region}
-            </button>
-          ))}
-        </div>
-
-        {/* Dynamic Accordion Matrix */}
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-[2rem] p-6 md:p-10 shadow-2xl">
-          {openRegion && (
-            <div className="animate-in fade-in duration-500">
-              <div className="flex items-center gap-3 mb-8 border-b border-white/20 pb-4">
-                <MapPin className="text-white" size={24} />
-                <h3 className="text-2xl font-black text-white">{openRegion} Locations</h3>
-              </div>
-
-              <div className="grid gap-4">
-                {REGIONS[openRegion as keyof typeof REGIONS].map((location) => (
-                  <details 
-                    key={location} 
-                    className="group border-2 border-white/20 bg-white/5 rounded-2xl overflow-hidden transition-all hover:bg-white/10 open:bg-slate-900/60 open:border-[#52cffe]"
-                  >
-                    <summary className="flex items-center justify-between p-5 cursor-pointer select-none outline-none">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#52cffe] group-open:animate-pulse"></div>
-                        <span className="text-base font-black text-white uppercase tracking-wider group-hover:text-[#52cffe] transition-colors">
-                          {formatText(location)}
-                        </span>
-                      </div>
-                      <ChevronDown size={20} className="text-white/70 group-open:rotate-180 group-open:text-[#52cffe] transition-transform" />
-                    </summary>
-
-                    {/* Service Grid Inside Location */}
-                    <div className="p-6 sm:p-8 pt-0 border-t border-white/10 mt-2">
-                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pt-6">
-                          {Object.entries(SERVICE_CATEGORIES).map(([category, services]) => (
-                            <div key={category}>
-                              <h4 className="text-[11px] font-black text-[#52cffe] uppercase tracking-widest mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
-                                <Activity size={12} /> {category}
-                              </h4>
-                              <ul className="space-y-2">
-                                {services.map((service) => (
-                                  <li key={service}>
-                                    <Link 
-                                      href={`/services/${service}/${getRegionSlug(openRegion)}/${location}`}
-                                      className="block text-xs font-bold text-white/70 hover:text-white transition-colors hover:translate-x-1.5 duration-200"
-                                    >
-                                      {formatText(service)}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                       </div>
-                    </div>
-                  </details>
-                ))}
-              </div>
+        {/* 3-Column Directory Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          {/* Column 1: Regional Hubs */}
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/15">
+              <MapPin className="text-amber-300" size={20} />
+              <h3 className="text-lg font-black text-white">City & Regional Hubs</h3>
             </div>
-          )}
+            <ul className="space-y-3">
+              {REGIONAL_HUBS.map((hub) => (
+                <li key={hub.name}>
+                  <Link
+                    href={hub.href}
+                    prefetch={false}
+                    className="group block p-2.5 rounded-xl hover:bg-white/10 transition-colors"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-white group-hover:text-amber-300 transition-colors text-sm">
+                        {hub.name}
+                      </span>
+                      <ChevronRight size={14} className="text-white/50 group-hover:text-amber-300 group-hover:translate-x-1 transition-all" />
+                    </div>
+                    <p className="text-xs text-white/70 mt-0.5">{hub.sub}</p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 2: Key Diagnostic Modalities */}
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/15">
+              <Activity className="text-sky-300" size={20} />
+              <h3 className="text-lg font-black text-white">Top Diagnostic Modalities</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {CORE_MODALITIES.map((service) => (
+                <Link
+                  key={service.name}
+                  href={service.href}
+                  prefetch={false}
+                  className="p-2 rounded-lg text-xs font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  {service.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Column 3: Quick Navigation */}
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/15">
+              <ShieldCheck className="text-emerald-300" size={20} />
+              <h3 className="text-lg font-black text-white">Direct Access</h3>
+            </div>
+            <ul className="space-y-2.5">
+              {QUICK_NAV.map((nav) => (
+                <li key={nav.name}>
+                  <Link
+                    href={nav.href}
+                    prefetch={false}
+                    className="flex items-center justify-between p-2 rounded-lg text-xs font-bold text-white/80 hover:text-white hover:bg-white/10 transition-colors group"
+                  >
+                    <span>{nav.name}</span>
+                    <ChevronRight size={14} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
         </div>
-        
+
       </div>
-    </footer>
+    </section>
   );
 }

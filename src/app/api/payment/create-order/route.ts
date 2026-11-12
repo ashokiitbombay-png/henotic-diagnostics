@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { rateLimit, getClientIP } from '@/lib/rate-limit';
-
+import { getPricingForService } from '@/config/pricing';
 
 const RAZORPAY_KEY_ID = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
@@ -20,15 +20,29 @@ export async function POST(request: NextRequest) {
 
     const { amount, serviceSlug, patientName, patientPhone } = await request.json();
 
-    if (!amount || amount < 100) {
+    const numAmount = typeof amount === 'string' ? parseInt(amount, 10) : amount;
+    if (!numAmount || !Number.isInteger(numAmount) || numAmount < 100 || numAmount > 500_000) {
       return NextResponse.json({ error: 'Invalid amount' }, { status: 400 });
     }
 
-    // If Razorpay is not configured, return mock order
+    // Validate amount against catalog price if known service
+    if (serviceSlug && typeof serviceSlug === 'string') {
+      const servicePricing = getPricingForService(serviceSlug);
+      if (servicePricing?.henoticPrice && numAmount < servicePricing.henoticPrice) {
+        return NextResponse.json({ error: 'Tampered or invalid amount for selected service' }, { status: 400 });
+      }
+    }
+
+    const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
+
+    // If Razorpay is not configured, fail-closed in production, mock in dev
     if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) {
+      if (isProd) {
+        return NextResponse.json({ error: 'Payment gateway configuration error' }, { status: 500 });
+      }
       return NextResponse.json({
         orderId: `mock_order_${Date.now()}`,
-        amount: amount * 100, // paise
+        amount: numAmount * 100, // paise
         currency: 'INR',
         mock: true,
         message: 'Razorpay not configured. Using mock order.',

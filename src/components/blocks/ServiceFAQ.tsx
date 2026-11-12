@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from 'react';
+import React from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 
 interface FAQ {
@@ -14,12 +12,10 @@ interface ServiceFAQProps {
 }
 
 /**
- * 🎯 Premium FAQ Accordion for Service Pages
- * Displays dynamic, contextual FAQs with smooth animations.
+ * 🎯 Premium FAQ Component for Service Pages
+ * Server Component using native <details>/<summary> for zero JS runtime overhead.
  */
 export default function ServiceFAQ({ faqs, serviceName }: ServiceFAQProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
   if (!faqs || faqs.length === 0) return null;
 
   return (
@@ -38,44 +34,26 @@ export default function ServiceFAQ({ faqs, serviceName }: ServiceFAQProps) {
         </div>
 
         <div className="space-y-3">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div
-                key={index}
-                className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${
-                  isOpen
-                    ? 'border-blue-200 shadow-[0_10px_30px_rgba(0,0,0,0.08)]'
-                    : 'border-slate-100 shadow-sm hover:border-slate-200'
-                }`}
-              >
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full flex items-start justify-between gap-4 p-5 md:p-6 text-left"
-                  aria-expanded={isOpen}
-                >
-                  <span className={`font-bold text-base md:text-lg transition-colors ${isOpen ? 'text-blue-700' : 'text-slate-800'}`}>
-                    {faq.question}
-                  </span>
-                  <ChevronDown
-                    size={20}
-                    className={`shrink-0 mt-1 transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 text-blue-500' : 'text-slate-400'
-                    }`}
-                  />
-                </button>
-                <div
-                  className={`transition-all duration-300 ease-in-out ${
-                    isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-                  }`}
-                >
-                  <div className="px-5 md:px-6 pb-5 md:pb-6 text-slate-600 font-medium leading-relaxed text-[15px] border-t border-slate-50 pt-4">
-                    {faq.answer}
-                  </div>
-                </div>
+          {faqs.map((faq, index) => (
+            <details
+              key={index}
+              open={index === 0}
+              className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-slate-200 open:border-blue-200 open:shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-all duration-200 overflow-hidden cursor-pointer"
+            >
+              <summary className="w-full flex items-start justify-between gap-4 p-5 md:p-6 text-left list-none outline-none select-none">
+                <span className="font-bold text-base md:text-lg text-slate-800 group-open:text-blue-700 transition-colors">
+                  {faq.question}
+                </span>
+                <ChevronDown
+                  size={20}
+                  className="shrink-0 mt-1 text-slate-400 group-open:rotate-180 group-open:text-blue-500 transition-transform duration-200"
+                />
+              </summary>
+              <div className="px-5 md:px-6 pb-5 md:pb-6 text-slate-600 font-medium leading-relaxed text-[15px] border-t border-slate-50 pt-4">
+                {faq.answer}
               </div>
-            );
-          })}
+            </details>
+          ))}
         </div>
       </div>
     </section>

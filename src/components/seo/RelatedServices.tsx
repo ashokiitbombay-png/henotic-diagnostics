@@ -72,6 +72,7 @@ export default function RelatedServices({ currentService, region, location }: Re
             <Link
               key={slug}
               href={basePath(slug)}
+              prefetch={false}
               className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-lg hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 group text-center"
             >
               <p className="font-bold text-slate-700 group-hover:text-blue-600 text-sm leading-tight mb-2">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import {
   Award,
   BookOpen,
@@ -30,7 +31,8 @@ function getDoctorInitials(name: string): string {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const doc = DOCTORS.find(d => d.id === slug);
-  const title = doc ? `${doc.name} — ${doc.designation} | Henotic Diagnostics` : 'Doctor Profile';
+  if (!doc) notFound();
+  const title = `${doc.name} — ${doc.designation} | Henotic Diagnostics`;
   const description = doc?.bio || 'Expert medical professionals at Henotic Diagnostics.';
   const doctorImage = doc?.imageUrl || 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
 
@@ -71,72 +73,22 @@ export async function generateStaticParams() {
   return DOCTORS.map(d => ({ slug: d.id }));
 }
 
+export const dynamicParams = false;
+
 export default async function DoctorPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const doc = DOCTORS.find(d => d.id === slug);
-  if (!doc) {
-    return (
-      <div className="min-h-screen flex items-center justify-center mt-[80px]">
-        <p className="text-slate-600 font-bold">Doctor profile not found.</p>
-      </div>
-    );
-  }
+  if (!doc) notFound();
 
   const initials = getDoctorInitials(doc.name);
-
-  // Physician Structured Data for Google Rich Snippets
-  const physicianSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Physician',
-    name: doc.name,
-    jobTitle: doc.designation,
-    description: doc.bio,
-    url: `https://www.henoticdiagnostics.com/doctors/${slug}`,
-    medicalSpecialty: doc.specializations,
-    knowsAbout: doc.specializations,
-    alumniOf: doc.education.map(e => ({ '@type': 'EducationalOrganization', name: e })),
-    memberOf: doc.memberships.map(m => ({ '@type': 'Organization', name: m })),
-    worksFor: {
-      '@type': 'MedicalClinic',
-      name: siteConfig.name,
-      url: siteConfig.url,
-      telephone: siteConfig.contact.phonePrimary,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Second floor, Millennium Empire, Business Park, Plot No 47, D Mart Rd, Sector 15',
-        addressLocality: 'Kharghar',
-        addressRegion: 'Navi Mumbai',
-        postalCode: '410210',
-        addressCountry: 'IN'
-      }
-    }
-  };
-
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.henoticdiagnostics.com' },
-      { '@type': 'ListItem', position: 2, name: 'Medical Faculty', item: 'https://www.henoticdiagnostics.com/doctors' },
-      { '@type': 'ListItem', position: 3, name: doc.name, item: `https://www.henoticdiagnostics.com/doctors/${slug}` }
-    ]
-  };
 
   const whatsappInquiryUrl = `https://wa.me/${LAB_WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Hello Henotic Diagnostics, I would like to schedule an appointment / request a scan report review with ${doc.name} (${doc.designation}).`
   )}`;
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
       <MedicalPseoSchema type="doctor" doctorId={slug} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(physicianSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
 
       {/* ── Breadcrumb Ribbon ────────────────────────────────────────── */}
       <div className="bg-white border-b border-slate-200">
@@ -339,6 +291,6 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

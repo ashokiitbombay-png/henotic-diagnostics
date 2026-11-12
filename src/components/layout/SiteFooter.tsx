@@ -50,7 +50,7 @@ export default function SiteFooter() {
                    width={320}
                    height={80}
                    className="w-64 lg:w-80 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50"
-                   priority
+                   unoptimized
                  />
               </div>
             </Link>
@@ -183,7 +183,7 @@ export default function SiteFooter() {
                 { name: "Paypal", url: "https://cdn.henoticdiagnostics.com/2026/01/3ffff106-paypal-banking-henotic-diagnostics.webp" }
               ].map((pay, i) => (
                 <div key={i} className="bg-white rounded-xl w-20 h-12 md:w-28 md:h-14 flex items-center justify-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 px-2">
-                  <Image width={72} height={28} src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" loading="lazy" />
+                  <Image width={72} height={28} src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" loading="lazy" unoptimized />
                 </div>
               ))}
            </div>

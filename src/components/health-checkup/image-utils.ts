@@ -10,11 +10,13 @@
  * in next.config.js, otherwise the optimiser rejects the request.
  */
 
-const OPTIMISER_WIDTHS = [384, 640, 828, 1080, 1200] as const;
+// Must be a subset of images.deviceSizes ([640, 828, 1200, 1920]) and the
+// single allowed quality (images.qualities = [75]).
+const OPTIMISER_WIDTHS = [640, 828, 1200] as const;
 const QUALITY = 75;
 
-export function optimisedUrl(src: string, width: number, quality: number = QUALITY): string {
-  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
+export function optimisedUrl(src: string, width: number): string {
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${QUALITY}`;
 }
 
 /**

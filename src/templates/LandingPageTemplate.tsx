@@ -19,7 +19,7 @@ export default function LandingPageTemplate({
   const headline = keyword ? decodeURIComponent(keyword) : `Premium ${formattedService} Services`;
 
   return (
-    <main className="min-h-screen bg-gradient-to-tr from-slate-900 via-slate-950 to-blue-950 text-white font-sans overflow-hidden -mt-[88px] relative z-50">
+    <div className="min-h-screen bg-gradient-to-tr from-slate-900 via-slate-950 to-blue-950 text-white font-sans overflow-hidden -mt-[88px] relative z-50">
       
       {/* Dynamic light circles for premium glassmorphism background */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-blue-600"></div>
@@ -142,6 +142,6 @@ export default function LandingPageTemplate({
           </div>
         </div>
       </footer>
-    </main>
+    </div>
   );
 }

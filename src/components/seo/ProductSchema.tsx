@@ -58,72 +58,74 @@ export default function ProductSchema({
     },
 
 
-    // Offer with eligible region
-    offers: {
-      '@type': 'Offer',
-      url,
-      priceCurrency: 'INR',
-      price: price != null ? price.toString() : '1500',
-      ...(marketPrice != null && price != null && {
-        priceSpecification: {
-          '@type': 'UnitPriceSpecification',
-          price: price.toString(),
-          priceCurrency: 'INR',
-          referenceQuantity: {
-            '@type': 'QuantitativeValue',
-            value: '1',
+    // Offer with eligible region (only when valid price exists)
+    ...(price != null ? {
+      offers: {
+        '@type': 'Offer',
+        url,
+        priceCurrency: 'INR',
+        price: price.toString(),
+        ...(marketPrice != null && {
+          priceSpecification: {
+            '@type': 'UnitPriceSpecification',
+            price: price.toString(),
+            priceCurrency: 'INR',
+            referenceQuantity: {
+              '@type': 'QuantitativeValue',
+              value: '1',
+            },
+          },
+        }),
+        availability: 'https://schema.org/InStock',
+        seller: {
+          '@type': 'Organization',
+          name: 'Henotic Diagnostics',
+        },
+        eligibleRegion: {
+          '@type': 'Country',
+          name: 'IN',
+        },
+        // Shipping details — free digital report delivery
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: '0',
+            currency: 'INR',
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            addressCountry: 'IN',
+          },
+          deliveryTime: {
+            '@type': 'ShippingDeliveryTime',
+            handlingTime: {
+              '@type': 'QuantitativeValue',
+              minValue: '0',
+              maxValue: '0',
+              unitCode: 'DAY',
+            },
+            transitTime: {
+              '@type': 'QuantitativeValue',
+              minValue: '0',
+              maxValue: '1',
+              unitCode: 'DAY',
+            },
           },
         },
-      }),
-      availability: 'https://schema.org/InStock',
-      seller: {
-        '@type': 'Organization',
-        name: 'Henotic Diagnostics',
-      },
-      eligibleRegion: {
-        '@type': 'Country',
-        name: 'IN',
-      },
-      // Shipping details — free digital report delivery
-      shippingDetails: {
-        '@type': 'OfferShippingDetails',
-        shippingRate: {
-          '@type': 'MonetaryAmount',
-          value: '0',
-          currency: 'INR',
-        },
-        shippingDestination: {
-          '@type': 'DefinedRegion',
-          addressCountry: 'IN',
-        },
-        deliveryTime: {
-          '@type': 'ShippingDeliveryTime',
-          handlingTime: {
-            '@type': 'QuantitativeValue',
-            minValue: '0',
-            maxValue: '0',
-            unitCode: 'DAY',
-          },
-          transitTime: {
-            '@type': 'QuantitativeValue',
-            minValue: '0',
-            maxValue: '1',
-            unitCode: 'DAY',
-          },
+        // Return/Refund policy
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'IN',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+          merchantReturnDays: '0',
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/FreeReturn',
+          refundType: 'https://schema.org/FullRefund',
+          url: `${baseUrl}/refund-returns`,
         },
       },
-      // Return/Refund policy
-      hasMerchantReturnPolicy: {
-        '@type': 'MerchantReturnPolicy',
-        applicableCountry: 'IN',
-        returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
-        merchantReturnDays: '0',
-        returnMethod: 'https://schema.org/ReturnByMail',
-        returnFees: 'https://schema.org/FreeReturn',
-        refundType: 'https://schema.org/FullRefund',
-        url: `${baseUrl}/refund-returns`,
-      },
-    },
+    } : {}),
   };
 
   return (

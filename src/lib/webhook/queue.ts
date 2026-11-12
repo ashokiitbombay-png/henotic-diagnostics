@@ -128,9 +128,22 @@ export async function flushAndProcess(type: string): Promise<{
         // AND /services/[slug]/[region]/[location] — all pages that used this tag
         revalidateTag(CACHE_TAGS.service(slug), 'max');
       }
-      // Also invalidate the services list page
-      revalidateTag(CACHE_TAGS.servicesList, 'max');
       console.log(`✅ [Queue] Tag-invalidated ${slugs.length} service(s) — all PSEO pages included`);
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+    }
+
+    if (type === 'health-packages') {
+      revalidateTag(CACHE_TAGS.healthPackages, 'max');
+      console.log(`✅ [Queue] Tag-invalidated health packages suite`);
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+    }
+
+    if (type === 'health-checkup-page') {
+      for (const slug of slugs) {
+        revalidateTag(CACHE_TAGS.service(slug), 'max');
+      }
+      revalidateTag(CACHE_TAGS.healthPackages, 'max');
+      console.log(`✅ [Queue] Tag-invalidated ${slugs.length} health checkup page(s)`);
       return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
     }
 

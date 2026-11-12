@@ -45,7 +45,7 @@ export default function LocationTemplate({
   const pricing = getPricingForService(service);
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
       {/* MedicalPseoSchema generates ALL schemas: DiagnosticProcedure, MedicalTest, 
           MedicalWebPage, BreadcrumbList, FAQPage, and MedicalClinic (per-location).
           DO NOT add duplicate SchemaMarkup, ServiceSchema, FAQSchema, or BreadcrumbSchema here. */}
@@ -196,6 +196,6 @@ export default function LocationTemplate({
         <ClientBookingForm />
       </section>
 
-    </main>
+    </div>
   );
 }

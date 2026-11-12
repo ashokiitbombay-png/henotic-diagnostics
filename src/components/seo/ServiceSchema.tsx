@@ -37,7 +37,7 @@ export default function ServiceSchema({
   const schemas: object[] = [];
 
   // 1. MedicalTest Schema
-  schemas.push({
+  const medicalTest: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "MedicalTest",
     "name": serviceName,
@@ -59,19 +59,22 @@ export default function ServiceSchema({
       "telephone": "+91-8879327184",
       "medicalSpecialty": "Diagnostic Radiology"
     },
-    "offers": {
-      "@type": "Offer",
-      "name": serviceName,
-      "price": price || 1500,
-      "priceCurrency": "INR",
-      "availability": "https://schema.org/InStock",
-      "url": url,
-      "seller": {
-        "@type": "MedicalOrganization",
-        "name": "Henotic Diagnostics"
+    ...(price ? {
+      "offers": {
+        "@type": "Offer",
+        "name": serviceName,
+        "price": price,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "url": url,
+        "seller": {
+          "@type": "MedicalOrganization",
+          "name": "Henotic Diagnostics"
+        }
       }
-    }
-  });
+    } : {})
+  };
+  schemas.push(medicalTest);
 
   // 2. LocalBusiness Schema (per location)
   if (locationName && regionName) {
@@ -97,23 +100,6 @@ export default function ServiceSchema({
         "closes": "23:59"
       },
       "priceRange": "₹₹"
-    });
-  }
-
-  // 3. Offer Schema (if price available)
-  if (price) {
-    schemas.push({
-      "@context": "https://schema.org",
-      "@type": "Offer",
-      "name": serviceName,
-      "price": price,
-      "priceCurrency": "INR",
-      "availability": "https://schema.org/InStock",
-      "url": url,
-      "seller": {
-        "@type": "MedicalOrganization",
-        "name": "Henotic Diagnostics"
-      }
     });
   }
 

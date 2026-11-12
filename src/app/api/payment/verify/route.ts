@@ -24,8 +24,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ verified: false, message: 'Missing parameters' }, { status: 400 });
     }
 
-    // If Razorpay not configured, auto-verify (mock mode)
+    const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
+
+    // If Razorpay not configured, fail closed in production; allow mock in dev only
     if (!RAZORPAY_KEY_SECRET) {
+      if (isProd) {
+        console.error('[payment/verify] RAZORPAY_KEY_SECRET is unset in production. Rejecting verification.');
+        return NextResponse.json({ verified: false, message: 'Payment gateway configuration error' }, { status: 500 });
+      }
+
       await recordPayment({
         orderId: razorpay_order_id,
         paymentId: razorpay_payment_id,

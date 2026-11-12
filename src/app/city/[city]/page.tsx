@@ -7,7 +7,7 @@ import { REGION_LOCATIONS, REGION_NAMES, getLocationBySlug } from '@/config/loca
 import { services } from '@/config/services';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 86400;
+export const revalidate = 604800; // 7 days cache revalidation
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
@@ -16,11 +16,13 @@ export async function generateStaticParams() {
   return CITIES.map(city => ({ city: city.slug }));
 }
 
+export const dynamicParams = false;
+
 // ─── Metadata ───────────────────────────────────────────────────────────────
 export async function generateMetadata({ params }: { params: Promise<{ city: string }> }): Promise<Metadata> {
   const { city: citySlug } = await params;
   const city = getCityBySlug(citySlug);
-  if (!city) return {};
+  if (!city) notFound();
 
   const title = `Diagnostic Services in ${city.name} | MRI, CT, PET-CT, Pathology | Henotic Diagnostics`;
   const description = `Book ${city.name}'s best diagnostic services — MRI, CT Scan, PET-CT, Ultrasound, Blood Tests & Health Checkups. NABL accredited, same-day reports, 340+ tests available.`;
@@ -146,24 +148,11 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
       {/* ── Schema Markup ──────────────────────────────────────────────── */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }} />
-
-      {/* 🤖 Googlebot SERP Thumbnail Signal */}
-      <figure className="sr-only" itemScope itemType="https://schema.org/ImageObject">
-        <img
-          src={heroImageUrl}
-          alt={`Diagnostic Services in ${city.name} — Henotic Diagnostics`}
-          width={1200}
-          height={630}
-          itemProp="image"
-          loading="eager"
-        />
-        <figcaption itemProp="caption">Diagnostic Services in {city.name} — Henotic Diagnostics</figcaption>
-      </figure>
 
       {/* ── Hero Section ───────────────────────────────────────────────── */}
       <section className="relative bg-gradient-to-br from-blue-950 via-[#1e1b4b] to-blue-900 py-20 md:py-28 px-4 md:px-8 overflow-hidden">
@@ -312,6 +301,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
                       <Link
                         key={locSlug}
                         href={`/services/mri-scan/${regionSlug}/${locSlug}`}
+                        prefetch={false}
                         className="group flex items-center gap-2 bg-white hover:bg-blue-50 rounded-xl px-4 py-3 border border-slate-100 hover:border-blue-200 transition-all duration-200 shadow-sm hover:shadow-md"
                       >
                         <MapPin size={14} className="text-blue-500 shrink-0" />
@@ -345,6 +335,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
                         <Link
                           key={loc}
                           href={`/services/mri-scan/${regionSlug}/${loc}`}
+                          prefetch={false}
                           className="group flex items-center gap-2 bg-white hover:bg-blue-50 rounded-xl px-4 py-3 border border-slate-100 hover:border-blue-200 transition-all duration-200 shadow-sm hover:shadow-md"
                         >
                           <MapPin size={14} className="text-blue-500 shrink-0" />
@@ -473,6 +464,6 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           )}
         </div>
       </section>
-    </main>
+    </div>
   );
 }
