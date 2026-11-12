@@ -74,6 +74,9 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (request.method !== 'GET') return;
 
+  // Skip cross-origin requests — let CDN, analytics, and third-party APIs handle caching directly
+  if (url.origin !== self.location.origin) return;
+
   // Skip API routes, booking-system, & seo-image-optimizer — always network
   if (
     url.pathname.startsWith('/api/') ||

@@ -20,8 +20,7 @@ export default function ServiceWorkerRegister() {
             if (installingWorker) {
               installingWorker.onstatechange = () => {
                 if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  console.log('[SW] New version activated — reloading for fresh content');
-                  window.location.reload();
+                  console.log('[SW] New service worker version activated');
                 }
               };
             }
