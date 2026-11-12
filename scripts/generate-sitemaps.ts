@@ -102,6 +102,18 @@ async function writeSitemapIndex(filePath: string, chunkFilenames: string[], las
   });
 }
 
+// Services that 301-redirect to canonical test slugs (must not appear in sitemap index)
+const REDIRECTED_SYNONYM_SERVICES = new Set([
+  'ecg-test',
+  'electrocardiogram',
+  '2d-echo-test',
+  'echo-test',
+  'echocardiography',
+  'fetal-echo',
+  'whole-body-pet-scan',
+  'pet-scan',
+]);
+
 /**
  * Generator function yielding all sitemap URLs sequentially.
  */
@@ -123,8 +135,9 @@ function* generateAllUrls(today: string): Generator<SitemapUrl> {
     };
   }
 
-  // 2. Base Services
+  // 2. Base Services (Canonical only)
   for (const service of services) {
+    if (REDIRECTED_SYNONYM_SERVICES.has(service)) continue;
     yield {
       loc: `${BASE_URL}/services/${service}`,
       lastmod: today,
@@ -205,11 +218,15 @@ function* generateAllUrls(today: string): Generator<SitemapUrl> {
     };
   }
 
-  // 9. Regional & Location Service Pages
+  // 9. Regional & Location Service Pages (Canonical & Non-duplicate only)
   for (const service of services) {
+    if (REDIRECTED_SYNONYM_SERVICES.has(service)) continue;
     const isTopService = TOP_SERVICES.has(service);
 
     for (const [region, locationsList] of Object.entries(REGION_LOCATIONS)) {
+      // Skip deprecated/synthetic region 301-redirected in next.config.js
+      if (region === 'mumbai-suburban') continue;
+
       // Regional Hub
       yield {
         loc: `${BASE_URL}/services/${service}/${region}`,
@@ -220,6 +237,11 @@ function* generateAllUrls(today: string): Generator<SitemapUrl> {
 
       // Hyper-local Location Pages
       for (const location of locationsList) {
+        // Skip duplicate raigad locations that are canonically mapped under navi-mumbai
+        if (region === 'raigad' && ['old-panvel', 'khandeshwar', 'karanjade'].includes(location)) {
+          continue;
+        }
+
         yield {
           loc: `${BASE_URL}/services/${service}/${region}/${location}`,
           lastmod: today,
