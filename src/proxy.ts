@@ -18,7 +18,7 @@ const SEARCH_ENGINE_BOTS = /googlebot|bingbot|yandex|baiduspider|duckduckbot|slu
 // Automated scrapers, spiders, and headless HTTP libraries
 const BLOCKED_USER_AGENTS = /python-requests|aiohttp|scrapy|httpclient|libwww-perl|pyspider|zgrab|masscan/i;
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   const host = request.headers.get('host');
   const pathname = request.nextUrl.pathname;
