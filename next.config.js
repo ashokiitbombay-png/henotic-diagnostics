@@ -44,6 +44,113 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', '@apollo/client'],
   },
   turbopack: {},
+  async redirects() {
+    return [
+      // 1. Region consolidation: mumbai-suburban duplicate locations -> canonical regions
+      {
+        source: '/services/:service/mumbai-suburban/mumbra',
+        destination: '/services/:service/thane/mumbra',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/mumbai-suburban/diva',
+        destination: '/services/:service/thane/diva',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/mumbai-suburban/shahapur',
+        destination: '/services/:service/thane/shahapur',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/mumbai-suburban/wada',
+        destination: '/services/:service/thane/wada',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/mumbai-suburban/mira-bhayandar',
+        destination: '/services/:service/western-suburbs/mira-bhayandar',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/mumbai-suburban/bhiwandi-town',
+        destination: '/services/:service/thane/bhiwandi',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/mumbai-suburban/thane-city',
+        destination: '/services/:service/thane/thane-west',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/mumbai-suburban/navi-mumbai-east',
+        destination: '/services/:service/navi-mumbai/vashi',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/mumbai-suburban',
+        destination: '/services/:service/thane',
+        permanent: true,
+      },
+      // 2. Region consolidation: raigad duplicates -> navi-mumbai canonicals
+      {
+        source: '/services/:service/raigad/old-panvel',
+        destination: '/services/:service/navi-mumbai/old-panvel',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/raigad/khandeshwar',
+        destination: '/services/:service/navi-mumbai/khandeshwar',
+        permanent: true,
+      },
+      {
+        source: '/services/:service/raigad/karanjade',
+        destination: '/services/:service/navi-mumbai/karanjade',
+        permanent: true,
+      },
+      // 3. Synonym service slug consolidation -> canonical primary test
+      {
+        source: '/services/ecg-test/:path*',
+        destination: '/services/ecg/:path*',
+        permanent: true,
+      },
+      {
+        source: '/services/electrocardiogram/:path*',
+        destination: '/services/ecg/:path*',
+        permanent: true,
+      },
+      {
+        source: '/services/2d-echo-test/:path*',
+        destination: '/services/2d-echo/:path*',
+        permanent: true,
+      },
+      {
+        source: '/services/echo-test/:path*',
+        destination: '/services/2d-echo/:path*',
+        permanent: true,
+      },
+      {
+        source: '/services/echocardiography/:path*',
+        destination: '/services/2d-echo/:path*',
+        permanent: true,
+      },
+      {
+        source: '/services/fetal-echo/:path*',
+        destination: '/services/fetal-echocardiography/:path*',
+        permanent: true,
+      },
+      {
+        source: '/services/whole-body-pet-scan/:path*',
+        destination: '/services/whole-body-pet-ct/:path*',
+        permanent: true,
+      },
+      {
+        source: '/services/pet-scan/:path*',
+        destination: '/services/pet-ct/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
