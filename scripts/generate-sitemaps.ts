@@ -114,6 +114,13 @@ const REDIRECTED_SYNONYM_SERVICES = new Set([
   'pet-scan',
 ]);
 
+// Inpatient hospital surgical procedures that do not have neighborhood clinic pages
+const HOSPITAL_SURGICAL_SERVICES = new Set([
+  'angioplasty',
+  'tavr',
+  'cardiac-catheterization',
+]);
+
 /**
  * Generator function yielding all sitemap URLs sequentially.
  */
@@ -221,6 +228,7 @@ function* generateAllUrls(today: string): Generator<SitemapUrl> {
   // 9. Regional & Location Service Pages (Canonical & Non-duplicate only)
   for (const service of services) {
     if (REDIRECTED_SYNONYM_SERVICES.has(service)) continue;
+    if (HOSPITAL_SURGICAL_SERVICES.has(service)) continue;
     const isTopService = TOP_SERVICES.has(service);
 
     for (const [region, locationsList] of Object.entries(REGION_LOCATIONS)) {

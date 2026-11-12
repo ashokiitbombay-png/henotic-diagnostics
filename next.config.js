@@ -149,6 +149,22 @@ const nextConfig = {
         destination: '/services/pet-ct/:path*',
         permanent: true,
       },
+      // 4. Inpatient hospital surgical procedures: redirect micro-locations to main service guide
+      {
+        source: '/services/angioplasty/:region/:location',
+        destination: '/services/angioplasty',
+        permanent: true,
+      },
+      {
+        source: '/services/tavr/:region/:location',
+        destination: '/services/tavr',
+        permanent: true,
+      },
+      {
+        source: '/services/cardiac-catheterization/:region/:location',
+        destination: '/services/cardiac-catheterization',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

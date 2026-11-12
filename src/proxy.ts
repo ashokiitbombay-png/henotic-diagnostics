@@ -16,7 +16,7 @@ import type { NextRequest } from 'next/server';
 const SEARCH_ENGINE_BOTS = /googlebot|bingbot|yandex|baiduspider|duckduckbot|slurp|twitterbot|facebookexternalhit|linkedinbot|applebot|gptbot|claudebot|perplexitybot/i;
 
 // Automated scrapers, spiders, and headless HTTP libraries
-const BLOCKED_USER_AGENTS = /python-requests|aiohttp|scrapy|httpclient|libwww-perl|pyspider|zgrab|masscan/i;
+const BLOCKED_USER_AGENTS = /bytespider|ccbot|python-requests|aiohttp|scrapy|httpclient|libwww-perl|pyspider|zgrab|masscan/i;
 
 export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
