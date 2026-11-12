@@ -95,6 +95,9 @@ async function writeSitemapIndex(filePath: string, chunkFilenames: string[], las
       stream.write(`  <sitemap>\n    <loc>${BASE_URL}/sitemaps/${file}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`);
     }
 
+    // Include dedicated health checkups image and authority sitemap
+    stream.write(`  <sitemap>\n    <loc>${BASE_URL}/sitemap-health-checkups.xml</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`);
+
     stream.write('</sitemapindex>\n', () => resolve());
   });
 }
