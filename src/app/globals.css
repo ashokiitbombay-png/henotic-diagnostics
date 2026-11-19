@@ -656,3 +656,56 @@ html.dark .silver-shiny-card::before {
     #94a3b8 100%
   );
 }
+
+/* =========================================================================
+   ✨ NIPT PREMIUM GLOSSY 3D CTA SHINE & SPECULAR REFLECTION UTILITY
+   ========================================================================= */
+.nipt-btn-gloss {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.nipt-btn-gloss::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.nipt-btn-gloss::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: -130%;
+  width: 65%;
+  height: 140%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 38%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(255, 255, 255, 0.08) 62%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.nipt-btn-gloss:hover::after {
+  left: 155%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nipt-btn-gloss::after {
+    transition: none;
+    display: none;
+  }
+}

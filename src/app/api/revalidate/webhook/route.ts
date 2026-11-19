@@ -60,6 +60,10 @@ function normalizePayload(source: CMSSource, body: Record<string, unknown>): Nor
       // Packages & trust global are shared by the 26 authority pages → healthPackages tag is revalidated
       'health-packages': 'health-packages',
       'global:health-checkup-trust': 'health-packages',
+      // NIPT prenatal screening authority pages, panels & trust global
+      'nipt-pages': 'nipt-page',
+      'nipt-panels': 'nipt-tests',
+      'global:nipt-trust': 'nipt-tests',
     };
 
     return {
@@ -266,6 +270,11 @@ export async function POST(request: NextRequest) {
     } else if (contentType === 'health-checkup-page') {
       revalidateTag(CACHE_TAGS.service(slug), 'max');
       revalidateTag(CACHE_TAGS.healthPackages, 'max');
+    } else if (contentType === 'nipt-tests') {
+      revalidateTag(CACHE_TAGS.niptTests, 'max');
+    } else if (contentType === 'nipt-page') {
+      revalidateTag(CACHE_TAGS.service(slug), 'max');
+      revalidateTag(CACHE_TAGS.niptTests, 'max');
     } else if (contentType === 'post') {
       await wpCacheInvalidate('post', slug);
       await wpCachePurgeByPrefix('posts');

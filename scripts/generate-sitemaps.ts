@@ -25,7 +25,7 @@ interface SitemapUrl {
 const TOP_SERVICES = new Set([
   'mri-scan', 'ct-scan', 'pet-scan', 'ultrasound', 'blood-test',
   '2d-echo', 'full-body-check-up', 'mammography', 'pregnancy-sonography',
-  'dexa-bone-scan', 'ecg', 'hrct-scan', 'whole-body-pet-ct'
+  'dexa-bone-scan', 'ecg', 'hrct-scan', 'whole-body-pet-ct', 'nipt-test'
 ]);
 
 const GMC_SLUGS = [
@@ -95,8 +95,9 @@ async function writeSitemapIndex(filePath: string, chunkFilenames: string[], las
       stream.write(`  <sitemap>\n    <loc>${BASE_URL}/sitemaps/${file}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`);
     }
 
-    // Include dedicated health checkups image and authority sitemap
+    // Include dedicated health checkups and NIPT authority & image sitemaps
     stream.write(`  <sitemap>\n    <loc>${BASE_URL}/sitemap-health-checkups.xml</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`);
+    stream.write(`  <sitemap>\n    <loc>${BASE_URL}/sitemap-nipt-tests.xml</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`);
 
     stream.write('</sitemapindex>\n', () => resolve());
   });

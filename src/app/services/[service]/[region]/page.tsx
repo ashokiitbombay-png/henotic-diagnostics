@@ -13,13 +13,16 @@ import RelatedServices from "@/components/seo/RelatedServices";
 import PricingTable from "@/components/blocks/PricingTable";
 import ServiceFAQ from "@/components/blocks/ServiceFAQ";
 import { getFAQsForService } from "@/config/faqs";
-import { REGION_LOCATIONS } from '@/config/locations';
+import { REGION_LOCATIONS, REGION_NAMES } from '@/config/locations';
 import { optimizeWordPressHTML, formatSlug } from '@/lib/utils';
 import { getService } from '@/lib/wordpress/getService';
 import PartnerCenters from '@/components/blocks/PartnerCenters';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 import { isValidServiceSlug, isValidRegionSlug } from '@/lib/seo/slug-validator';
 import { getHeroImageForService } from '@/config/services';
+import { isNiptService } from '@/config/nipt-test';
+import { getNiptPageData } from '@/lib/payload/nipt-tests';
+import NiptAuthorityPage, { buildNiptMetadata } from '@/components/nipt-test/NiptAuthorityPage';
 
 export const revalidate = 604800; // 7 days cache revalidation
 
@@ -28,6 +31,16 @@ export const revalidate = 604800; // 7 days cache revalidation
 // ==========================================
 export async function generateMetadata({ params }: { params: Promise<{ service: string, region: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
+
+  if (isNiptService(resolvedParams.service)) {
+    const regionName = REGION_NAMES[resolvedParams.region] || formatSlug(resolvedParams.region);
+    const niptData = await getNiptPageData(resolvedParams.service, {
+      regionSlug: resolvedParams.region,
+      regionName,
+    });
+    if (niptData) return buildNiptMetadata(niptData);
+  }
+
   const serviceName = formatSlug(resolvedParams.service);
   const regionName = formatSlug(resolvedParams.region);
   const heroImage = getHeroImageForService(resolvedParams.service);
@@ -88,13 +101,68 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  let wpContent: any = null;
-  
   const serviceName = formatSlug(resolvedParams.service);
-  const regionName = formatSlug(resolvedParams.region);
-  
+  const regionName = REGION_NAMES[resolvedParams.region] || formatSlug(resolvedParams.region);
+
   // Get the list of specific locations for this region to build the SEO grid
   const locations = REGION_LOCATIONS[resolvedParams.region] || [];
+
+  // 🧬 NIPT multi-tier region hub authority experience
+  if (isNiptService(resolvedParams.service)) {
+    const niptData = await getNiptPageData(resolvedParams.service, {
+      regionSlug: resolvedParams.region,
+      regionName,
+    });
+    if (niptData) {
+      return (
+        <NiptAuthorityPage
+          data={niptData}
+          afterHeroSlot={
+            <>
+              <section className="py-12 sm:py-16 bg-white/95 backdrop-blur-md border-b border-slate-200 relative -mt-8 rounded-t-[2.5rem] z-20">
+                <div className="max-w-7xl mx-auto px-4 md:px-8">
+                  <div className="text-center mb-8 sm:mb-10">
+                    <h2 className="text-2xl md:text-3xl font-black text-slate-900">
+                      Find {niptData.page.keyword} &amp; Home Blood Collection in {regionName}
+                    </h2>
+                    <p className="text-slate-600 mt-2 font-medium text-sm sm:text-base">
+                      Select your neighbourhood in {regionName} for pincode-level maternal cfDNA pickup turnaround and instant NIPT appointment booking.
+                    </p>
+                  </div>
+
+                  {locations.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+                      {locations.map((loc) => (
+                        <Link
+                          key={loc}
+                          href={`/services/${resolvedParams.service}/${resolvedParams.region}/${loc}`}
+                          prefetch={false}
+                          className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 bg-slate-50/80 hover:bg-purple-50 hover:border-purple-300 transition-all group"
+                        >
+                          <span className="font-bold text-slate-800 group-hover:text-purple-800 text-xs sm:text-sm">
+                            {formatSlug(loc)}
+                          </span>
+                          <ArrowRight size={16} className="text-slate-400 group-hover:text-purple-700 transform group-hover:translate-x-1 transition-all shrink-0" />
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center p-8 bg-amber-50 rounded-2xl text-amber-800 border border-amber-100 font-medium">
+                      Specific location pages for this region are currently being updated.
+                    </div>
+                  )}
+                </div>
+              </section>
+              <PartnerCenters service={resolvedParams.service} region={resolvedParams.region} />
+            </>
+          }
+          afterSuiteSlot={<RelatedServices currentService={resolvedParams.service} region={resolvedParams.region} />}
+        />
+      );
+    }
+  }
+
+  let wpContent: any = null;
 
   try {
     const serviceData = await getService(resolvedParams.service);

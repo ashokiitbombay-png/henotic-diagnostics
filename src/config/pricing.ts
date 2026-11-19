@@ -188,9 +188,28 @@ export const SERVICE_PRICING: ServicePricing[] = [
   { serviceSlug: 'chronic-liver-disease-screening', serviceName: 'Chronic Liver Disease Screening', henoticPrice: 4500, marketPrice: 5500, savings: 18, currency: 'INR', category: 'Liver Diagnostics' },
 
   // ────────────────────────────────────
-  // GENETIC TESTING (2)
+  // GENETIC TESTING (21)
   // ────────────────────────────────────
-  { serviceSlug: 'nipt-test', serviceName: 'NIPT (Non-Invasive Prenatal Test)', henoticPrice: 12000, marketPrice: 22000, savings: 45, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nipt-test', serviceName: 'NIPT (Non-Invasive Prenatal Test)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nipt-non-invasive-prenatal-testing', serviceName: 'NIPT Non-Invasive Prenatal Testing', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'blood-test-nipt', serviceName: 'Blood Test NIPT (cfDNA Screening)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'non-invasive-prenatal-diagnosis', serviceName: 'Non-Invasive Prenatal Diagnosis (NIPT)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'price-of-nipt-test', serviceName: 'Price of NIPT Test', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nipt-lab-test', serviceName: 'NIPT Lab Test (Maternal cfDNA)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'down-syndrome-prenatal-diagnosis', serviceName: 'Down Syndrome Prenatal Diagnosis (NIPT)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nipt-test-in-pregnancy-cost', serviceName: 'NIPT Test in Pregnancy Cost', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'non-invasive-prenatal-screening-nipt', serviceName: 'Non-Invasive Prenatal Screening (NIPT)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'non-invasive-prenatal-test-nipt', serviceName: 'Non-Invasive Prenatal Test (NIPT)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'prenatal-down-syndrome', serviceName: 'Prenatal Down Syndrome Screening (NIPT)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nips', serviceName: 'NIPS (Non-Invasive Prenatal Screening)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nipt-testing-cost', serviceName: 'NIPT Testing Cost', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nipt-test-pregnancy', serviceName: 'NIPT Test Pregnancy Screening', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nipt-test-for-pregnancy', serviceName: 'NIPT Test for Pregnancy', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'non-invasive-prenatal-screening-test', serviceName: 'Non-Invasive Prenatal Screening Test', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'cost-for-nipt-test', serviceName: 'Cost for NIPT Test', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'nip-t-test', serviceName: 'NIP-T Test (Prenatal cfDNA)', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'npt-test-pregnancy', serviceName: 'NPT Test Pregnancy Screening', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
+  { serviceSlug: 'pregnancy-test-nipt', serviceName: 'Pregnancy Test NIPT', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
   { serviceSlug: 'karyotype-test', serviceName: 'Karyotype Analysis', henoticPrice: 3500, marketPrice: 6000, savings: 42, currency: 'INR', category: 'Genetic Testing' },
 ];
 

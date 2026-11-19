@@ -39,6 +39,9 @@ export async function GET() {
   xml += `
   <sitemap>
     <loc>${BASE_URL}/sitemap-health-checkups.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>${BASE_URL}/sitemap-nipt-tests.xml</loc>
   </sitemap>`;
 
   xml += `

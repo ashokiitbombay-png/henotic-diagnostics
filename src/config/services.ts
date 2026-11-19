@@ -26,7 +26,7 @@ export const services = [
   // FIBROSCAN & LIVER DIAGNOSTICS
   "fibroscan", "fibroscan-test", "liver-fibroscan", "liver-elastography", "hepatic-elastography", "fatty-liver-assessment", "fatty-liver-screening", "fatty-liver-scan", "liver-health-assessment", "liver-screening", "liver-fibrosis-assessment", "liver-stiffness-test", "cirrhosis-screening", "chronic-liver-disease-screening",
   // GENETIC TESTING
-  "prenatal-test", "prenatal-genetic-testing", "nipt-test", "nips-test", "nippt", "karyotype-test", "chromosomal-analysis", "chromosomal-testing", "chromosome-analysis", "genetic-test", "genetic-screening", "genetic-counselling", "genetic-counselling-service", "carrier-screening", "carrier-testing", "dna-test", "dna-analysis", "paternity-test", "relationship-dna-test", "molecular-diagnostics", "cytogenetics", "fertility-genetic-test", "fertility-genetic-screening", "reproductive-genetics", "fetal-genetic-testing",
+  "prenatal-test", "prenatal-genetic-testing", "nipt-test", "nips-test", "nippt", "nipt-non-invasive-prenatal-testing", "blood-test-nipt", "non-invasive-prenatal-diagnosis", "price-of-nipt-test", "nipt-lab-test", "down-syndrome-prenatal-diagnosis", "nipt-test-in-pregnancy-cost", "non-invasive-prenatal-screening-nipt", "non-invasive-prenatal-test-nipt", "prenatal-down-syndrome", "nips", "nipt-testing-cost", "nipt-test-pregnancy", "nipt-test-for-pregnancy", "non-invasive-prenatal-screening-test", "cost-for-nipt-test", "nip-t-test", "npt-test-pregnancy", "pregnancy-test-nipt", "karyotype-test", "chromosomal-analysis", "chromosomal-testing", "chromosome-analysis", "genetic-test", "genetic-screening", "genetic-counselling", "genetic-counselling-service", "carrier-screening", "carrier-testing", "dna-test", "dna-analysis", "paternity-test", "relationship-dna-test", "molecular-diagnostics", "cytogenetics", "fertility-genetic-test", "fertility-genetic-screening", "reproductive-genetics", "fetal-genetic-testing",
   // GENOMIC SEQUENCING
   "whole-exome-sequencing", "whole-genome-sequencing", "clinical-exome-sequencing", "targeted-gene-panel", "next-generation-sequencing", "trio-whole-exome-sequencing", "rna-sequencing", "transcriptome-sequencing", "exome-plus-sequencing", "mitochondrial-genome-sequencing", "long-read-genome-sequencing", "copy-number-variation-analysis", "chromosomal-microarray", "whole-transcriptome-sequencing", "metagenomic-sequencing", "16s-rrna-sequencing", "cell-free-dna-sequencing", "liquid-biopsy-ngs", "somatic-tumor-sequencing", "germline-sequencing",
   // MICROBIOME TESTING
@@ -320,6 +320,25 @@ const DIRECT_HERO_MAP: Record<string, string> = {
   "nipt-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
   "nips-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
   "nippt": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "nipt-non-invasive-prenatal-testing": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "blood-test-nipt": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "non-invasive-prenatal-diagnosis": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "price-of-nipt-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "nipt-lab-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "down-syndrome-prenatal-diagnosis": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "nipt-test-in-pregnancy-cost": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "non-invasive-prenatal-screening-nipt": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "non-invasive-prenatal-test-nipt": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "prenatal-down-syndrome": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "nips": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "nipt-testing-cost": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "nipt-test-pregnancy": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "nipt-test-for-pregnancy": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "non-invasive-prenatal-screening-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "cost-for-nipt-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "nip-t-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "npt-test-pregnancy": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
+  "pregnancy-test-nipt": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
   "prenatal-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
   "prenatal-genetic-testing": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
   "karyotype-test": `${HERO}/nipt-test-henotic-diagnostics_cta.webp`,
@@ -391,11 +410,20 @@ export function getHeroImageForService(slug: string): string {
   if (s.includes("pet")) return `${HERO}/pet-ct-scan-henotic-diagnostics_cta.webp`;
   if (s.includes("mammo") || s.includes("breast")) return `${HERO}/mammography-henotic-diagnostics_cta.webp`;
   if (s.includes("fibro") || s.includes("liver")) return `${HERO}/liver-fibroscan-henotic-diagnostics_cta.webp`;
+  if (
+    s.includes("nipt") ||
+    s.includes("nips") ||
+    s.includes("nip-t") ||
+    s.includes("npt-test") ||
+    s.includes("down-syndrome") ||
+    s.includes("genetic") ||
+    s.includes("dna") ||
+    s.includes("prenatal")
+  )
+    return `${HERO}/nipt-test-henotic-diagnostics_cta.webp`;
   if (s.includes("sono") || s.includes("pregnan") || s.includes("fetal") || s.includes("trimester"))
     return `${HERO}/sonography-henotic-diagnostics_cta.webp`;
   if (s.includes("ultra") || s.includes("usg")) return `${HERO}/ultrasound-abdomen-henotic-diagnostics_cta.webp`;
-  if (s.includes("genetic") || s.includes("nipt") || s.includes("dna") || s.includes("prenatal"))
-    return `${HERO}/nipt-test-henotic-diagnostics_cta.webp`;
   if (s.includes("pathol") || s.includes("blood") || s.includes("lab") || s.includes("test"))
     return `${HERO}/pathology-lab-henotic-diagnostics_cta.webp`;
   if (s.includes("checkup") || s.includes("screening") || s.includes("diagnostic") || s.includes("radiology"))

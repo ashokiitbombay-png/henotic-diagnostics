@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, Home } from 'lucide-react';
 import { getHeroImageForService } from '@/config/services';
+import { formatSlug } from '@/lib/utils';
 import AccreditationLogos from '@/components/blocks/AccreditationLogos';
 
 // 🏅 ACCREDITATION LOGOS - National Bodies
@@ -31,25 +32,6 @@ const ACCREDITATIONS = [
 
 // HERO_IMAGE is now dynamically resolved per-service via getHeroImageForService()
 
-// 🧠 Intelligent Slug Formatter for 200+ Medical Services & Locations
-const formatSlug = (slug: string) => {
-  if (!slug) return '';
-  const acronyms = [
-    "mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", 
-    "2d", "3d", "4d", "nipt", "nips", "nippt", "dna", "dexa", "bmd", "tmt", 
-    "bpp", "fnac", "dtpa", "mag3", "gfr", "vdrl", "hiv", "hpv", "std", "sti", 
-    "tavr", "cbd", "hrct", "mrcp", "pns", "ec"
-  ];
-  return slug.split('-').map(word => {
-    const lowerWord = word.toLowerCase();
-    if (acronyms.includes(lowerWord)) {
-      if (lowerWord === 'hba1c') return 'HbA1c';
-      return word.toUpperCase();
-    }
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(' ');
-};
-
 interface ServiceHeroProps {
   /** The raw service slug (e.g., "mri-scan") */
   service?: string;
@@ -63,6 +45,10 @@ interface ServiceHeroProps {
   subtitle?: string;
   /** Whether this is the /services index page (no dynamic params) */
   isServicesIndex?: boolean;
+  /** Suppress inline BreadcrumbList JSON-LD when a page emits a consolidated @graph */
+  hideBreadcrumbSchema?: boolean;
+  /** Optional ID for the hero <h1> (e.g. for Schema.org speakable selectors) */
+  h1Id?: string;
 }
 
 /**
@@ -76,7 +62,9 @@ export default function ServiceHero({
   location, 
   title, 
   subtitle,
-  isServicesIndex = false 
+  isServicesIndex = false,
+  hideBreadcrumbSchema = false,
+  h1Id = 'service-hero-h1',
 }: ServiceHeroProps) {
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.henoticdiagnostics.com';
@@ -131,7 +119,9 @@ export default function ServiceHero({
   return (
     <>
       {/* 🤖 Invisible Schema Tag for Google Bots */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }} />
+      {!hideBreadcrumbSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }} />
+      )}
 
       {/* 🖼️ FULL-WIDTH HERO SECTION WITH IMAGE BACKGROUND */}
       <section className="relative min-h-[420px] md:min-h-[520px] overflow-hidden bg-slate-900">
@@ -206,7 +196,7 @@ export default function ServiceHero({
         {/* 📝 HERO CONTENT — Title, Subtitle */}
         <div className="relative z-20 px-4 md:px-8 pt-6 md:pt-10 pb-16 md:pb-20">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-5 tracking-tight drop-shadow-2xl max-w-4xl">
+            <h1 id={h1Id} className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-5 tracking-tight drop-shadow-2xl max-w-4xl">
               {heroTitle.includes(' in ') ? (
                 <>
                   {heroTitle.split(' in ')[0]} in{' '}

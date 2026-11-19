@@ -5,21 +5,13 @@ import { services } from '@/config/services';
 import { REGION_LOCATIONS, REGION_NAMES } from '@/config/locations';
 import { SERVICE_CATEGORIES } from '@/config/categories';
 import { GMC_PRODUCTS } from '@/config/gmc-products';
+import { formatSlug } from '@/lib/utils';
 import { Map, FileText, Stethoscope, MapPin, ShoppingBag, Scale, BookOpen } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Sitemap — All Pages | Henotic Diagnostics',
   description: 'Browse the complete sitemap of Henotic Diagnostics — 37,000+ pages covering diagnostic services across Mumbai, Navi Mumbai, Thane, and Pune.',
   alternates: { canonical: 'https://www.henoticdiagnostics.com/sitemap' },
-};
-
-const formatSlug = (slug: string) => {
-  const acronyms = ["mri", "ct", "pet", "nt", "usg", "ecg", "cbc", "lft", "kft", "hba1c", "dexa", "bmd", "tmt", "bpp", "fnac", "dtpa", "mag3", "gfr", "hrct", "mrcp", "pns", "nipt", "nips", "nippt", "dna", "ngs", "rna", "fapi", "dota", "dopa", "psma", "als", "bls", "icu", "dvt", "hsg", "ssg", "bpp"];
-  return slug.split('-').map(w => {
-    const lower = w.toLowerCase();
-    if (acronyms.includes(lower)) return lower.toUpperCase();
-    return w.charAt(0).toUpperCase() + w.slice(1);
-  }).join(' ');
 };
 
 // Category emoji icons for visual distinction in the sitemap
@@ -185,7 +177,15 @@ export default function HTMLSitemap() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="px-3 py-2.5 rounded-xl bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 hover:bg-blue-100 transition-all text-center flex flex-col items-center justify-center gap-0.5">
                 <span>📋 Master Index</span>
-                <span className="text-[10px] text-blue-500 font-normal">5 Sitemaps</span>
+                <span className="text-[10px] text-blue-500 font-normal">XML Sitemaps</span>
+              </a>
+              <a href="/sitemap-nipt-tests.xml" target="_blank" rel="noopener noreferrer" className="px-3 py-2.5 rounded-xl bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 hover:bg-purple-100 transition-all text-center flex flex-col items-center justify-center gap-0.5">
+                <span>🧬 NIPT Authority</span>
+                <span className="text-[10px] text-purple-500 font-normal">20 Slugs + Images</span>
+              </a>
+              <a href="/sitemap-health-checkups.xml" target="_blank" rel="noopener noreferrer" className="px-3 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition-all text-center flex flex-col items-center justify-center gap-0.5">
+                <span>❤️ Health Checkups</span>
+                <span className="text-[10px] text-emerald-500 font-normal">26 Slugs + Images</span>
               </a>
               {[
                 { id: 1, urls: "10,000 URLs" },

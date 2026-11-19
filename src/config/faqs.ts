@@ -136,6 +136,38 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
     ]
   },
 
+  // ─── NIPT PRENATAL GENETIC SCREENING (6 FAQs) ──
+  // Placed before blood-test and pregnancy ultrasound templates so blood-test-nipt & nipt-test-pregnancy match here first.
+  {
+    servicePattern: 'nipt|nips|nippt|nip-t|npt-test|prenatal-down-syndrome|down-syndrome-prenatal|non-invasive-prenatal',
+    faqs: [
+      {
+        question: 'What is {service} and how safe is it during pregnancy in {location}?',
+        answer: 'Non-Invasive Prenatal Testing ({service}) is an advanced cell-free fetal DNA (cfDNA) blood screening test analyzed from a single maternal arm blood draw. Because it does not touch the amniotic sac or placenta, it poses zero procedural risk to your developing baby. Home maternal blood collection is available across {location}.'
+      },
+      {
+        question: 'How much does {service} cost at Henotic Diagnostics {location}?',
+        answer: 'At Henotic Diagnostics serving {location}, transparent NIPT packages start at ₹10,000 for the NIPT Basic Screening Panel (MRP ₹12,500, 20% off), ₹12,500 for the Comprehensive NIPT Test Panel (MRP ₹15,500), and ₹15,000 for the Advanced NIPT Test Panel (MRP ₹18,500), with zero hidden home collection charges.'
+      },
+      {
+        question: 'When can I take {service} during pregnancy?',
+        answer: '{service} is generally recommended from 10 weeks of pregnancy onwards, once sufficient placental cell-free DNA (fetal fraction) is circulating in maternal peripheral blood. Carry your recent pregnancy ultrasound report to confirm gestational age and singleton or twin pregnancy details.'
+      },
+      {
+        question: 'Is fasting required before {service} blood sample collection?',
+        answer: 'No, fasting is generally not required before {service} blood collection. Expectant mothers in {location} can eat and drink normally before their clinic visit or home blood sample pickup.'
+      },
+      {
+        question: 'How long does it take to receive {service} results?',
+        answer: 'NIPT Basic, Comprehensive, and Advanced reports have a standard turnaround time (TAT) of 7 to 10 days from maternal blood collection, following Next-Generation Sequencing (NGS) analysis and verification by MD Molecular Genetics and Pathology specialists.'
+      },
+      {
+        question: 'Does a High-Risk {service} result confirm Down syndrome or another chromosomal condition?',
+        answer: 'No. NIPT is a high-sensitivity prenatal screening test, not a diagnostic test. A high-risk result indicates an increased probability of conditions such as Trisomy 21 (Down syndrome), Trisomy 18, or Trisomy 13 and should always be followed by genetic counselling and confirmatory diagnostic testing such as Chorionic Villus Sampling (CVS) or Amniocentesis.'
+      }
+    ]
+  },
+
   // ─── BLOOD TESTS & PATHOLOGY (6 FAQs) ──
   {
     servicePattern: 'blood-test|lab-test|pathology-test|cbc|lipid-profile|thyroid-test|thyroid-profile|liver-function|kidney-function|diabetes-test|hba1c|vitamin-d|vitamin-b12|iron-profile|urine-test|stool-test|hormone-test|allergy-test|tumor-marker|infection-test|covid|dengue|malaria|typhoid|home-blood-collection',

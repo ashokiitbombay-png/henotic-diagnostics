@@ -224,9 +224,89 @@ export interface PayloadHealthCheckupTrust {
   testimonials?: Array<{ name: string; service?: string; quote: string; image?: PayloadMediaUpload | string | null; imageUrl?: string; rating?: number }>;
 }
 
+// ── NIPT Prenatal Screening Authority Content ────────────────────────────
+// Payload arrays of primitives are stored as `{ id, <field> }` rows; the
+// mapper in `src/lib/payload/nipt-tests.ts` accepts both shapes.
+
+export interface PayloadNiptPanel {
+  id: string;
+  code: string;
+  badgeNumber?: string;
+  topPillLabel?: string;
+  title: string;
+  subtitle?: string;
+  shortTag?: string;
+  tags?: PayloadTextRow[];
+  testsCountNumber?: string;
+  testsCountUnit?: string;
+  totalTestsLabel?: string;
+  totalTestsCount?: string;
+  tat?: string;
+  sampleType?: string;
+  gestation?: string;
+  ribbonText?: string;
+  colHeaders?: PayloadTextRow[];
+  pricing: PayloadPricing;
+  discountLabel?: string;
+  image?: PayloadMediaUpload | string | null;
+  imageUrl?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  theme?: Partial<Record<'archBg' | 'accentBorder' | 'glow' | 'lineColor' | 'gradientBelowImage' | 'cardHeaderTint' | 'badgeBg' | 'ctaGradient', string>>;
+  popular?: boolean;
+  parameters?: Array<{ param: string; detail: string }>;
+  sortOrder?: number;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PayloadNiptPage {
+  id: string;
+  slug: string;
+  keyword?: string;
+  secondaryKeywords?: PayloadTextRow[];
+  metaTitle?: string;
+  metaDescription?: string;
+  h1?: string;
+  heroSubtitle?: string;
+  eyebrow?: string;
+  intro?: string;
+  quickAnswer?: string;
+  primaryImage?: {
+    media?: PayloadMediaUpload | string | null;
+    url?: string;
+    alt?: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+  };
+  featuredPanels?: Array<string | PayloadNiptPanel>;
+  featuredPanelCodes?: PayloadTextRow[];
+  whoShouldBook?: PayloadTextRow[];
+  sections?: Array<{ heading: string; body: string }>;
+  faqs?: Array<{ question: string; answer: string }>;
+  relatedSlugs?: PayloadTextRow[];
+  lastReviewed?: string;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PayloadNiptTrust {
+  googleRating?: { rating?: number; reviewCount?: number; profileUrl?: string; mapsUrl?: string };
+  infrastructure?: Array<{ title: string; subtitle?: string; image?: PayloadMediaUpload | string | null; imageUrl?: string; tag?: string }>;
+  doctors?: Array<{ name: string; degrees?: string; registration?: string; bio?: string; focus?: PayloadTextRow[]; image?: PayloadMediaUpload | string | null; imageUrl?: string }>;
+  certificates?: Array<{ certId?: string; name: string; authority?: string; logo?: PayloadMediaUpload | string | null; logoUrl?: string; certImage?: PayloadMediaUpload | string | null; certImageUrl?: string; desc?: string }>;
+  awards?: Array<{ awardId?: string; title: string; category?: string; year?: string; organization?: string; description?: string; image?: PayloadMediaUpload | string | null; imageUrl?: string; badgeLabel?: string; accentGlow?: string }>;
+  testimonials?: Array<{ name: string; service?: string; quote: string; image?: PayloadMediaUpload | string | null; imageUrl?: string; rating?: number }>;
+}
+
 /** Payload global slug → document type mapping */
 export interface PayloadGlobalMap {
   'health-checkup-trust': PayloadHealthCheckupTrust;
+  'nipt-trust': PayloadNiptTrust;
 }
 
 export type PayloadGlobalSlug = keyof PayloadGlobalMap;
@@ -260,6 +340,8 @@ export interface PayloadCollectionMap {
   media: PayloadMediaUpload;
   'health-packages': PayloadHealthPackage;
   'health-checkup-pages': PayloadHealthCheckupPage;
+  'nipt-panels': PayloadNiptPanel;
+  'nipt-pages': PayloadNiptPage;
 }
 
 export type PayloadCollectionSlug = keyof PayloadCollectionMap;

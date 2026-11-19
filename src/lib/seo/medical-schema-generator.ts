@@ -463,7 +463,9 @@ function inferMedicalTestType(slug: string): string {
     return 'MedicalTest';
   }
   if (s.includes('genetic') || s.includes('dna') || s.includes('sequencing') ||
-      s.includes('karyotype') || s.includes('nipt') || s.includes('microbiome')) {
+      s.includes('karyotype') || s.includes('nipt') || s.includes('nips') ||
+      s.includes('nip-t') || s.includes('npt-test') || s.includes('non-invasive-prenatal') ||
+      s.includes('down-syndrome') || s.includes('microbiome')) {
     return 'PathologyTest';
   }
   return 'MedicalTest';
@@ -472,6 +474,9 @@ function inferMedicalTestType(slug: string): string {
 /** Infers what medical device/instrument is used for the test */
 function inferUsedToDiagnose(slug: string): string {
   const s = slug.toLowerCase();
+  if (s.includes('nipt') || s.includes('nips') || s.includes('nip-t') || s.includes('npt-test') || s.includes('non-invasive-prenatal') || s.includes('down-syndrome') || s.includes('genetic') || s.includes('sequencing')) {
+    return 'Next-Generation Sequencing (NGS) & SNP-Based Cell-Free DNA Platform';
+  }
   if (s.includes('mri')) return 'Magnetic Resonance Imaging (MRI) Scanner';
   if (s.includes('ct-') || s.includes('hrct')) return 'Computed Tomography (CT) Scanner';
   if (s.includes('pet-')) return 'Positron Emission Tomography (PET-CT) Scanner';

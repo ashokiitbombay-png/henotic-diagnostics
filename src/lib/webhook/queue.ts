@@ -147,6 +147,21 @@ export async function flushAndProcess(type: string): Promise<{
       return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
     }
 
+    if (type === 'nipt-tests') {
+      revalidateTag(CACHE_TAGS.niptTests, 'max');
+      console.log(`✅ [Queue] Tag-invalidated NIPT tests suite`);
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+    }
+
+    if (type === 'nipt-page') {
+      for (const slug of slugs) {
+        revalidateTag(CACHE_TAGS.service(slug), 'max');
+      }
+      revalidateTag(CACHE_TAGS.niptTests, 'max');
+      console.log(`✅ [Queue] Tag-invalidated ${slugs.length} NIPT authority page(s)`);
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+    }
+
     if (type === 'post') {
       // Blog posts: purge list cache + invalidate each post tag
       await wpCachePurgeByPrefix('posts');

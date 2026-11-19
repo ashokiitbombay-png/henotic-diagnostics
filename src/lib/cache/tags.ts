@@ -18,6 +18,10 @@ export const CACHE_TAGS = {
   /** Isolated tag for health checkup packages (does not invalidate all general services) */
   healthPackages: 'payload:health-packages',
 
+  // ── NIPT Tests Tag ──────────────────────────────────────────────────
+  /** Isolated tag for NIPT prenatal panels, trust signals, and 20 authority pages */
+  niptTests: 'payload:nipt-tests',
+
   // ── Blog Tags ───────────────────────────────────────────────────────
   /** Tag for a specific blog post */
   post: (slug: string) => `wp:post:${slug}`,

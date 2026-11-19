@@ -10,11 +10,20 @@ import { getHeroImageForService } from '@/config/services';
 import { isHealthCheckupAuthoritySlug } from '@/config/health-checkup';
 import { getHealthCheckupPageData } from '@/lib/payload/health-checkups';
 import HealthCheckupAuthorityPage, { buildHealthCheckupMetadata } from '@/components/health-checkup/HealthCheckupAuthorityPage';
+import { isNiptService } from '@/config/nipt-test';
+import { getNiptPageData } from '@/lib/payload/nipt-tests';
+import NiptAuthorityPage, { buildNiptMetadata } from '@/components/nipt-test/NiptAuthorityPage';
 
 export const revalidate = 604800; // 7 days cache revalidation
 
 export async function generateMetadata({ params }: { params: Promise<{ service: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
+
+  // 🧬 NIPT prenatal genetic screening authority pages (20 slugs + synonyms)
+  if (isNiptService(resolvedParams.service)) {
+    const niptData = await getNiptPageData(resolvedParams.service);
+    if (niptData) return buildNiptMetadata(niptData);
+  }
 
   // 🩺 Health checkup authority pages (26 slugs) — Payload CMS-driven metadata
   if (isHealthCheckupAuthoritySlug(resolvedParams.service)) {
@@ -66,6 +75,12 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
   // Slug validation: prevent CDN cache pollution from invalid URLs
   if (!isValidServiceSlug(resolvedParams.service)) {
     notFound();
+  }
+
+  // 🧬 NIPT prenatal genetic screening authority pages
+  if (isNiptService(resolvedParams.service)) {
+    const niptData = await getNiptPageData(resolvedParams.service);
+    if (niptData) return <NiptAuthorityPage data={niptData} showRegionDirectory />;
   }
 
   // 🩺 Health checkup authority pages (26 slugs) — dedicated template with

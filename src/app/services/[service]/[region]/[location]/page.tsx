@@ -7,14 +7,49 @@ import { formatSlug } from "@/lib/utils";
 import { isValidServiceSlug, isValidLocationForRegion } from '@/lib/seo/slug-validator';
 import { isHealthCheckupService } from '@/config/health-packages';
 import { getHeroImageForService } from '@/config/services';
+import { REGION_NAMES, CITY_MICRO_NEIGHBORHOODS } from '@/config/locations';
+import { getPayloadLocation } from '@/lib/payload/locations';
+import { isNiptService, type NiptLocationContext } from '@/config/nipt-test';
+import { getNiptPageData } from '@/lib/payload/nipt-tests';
+import NiptAuthorityPage, { buildNiptMetadata } from '@/components/nipt-test/NiptAuthorityPage';
+import CrossLocationLinks from '@/components/seo/CrossLocationLinks';
+import ServiceAreaTargeting from '@/components/seo/ServiceAreaTargeting';
+import PeopleAlsoSearchFor from '@/components/seo/PeopleAlsoSearchFor';
+import RelatedServices from '@/components/seo/RelatedServices';
+import LocalSEOMastery from '@/components/seo/LocalSEOMastery';
 
 export const revalidate = 604800; // 7 days cache revalidation
+
+async function resolveNiptLocationContext(region: string, location: string): Promise<NiptLocationContext> {
+  const locMeta = await getPayloadLocation(location, region);
+  return {
+    regionSlug: region,
+    regionName: locMeta?.regionName || REGION_NAMES[region] || formatSlug(region),
+    locationSlug: location,
+    locationName: locMeta?.name || formatSlug(location),
+    cityName: locMeta?.city || REGION_NAMES[region] || formatSlug(region),
+    pincode: locMeta?.pincode,
+    homeCollectionTurnaround: locMeta?.homeCollectionTurnaround,
+    nearestPartnerHub: locMeta?.nearestPartnerHub,
+    serviceTier: locMeta?.serviceTier,
+    latitude: locMeta?.latitude,
+    longitude: locMeta?.longitude,
+    microNeighborhoods: CITY_MICRO_NEIGHBORHOODS[location.toLowerCase()] || [],
+  };
+}
 
 // ==========================================
 // 1. DYNAMIC SEO METADATA GENERATOR
 // ==========================================
 export async function generateMetadata({ params }: { params: Promise<{ service: string, region: string, location: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
+
+  if (isNiptService(resolvedParams.service)) {
+    const locCtx = await resolveNiptLocationContext(resolvedParams.region, resolvedParams.location);
+    const niptData = await getNiptPageData(resolvedParams.service, locCtx);
+    if (niptData) return buildNiptMetadata(niptData);
+  }
+
   const serviceName = formatSlug(resolvedParams.service);
   const locationName = formatSlug(resolvedParams.location);
   const regionName = formatSlug(resolvedParams.region);
@@ -75,6 +110,44 @@ export default async function ServiceLocationPage({ params }: { params: Promise<
   // Slug validation: prevent CDN cache pollution + cross-region injection
   if (!isValidServiceSlug(resolvedParams.service) || !isValidLocationForRegion(resolvedParams.region, resolvedParams.location)) {
     notFound();
+  }
+
+  // 🧬 NIPT hyper-local micro-city authority experience across all 361 cities
+  if (isNiptService(resolvedParams.service)) {
+    const locCtx = await resolveNiptLocationContext(resolvedParams.region, resolvedParams.location);
+    const niptData = await getNiptPageData(resolvedParams.service, locCtx);
+    if (niptData) {
+      return (
+        <NiptAuthorityPage
+          data={niptData}
+          afterSuiteSlot={
+            <div className="space-y-4">
+              <CrossLocationLinks
+                service={resolvedParams.service}
+                region={resolvedParams.region}
+                currentLocation={resolvedParams.location}
+              />
+              <ServiceAreaTargeting
+                service={resolvedParams.service}
+                region={resolvedParams.region}
+                location={resolvedParams.location}
+              />
+              <PeopleAlsoSearchFor currentServiceSlug={resolvedParams.service} />
+              <RelatedServices
+                currentService={resolvedParams.service}
+                region={resolvedParams.region}
+                location={resolvedParams.location}
+              />
+              <LocalSEOMastery
+                service={resolvedParams.service}
+                region={resolvedParams.region}
+                location={resolvedParams.location}
+              />
+            </div>
+          }
+        />
+      );
+    }
   }
 
   let wpContent: any = null;
