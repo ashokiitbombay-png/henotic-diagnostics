@@ -70,13 +70,13 @@ export default function NiptPanelCard({
         </span>
       </div>
 
-      {/* TOP SECTION: Pastel Arched Backdrop with Curved Medical Wave Lines & 3D Pop-Out Cutout */}
+      {/* TOP SECTION: Pastel Arched Backdrop with Curved Medical Wave Lines & 3D Pop-Out Cutout (Home Page h-64) */}
       <div
-        className={`relative pt-4 pb-0 px-4 flex justify-center items-end min-h-[230px] sm:min-h-[265px] overflow-visible ${panel.archTheme.cardHeaderTint}`}
+        className={`relative h-64 pt-4 pb-0 px-4 flex justify-center items-end overflow-visible shrink-0 ${panel.archTheme.cardHeaderTint}`}
       >
         {/* 3D Pastel Colored Arch */}
         <div
-          className={`absolute bottom-0 w-[88%] sm:w-[84%] h-[185px] sm:h-[215px] rounded-t-[90px] sm:rounded-t-[115px] ${panel.archTheme.archBg} border-t-2 border-x ${panel.archTheme.accentBorder} shadow-inner transition-transform duration-300 group-hover:scale-[1.02] overflow-hidden`}
+          className={`absolute bottom-0 w-[86%] sm:w-[84%] h-[200px] rounded-t-[105px] ${panel.archTheme.archBg} border-t-2 border-x ${panel.archTheme.accentBorder} shadow-inner transition-transform duration-300 group-hover:scale-[1.02] overflow-hidden`}
         >
           <CurvedMedicalLines strokeColor={panel.archTheme.lineColor} />
         </div>
@@ -96,12 +96,12 @@ export default function NiptPanelCard({
             height={panel.imageHeight}
             loading="eager"
             decoding="async"
-            className="h-[215px] sm:h-[250px] max-h-[215px] sm:max-h-[250px] w-auto object-contain object-bottom drop-shadow-[0_18px_20px_rgba(0,0,0,0.22)] select-none pointer-events-none"
+            className="h-[234px] max-h-[234px] w-auto object-contain object-bottom drop-shadow-[0_18px_20px_rgba(0,0,0,0.22)] select-none pointer-events-none"
           />
         </div>
 
         {/* Floating Price Pill (Home Page Style) */}
-        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 bg-white/95 backdrop-blur-md px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-lg border border-slate-200/90 text-right">
+        <div className="absolute bottom-4 right-4 z-20 bg-white/95 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg border border-slate-200/90 text-right">
           <div className="text-[10px] sm:text-xs text-slate-400 line-through font-bold">
             MRP ₹{formatNiptINR(panel.mrp)}
           </div>
@@ -117,8 +117,8 @@ export default function NiptPanelCard({
         />
       </div>
 
-      {/* BOTTOM SECTION: White Card Body (Exact PackageCard Proportions) */}
-      <div className="flex-1 flex flex-col p-4 sm:p-6 bg-white rounded-b-[2rem] border-t border-slate-100">
+      {/* BOTTOM SECTION: White Card Body (Exact Home Page & PackageCard Proportions) */}
+      <div className="flex-1 flex flex-col p-5 sm:p-6 bg-white rounded-b-[2rem] border-t border-slate-100">
         {/* Tinted Tags & Single-Line Count Pill */}
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="flex flex-wrap gap-1">

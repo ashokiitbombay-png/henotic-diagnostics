@@ -78,7 +78,7 @@ export default function HealthPackagesSection({
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-[#fbc2eb]/30 to-transparent pointer-events-none" />
 
       {/* Content Body Container */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10 space-y-12 sm:space-y-16 md:space-y-20">
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-8 relative z-10 space-y-12 sm:space-y-16 md:space-y-20">
 
         {/* Section Intro & Filter Pills */}
         <section className="text-center pt-2">
@@ -119,7 +119,7 @@ export default function HealthPackagesSection({
         </section>
 
         {/* 17-Card Grid with 3D Pop-Out Visuals & Medical Curved Lines */}
-        <section aria-label="Health Checkup Rate Cards" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-8 pt-2">
+        <section aria-label="Health Checkup Rate Cards" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 pt-2 items-stretch">
           {filteredPackages.map((pkg, idx) => (
             <PackageCard 
               key={pkg.id}

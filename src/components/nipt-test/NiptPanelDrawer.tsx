@@ -20,7 +20,7 @@ export default function NiptPanelDrawer({ panel, onClose, onBook }: NiptPanelDra
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex justify-end bg-slate-950/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[110] flex justify-end bg-slate-950/60 backdrop-blur-sm"
       onClick={onClose}
     >
       <div

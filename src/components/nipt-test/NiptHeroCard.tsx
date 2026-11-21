@@ -187,7 +187,7 @@ export default function NiptHeroCard({
               </div>
 
               {/* True 3D Color-Arch Image Pop-Out Stage */}
-              <div className="relative pt-5 sm:pt-6 flex justify-center items-end min-h-[250px] sm:min-h-[305px] lg:min-h-[330px] overflow-visible">
+              <div className="relative h-64 sm:h-[296px] lg:h-[320px] pt-4 flex justify-center items-end overflow-visible">
                 {/* Ambient 3D Color Glow Orb */}
                 <div
                   className="absolute bottom-5 left-1/2 -translate-x-1/2 w-56 sm:w-64 h-56 sm:h-64 rounded-full bg-gradient-to-tr from-pink-500/45 via-rose-400/45 to-fuchsia-400/40 blur-3xl opacity-75 group-hover/hero:opacity-100 group-hover/hero:scale-110 transition-all duration-500 pointer-events-none"
@@ -195,7 +195,7 @@ export default function NiptHeroCard({
                 />
 
                 {/* 3D Luminous Rose-Pink Dome Arch */}
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] h-[195px] sm:h-[235px] lg:h-[255px] rounded-t-[95px] sm:rounded-t-[120px] bg-gradient-to-b from-[#f9a8d4] via-[#fbcfe8] to-[#fdf2f8] border-t-2 border-x-2 border-pink-400/85 shadow-[inset_0_14px_32px_rgba(255,255,255,0.72),0_14px_32px_-8px_rgba(219,39,119,0.20)] overflow-hidden transition-transform duration-500 ease-out group-hover/hero:scale-[1.03]">
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[88%] sm:w-[86%] h-[196px] sm:h-[228px] lg:h-[248px] rounded-t-[105px] sm:rounded-t-[120px] bg-gradient-to-b from-[#f9a8d4] via-[#fbcfe8] to-[#fdf2f8] border-t-2 border-x-2 border-pink-400/85 shadow-[inset_0_14px_32px_rgba(255,255,255,0.72),0_14px_32px_-8px_rgba(219,39,119,0.20)] overflow-hidden transition-transform duration-500 ease-out group-hover/hero:scale-[1.03]">
                   <CurvedMedicalLines strokeColor="#db2777" />
                 </div>
 
@@ -210,7 +210,7 @@ export default function NiptHeroCard({
                     loading="eager"
                     fetchPriority="high"
                     decoding="sync"
-                    className="h-[242px] sm:h-[294px] lg:h-[322px] w-auto object-contain object-bottom drop-shadow-[0_20px_24px_rgba(88,28,135,0.26)] group-hover/hero:drop-shadow-[0_28px_32px_rgba(88,28,135,0.34)] select-none pointer-events-none"
+                    className="h-[234px] sm:h-[278px] lg:h-[304px] w-auto object-contain object-bottom drop-shadow-[0_20px_24px_rgba(88,28,135,0.26)] group-hover/hero:drop-shadow-[0_28px_32px_rgba(88,28,135,0.34)] select-none pointer-events-none"
                   />
                 </div>
 

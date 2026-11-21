@@ -69,7 +69,7 @@ export default function PackageExplorer({ packages, defaultFilter, keyword }: Pa
         Showing {visible.length} {keyword} packages
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-9 lg:gap-8 pt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 pt-8 sm:pt-10 items-stretch">
         {visible.map((pkg) => (
           <PackageCard key={pkg.id} pkg={pkg} onViewTests={setDrawerPkg} onBook={openBooking} />
         ))}

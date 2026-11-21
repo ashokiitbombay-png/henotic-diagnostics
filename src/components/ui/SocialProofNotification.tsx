@@ -50,7 +50,7 @@ export default function SocialProofNotification() {
 
   return (
     <div
-      className={`fixed bottom-[84px] md:bottom-6 left-3 md:left-6 z-[80] transition-all duration-500 ${
+      className={`fixed bottom-5 md:bottom-6 left-3 md:left-6 z-40 transition-all duration-500 ${
         visible
           ? 'translate-x-0 opacity-100'
           : '-translate-x-full opacity-0'

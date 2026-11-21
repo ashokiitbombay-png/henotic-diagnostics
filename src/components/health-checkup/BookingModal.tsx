@@ -79,7 +79,7 @@ export default function BookingModal({ open, packages, initialPackage, pageKeywo
   const inputCls = 'w-full text-sm rounded-xl border border-gray-300 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-600';
 
   return (
-    <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={closeAndReset}>
+    <div className="fixed inset-0 z-[110] overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={closeAndReset}>
       <div
         ref={ref}
         role="dialog"

@@ -109,7 +109,7 @@ export default function NiptBookingModal({
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/65 backdrop-blur-sm"
+      className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/65 backdrop-blur-sm"
       onClick={closeAndReset}
     >
       <div

@@ -49,9 +49,9 @@ export default function ServiceAreaTargeting({
   const mapDirectionUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
   return (
-    <section className="py-12 px-4 md:px-8" aria-label={`Service area coverage for ${locationName}`}>
+    <section className="py-8 sm:py-12 px-4 md:px-8" aria-label={`Service area coverage for ${locationName}`}>
       <div className="max-w-7xl mx-auto">
-        <div className="bg-gradient-to-br from-white via-slate-50 to-blue-50/40 rounded-[2.5rem] border border-blue-100 shadow-xl overflow-hidden p-6 md:p-12 relative">
+        <div className="bg-gradient-to-br from-white via-slate-50 to-blue-50/40 rounded-[2.5rem] border border-blue-100 shadow-xl overflow-hidden p-5 sm:p-8 md:p-12 relative">
           {/* Subtle background glow */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-rose-400/10 rounded-full blur-3xl pointer-events-none" />

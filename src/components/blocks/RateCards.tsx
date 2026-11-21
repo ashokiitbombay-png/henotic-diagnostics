@@ -61,20 +61,20 @@ export default function RateCards({ items, title, variant = 'list', packages = D
   // 1. PREMIUM VARIANT (Home Page Health Packages)
   if (variant === 'premium') {
     return (
-      <section id="packages" className="py-24 relative overflow-hidden bg-slate-50">
+      <section id="packages" className="py-14 sm:py-20 md:py-24 relative overflow-hidden bg-slate-50">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-[#fbc2eb]/40 to-transparent pointer-events-none"></div>
 
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-14 md:mb-16">
             <span className="text-[#E55D87] font-extrabold uppercase tracking-widest text-sm mb-2 block">Exclusive Offers</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-6 drop-shadow-sm">Premium Health Packages</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">Transparent pricing, comprehensive testing, and instant digital reports.</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-blue-950 mb-4 sm:mb-6 drop-shadow-sm">Premium Health Packages</h2>
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-medium">Transparent pricing, comprehensive testing, and instant digital reports.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
             {packages.map((pkg, idx) => (
-              <Card key={idx} className="silver-shiny-card group relative rounded-[2.5rem] overflow-hidden transition-all duration-700 bg-white/90 backdrop-blur-xl !p-0 w-full">
-                <div className="relative h-64 overflow-hidden bg-slate-200">
+              <Card key={idx} className="silver-shiny-card group relative rounded-[2rem] overflow-hidden transition-all duration-700 bg-white/90 backdrop-blur-xl !p-0 w-full flex flex-col">
+                <div className="relative h-64 overflow-hidden bg-slate-200 shrink-0">
                   <div className={`absolute inset-0 bg-gradient-to-t ${pkg.gradient} opacity-40 group-hover:opacity-20 transition-opacity z-10`}></div>
                   <Image 
                     src={pkg.img} 
@@ -90,16 +90,16 @@ export default function RateCards({ items, title, variant = 'list', packages = D
                   </div>
                 </div>
 
-                <div className="p-8 relative bg-white/50">
-                  <h3 className="text-2xl font-extrabold text-blue-950 mb-6 transform group-hover:-translate-y-1 transition-transform duration-500">{pkg.title}</h3>
-                  <ul className="space-y-3 mb-8">
+                <div className="p-5 sm:p-6 md:p-7 relative bg-white/50 flex-1 flex flex-col">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-blue-950 mb-4 sm:mb-5 transform group-hover:-translate-y-1 transition-transform duration-500">{pkg.title}</h3>
+                  <ul className="space-y-2.5 sm:space-y-3 mb-6 flex-1">
                     {pkg.includes.map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-slate-700 font-medium transform translate-y-2 opacity-80 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500" style={{ transitionDelay: `${i * 50}ms` }}>
                         <CheckCircle size={18} className="text-[#E55D87] shrink-0 mt-0.5" /> {item}
                       </li>
                     ))}
                   </ul>
-                  <Link href="/contact" className="w-full block">
+                  <Link href="/contact" className="w-full block mt-auto">
                     <Button className="w-full text-center py-4 rounded-2xl font-extrabold uppercase tracking-widest transition-all duration-300 shadow-sm hover:shadow-md text-sm">
                       Book Package
                     </Button>

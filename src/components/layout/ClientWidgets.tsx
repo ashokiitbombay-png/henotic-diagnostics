@@ -8,7 +8,6 @@ import dynamic from "next/dynamic";
  * `{ ssr: false }` in Server Components (like layout.tsx).
  */
 const WhatsAppWidget = dynamic(() => import('@/components/ui/WhatsAppWidget'), { ssr: false });
-const StickyMobileCTA = dynamic(() => import('@/components/ui/StickyMobileCTA'), { ssr: false });
 const GlobalSearchModal = dynamic(() => import('@/components/search/GlobalSearchModal'), { ssr: false });
 const MultiStepBookingModal = dynamic(() => import('@/components/features/MultiStepBookingModal'), { ssr: false });
 const SocialProofNotification = dynamic(() => import('@/components/ui/SocialProofNotification'), { ssr: false });
@@ -23,7 +22,6 @@ export default function ClientWidgets() {
   return (
     <>
       <WhatsAppWidget />
-      <StickyMobileCTA />
       <GlobalSearchModal />
       <MultiStepBookingModal />
       <SocialProofNotification />

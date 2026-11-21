@@ -83,7 +83,7 @@ export default function NiptInteractiveSuite({ data }: NiptInteractiveSuiteProps
           <span className="font-semibold text-purple-700">₹{formatNiptINR(minPrice)}</span> — zero fetal risk, NABL &amp; MD Genetics verified reporting, and free 24/7 home blood pickup.
         </p>
 
-        <div className="text-left grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-8 pt-8 sm:pt-10 items-stretch">
+        <div className="text-left grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 pt-8 sm:pt-10 items-stretch">
           {panels.map((panel) => (
             <NiptPanelCard
               key={panel.id}

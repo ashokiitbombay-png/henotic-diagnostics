@@ -116,7 +116,7 @@ export default function NiptAuthorityPage({
 
       {afterHeroSlot}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 space-y-10 sm:space-y-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 sm:pt-10 space-y-10 sm:space-y-16">
         <NiptInteractiveSuite data={data} />
 
         <RelatedNiptLinks
@@ -126,21 +126,21 @@ export default function NiptAuthorityPage({
           locationSlug={locationContext?.locationSlug}
           showRegionDirectory={showRegionDirectory}
         />
-
-        {afterSuiteSlot}
-
-        <p className="text-center text-xs text-slate-500">
-          Content medically reviewed by {trust.doctors.map((d) => d.name).join(' & ') || 'our Molecular Genetics team'} · Last reviewed{' '}
-          <time dateTime={page.lastReviewed}>
-            {new Date(`${page.lastReviewed}T00:00:00Z`).toLocaleDateString('en-IN', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-              timeZone: 'UTC',
-            })}
-          </time>
-        </p>
       </div>
+
+      {afterSuiteSlot}
+
+      <p className="max-w-7xl mx-auto px-4 md:px-8 pt-8 text-center text-xs text-slate-500">
+        Content medically reviewed by {trust.doctors.map((d) => d.name).join(' & ') || 'our Molecular Genetics team'} · Last reviewed{' '}
+        <time dateTime={page.lastReviewed}>
+          {new Date(`${page.lastReviewed}T00:00:00Z`).toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            timeZone: 'UTC',
+          })}
+        </time>
+      </p>
     </div>
   );
 }
