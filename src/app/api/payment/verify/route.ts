@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ verified: false, message: 'Missing parameters' }, { status: 400 });
     }
 
-    const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
+    const isProd = process.env.NODE_ENV === 'production';
 
     // If Razorpay not configured, fail closed in production; allow mock in dev only
     if (!RAZORPAY_KEY_SECRET) {

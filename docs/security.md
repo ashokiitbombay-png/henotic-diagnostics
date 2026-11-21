@@ -4,7 +4,7 @@
 
 This document details the security model, vulnerability prevention rules, credential safety policies, and transport security controls enforced across the **Henotic Diagnostics** web platform (`www.henoticdiagnostics.com`).
 
-The application adheres to OWASP Web Application Security standards, HIPAA/NABL patient data privacy guidelines, and Vercel Edge Serverless security best practices.
+The application adheres to OWASP Web Application Security standards, HIPAA/NABL patient data privacy guidelines, and hardened Nginx / Node.js production security best practices.
 
 ---
 

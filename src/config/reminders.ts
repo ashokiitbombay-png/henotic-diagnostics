@@ -24,22 +24,15 @@
  *    const data = await response.json();
  *    ```
  * 
- * 2. Vercel Cron Setup:
- *    To automate reminder delivery, configure Vercel Cron in `vercel.json` at your repository root:
+ * 2. Linux Cron Setup (GCP VM):
+ *    To automate reminder delivery on the VM, add a daily crontab entry (`crontab -e`):
  * 
- *    ```json
- *    {
- *      "crons": [
- *        {
- *          "path": "/api/reminders/cron",
- *          "schedule": "0 8 * * *"
- *        }
- *      ]
- *    }
+ *    ```cron
+ *    0 8 * * * curl -sf -H "x-api-key: $REMINDERS_API_KEY" "http://127.0.0.1:3000/api/reminders?date=$(date +\%F)" >/dev/null 2>&1
  *    ```
  * 
- *    The cron handler can query `/api/reminders?date=YYYY-MM-DD` each morning at 8:00 AM,
- *    and dispatch reminders via `/api/reminders/send` for SMS, Email, or WhatsApp channels.
+ *    The cron job queries `/api/reminders?date=YYYY-MM-DD` each morning at 8:00 AM,
+ *    and dispatches reminders via `/api/reminders/send` for SMS, Email, or WhatsApp channels.
  */
 
 export interface AppointmentReminder {

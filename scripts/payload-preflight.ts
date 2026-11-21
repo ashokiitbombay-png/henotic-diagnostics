@@ -95,7 +95,7 @@ async function main() {
     console.log('      MONGODB_URI="mongodb+srv://user:pass@cluster.mongodb.net/payload-db"');
     console.log('   2. Set PAYLOAD_CMS_URL in .env.local:');
     console.log('      PAYLOAD_CMS_URL="https://payload.henoticdiagnostics.com"');
-    console.log('   3. Set in Vercel dashboard: Settings → Environment Variables\n');
+    console.log('   3. Set in /var/www/henotic-diagnostics/.env.local on the GCP VM\n');
   }
 }
 

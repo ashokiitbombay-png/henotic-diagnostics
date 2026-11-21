@@ -12,7 +12,7 @@ const NO_STORE_HEADERS = {
  * Admin API Endpoint: Payload CMS MongoDB Index Creation
  * 
  * Secure endpoint to create or update MongoDB indexes for Payload CMS collections
- * directly within the production Vercel server environment where MONGODB_URI is available.
+ * directly within the production server environment where MONGODB_URI is available.
  * 
  * POST /api/admin/payload-indexes
  * Headers: Authorization: Bearer <ADMIN_TASK_TOKEN> or x-admin-token: <ADMIN_TASK_TOKEN>
