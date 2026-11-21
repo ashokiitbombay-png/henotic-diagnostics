@@ -42,9 +42,11 @@ export interface NewsletterInquiry {
 }
 
 const isVercel = !!process.env.VERCEL;
-const DATA_DIR = isVercel
-  ? path.join('/tmp', 'henotic-data')
-  : path.join(process.cwd(), 'data');
+const DATA_DIR = process.env.LEAD_DATA_DIR
+  ? path.resolve(process.env.LEAD_DATA_DIR)
+  : isVercel
+    ? path.join('/tmp', 'henotic-data')
+    : path.join(process.cwd(), 'data');
 const LEADS_FILE = path.join(DATA_DIR, 'leads.jsonl');
 const PAYMENTS_FILE = path.join(DATA_DIR, 'payments.jsonl');
 const INQUIRIES_FILE = path.join(DATA_DIR, 'inquiries.jsonl');

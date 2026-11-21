@@ -1,11 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
+  // Disables per-process in-memory ISR cache so PM2 cluster workers share consistent disk ISR entries after /api/revalidate webhooks
+  cacheMaxMemorySize: 0,
+  outputFileTracingIncludes: {
+    '/*': ['./src/lib/wordpress/failsafe-cache.json'],
+  },
   trailingSlash: false,
   reactStrictMode: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
   },
   images: {
+    unoptimized: true, // Prevents CPU/RAM spikes on the GCP VM during 500k Googlebot crawls
     minimumCacheTTL: 2678400, // 31 days persistent edge cache for optimized images
     formats: ['image/webp'],
     qualities: [75],
@@ -196,6 +203,27 @@ const nextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://connect.facebook.net https://embed.tawk.to https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://apis.google.com https://www.gstatic.com https://www.clarity.ms https://scripts.clarity.ms https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob: https://cdn.henoticdiagnostics.com https://storage.googleapis.com https://cms.henoticdiagnostics.com https://secure.gravatar.com https://www.facebook.com https://*.google.com https://*.gstatic.com https://*.googleapis.com https://*.google-analytics.com https://*.clarity.ms; connect-src 'self' https://cdn.henoticdiagnostics.com https://storage.googleapis.com https://cms.henoticdiagnostics.com https://api.razorpay.com https://*.google-analytics.com https://*.clarity.ms https://www.clarity.ms https://scripts.clarity.ms https://www.googletagmanager.com https://*.facebook.com https://connect.facebook.net wss://*.tawk.to https://*.tawk.to; frame-src 'self' https://api.razorpay.com https://embed.tawk.to https://www.google.com https://maps.google.com https://*.google.com https://*.gstatic.com https://storage.googleapis.com https://cdn.henoticdiagnostics.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self), payment=(self), usb=()' }
+        ],
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+        ],
+      },
+      {
+        source: '/booking-system/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Pragma', value: 'no-cache' },
+        ],
+      },
+      {
+        source: '/seo-image-optimizer/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Pragma', value: 'no-cache' },
         ],
       },
     ];
