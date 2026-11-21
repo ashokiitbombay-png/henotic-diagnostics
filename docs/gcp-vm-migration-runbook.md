@@ -1,14 +1,17 @@
 # GCP VM Migration Runbook (`vercel` → `henotic-nextjs-vm`)
 
-Target infrastructure:
+Target infrastructure & recorded access details:
 - **VM Name**: `henotic-nextjs-vm` (Instance ID `2029526192489311940`)
 - **Zone**: `asia-south1-c`
 - **Machine Type**: `e2-standard-2` (2 vCPUs, 8 GB RAM, 80 GB Balanced SSD)
 - **OS**: Debian 13 (Trixie) `x86_64`
-- **Reserved External IP**: `34.100.203.56` (`nextjs-reserve-ip`)
-- **SSH User**: `ashokiitbombay`
+- **`GCP_VM_IP` (Reserved External IP)**: `34.100.203.56` (`nextjs-reserve-ip`)
+- **`GCP_VM_USER` (SSH User)**: `ashokiitbombay`
 - **App Directory**: `/var/www/henotic-diagnostics`
 - **Production Domains**: `www.henoticdiagnostics.com` (canonical), `henoticdiagnostics.com` (301 → `www`)
+- **GitHub Deploy Keys Settings**: `https://github.com/ashokiitbombay-png/henotic-diagnostics/settings/keys`
+- **GitHub Deploy Key Title**: `gcp-vm-henotic` (Write access enabled)
+- **GitHub Deploy Key Public Key**: `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOC9gxlczBnD+wkCoa3+Bhn2sxqx9wuZb1xsOlgz3Wio gcp-vm-github`
 
 ---
 
@@ -29,15 +32,29 @@ chmod +x deploy/gcp-vm/setup-vm.sh deploy/gcp-vm/deploy.sh deploy/gcp-vm/rollbac
 ./deploy/gcp-vm/setup-vm.sh
 ```
 
-### Option B — Repository is private (use GitHub Deploy Key)
+### Option B — Repository is private (use GitHub Deploy Key `gcp-vm-henotic`)
+
+Recorded VM public key (`gcp-vm-henotic`):
+
+```text
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOC9gxlczBnD+wkCoa3+Bhn2sxqx9wuZb1xsOlgz3Wio gcp-vm-github
+```
+
+To enable write access (needed when pushing commits from the VM) or recreate the key:
+1. Open [https://github.com/ashokiitbombay-png/henotic-diagnostics/settings/keys](https://github.com/ashokiitbombay-png/henotic-diagnostics/settings/keys).
+2. Delete existing `gcp-vm-henotic` (if previously added without write access) and click **Add deploy key** with:
+   - **Title**: `gcp-vm-henotic`
+   - **Key**: `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOC9gxlczBnD+wkCoa3+Bhn2sxqx9wuZb1xsOlgz3Wio gcp-vm-github`
+   - Check **Allow write access** if you need to push commits from the VM.
+3. If the keypair does not exist on a fresh VM, generate it with:
 
 ```bash
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
-ssh-keygen -t ed25519 -C "git-pull@henotic-nextjs-vm" -N "" -f ~/.ssh/github_repo_deploy_key
+ssh-keygen -t ed25519 -C "gcp-vm-github" -N "" -f ~/.ssh/github_repo_deploy_key
 cat ~/.ssh/github_repo_deploy_key.pub
 ```
 
-Add that public key under **GitHub Repo → Settings → Deploy keys → Add deploy key** (read-only is sufficient), then clone via SSH:
+Then configure SSH for GitHub and clone via SSH:
 
 ```bash
 cat << 'EOF' >> ~/.ssh/config
