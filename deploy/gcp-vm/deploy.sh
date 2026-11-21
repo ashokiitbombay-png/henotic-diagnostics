@@ -35,7 +35,7 @@ for v in $(env | awk -F= '/^(VERCEL($|_)|TURBO_|NX_DAEMON$)/ {print $1}'); do
 done
 
 echo "📦 Installing production & build dependencies..."
-npm ci
+NODE_ENV=development npm install
 
 echo "🏗️ Building Next.js standalone production bundle..."
 NODE_OPTIONS="--max-old-space-size=4096" NEXT_TELEMETRY_DISABLED=1 npm run build
