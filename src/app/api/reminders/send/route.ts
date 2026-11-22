@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { AppointmentReminder, getRemindersStore, REMINDER_TEMPLATES, ReminderChannel } from '@/config/reminders';
-import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { AppointmentReminder, REMINDER_TEMPLATES, ReminderChannel } from '@/config/reminders';
+import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 import { verifyRemindersAuth } from '@/lib/reminders/auth';
+import { getReminderById, updateReminderStatus } from '@/lib/reminders/reminder-store';
 
 function formatWhatsAppRecipient(phone: string): string {
   const digits = phone.replace(/\D/g, '');
@@ -151,7 +152,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Rate limit: 5 sends per minute per IP
     const ip = getClientIP(request);
-    const limiter = rateLimit(`reminder-send:${ip}`, 5, 60_000);
+    const limiter = await rateLimitDistributed(`reminder-send:${ip}`, 5, 60_000);
     if (!limiter.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
@@ -176,8 +177,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const store = getRemindersStore();
-    const reminder = store.find((r) => r.id === reminderId);
+    const reminder = await getReminderById(reminderId);
 
     if (!reminder) {
       return NextResponse.json(
@@ -193,7 +193,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: result.error }, { status: result.status });
     }
 
-    reminder.status = 'sent';
+    await updateReminderStatus(reminderId, 'sent');
 
     if (result.dispatched) {
       return NextResponse.json({

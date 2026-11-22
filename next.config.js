@@ -7,6 +7,8 @@ const nextConfig = {
     '/*': ['./src/lib/wordpress/failsafe-cache.json'],
   },
   trailingSlash: false,
+  // Disable streaming metadata for all requests so crawlers & Nginx micro-cache receive blocking <head> metadata cleanly.
+  htmlLimitedBots: /.*/,
   reactStrictMode: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,

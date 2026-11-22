@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 import { recordInquiry } from '@/lib/leads/lead-service';
 
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIP(request);
-    const limiter = rateLimit(`newsletter:${ip}`, 5, 60_000);
+    const limiter = await rateLimitDistributed(`newsletter:${ip}`, 5, 60_000);
     if (!limiter.success) {
       return NextResponse.json(
         { success: false, error: 'Too many subscription attempts. Please try again later.' },

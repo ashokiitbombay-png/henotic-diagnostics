@@ -4,13 +4,17 @@
  * Integration Instructions:
  * -------------------------
  * 1. Integration with BookingForm:
- *    When a booking is successfully submitted in `BookingForm` component or booking API endpoint,
- *    trigger reminder scheduling by making a POST request to `/api/reminders`:
+ *    When a booking is successfully submitted in `BookingForm` component or backend booking API,
+ *    trigger reminder scheduling via an authenticated POST request to `/api/reminders`
+ *    (passing `x-api-key` or `Authorization: Bearer`):
  * 
  *    ```ts
  *    const response = await fetch('/api/reminders', {
  *      method: 'POST',
- *      headers: { 'Content-Type': 'application/json' },
+ *      headers: {
+ *        'Content-Type': 'application/json',
+ *        'x-api-key': process.env.REMINDERS_API_KEY!,
+ *      },
  *      body: JSON.stringify({
  *        patientName: formData.name,
  *        patientPhone: formData.phone,
@@ -63,29 +67,4 @@ export const REMINDER_TEMPLATES: Record<ReminderChannel, TemplateFunction> = {
 
   whatsapp: (reminder: AppointmentReminder): string =>
     `🏥 *Henotic Diagnostics Appointment Reminder*\n\nDear *${reminder.patientName}*,\nYour appointment for *${reminder.serviceName}* is confirmed.\n📅 *Date:* ${reminder.appointmentDate}\n⏰ *Time:* ${reminder.appointmentTime}\n📍 *Location:* ${reminder.location}\n\nPlease reply YES to confirm or call us to reschedule.`,
-};
-
-/** Maximum number of reminders to hold in memory. FIFO eviction when exceeded. */
-const MAX_REMINDERS_STORE_SIZE = 1000;
-
-declare global {
-  // eslint-disable-next-line no-var
-  var __remindersStore: AppointmentReminder[] | undefined;
-}
-
-export const getRemindersStore = (): AppointmentReminder[] => {
-  if (!globalThis.__remindersStore) {
-    globalThis.__remindersStore = [];
-  }
-  return globalThis.__remindersStore;
-};
-
-/** Add a reminder with FIFO eviction to prevent unbounded memory growth. */
-export const addReminder = (reminder: AppointmentReminder): void => {
-  const store = getRemindersStore();
-  store.push(reminder);
-  // FIFO eviction: remove oldest entries when exceeding max size
-  while (store.length > MAX_REMINDERS_STORE_SIZE) {
-    store.shift();
-  }
 };

@@ -50,9 +50,9 @@ if [[ ! -d "$DATA_DIR" ]]; then
   exit 0
 fi
 
-mapfile -t JSONL_FILES < <(find "$DATA_DIR" -maxdepth 1 -type f -name '*.jsonl' -printf '%f\n' 2>/dev/null || true)
+mapfile -t JSONL_FILES < <(find "$DATA_DIR" -maxdepth 1 -type f \( -name '*.jsonl' -o -name 'reminders.json' \) -printf '%f\n' 2>/dev/null || true)
 if (( ${#JSONL_FILES[@]} == 0 )); then
-  echo "[$(date -u '+%Y-%m-%d %H:%M:%S UTC')] [backup-leads] No *.jsonl files in $DATA_DIR; skipping archive."
+  echo "[$(date -u '+%Y-%m-%d %H:%M:%S UTC')] [backup-leads] No *.jsonl or reminders.json files in $DATA_DIR; skipping archive."
   exit 0
 fi
 

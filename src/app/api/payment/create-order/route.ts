@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 import { getPricingForService } from '@/config/pricing';
 
 const RAZORPAY_KEY_ID = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   try {
     // Rate limit: 10 order creations per minute per IP
     const ip = getClientIP(request);
-    const limiter = rateLimit(`payment-create:${ip}`, 10, 60_000);
+    const limiter = await rateLimitDistributed(`payment-create:${ip}`, 10, 60_000);
     if (!limiter.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },

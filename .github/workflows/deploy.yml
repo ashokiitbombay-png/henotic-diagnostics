@@ -1,7 +1,9 @@
 name: Deploy Henotic Diagnostics to GCP VM
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI — Lint, Typecheck & Build"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
     inputs:
@@ -19,17 +21,19 @@ concurrency:
 
 jobs:
   deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         env:
-          DEPLOY_BRANCH: ${{ github.event_name == 'workflow_dispatch' && inputs.branch || 'main' }}
+          DEPLOY_BRANCH: ${{ github.event_name == 'workflow_dispatch' && inputs.branch || github.event.workflow_run.head_branch || 'main' }}
+          DEPLOY_SHA: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || '' }}
         with:
           host: ${{ secrets.GCP_VM_IP }}
           username: ${{ secrets.GCP_VM_USER }}
           key: ${{ secrets.GCP_SSH_KEY }}
-          envs: DEPLOY_BRANCH
+          envs: DEPLOY_BRANCH,DEPLOY_SHA
           script_stop: true
           command_timeout: 20m
           script: |
@@ -37,6 +41,10 @@ jobs:
             cd /var/www/henotic-diagnostics
             git fetch origin "$DEPLOY_BRANCH"
             git checkout "$DEPLOY_BRANCH"
-            git reset --hard FETCH_HEAD
+            if [ -n "${DEPLOY_SHA:-}" ]; then
+              git reset --hard "$DEPLOY_SHA"
+            else
+              git reset --hard FETCH_HEAD
+            fi
             chmod +x deploy/gcp-vm/deploy.sh deploy/gcp-vm/rollback.sh deploy/gcp-vm/prune-isr-cache.sh deploy/gcp-vm/backup-leads.sh
             ./deploy/gcp-vm/deploy.sh

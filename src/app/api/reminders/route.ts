@@ -1,29 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AppointmentReminder, getRemindersStore, addReminder } from '@/config/reminders';
-import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { AppointmentReminder } from '@/config/reminders';
+import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 import { verifyRemindersAuth } from '@/lib/reminders/auth';
+import {
+  createReminderRecord,
+  listReminders,
+  updateReminderStatus,
+} from '@/lib/reminders/reminder-store';
 
-/** Verify API key for authenticated reminder endpoints (headers only, timing-safe) */
-function verifyApiKey(request: NextRequest): boolean {
-  return verifyRemindersAuth(request.headers).authorized;
-}
-
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  if (!verifyApiKey(request)) {
+/** Verify header-only API key consistently across GET, POST, and DELETE reminder endpoints */
+function requireRemindersAuth(request: NextRequest): NextResponse | null {
+  const auth = verifyRemindersAuth(request.headers);
+  if (!auth.configured) {
+    return NextResponse.json({ error: 'Reminder service not configured' }, { status: 503 });
+  }
+  if (!auth.authorized) {
     return NextResponse.json(
       { error: 'Unauthorized. Valid API key required.' },
       { status: 401 }
     );
   }
-  console.warn('⚠️ [WARNING] Reminders are currently stored in-memory. This should be replaced with a database (e.g., PostgreSQL or MongoDB) for production.');
-  const store = getRemindersStore();
-  const searchParams = request.nextUrl.searchParams;
-  const dateFilter = searchParams.get('date');
+  return null;
+}
 
-  let reminders = store;
-  if (dateFilter) {
-    reminders = store.filter((r) => r.appointmentDate === dateFilter);
-  }
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const authError = requireRemindersAuth(request);
+  if (authError) return authError;
+
+  const dateFilter = request.nextUrl.searchParams.get('date') || undefined;
+  const reminders = await listReminders(dateFilter);
 
   return NextResponse.json({
     success: true,
@@ -34,9 +39,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    const authError = requireRemindersAuth(request);
+    if (authError) return authError;
+
     // Rate limit: 10 reminder requests per minute per IP
     const ip = getClientIP(request);
-    const limiter = rateLimit(`reminders:${ip}`, 10, 60_000);
+    const limiter = await rateLimitDistributed(`reminders:${ip}`, 10, 60_000);
     if (!limiter.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
@@ -88,7 +96,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       createdAt: new Date().toISOString(),
     };
 
-    addReminder(newReminder);
+    await createReminderRecord(newReminder);
 
     return NextResponse.json(
       {
@@ -108,12 +116,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
-    if (!verifyApiKey(request)) {
-      return NextResponse.json(
-        { error: 'Unauthorized. Valid API key required.' },
-        { status: 401 }
-      );
-    }
+    const authError = requireRemindersAuth(request);
+    if (authError) return authError;
     let id: string | null = null;
     
     // Check searchParams first
@@ -136,8 +140,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const store = getRemindersStore();
-    const reminder = store.find((r) => r.id === id);
+    const reminder = await updateReminderStatus(id, 'cancelled');
 
     if (!reminder) {
       return NextResponse.json(
@@ -145,8 +148,6 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
         { status: 404 }
       );
     }
-
-    reminder.status = 'cancelled';
 
     return NextResponse.json({
       success: true,

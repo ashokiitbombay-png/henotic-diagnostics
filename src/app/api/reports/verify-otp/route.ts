@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 
 /**
  * OTP Verification for Patient Report Access
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     // Rate limit per IP: 20 attempts per 15 minutes
     const ip = getClientIP(request);
-    const ipLimiter = rateLimit(`otp-ip:${ip}`, 20, 15 * 60_000);
+    const ipLimiter = await rateLimitDistributed(`otp-ip:${ip}`, 20, 15 * 60_000);
     if (!ipLimiter.success) {
       return NextResponse.json(
         { verified: false, message: 'Too many attempts. Please try again later.' },
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Rate limit per phone: 5 attempts per 15 minutes
-    const phoneLimiter = rateLimit(`otp-phone:${cleanPhone}`, 5, 15 * 60_000);
+    const phoneLimiter = await rateLimitDistributed(`otp-phone:${cleanPhone}`, 5, 15 * 60_000);
     if (!phoneLimiter.success) {
       return NextResponse.json(
         { verified: false, message: 'Too many OTP attempts for this phone number. Please try again in 15 minutes.' },

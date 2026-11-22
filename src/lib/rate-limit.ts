@@ -1,11 +1,11 @@
+import { Ratelimit } from '@upstash/ratelimit';
+import { getRedis } from '@/lib/cache/redis';
+
 /**
- * Lightweight in-memory rate limiter for API routes.
- * Uses a sliding window counter per IP address.
- * 
- * NOTE: In serverless environments, each worker has its own memory.
- * This provides per-worker rate limiting which is still effective
- * against individual bad actors. For distributed rate limiting,
- * upgrade to Upstash Redis (@upstash/ratelimit).
+ * Rate limiter for API routes.
+ * - `rateLimitDistributed()` uses Upstash Redis (`@upstash/ratelimit`) across PM2 workers when configured,
+ *   and falls back seamlessly to the in-memory sliding window limiter when Redis is unavailable.
+ * - `rateLimit()` remains available for synchronous callers.
  */
 
 interface RateLimitEntry {
@@ -14,6 +14,7 @@ interface RateLimitEntry {
 }
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
+const distributedLimitersByClient = new WeakMap<object, Map<string, Ratelimit>>();
 
 // Periodic cleanup to prevent memory growth (every 60s)
 const CLEANUP_INTERVAL = 60_000;
@@ -28,6 +29,59 @@ function cleanup() {
       rateLimitStore.delete(key);
     }
   }
+}
+
+/** Clear the in-memory rate limit store (primarily for unit tests). */
+export function resetRateLimitMemoryStore(): void {
+  rateLimitStore.clear();
+}
+
+/**
+ * Check if a request should be rate-limited using Upstash Redis across workers,
+ * falling back to the process-local in-memory store if Redis is unconfigured or errors.
+ */
+export async function rateLimitDistributed(
+  identifier: string,
+  limit: number = 10,
+  windowMs: number = 60_000
+): Promise<{ success: boolean; remaining: number; resetTime: number }> {
+  const redis = getRedis();
+  if (redis) {
+    let clientLimiters = distributedLimitersByClient.get(redis);
+    if (!clientLimiters) {
+      clientLimiters = new Map();
+      distributedLimitersByClient.set(redis, clientLimiters);
+    }
+
+    const cacheKey = `${limit}:${windowMs}`;
+    let limiter = clientLimiters.get(cacheKey);
+    if (!limiter) {
+      const windowSeconds = Math.max(1, Math.ceil(windowMs / 1000));
+      limiter = new Ratelimit({
+        redis,
+        limiter: Ratelimit.slidingWindow(limit, `${windowSeconds} s`),
+        prefix: 'rl:api',
+        analytics: false,
+      });
+      clientLimiters.set(cacheKey, limiter);
+    }
+
+    try {
+      const { success, remaining, reset } = await limiter.limit(identifier);
+      return {
+        success,
+        remaining: remaining ?? 0,
+        resetTime: reset,
+      };
+    } catch (err) {
+      console.warn(
+        '[Rate Limit] Redis limiter failed, falling back to in-memory:',
+        err instanceof Error ? err.message : String(err)
+      );
+    }
+  }
+
+  return rateLimit(identifier, limit, windowMs);
 }
 
 /**

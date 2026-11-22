@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { timingSafeCompare } from '@/lib/webhook/security';
-import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 import { recordPayment } from '@/lib/leads/lead-service';
 
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   try {
     // Rate limit: 10 payment verifications per minute per IP
     const ip = getClientIP(request);
-    const limiter = rateLimit(`payment-verify:${ip}`, 10, 60_000);
+    const limiter = await rateLimitDistributed(`payment-verify:${ip}`, 10, 60_000);
     if (!limiter.success) {
       return NextResponse.json(
         { verified: false, message: 'Too many requests. Please try again later.' },

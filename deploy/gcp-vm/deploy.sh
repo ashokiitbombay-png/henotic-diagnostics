@@ -35,7 +35,7 @@ for v in $(env | awk -F= '/^(VERCEL($|_)|TURBO_|NX_DAEMON$)/ {print $1}'); do
 done
 
 echo "📦 Installing production & build dependencies..."
-NODE_ENV=development npm install
+NODE_ENV=development npm ci
 
 echo "🏗️ Building Next.js standalone production bundle..."
 NODE_OPTIONS="--max-old-space-size=4096" NEXT_TELEMETRY_DISABLED=1 npm run build
@@ -53,6 +53,7 @@ if [[ -f "src/lib/wordpress/failsafe-cache.json" && ! -f ".next/standalone/src/l
   cp "src/lib/wordpress/failsafe-cache.json" ".next/standalone/src/lib/wordpress/failsafe-cache.json"
 fi
 
+PREV_RELEASE="$(readlink -f "$CURRENT_LINK" 2>/dev/null || true)"
 RELEASE_ID="$(date +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)"
 RELEASE_DIR="$RELEASES_DIR/$RELEASE_ID"
 
@@ -81,8 +82,23 @@ for attempt in $(seq 1 20); do
 done
 
 if [[ "$HEALTHY" != "true" ]]; then
-  echo "❌ Health check failed after 20 attempts! Keeping previous releases intact for rollback." >&2
+  echo "❌ Health check failed after 20 attempts!" >&2
   pm2 logs henotic-web --lines 40 --nostream || true
+  if [[ -n "$PREV_RELEASE" && -d "$PREV_RELEASE" && -f "$PREV_RELEASE/server.js" && "$PREV_RELEASE" != "$RELEASE_DIR" ]]; then
+    echo "⏪ Automatically rolling back to previous healthy release: $PREV_RELEASE" >&2
+    ln -sfn "$PREV_RELEASE" "$CURRENT_LINK"
+    pm2 reload "$APP_DIR/ecosystem.config.cjs" --only henotic-web --update-env || true
+    rm -rf "$RELEASE_DIR" || true
+    for rb_attempt in $(seq 1 15); do
+      if curl -sf "http://127.0.0.1:3000/api/health" >/dev/null 2>&1; then
+        echo "✅ Automatic rollback succeeded ($PREV_RELEASE)" >&2
+        break
+      fi
+      sleep 1
+    done
+  else
+    echo "⚠️ No valid previous release available for automatic rollback; keeping current state." >&2
+  fi
   exit 1
 fi
 
