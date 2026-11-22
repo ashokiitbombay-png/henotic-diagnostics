@@ -30,7 +30,7 @@
     "build": "next build",
     "build:shard": "tsx scripts/shard-build.ts",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:pseo": "playwright test tests/pseo-regression.spec.ts",
