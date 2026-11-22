@@ -3,7 +3,6 @@ import Script from 'next/script';
 import dynamic from 'next/dynamic';
 import MedicalClinicSchema from '@/components/seo/MedicalClinicSchema';
 import { OrganizationSchema } from '@/components/seo/OrganizationSchema';
-import { Analytics } from '@vercel/analytics/next';
 import ThirdPartyScripts from '@/components/seo/ThirdPartyScripts';
 import SiteHeader from "@/components/layout/SiteHeader";
 import ClientWidgets from "@/components/layout/ClientWidgets";
@@ -120,7 +119,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SecondFooter />
           <SiteFooter />
           <ClientWidgets />
-          <Analytics />
         </Providers>
       </body>
     </html>

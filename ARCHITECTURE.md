@@ -14,7 +14,7 @@ Welcome to the architectural overview of the **Henotic Diagnostics** web platfor
 - **Static Assets & CDN**: Google Cloud Storage (GCS) CDN (`storage.googleapis.com`)
 - **Email & Notifications**: Nodemailer (SMTP transport for automated booking receipts and OTP verification)
 - **Testing**: Playwright (`@playwright/test`) for PSEO automated regression crawling, Vitest for unit testing
-- **Deployment Platform**: Vercel Edge & Serverless Network
+- **Deployment Platform**: Google Cloud Platform Compute Engine VM (Debian 13, Nginx Reverse Proxy & PM2 Cluster)
 
 ---
 
@@ -141,8 +141,8 @@ npm run build
 # Run Playwright PSEO Automated Crawl Test
 npm run test:pseo
 
-# Deploy to Vercel Production
-npx vercel --prod --yes
+# Deploy to GCP VM Production (auto-triggered via GitHub Actions)
+git push origin main
 ```
 
 ---

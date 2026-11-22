@@ -55,7 +55,7 @@ npm run test:pseo
 
 1. **Commit Messages**: Follow standard conventional commits (`feat(scope): ...`, `fix(scope): ...`, `docs: ...`).
 2. **Push Branch**: Always push clean commits to `origin main`.
-3. **Deployment**: Trigger Vercel production deployment via `npx vercel --prod --yes` and verify production deployment status.
+3. **Deployment**: Push or merge to `origin main` to trigger `.github/workflows/deploy.yml` for automated GCP VM deployment and verify `https://www.henoticdiagnostics.com/api/health`.
 
 ---
 

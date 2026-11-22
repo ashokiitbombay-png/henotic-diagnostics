@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
+    const isProd = process.env.NODE_ENV === 'production';
 
     // If Razorpay is not configured, fail-closed in production, mock in dev
     if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) {

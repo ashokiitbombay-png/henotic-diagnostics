@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
 
     // ── Mode A: Development Only Mock OTP (123456 or 999999) ──
     // Strictly disallowed in production environments
-    const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
+    const isProd = process.env.NODE_ENV === 'production';
     const otpProvider = process.env.OTP_PROVIDER;
     if (!isProd && (process.env.NODE_ENV === 'development' || otpProvider === 'mock' || otpProvider === 'demo')) {
       if (cleanOtp === '123456' || cleanOtp === '999999') {

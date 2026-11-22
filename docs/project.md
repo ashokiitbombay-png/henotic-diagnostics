@@ -28,7 +28,7 @@
 | **Storage & CDN** | Google Cloud Storage (GCS) | `storage.googleapis.com` |
 | **Sitemap Streamer** | Custom Node.js Script | `scripts/generate-sitemaps.ts` (`tsx`) |
 | **Automated Testing** | Playwright & Vitest | `@playwright/test ^1.62.1`, `vitest ^3.2.0` |
-| **Deployment** | Vercel Serverless / Edge Network | Production Deployment |
+| **Deployment** | GCP Compute Engine VM (Nginx + PM2) | Production Deployment |
 
 ---
 
