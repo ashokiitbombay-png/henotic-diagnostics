@@ -6,6 +6,7 @@ import { revalidateRateLimit } from '@/lib/webhook/rate-limiter';
 import { wpCacheInvalidate, wpCachePurgeByPrefix } from '@/lib/cache/wp-cache';
 import { CACHE_TAGS } from '@/lib/cache/tags';
 import { deleteFailsafeData, clearFailsafeData } from '@/lib/wordpress/failsafeStore';
+import { purgeNginxAndEdgeCache, resolvePathsForContent } from '@/lib/cache/nginx-purge';
 
 /**
  * Enhanced ISR Revalidation API
@@ -65,10 +66,13 @@ export async function POST(request: NextRequest) {
       revalidatePath('/services', 'layout');
       revalidatePath('/blog', 'layout');
 
+      const edgePurge = await purgeNginxAndEdgeCache([], { purgeAll: true });
+
       return NextResponse.json({
         revalidated: true,
         mode: 'full-purge',
         failsafeCleared,
+        edgePurge,
         redis: {
           services: deletedServices,
           posts: deletedPosts,
@@ -93,12 +97,15 @@ export async function POST(request: NextRequest) {
       revalidateTag(CACHE_TAGS.service(service), 'max');
       revalidatePath(`/services/${service}`, 'page');
 
+      const edgePurge = await purgeNginxAndEdgeCache(resolvePathsForContent('service', service));
+
       return NextResponse.json({
         revalidated: true,
         mode: 'service-tag-cascade',
         service,
         action: action || 'update',
         failsafeEvicted,
+        edgePurge,
         tag: CACHE_TAGS.service(service),
         message: 'All PSEO pages (service + region + location) invalidated via tag',
         redisPurged: true,
@@ -120,12 +127,15 @@ export async function POST(request: NextRequest) {
       revalidateTag(CACHE_TAGS.postsList, 'max');
       revalidatePath(`/blog/${post}`, 'page');
 
+      const edgePurge = await purgeNginxAndEdgeCache(resolvePathsForContent('post', post));
+
       return NextResponse.json({
         revalidated: true,
         mode: 'blog-post-tag',
         post,
         action: action || 'update',
         failsafeEvicted,
+        edgePurge,
         tag: CACHE_TAGS.post(post),
         now: Date.now()
       });
@@ -144,12 +154,15 @@ export async function POST(request: NextRequest) {
       revalidateTag(CACHE_TAGS.page(pageUri), 'max');
       revalidatePath(pageUri, 'page');
 
+      const edgePurge = await purgeNginxAndEdgeCache(resolvePathsForContent('page', pageUri));
+
       return NextResponse.json({
         revalidated: true,
         mode: 'page-revalidate',
         page: pageUri,
         action: action || 'update',
         failsafeEvicted,
+        edgePurge,
         tag: CACHE_TAGS.page(pageUri),
         now: Date.now()
       });
@@ -169,7 +182,8 @@ export async function POST(request: NextRequest) {
     // ── Mode 6: Single Path (original behavior) ────────────────────────
     if (path) {
       revalidatePath(path, 'page');
-      return NextResponse.json({ revalidated: true, mode: 'single-path', path, now: Date.now() });
+      const edgePurge = await purgeNginxAndEdgeCache([path]);
+      return NextResponse.json({ revalidated: true, mode: 'single-path', path, edgePurge, now: Date.now() });
     }
 
     // ── No Valid Target Provided ───────────────────────────────────────

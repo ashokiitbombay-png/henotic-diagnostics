@@ -65,46 +65,6 @@ export const REMINDER_TEMPLATES: Record<ReminderChannel, TemplateFunction> = {
     `🏥 *Henotic Diagnostics Appointment Reminder*\n\nDear *${reminder.patientName}*,\nYour appointment for *${reminder.serviceName}* is confirmed.\n📅 *Date:* ${reminder.appointmentDate}\n⏰ *Time:* ${reminder.appointmentTime}\n📍 *Location:* ${reminder.location}\n\nPlease reply YES to confirm or call us to reschedule.`,
 };
 
-// Initial mock reminders data for testing and demonstration
-const initialReminders: AppointmentReminder[] = [
-  {
-    id: 'rem-101',
-    patientName: 'Sarah Jenkins',
-    patientPhone: '+1-555-0192',
-    patientEmail: 'sarah.j@example.com',
-    serviceName: 'Full Body Diagnostic Suite',
-    appointmentDate: '2026-08-01',
-    appointmentTime: '09:00 AM',
-    location: 'Henotic Diagnostics Main Branch',
-    status: 'scheduled',
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'rem-102',
-    patientName: 'David Chen',
-    patientPhone: '+1-555-0184',
-    patientEmail: 'david.chen@example.com',
-    serviceName: 'Comprehensive Lipid & Blood Panel',
-    appointmentDate: '2026-08-01',
-    appointmentTime: '10:30 AM',
-    location: 'Henotic Diagnostics West Wing',
-    status: 'scheduled',
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'rem-103',
-    patientName: 'Emma Watson',
-    patientPhone: '+1-555-0177',
-    patientEmail: 'emma.w@example.com',
-    serviceName: 'Thyroid & Cardiac Screening',
-    appointmentDate: '2026-08-02',
-    appointmentTime: '02:00 PM',
-    location: 'Henotic Diagnostics Main Branch',
-    status: 'sent',
-    createdAt: new Date().toISOString(),
-  },
-];
-
 /** Maximum number of reminders to hold in memory. FIFO eviction when exceeded. */
 const MAX_REMINDERS_STORE_SIZE = 1000;
 
@@ -115,7 +75,7 @@ declare global {
 
 export const getRemindersStore = (): AppointmentReminder[] => {
   if (!globalThis.__remindersStore) {
-    globalThis.__remindersStore = process.env.NODE_ENV !== 'production' ? [...initialReminders] : [];
+    globalThis.__remindersStore = [];
   }
   return globalThis.__remindersStore;
 };

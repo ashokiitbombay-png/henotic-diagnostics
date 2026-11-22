@@ -69,10 +69,13 @@ sudo ufw allow OpenSSH
 sudo ufw allow 'Nginx Full'
 sudo ufw --force enable
 
-echo "=== Step 6/8: Prepare application, data & Nginx cache directories ==="
-sudo mkdir -p "$APP_DIR" "$APP_DIR/data" "$APP_DIR/.live-releases" /var/cache/nginx/henotic /var/www/html
+echo "=== Step 6/8: Prepare application, data, backup & Nginx cache directories ==="
+sudo mkdir -p "$APP_DIR" "$APP_DIR/data" "$APP_DIR/backups" "$APP_DIR/.live-releases" /var/cache/nginx/henotic /var/www/html
 sudo chown -R "$USER:$USER" "$APP_DIR"
+chmod 700 "$APP_DIR/backups"
+sudo usermod -aG www-data "$USER" || true
 sudo chown -R www-data:www-data /var/cache/nginx/henotic
+sudo chmod 775 /var/cache/nginx/henotic
 
 echo "=== Step 7/8: Configure Ed25519 SSH key for GitHub Actions ==="
 mkdir -p "$HOME/.ssh"
@@ -89,18 +92,26 @@ if ! grep -qxF "$PUB_KEY" "$HOME/.ssh/authorized_keys"; then
   echo "$PUB_KEY" >> "$HOME/.ssh/authorized_keys"
 fi
 
-echo "=== Step 8/8: Install & reload Nginx reverse proxy + ISR cache pruner cron ==="
-chmod +x "$REPO_ROOT/deploy/gcp-vm/prune-isr-cache.sh" || true
-if command -v crontab >/dev/null 2>&1; then
-  ISR_CRON_LINE="15 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
-  EXISTING_CRON="$(crontab -l 2>/dev/null || true)"
-  if ! printf '%s\n' "$EXISTING_CRON" | grep -qxF "$ISR_CRON_LINE"; then
-    FILTERED_CRON="$(printf '%s\n' "$EXISTING_CRON" | grep -vF "prune-isr-cache.sh" || true)"
+echo "=== Step 8/8: Install & reload Nginx reverse proxy + maintenance crons ==="
+chmod +x "$REPO_ROOT/deploy/gcp-vm/prune-isr-cache.sh" "$REPO_ROOT/deploy/gcp-vm/backup-leads.sh" || true
+
+ensure_cron_job() {
+  local marker="$1"
+  local cron_line="$2"
+  local existing filtered
+  existing="$(crontab -l 2>/dev/null || true)"
+  if ! printf '%s\n' "$existing" | grep -qxF "$cron_line"; then
+    filtered="$(printf '%s\n' "$existing" | grep -vF "$marker" || true)"
     {
-      [[ -n "$FILTERED_CRON" ]] && printf '%s\n' "$FILTERED_CRON"
-      printf '%s\n' "$ISR_CRON_LINE"
+      [[ -n "$filtered" ]] && printf '%s\n' "$filtered"
+      printf '%s\n' "$cron_line"
     } | crontab - || true
   fi
+}
+
+if command -v crontab >/dev/null 2>&1; then
+  ensure_cron_job "prune-isr-cache.sh" "15 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
+  ensure_cron_job "backup-leads.sh" "30 2 * * * /var/www/henotic-diagnostics/deploy/gcp-vm/backup-leads.sh >> /var/log/pm2/backup-leads.log 2>&1"
 fi
 
 NGINX_SITE_FILE="/etc/nginx/sites-available/henotic-diagnostics"

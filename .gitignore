@@ -44,6 +44,7 @@ next-env.d.ts
 project-tree.txt
 app-tree.txt
 
-# GCP VM atomic release symlinks
+# GCP VM atomic release symlinks & backups
 .live-releases/
 current
+backups/

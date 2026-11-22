@@ -8,6 +8,7 @@ import { wpCacheInvalidate, wpCachePurgeByPrefix } from '@/lib/cache/wp-cache';
 import { CACHE_TAGS } from '@/lib/cache/tags';
 import { getRedis } from '@/lib/cache/redis';
 import { deleteFailsafeData } from '@/lib/wordpress/failsafeStore';
+import { purgeNginxAndEdgeCache, resolvePathsForContent } from '@/lib/cache/nginx-purge';
 
 // ── CMS Source Detection ─────────────────────────────────────────────────
 
@@ -288,12 +289,15 @@ export async function POST(request: NextRequest) {
       revalidateTag(CACHE_TAGS.conditionsList, 'max');
     }
 
+    const edgePurge = await purgeNginxAndEdgeCache(resolvePathsForContent(contentType, slug));
+
     return NextResponse.json({
       ok: true,
       queued: false,
       source,
       contentType,
       slug,
+      edgePurge,
       message: 'Processed immediately via tag-based revalidation (no queue available)',
     });
 

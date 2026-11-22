@@ -80,6 +80,7 @@ async function getMongoCollection(collectionName: string) {
     const client = await cachedClientPromise;
     return { client, collection: client.db('henotic_production').collection(collectionName) };
   } catch (err) {
+    console.warn(`[LeadService] MongoDB connection unavailable (${collectionName}):`, err instanceof Error ? err.message : String(err));
     cachedClientPromise = null;
     return null;
   }

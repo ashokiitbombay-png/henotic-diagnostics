@@ -99,20 +99,27 @@ if (( ${#RELEASES[@]} > KEEP_RELEASES )); then
   done
 fi
 
-echo "🧹 Enforcing ISR disk-cache cap and hourly prune cron..."
-chmod +x "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" || true
+echo "🧹 Enforcing ISR disk-cache cap, hourly prune cron & daily lead backup cron..."
+chmod +x "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" "$APP_DIR/deploy/gcp-vm/backup-leads.sh" || true
 bash "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" || true
 
-if command -v crontab >/dev/null 2>&1; then
-  ISR_CRON_LINE="15 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
-  EXISTING_CRON="$(crontab -l 2>/dev/null || true)"
-  if ! printf '%s\n' "$EXISTING_CRON" | grep -qxF "$ISR_CRON_LINE"; then
-    FILTERED_CRON="$(printf '%s\n' "$EXISTING_CRON" | grep -vF "prune-isr-cache.sh" || true)"
+ensure_cron_job() {
+  local marker="$1"
+  local cron_line="$2"
+  local existing filtered
+  existing="$(crontab -l 2>/dev/null || true)"
+  if ! printf '%s\n' "$existing" | grep -qxF "$cron_line"; then
+    filtered="$(printf '%s\n' "$existing" | grep -vF "$marker" || true)"
     {
-      [[ -n "$FILTERED_CRON" ]] && printf '%s\n' "$FILTERED_CRON"
-      printf '%s\n' "$ISR_CRON_LINE"
+      [[ -n "$filtered" ]] && printf '%s\n' "$filtered"
+      printf '%s\n' "$cron_line"
     } | crontab - || true
   fi
+}
+
+if command -v crontab >/dev/null 2>&1; then
+  ensure_cron_job "prune-isr-cache.sh" "15 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
+  ensure_cron_job "backup-leads.sh" "30 2 * * * /var/www/henotic-diagnostics/deploy/gcp-vm/backup-leads.sh >> /var/log/pm2/backup-leads.log 2>&1"
 fi
 
 echo "🎉 Deployment complete: $RELEASE_ID"

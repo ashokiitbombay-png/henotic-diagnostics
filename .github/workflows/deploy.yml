@@ -38,5 +38,5 @@ jobs:
             git fetch origin "$DEPLOY_BRANCH"
             git checkout "$DEPLOY_BRANCH"
             git reset --hard FETCH_HEAD
-            chmod +x deploy/gcp-vm/deploy.sh deploy/gcp-vm/rollback.sh deploy/gcp-vm/prune-isr-cache.sh
+            chmod +x deploy/gcp-vm/deploy.sh deploy/gcp-vm/rollback.sh deploy/gcp-vm/prune-isr-cache.sh deploy/gcp-vm/backup-leads.sh
             ./deploy/gcp-vm/deploy.sh

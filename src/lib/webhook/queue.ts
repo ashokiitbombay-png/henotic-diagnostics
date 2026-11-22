@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache';
 import { getRedis } from '@/lib/cache/redis';
 import { wpCacheInvalidate, wpCachePurgeByPrefix } from '@/lib/cache/wp-cache';
 import { CACHE_TAGS } from '@/lib/cache/tags';
+import { EdgePurgeResult, purgeNginxAndEdgeCache, resolvePathsForContent } from '@/lib/cache/nginx-purge';
 
 // ── Constants ────────────────────────────────────────────────────────────
 
@@ -83,6 +84,7 @@ export async function flushAndProcess(type: string): Promise<{
   processed: number;
   slugs: string[];
   mode: 'tag-invalidate' | 'full-purge' | 'empty' | 'skipped';
+  edgePurge?: EdgePurgeResult;
 }> {
   const redis = getRedis();
 
@@ -117,8 +119,9 @@ export async function flushAndProcess(type: string): Promise<{
         // Too many — full purge is cheaper than individual tag invalidations
         await wpCachePurgeByPrefix('service');
         revalidateTag(CACHE_TAGS.servicesList, 'max');
+        const edgePurge = await purgeNginxAndEdgeCache([], { purgeAll: true });
         console.log(`✅ [Queue] Full service tag purge (${slugs.length} slugs exceeded threshold)`);
-        return { processed: slugs.length, slugs, mode: 'full-purge' };
+        return { processed: slugs.length, slugs, mode: 'full-purge', edgePurge };
       }
 
       // Per-service tag-based invalidation — O(1) per slug
@@ -128,14 +131,18 @@ export async function flushAndProcess(type: string): Promise<{
         // AND /services/[slug]/[region]/[location] — all pages that used this tag
         revalidateTag(CACHE_TAGS.service(slug), 'max');
       }
+      const edgePurge = await purgeNginxAndEdgeCache(
+        slugs.flatMap((slug) => resolvePathsForContent('service', slug))
+      );
       console.log(`✅ [Queue] Tag-invalidated ${slugs.length} service(s) — all PSEO pages included`);
-      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate', edgePurge };
     }
 
     if (type === 'health-packages') {
       revalidateTag(CACHE_TAGS.healthPackages, 'max');
+      const edgePurge = await purgeNginxAndEdgeCache(resolvePathsForContent('health-packages', ''));
       console.log(`✅ [Queue] Tag-invalidated health packages suite`);
-      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate', edgePurge };
     }
 
     if (type === 'health-checkup-page') {
@@ -143,14 +150,18 @@ export async function flushAndProcess(type: string): Promise<{
         revalidateTag(CACHE_TAGS.service(slug), 'max');
       }
       revalidateTag(CACHE_TAGS.healthPackages, 'max');
+      const edgePurge = await purgeNginxAndEdgeCache(
+        slugs.flatMap((slug) => resolvePathsForContent('health-checkup-page', slug))
+      );
       console.log(`✅ [Queue] Tag-invalidated ${slugs.length} health checkup page(s)`);
-      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate', edgePurge };
     }
 
     if (type === 'nipt-tests') {
       revalidateTag(CACHE_TAGS.niptTests, 'max');
+      const edgePurge = await purgeNginxAndEdgeCache(resolvePathsForContent('nipt-tests', ''));
       console.log(`✅ [Queue] Tag-invalidated NIPT tests suite`);
-      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate', edgePurge };
     }
 
     if (type === 'nipt-page') {
@@ -158,8 +169,11 @@ export async function flushAndProcess(type: string): Promise<{
         revalidateTag(CACHE_TAGS.service(slug), 'max');
       }
       revalidateTag(CACHE_TAGS.niptTests, 'max');
+      const edgePurge = await purgeNginxAndEdgeCache(
+        slugs.flatMap((slug) => resolvePathsForContent('nipt-page', slug))
+      );
       console.log(`✅ [Queue] Tag-invalidated ${slugs.length} NIPT authority page(s)`);
-      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate', edgePurge };
     }
 
     if (type === 'post') {
@@ -170,8 +184,11 @@ export async function flushAndProcess(type: string): Promise<{
         revalidateTag(CACHE_TAGS.post(slug), 'max');
       }
       revalidateTag(CACHE_TAGS.postsList, 'max');
+      const edgePurge = await purgeNginxAndEdgeCache(
+        slugs.flatMap((slug) => resolvePathsForContent('post', slug))
+      );
       console.log(`✅ [Queue] Tag-invalidated ${slugs.length} blog post(s)`);
-      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate', edgePurge };
     }
 
     if (type === 'page') {
@@ -179,8 +196,11 @@ export async function flushAndProcess(type: string): Promise<{
         await wpCacheInvalidate('page', `/${slug}`);
         revalidateTag(CACHE_TAGS.page(`/${slug}`), 'max');
       }
+      const edgePurge = await purgeNginxAndEdgeCache(
+        slugs.flatMap((slug) => resolvePathsForContent('page', slug))
+      );
       console.log(`✅ [Queue] Tag-invalidated ${slugs.length} page(s)`);
-      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate', edgePurge };
     }
 
     if (type === 'condition') {
@@ -188,8 +208,11 @@ export async function flushAndProcess(type: string): Promise<{
         revalidateTag(CACHE_TAGS.condition(slug), 'max');
       }
       revalidateTag(CACHE_TAGS.conditionsList, 'max');
+      const edgePurge = await purgeNginxAndEdgeCache(
+        slugs.flatMap((slug) => resolvePathsForContent('condition', slug))
+      );
       console.log(`✅ [Queue] Tag-invalidated ${slugs.length} condition(s)`);
-      return { processed: slugs.length, slugs, mode: 'tag-invalidate' };
+      return { processed: slugs.length, slugs, mode: 'tag-invalidate', edgePurge };
     }
 
     return { processed: 0, slugs, mode: 'skipped' };

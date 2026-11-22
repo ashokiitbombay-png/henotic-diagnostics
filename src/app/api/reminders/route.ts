@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AppointmentReminder, getRemindersStore, addReminder } from '@/config/reminders';
 import { rateLimit, getClientIP } from '@/lib/rate-limit';
-import { timingSafeCompare } from '@/lib/webhook/security';
+import { verifyRemindersAuth } from '@/lib/reminders/auth';
 
-/** Verify API key for authenticated reminder endpoints (header-only, timing-safe) */
+/** Verify API key for authenticated reminder endpoints (headers only, timing-safe) */
 function verifyApiKey(request: NextRequest): boolean {
-  const apiKey = process.env.REMINDERS_API_KEY;
-  if (!apiKey) return false; // If no key configured, block all access
-  const provided = request.headers.get('x-api-key');
-  return Boolean(provided && timingSafeCompare(provided, apiKey));
+  return verifyRemindersAuth(request.headers).authorized;
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
