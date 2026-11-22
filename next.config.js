@@ -226,14 +226,22 @@ const nextConfig = {
           { key: 'Pragma', value: 'no-cache' },
         ],
       },
+      {
+        source: '/sitemap.xml',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400' },
+        ],
+      },
+      {
+        source: '/sitemaps/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400' },
+        ],
+      },
     ];
 
     if (isProd) {
       staticHeaders.push(
-        {
-          source: '/_next/static/(.*)',
-          headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
-        },
         {
           source: '/(.*)\\.woff2',
           headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],

@@ -143,7 +143,9 @@ export async function recordPayment(payment: Omit<PaymentRecord, 'id' | 'created
         await mongo.collection.insertOne({ _id: fullRecord.id as any, ...fullRecord });
       }
     })
-    .catch(() => {});
+    .catch((mongoErr) => {
+      console.warn('[LeadService] MongoDB payment sync deferred:', mongoErr instanceof Error ? mongoErr.message : String(mongoErr));
+    });
 
   return fullRecord;
 }
@@ -172,7 +174,9 @@ export async function recordInquiry(email: string, source: string = 'newsletter'
         await mongo.collection.insertOne({ _id: inquiry.id as any, ...inquiry });
       }
     })
-    .catch(() => {});
+    .catch((mongoErr) => {
+      console.warn('[LeadService] MongoDB inquiry sync deferred:', mongoErr instanceof Error ? mongoErr.message : String(mongoErr));
+    });
 
   return inquiry;
 }

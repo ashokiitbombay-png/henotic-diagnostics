@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRemindersStore, REMINDER_TEMPLATES, ReminderChannel } from '@/config/reminders';
 import { rateLimit, getClientIP } from '@/lib/rate-limit';
+import { timingSafeCompare } from '@/lib/webhook/security';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -10,7 +11,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'Reminder service not configured' }, { status: 503 });
     }
     const provided = request.headers.get('x-api-key');
-    if (provided !== apiKey) {
+    if (!provided || !timingSafeCompare(provided, apiKey)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

@@ -115,7 +115,7 @@ declare global {
 
 export const getRemindersStore = (): AppointmentReminder[] => {
   if (!globalThis.__remindersStore) {
-    globalThis.__remindersStore = [...initialReminders];
+    globalThis.__remindersStore = process.env.NODE_ENV !== 'production' ? [...initialReminders] : [];
   }
   return globalThis.__remindersStore;
 };
