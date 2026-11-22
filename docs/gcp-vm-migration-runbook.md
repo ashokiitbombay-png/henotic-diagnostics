@@ -12,6 +12,9 @@ Target infrastructure & recorded access details:
 - **GitHub Deploy Keys Settings**: `https://github.com/ashokiitbombay-png/henotic-diagnostics/settings/keys`
 - **GitHub Deploy Key Title**: `gcp-vm-henotic` (Write access enabled)
 - **GitHub Deploy Key Public Key**: `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOC9gxlczBnD+wkCoa3+Bhn2sxqx9wuZb1xsOlgz3Wio gcp-vm-github`
+- **GitHub Actions Secrets Settings**: `https://github.com/ashokiitbombay-png/henotic-diagnostics/settings/secrets/actions`
+- **GitHub Actions Repository Secrets**: `GCP_VM_IP` (`34.100.203.56`), `GCP_VM_USER` (`ashokiitbombay`), `GCP_SSH_KEY` (private key from `~/.ssh/github_deploy_key`, stored only in GitHub Secrets)
+- **GitHub Actions SSH Key Public Key (`~/.ssh/github_deploy_key.pub`)**: `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEMrFpGLduMaM7zlkHLav77VzIX1bnqpytwglTX4S445 github-actions@henotic-nextjs-vm`
 
 ---
 
@@ -156,16 +159,25 @@ Optional browser smoke test from your local Windows machine: temporarily map `34
 
 ## 4. GitHub Actions Secrets Setup
 
-On the VM, print the generated private SSH deploy key:
+On the VM, print the generated private SSH deploy key (`~/.ssh/github_deploy_key`):
 
 ```bash
 cat ~/.ssh/github_deploy_key
 ```
 
-In **GitHub Repo → Settings → Secrets and variables → Actions → New repository secret**, add:
+In [https://github.com/ashokiitbombay-png/henotic-diagnostics/settings/secrets/actions](https://github.com/ashokiitbombay-png/henotic-diagnostics/settings/secrets/actions) (**GitHub Repo → Settings → Secrets and variables → Actions → New repository secret**), configure:
 - `GCP_VM_IP` = `34.100.203.56`
 - `GCP_VM_USER` = `ashokiitbombay`
-- `GCP_SSH_KEY` = full contents of `~/.ssh/github_deploy_key` (including `-----BEGIN OPENSSH PRIVATE KEY-----` and `-----END OPENSSH PRIVATE KEY-----`)
+- `GCP_SSH_KEY` = full **private key** contents of `~/.ssh/github_deploy_key` (including `-----BEGIN OPENSSH PRIVATE KEY-----` and `-----END OPENSSH PRIVATE KEY-----`) — never commit the private key to Git.
+
+Recorded matching public key (`~/.ssh/github_deploy_key.pub`, authorized in `~/.ssh/authorized_keys` on `henotic-nextjs-vm`):
+
+```text
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEMrFpGLduMaM7zlkHLav77VzIX1bnqpytwglTX4S445 github-actions@henotic-nextjs-vm
+```
+
+> [!IMPORTANT]
+> The `ssh-ed25519 ... github-actions@henotic-nextjs-vm` string above is the **public key** (`~/.ssh/github_deploy_key.pub`) recorded safely here for verification. In GitHub Repository Secrets, `GCP_SSH_KEY` (used by `appleboy/ssh-action@v1.0.3` in `.github/workflows/deploy.yml`) **must** contain the corresponding **private key** printed by `cat ~/.ssh/github_deploy_key`.
 
 You can test the GitHub Actions workflow before merging to `main` via **Actions → Deploy Henotic Diagnostics to GCP VM → Run workflow → branch: `experiment-pseo-routing`**.
 

@@ -5,7 +5,7 @@ APP_DIR="/var/www/henotic-diagnostics"
 RELEASES_DIR="$APP_DIR/.live-releases"
 CURRENT_LINK="$APP_DIR/current"
 DATA_DIR="$APP_DIR/data"
-KEEP_RELEASES=3
+KEEP_RELEASES=2
 
 cd "$APP_DIR"
 mkdir -p "$RELEASES_DIR" "$DATA_DIR"
@@ -97,6 +97,22 @@ if (( ${#RELEASES[@]} > KEEP_RELEASES )); then
     echo "🧹 Pruning old release: $old_rel"
     rm -rf "$old_rel"
   done
+fi
+
+echo "🧹 Enforcing ISR disk-cache cap and hourly prune cron..."
+chmod +x "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" || true
+bash "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" || true
+
+if command -v crontab >/dev/null 2>&1; then
+  ISR_CRON_LINE="15 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
+  EXISTING_CRON="$(crontab -l 2>/dev/null || true)"
+  if ! printf '%s\n' "$EXISTING_CRON" | grep -qxF "$ISR_CRON_LINE"; then
+    FILTERED_CRON="$(printf '%s\n' "$EXISTING_CRON" | grep -vF "prune-isr-cache.sh" || true)"
+    {
+      [[ -n "$FILTERED_CRON" ]] && printf '%s\n' "$FILTERED_CRON"
+      printf '%s\n' "$ISR_CRON_LINE"
+    } | crontab - || true
+  fi
 fi
 
 echo "🎉 Deployment complete: $RELEASE_ID"

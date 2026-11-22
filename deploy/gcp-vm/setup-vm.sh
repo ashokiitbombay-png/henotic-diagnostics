@@ -89,9 +89,27 @@ if ! grep -qxF "$PUB_KEY" "$HOME/.ssh/authorized_keys"; then
   echo "$PUB_KEY" >> "$HOME/.ssh/authorized_keys"
 fi
 
-echo "=== Step 8/8: Install & reload Nginx reverse proxy ==="
-sudo cp "$REPO_ROOT/deploy/gcp-vm/nginx-henotic.conf" /etc/nginx/sites-available/henotic-diagnostics
-sudo ln -sfn /etc/nginx/sites-available/henotic-diagnostics /etc/nginx/sites-enabled/henotic-diagnostics
+echo "=== Step 8/8: Install & reload Nginx reverse proxy + ISR cache pruner cron ==="
+chmod +x "$REPO_ROOT/deploy/gcp-vm/prune-isr-cache.sh" || true
+if command -v crontab >/dev/null 2>&1; then
+  ISR_CRON_LINE="15 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
+  EXISTING_CRON="$(crontab -l 2>/dev/null || true)"
+  if ! printf '%s\n' "$EXISTING_CRON" | grep -qxF "$ISR_CRON_LINE"; then
+    FILTERED_CRON="$(printf '%s\n' "$EXISTING_CRON" | grep -vF "prune-isr-cache.sh" || true)"
+    {
+      [[ -n "$FILTERED_CRON" ]] && printf '%s\n' "$FILTERED_CRON"
+      printf '%s\n' "$ISR_CRON_LINE"
+    } | crontab - || true
+  fi
+fi
+
+NGINX_SITE_FILE="/etc/nginx/sites-available/henotic-diagnostics"
+if [[ -f "$NGINX_SITE_FILE" ]] && grep -qE 'ssl_certificate|managed by Certbot|listen[[:space:]]+(\[::\]:)?443' "$NGINX_SITE_FILE"; then
+  echo "⚠️  Existing Nginx site config has active TLS / Certbot 443 directives — skipping copy to preserve HTTPS config."
+else
+  sudo cp "$REPO_ROOT/deploy/gcp-vm/nginx-henotic.conf" "$NGINX_SITE_FILE"
+fi
+sudo ln -sfn "$NGINX_SITE_FILE" /etc/nginx/sites-enabled/henotic-diagnostics
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo nginx -t
 sudo systemctl enable --now nginx
