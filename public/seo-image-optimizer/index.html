@@ -96,7 +96,7 @@
                             src="https://storage.googleapis.com/wp-media-henoticbucket/Footer%20Logo/henotic-diagnostics-footer-logo.webp" 
                             alt="Henotic Diagnostics Logo" 
                             class="h-9 w-auto object-contain transition-transform group-hover:scale-105"
-                            onerror="this.onerror=null; this.src='https://via.placeholder.com/180x40/0f0a21/ec4899?text=Henotic+Diagnostics';"
+                            onerror="this.onerror=null; this.src='/icon.svg';"
                         />
                     </div>
                     <div class="hidden sm:block">
@@ -963,14 +963,29 @@
 
                         ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, targetW, targetH);
 
+                        let activeFormat = format;
                         let currentQual = quality;
-                        let blob = await canvasToBlob(canvas, format, currentQual);
+                        let blob = await canvasToBlob(canvas, activeFormat, currentQual);
+
+                        // Graceful fallback to WebP if browser canvas encoder returns null (e.g. unsupported AVIF encoder)
+                        if (!blob && activeFormat !== 'image/webp') {
+                            activeFormat = 'image/webp';
+                            item.targetFormat = activeFormat;
+                            blob = await canvasToBlob(canvas, activeFormat, currentQual);
+                        }
+
+                        if (!blob) {
+                            reject(new Error('Image encoding returned empty blob'));
+                            return;
+                        }
 
                         // Strict Cap Logic (< 100KB)
                         if (strictCap && blob.size > 100 * 1024) {
-                            while (blob.size > 100 * 1024 && currentQual > 0.25) {
+                            while (blob && blob.size > 100 * 1024 && currentQual > 0.25) {
                                 currentQual -= 0.1;
-                                blob = await canvasToBlob(canvas, format, currentQual);
+                                const nextBlob = await canvasToBlob(canvas, activeFormat, currentQual);
+                                if (!nextBlob) break;
+                                blob = nextBlob;
                             }
                         }
 
@@ -983,12 +998,20 @@
 
             function canvasToBlob(canvas, format, quality) {
                 return new Promise(resolve => {
-                    canvas.toBlob(blob => resolve(blob), format, quality);
+                    try {
+                        canvas.toBlob(blob => resolve(blob), format, quality);
+                    } catch {
+                        resolve(null);
+                    }
                 });
             }
 
             // Batch ZIP Download
             downloadZipBtn.addEventListener('click', async () => {
+                if (typeof JSZip === 'undefined') {
+                    showToast('Batch ZIP library is unavailable. Download images individually.', '⚠️');
+                    return;
+                }
                 const zip = new JSZip();
                 let count = 0;
 

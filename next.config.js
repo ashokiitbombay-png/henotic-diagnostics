@@ -202,6 +202,14 @@ const nextConfig = {
         source: '/booking-system/',
         destination: '/booking-system/index.html',
       },
+      {
+        source: '/seo-image-optimizer',
+        destination: '/seo-image-optimizer/index.html',
+      },
+      {
+        source: '/seo-image-optimizer/',
+        destination: '/seo-image-optimizer/index.html',
+      },
       // Legacy backward compat: /sitemap-1.xml → /sitemap/0.xml
       {
         source: '/sitemap-:id(\\d+).xml',

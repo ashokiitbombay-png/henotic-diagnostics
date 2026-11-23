@@ -129,4 +129,30 @@ describe('P3 Content Depth, Accessibility & Hygiene', () => {
 
     expect(filesWithMain).toEqual(['src/app/layout.tsx']);
   });
+
+  it('rewrites /seo-image-optimizer and /seo-image-optimizer/ to index.html and ships its static assets', async () => {
+    const nextConfigModule = await import('../next.config.js');
+    const nextConfig = (nextConfigModule.default || nextConfigModule) as {
+      rewrites: () => Promise<Array<{ source: string; destination: string }>>;
+    };
+    const rewrites = await nextConfig.rewrites();
+
+    expect(rewrites).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          source: '/seo-image-optimizer',
+          destination: '/seo-image-optimizer/index.html',
+        }),
+        expect.objectContaining({
+          source: '/seo-image-optimizer/',
+          destination: '/seo-image-optimizer/index.html',
+        }),
+      ])
+    );
+
+    expect(fs.existsSync(path.join(ROOT, 'public/seo-image-optimizer/index.html'))).toBe(true);
+    expect(
+      fs.existsSync(path.join(ROOT, 'public/seo-image-optimizer/seo-optimizer-tailwind.css'))
+    ).toBe(true);
+  });
 });
