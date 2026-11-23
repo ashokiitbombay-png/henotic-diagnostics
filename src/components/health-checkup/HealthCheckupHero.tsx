@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { ChevronRight, House, Phone, MessageCircle, ShieldCheck, Star, Clock, FlaskConical, Sparkles } from 'lucide-react';
 import type { HealthCheckupPageContent, HealthCheckupTrustContent } from '@/config/health-checkup';
 import { LAB_PHONE_DISPLAY, LAB_PHONE_TEL, LAB_WHATSAPP_NUMBER, formatINR } from '@/config/health-checkup';
-import { cdnSrcSet } from './image-utils';
 
 interface HealthCheckupHeroProps {
   page: HealthCheckupPageContent;
@@ -135,15 +134,13 @@ export default function HealthCheckupHero({ page, trust, packageCount, minPrice 
             <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-[#EDE9FE] via-[#FCE7F3] to-[#E0E7FF] border border-white shadow-[0_24px_55px_rgba(108,108,246,0.18)]">
               <img
                 src={primaryImage.url}
-                srcSet={cdnSrcSet(primaryImage.url, primaryImage.width)}
-                sizes="(min-width: 1024px) 40vw, (min-width: 640px) 28rem, 100vw"
                 alt={primaryImage.alt}
                 width={primaryImage.width}
                 height={primaryImage.height}
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="w-full h-auto object-contain"
+                className="block w-full h-auto object-contain"
               />
             </div>
             <figcaption className="mt-3 text-center text-xs sm:text-sm font-medium text-gray-600">{primaryImage.caption}</figcaption>

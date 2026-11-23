@@ -2,10 +2,10 @@ import { Activity, Calendar, ChevronRight, CircleCheck, Clock, House, Phone, Spa
 import type { HealthPackage } from '@/config/health-checkup';
 import { LAB_PHONE_TEL, formatINR } from '@/config/health-checkup';
 import CurvedMedicalLines from './CurvedMedicalLines';
-import { cdnSrcSet } from './image-utils';
 
 interface PackageCardProps {
   pkg: HealthPackage;
+  priority?: boolean;
   onViewTests: (pkg: HealthPackage) => void;
   onBook: (pkg: HealthPackage) => void;
 }
@@ -15,7 +15,7 @@ interface PackageCardProps {
  * Rendered inside the client `PackageExplorer`, but fully server-rendered
  * on first load so prices, titles and highlights are crawlable.
  */
-export default function PackageCard({ pkg, onViewTests, onBook }: PackageCardProps) {
+export default function PackageCard({ pkg, priority = false, onViewTests, onBook }: PackageCardProps) {
   const fastingLabel = pkg.fastingRequired ? '8–12 Hrs Fasting' : 'No Fasting Needed';
 
   return (
@@ -50,13 +50,11 @@ export default function PackageCard({ pkg, onViewTests, onBook }: PackageCardPro
         <div className="relative z-10 w-full flex justify-center items-end -mt-10 group-hover:-translate-y-2 transition-transform duration-300 ease-out">
           <img
             src={pkg.imageUrl}
-            srcSet={cdnSrcSet(pkg.imageUrl, pkg.imageWidth)}
-            sizes="(min-width: 1024px) 22rem, (min-width: 768px) 45vw, 90vw"
             alt={`${pkg.title} health checkup package (${pkg.totalTests} tests) at Henotic Diagnostics`}
             width={pkg.imageWidth}
             height={pkg.imageHeight}
-            className="h-[234px] max-h-[234px] w-auto object-contain object-bottom drop-shadow-[0_18px_20px_rgba(0,0,0,0.22)] select-none pointer-events-none"
-            loading="lazy"
+            className="h-[234px] max-h-[234px] w-auto max-w-full object-contain object-bottom drop-shadow-[0_18px_20px_rgba(0,0,0,0.22)] select-none pointer-events-none"
+            loading={priority ? 'eager' : 'lazy'}
             decoding="async"
           />
         </div>

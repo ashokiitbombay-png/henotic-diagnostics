@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { describe, it, expect } from 'vitest';
 import {
   STATIC_HEALTH_CHECKUP_PAGES,
@@ -9,6 +11,7 @@ import {
   orderPackagesForPage,
 } from '@/config/health-checkup';
 import { services } from '@/config/services';
+import { cdnSrcSet, optimisedUrl } from '@/components/health-checkup/image-utils';
 
 const EXPECTED_SLUGS = [
   'health-checkup', 'full-body-check-up', 'master-health-checkup', 'executive-health-checkup',
@@ -122,5 +125,32 @@ describe('health packages config', () => {
     const ordered = orderPackagesForPage(STATIC_HEALTH_PACKAGES, ['TUMOR-M', 'CHP-85']);
     expect(ordered.map((p) => p.code).slice(0, 2)).toEqual(['TUMOR-M', 'CHP-85']);
     expect(ordered).toHaveLength(STATIC_HEALTH_PACKAGES.length);
+  });
+
+  it('uses absolute https CDN image URLs across all 17 packages', () => {
+    for (const p of STATIC_HEALTH_PACKAGES) {
+      expect(p.imageUrl, p.code).toMatch(/^https:\/\/cdn\.henoticdiagnostics\.com\//);
+    }
+  });
+});
+
+describe('health checkup image optimization safeguards', () => {
+  it('serves direct CDN URLs instead of disabled /_next/image optimizer URLs', () => {
+    const sampleUrl = 'https://cdn.henoticdiagnostics.com/health-checkup/advanced-health-profile-henotic-diagnostics.webp';
+    expect(optimisedUrl(sampleUrl, 640)).toBe(sampleUrl);
+    expect(optimisedUrl(sampleUrl, 640)).not.toContain('/_next/image');
+    expect(cdnSrcSet(sampleUrl, 1374)).toBeUndefined();
+  });
+
+  it('keeps all health-checkup TSX components free of /_next/image or cdnSrcSet', () => {
+    const componentsDir = path.resolve(process.cwd(), 'src/components/health-checkup');
+    const files = fs.readdirSync(componentsDir).filter((file) => file.endsWith('.tsx'));
+    expect(files.length).toBeGreaterThan(0);
+
+    for (const file of files) {
+      const source = fs.readFileSync(path.join(componentsDir, file), 'utf8');
+      expect(source, file).not.toContain('/_next/image');
+      expect(source, file).not.toContain('cdnSrcSet');
+    }
   });
 });

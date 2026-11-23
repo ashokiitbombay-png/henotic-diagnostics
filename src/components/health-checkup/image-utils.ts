@@ -1,30 +1,21 @@
 /**
- * Responsive image helpers for health checkup components.
+ * Image URL helpers for health checkup components.
  *
- * Strategy: keep the canonical CDN URL in `src` (the same URL used in
- * og:image, JSON-LD and the image sitemap, so search engines see one
- * consistent image URL), while `srcSet` offers Next.js-optimised AVIF/WebP
- * renditions for smaller viewports to protect mobile LCP.
- *
- * Widths/qualities must match `images.deviceSizes` / `images.qualities`
- * in next.config.js, otherwise the optimiser rejects the request.
+ * `next.config.js` configures `images: { unoptimized: true }` to avoid CPU/RAM
+ * spikes on the GCP VM during large Googlebot crawls, which disables the
+ * `/_next/image` endpoint (requests return HTTP 404). All CDN WebP images
+ * under `https://cdn.henoticdiagnostics.com/` are already pre-optimized, so
+ * components serve canonical CDN URLs directly without `/_next/image`.
  */
 
-// Must be a subset of images.deviceSizes ([640, 828, 1200, 1920]) and the
-// single allowed quality (images.qualities = [75]).
-const OPTIMISER_WIDTHS = [640, 828, 1200] as const;
-const QUALITY = 75;
-
-export function optimisedUrl(src: string, width: number): string {
-  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${QUALITY}`;
+export function optimisedUrl(src: string, _width?: number): string {
+  return src;
 }
 
 /**
- * Builds a srcset with optimiser renditions below the intrinsic width and the
- * original CDN asset as the largest candidate.
+ * Returns `undefined` so `<img srcSet={...} />` is omitted while Next.js
+ * image optimization is disabled (`images.unoptimized = true`).
  */
-export function cdnSrcSet(src: string, intrinsicWidth: number): string {
-  const candidates = OPTIMISER_WIDTHS.filter((w) => w < intrinsicWidth).map((w) => `${optimisedUrl(src, w)} ${w}w`);
-  candidates.push(`${src} ${intrinsicWidth}w`);
-  return candidates.join(', ');
+export function cdnSrcSet(_src: string, _intrinsicWidth?: number): string | undefined {
+  return undefined;
 }
