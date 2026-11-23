@@ -10,6 +10,11 @@ KEEP_RELEASES=2
 cd "$APP_DIR"
 mkdir -p "$RELEASES_DIR" "$DATA_DIR"
 
+if [[ ! -s "$APP_DIR/.env.local" ]]; then
+  echo "❌ Refusing to deploy: $APP_DIR/.env.local is missing or empty (runtime secrets would be wiped)." >&2
+  exit 1
+fi
+
 # Load .env.local for build-time Next.js configuration and NEXT_PUBLIC_* vars
 if [[ -f "$APP_DIR/.env.local" ]]; then
   while IFS= read -r line || [[ -n "$line" ]]; do
@@ -62,6 +67,13 @@ RELEASE_DIR="$RELEASES_DIR/$RELEASE_ID"
 
 echo "🔄 Activating release $RELEASE_ID..."
 mv .next/standalone "$RELEASE_DIR"
+if [[ ! -s "$APP_DIR/.env.local" ]]; then
+  echo "❌ Refusing to activate release $RELEASE_ID: $APP_DIR/.env.local is missing or empty." >&2
+  rm -rf "$RELEASE_DIR" || true
+  exit 1
+fi
+cp "$APP_DIR/.env.local" "$RELEASE_DIR/.env.local"
+chmod 600 "$RELEASE_DIR/.env.local"
 ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"
 
 # Purge leftover .next build cache & npm download cache immediately (live PM2 runs from $CURRENT_LINK)
@@ -121,9 +133,8 @@ if (( ${#RELEASES[@]} > KEEP_RELEASES )); then
   done
 fi
 
-echo "🧹 Enforcing ISR disk-cache cap, hourly prune cron & daily lead backup cron..."
+echo "🧹 Enforcing ISR disk-cache cap, 10-minute prune cron & daily lead backup cron..."
 chmod +x "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" "$APP_DIR/deploy/gcp-vm/backup-leads.sh" || true
-bash "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" || true
 
 ensure_cron_job() {
   local marker="$1"
@@ -139,8 +150,41 @@ ensure_cron_job() {
   fi
 }
 
+remove_cron_job() {
+  local marker="$1"
+  local existing filtered
+  existing="$(crontab -l 2>/dev/null || true)"
+  if printf '%s\n' "$existing" | grep -qF "$marker"; then
+    filtered="$(printf '%s\n' "$existing" | grep -vF "$marker" || true)"
+    if [[ -n "$filtered" ]]; then
+      printf '%s\n' "$filtered" | crontab - || true
+    else
+      crontab -r 2>/dev/null || true
+    fi
+  fi
+}
+
+if sudo -n true 2>/dev/null; then
+  sudo -n install -m 0755 "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" /usr/local/bin/prune-isr-cache.sh
+  printf '%s\n' \
+    'SHELL=/bin/bash' \
+    'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' \
+    '*/10 * * * * root /usr/local/bin/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1' \
+    | sudo -n tee /etc/cron.d/henotic-prune-isr >/dev/null
+  sudo -n chown root:root /etc/cron.d/henotic-prune-isr
+  sudo -n chmod 0644 /etc/cron.d/henotic-prune-isr
+  sudo -n /usr/local/bin/prune-isr-cache.sh || true
+  if command -v crontab >/dev/null 2>&1; then
+    remove_cron_job "prune-isr-cache.sh"
+  fi
+else
+  bash "$APP_DIR/deploy/gcp-vm/prune-isr-cache.sh" || true
+  if command -v crontab >/dev/null 2>&1; then
+    ensure_cron_job "prune-isr-cache.sh" "*/10 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
+  fi
+fi
+
 if command -v crontab >/dev/null 2>&1; then
-  ensure_cron_job "prune-isr-cache.sh" "15 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
   ensure_cron_job "backup-leads.sh" "30 2 * * * /var/www/henotic-diagnostics/deploy/gcp-vm/backup-leads.sh >> /var/log/pm2/backup-leads.log 2>&1"
 fi
 

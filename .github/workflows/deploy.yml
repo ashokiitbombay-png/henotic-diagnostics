@@ -44,12 +44,16 @@ jobs:
             echo "=== Pre-fetch VM disk & inode telemetry ==="
             df -h "$APP_DIR" / || true
             df -Pi "$APP_DIR" / || true
-            du -sh "$APP_DIR"/* "$APP_DIR/.next" "$APP_DIR/.live-releases" "$APP_DIR/.git" "$HOME/.npm" /var/cache/nginx/henotic /var/log/pm2 2>/dev/null || true
+            du -sh "$APP_DIR"/* "$APP_DIR/.next" "$APP_DIR/.live-releases" "$APP_DIR/.git" \
+              "$APP_DIR/current/.next/server/route-cache" "$APP_DIR/current/.next/cache" \
+              "$APP_DIR/current/.next/server/app/services" \
+              "$HOME/.npm" /var/cache/nginx/henotic /var/log/pm2 2>/dev/null || true
 
-            # Always reclaim unreferenced build intermediates, npm caches & crashed fetch-pack tmp files before git fetch
+            # Always reclaim unreferenced build intermediates, npm caches & crashed git lock/pack/0-byte files before git fetch
             # (Live PM2 workers run from $APP_DIR/current/.next, never from $APP_DIR/.next)
             rm -rf "$APP_DIR/.next" "$HOME/.npm/_cacache" "$HOME/.npm/_logs" 2>/dev/null || true
-            rm -f "$APP_DIR/.git/objects/pack/tmp_"* 2>/dev/null || true
+            rm -f "$APP_DIR/.git/index.lock" "$APP_DIR/.git/FETCH_HEAD.lock" "$APP_DIR/.git/objects/pack/tmp_"* 2>/dev/null || true
+            find "$APP_DIR/.git/objects" -type f -empty -delete 2>/dev/null || true
 
             DISK_PCT="$(df -P "$APP_DIR" | awk 'NR==2 {gsub(/%/, "", $5); print $5 + 0}')"
             INODE_PCT="$(df -Pi "$APP_DIR" | awk 'NR==2 {gsub(/%/, "", $5); print $5 + 0}')"
@@ -70,17 +74,27 @@ jobs:
                 done
               fi
 
-              if [[ -n "$ACTIVE_RELEASE" && -d "$ACTIVE_RELEASE/.next/server/app/services" ]]; then
-                echo "Evicting active ISR service cache in-place..."
-                find "$ACTIVE_RELEASE/.next/server/app/services" -type f \( \
-                  -name '*.prefetch.rsc' -o \
-                  -name '*.segment.rsc' -o \
-                  -name '*.html' -o \
-                  -name '*.rsc' -o \
-                  -name '*.meta' -o \
-                  -name '*.body' \
-                \) -delete 2>/dev/null || true
-                find "$ACTIVE_RELEASE/.next/server/app/services" -mindepth 1 -type d -empty -delete 2>/dev/null || true
+              if [[ -n "$ACTIVE_RELEASE" && -d "$ACTIVE_RELEASE/.next" ]]; then
+                echo "Evicting active Next.js 16 ISR caches in-place (route-cache, .next/cache, services)..."
+                if [[ -d "$ACTIVE_RELEASE/.next/server/route-cache" ]]; then
+                  find "$ACTIVE_RELEASE/.next/server/route-cache" -type f -delete 2>/dev/null || true
+                  find "$ACTIVE_RELEASE/.next/server/route-cache" -mindepth 1 -type d -empty -delete 2>/dev/null || true
+                fi
+                if [[ -d "$ACTIVE_RELEASE/.next/cache" ]]; then
+                  find "$ACTIVE_RELEASE/.next/cache" -type f -delete 2>/dev/null || true
+                  find "$ACTIVE_RELEASE/.next/cache" -mindepth 1 -type d -empty -delete 2>/dev/null || true
+                fi
+                if [[ -d "$ACTIVE_RELEASE/.next/server/app/services" ]]; then
+                  find "$ACTIVE_RELEASE/.next/server/app/services" -type f \( \
+                    -name '*.prefetch.rsc' -o \
+                    -name '*.segment.rsc' -o \
+                    -name '*.html' -o \
+                    -name '*.rsc' -o \
+                    -name '*.meta' -o \
+                    -name '*.body' \
+                  \) -delete 2>/dev/null || true
+                  find "$ACTIVE_RELEASE/.next/server/app/services" -mindepth 1 -type d -empty -delete 2>/dev/null || true
+                fi
               fi
 
               if [[ -d /var/cache/nginx/henotic ]]; then
