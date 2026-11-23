@@ -13,6 +13,7 @@ import HealthCheckupAuthorityPage, { buildHealthCheckupMetadata } from '@/compon
 import { isNiptService } from '@/config/nipt-test';
 import { getNiptPageData } from '@/lib/payload/nipt-tests';
 import NiptAuthorityPage, { buildNiptMetadata } from '@/components/nipt-test/NiptAuthorityPage';
+import { buildRobotsMetadata, getL1IndexingDirective } from '@/lib/seo/indexing-policy';
 
 export const revalidate = 604800; // 7 days cache revalidation
 
@@ -25,10 +26,19 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     if (niptData) return buildNiptMetadata(niptData);
   }
 
+  const directive = getL1IndexingDirective(resolvedParams.service);
+
   // 🩺 Health checkup authority pages (26 slugs) — Payload CMS-driven metadata
   if (isHealthCheckupAuthoritySlug(resolvedParams.service)) {
     const data = await getHealthCheckupPageData(resolvedParams.service);
-    if (data) return buildHealthCheckupMetadata(data);
+    if (data) {
+      const baseMeta = buildHealthCheckupMetadata(data);
+      return {
+        ...baseMeta,
+        alternates: { canonical: directive.canonicalUrl },
+        robots: buildRobotsMetadata(directive.index),
+      };
+    }
   }
 
   const serviceName = formatSlug(resolvedParams.service);
@@ -39,13 +49,14 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     description: isHealthCheckupService(resolvedParams.service)
       ? `Book comprehensive ${serviceName} packages at Henotic Diagnostics. Up to 63% off on 17 certified profiles with NABL-accredited pathology, 24/7 home blood sample pickup, and same-day digital reports.`
       : `Looking for a reliable ${serviceName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`,
+    robots: buildRobotsMetadata(directive.index),
     alternates: {
-      canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`
+      canonical: directive.canonicalUrl
     },
     openGraph: {
       title: `${serviceName} — Henotic Diagnostics`,
       description: `Book ${serviceName} at Henotic Diagnostics. NABL certified, same-day reports, 24/7 availability.`,
-      url: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}`,
+      url: directive.canonicalUrl,
       images: [{
         url: heroImage,
         width: 1200,

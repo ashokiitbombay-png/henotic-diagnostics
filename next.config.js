@@ -158,6 +158,22 @@ const nextConfig = {
         destination: '/services/pet-ct/:path*',
         permanent: true,
       },
+      // 3b. Pure NIPT typo / broken-token slugs -> 301 redirect to canonical nipt-test (preserving query params)
+      {
+        source: '/services/nippt/:path*',
+        destination: '/services/nipt-test/:path*',
+        statusCode: 301,
+      },
+      {
+        source: '/services/nip-t-test/:path*',
+        destination: '/services/nipt-test/:path*',
+        statusCode: 301,
+      },
+      {
+        source: '/services/npt-test-pregnancy/:path*',
+        destination: '/services/nipt-test/:path*',
+        statusCode: 301,
+      },
       // 4. Inpatient hospital surgical procedures: redirect micro-locations to main service guide
       {
         source: '/services/angioplasty/:region/:location',
@@ -209,11 +225,6 @@ const nextConfig = {
       {
         source: '/seo-image-optimizer/',
         destination: '/seo-image-optimizer/index.html',
-      },
-      // Legacy backward compat: /sitemap-1.xml → /sitemap/0.xml
-      {
-        source: '/sitemap-:id(\\d+).xml',
-        destination: '/sitemap/:id.xml',
       },
     ];
   },

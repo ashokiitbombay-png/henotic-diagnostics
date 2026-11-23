@@ -9,7 +9,7 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from 'next/navigation';
-import { ArrowRight, Activity } from "lucide-react";
+import { Activity } from "lucide-react";
 import GoogleReviews from "@/components/features/reviews/GoogleReviews";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PricingTable from "@/components/blocks/PricingTable";
@@ -25,6 +25,13 @@ import { getHeroImageForService } from '@/config/services';
 import { isNiptService } from '@/config/nipt-test';
 import { getNiptPageData } from '@/lib/payload/nipt-tests';
 import NiptAuthorityPage, { buildNiptMetadata } from '@/components/nipt-test/NiptAuthorityPage';
+import {
+  DUPLICATE_RAIGAD_LOCATIONS,
+  buildRobotsMetadata,
+  getCanonicalServiceSlug,
+  getL2IndexingDirective,
+  getL3IndexingDirective,
+} from '@/lib/seo/indexing-policy';
 
 export const revalidate = 604800; // 7 days cache revalidation
 
@@ -43,8 +50,9 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     if (niptData) return buildNiptMetadata(niptData);
   }
 
+  const directive = getL2IndexingDirective(resolvedParams.service, resolvedParams.region);
   const serviceName = formatSlug(resolvedParams.service);
-  const regionName = formatSlug(resolvedParams.region);
+  const regionName = REGION_NAMES[resolvedParams.region] || formatSlug(resolvedParams.region);
   const heroImage = getHeroImageForService(resolvedParams.service);
 
   const title = `Best ${serviceName} in ${regionName} | Book Online | Henotic Diagnostics`;
@@ -57,14 +65,15 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     title,
     description,
     keywords: `${serviceName} in ${regionName}, best ${serviceName} centers ${regionName}, ${serviceName} cost ${regionName}, diagnostic center in ${regionName}`,
+    robots: buildRobotsMetadata(directive.index),
     alternates: {
-      canonical: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}`
+      canonical: directive.canonicalUrl
     },
     openGraph: {
       title,
       description,
       type: "website",
-      url: `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}`,
+      url: directive.canonicalUrl,
       images: [{
         url: heroImage,
         width: 1200,
@@ -106,8 +115,18 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
   const serviceName = formatSlug(resolvedParams.service);
   const regionName = REGION_NAMES[resolvedParams.region] || formatSlug(resolvedParams.region);
 
-  // Get the list of specific locations for this region to build the SEO grid
-  const locations = REGION_LOCATIONS[resolvedParams.region] || [];
+  // Get non-duplicate locations in this region and partition by indexability
+  const canonicalService = getCanonicalServiceSlug(resolvedParams.service);
+  const rawLocations = REGION_LOCATIONS[resolvedParams.region] || [];
+  const cleanLocations = rawLocations.filter(
+    (loc) => !(resolvedParams.region === 'raigad' && DUPLICATE_RAIGAD_LOCATIONS.has(loc))
+  );
+  const indexableLocations = cleanLocations.filter(
+    (loc) => getL3IndexingDirective(canonicalService, resolvedParams.region, loc).includeInSitemap
+  );
+  const coverageOnlyLocations = cleanLocations.filter(
+    (loc) => !getL3IndexingDirective(canonicalService, resolvedParams.region, loc).includeInSitemap
+  );
 
   // 🧬 NIPT multi-tier region hub authority experience
   if (isNiptService(resolvedParams.service)) {
@@ -128,25 +147,48 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
                       Find {niptData.page.keyword} &amp; Home Blood Collection in {regionName}
                     </h2>
                     <p className="text-slate-600 mt-2 font-medium text-sm sm:text-base">
-                      Select your neighbourhood in {regionName} for pincode-level maternal cfDNA pickup turnaround and instant NIPT appointment booking.
+                      {indexableLocations.length > 0
+                        ? `Select your neighbourhood in ${regionName} for pincode-level maternal cfDNA pickup turnaround and instant NIPT appointment booking.`
+                        : `Doorstep cfDNA blood sample pickup and genetic counselling coverage across ${regionName}.`}
                     </p>
                   </div>
 
-                  {locations.length > 0 ? (
+                  {indexableLocations.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-                      {locations.map((loc) => (
+                      {indexableLocations.map((loc) => (
                         <Link
                           key={loc}
-                          href={`/services/${resolvedParams.service}/${resolvedParams.region}/${loc}`}
+                          href={`/services/${canonicalService}/${resolvedParams.region}/${loc}`}
                           prefetch={false}
                           className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 bg-slate-50/80 hover:bg-purple-50 hover:border-purple-300 transition-all group"
                         >
                           <span className="font-bold text-slate-800 group-hover:text-purple-800 text-xs sm:text-sm">
                             {formatSlug(loc)}
                           </span>
-                          <ArrowRight size={16} className="text-slate-400 group-hover:text-purple-700 transform group-hover:translate-x-1 transition-all shrink-0" />
+                          <span aria-hidden="true" className="text-slate-400 group-hover:text-purple-700 transform group-hover:translate-x-1 transition-all shrink-0 text-sm">→</span>
                         </Link>
                       ))}
+                    </div>
+                  ) : coverageOnlyLocations.length > 0 ? (
+                    <div className="space-y-6">
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {coverageOnlyLocations.map((loc) => (
+                          <span
+                            key={loc}
+                            className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700"
+                          >
+                            {formatSlug(loc)}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="text-center">
+                        <Link
+                          href="/contact#booking"
+                          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-sm shadow-md transition"
+                        >
+                          Schedule Home NIPT Pickup in {regionName} →
+                        </Link>
+                      </div>
                     </div>
                   ) : (
                     <div className="text-center p-8 bg-amber-50 rounded-2xl text-amber-800 border border-amber-100 font-medium">
@@ -186,31 +228,78 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
       <ServiceHero 
         service={resolvedParams.service} 
         region={resolvedParams.region} 
+        hideBreadcrumbSchema
       />
 
-      {/* 2. SEO INTERNAL LINKING GRID (The Secret Sauce) */}
+      {/* 2. SEO INTERNAL LINKING GRID */}
       <section className="py-16 bg-white border-b border-slate-200 relative -mt-10 rounded-t-[3rem] z-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-              Find a Center Near You in {regionName}
+              {indexableLocations.length > 0
+                ? `Areas Covered Near ${regionName}`
+                : `${serviceName} Coverage Across ${regionName}`}
             </h2>
-            <p className="text-slate-500 mt-2 font-medium">Select your specific location to view tailored availability and book your slot.</p>
+            <p className="text-slate-500 mt-2 font-medium">
+              {indexableLocations.length > 0
+                ? 'Select a neighbourhood below for priority slot availability and hub directions.'
+                : `Scans performed at our flagship Sector 15, Kharghar facility or via doorstep sample collection across ${regionName}.`}
+            </p>
           </div>
 
-          {locations.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {locations.map((loc) => (
-                <Link 
-                  key={loc}
-                  href={`/services/${resolvedParams.service}/${resolvedParams.region}/${loc}`}
-                  prefetch={false}
-                  className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all group"
+          {indexableLocations.length > 0 ? (
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                {indexableLocations.map((loc) => (
+                  <Link 
+                    key={loc}
+                    href={`/services/${canonicalService}/${resolvedParams.region}/${loc}`}
+                    prefetch={false}
+                    className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all group"
+                  >
+                    <span className="font-bold text-slate-700 group-hover:text-blue-700">{formatSlug(loc)}</span>
+                    <span aria-hidden="true" className="text-slate-500 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all text-sm">→</span>
+                  </Link>
+                ))}
+              </div>
+              {coverageOnlyLocations.length > 0 && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <p className="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                    Additional Covered Localities in {regionName}
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {coverageOnlyLocations.map((loc) => (
+                      <span
+                        key={loc}
+                        className="px-3 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-xs font-semibold text-slate-600"
+                      >
+                        {formatSlug(loc)}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          ) : coverageOnlyLocations.length > 0 ? (
+            <div className="space-y-6">
+              <div className="flex flex-wrap justify-center gap-2">
+                {coverageOnlyLocations.map((loc) => (
+                  <span
+                    key={loc}
+                    className="px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700"
+                  >
+                    {formatSlug(loc)}
+                  </span>
+                ))}
+              </div>
+              <div className="text-center">
+                <Link
+                  href="/contact#booking"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition"
                 >
-                  <span className="font-bold text-slate-700 group-hover:text-blue-700">{formatSlug(loc)}</span>
-                  <ArrowRight size={16} className="text-slate-500 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all" />
+                  Book {serviceName} for {regionName} Patients →
                 </Link>
-              ))}
+              </div>
             </div>
           ) : (
             <div className="text-center p-8 bg-amber-50 rounded-2xl text-amber-800 border border-amber-100 font-medium">

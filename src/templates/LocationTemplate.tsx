@@ -63,6 +63,7 @@ export default function LocationTemplate({
         service={service} 
         region={region} 
         location={location}
+        hideBreadcrumbSchema
       />
 
       {/* 🌟 Health Checkup Packages Suite (When applicable) */}

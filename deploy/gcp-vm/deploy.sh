@@ -188,15 +188,44 @@ if command -v crontab >/dev/null 2>&1; then
   ensure_cron_job "backup-leads.sh" "30 2 * * * /var/www/henotic-diagnostics/deploy/gcp-vm/backup-leads.sh >> /var/log/pm2/backup-leads.log 2>&1"
 fi
 
-# Tighten live Nginx proxy cache cap from 10g to 2g if present and passwordless sudo allows safe reload
+# Sync live Nginx cache directives safely without disturbing Certbot 443 TLS config, flush stale proxy cache, and purge Cloudflare if configured
 NGINX_SITE_FILE="/etc/nginx/sites-available/henotic-diagnostics"
-if [[ -f "$NGINX_SITE_FILE" ]] && grep -q 'max_size=10g' "$NGINX_SITE_FILE" 2>/dev/null; then
-  if sudo -n sed -i 's/max_size=10g/max_size=2g/g' "$NGINX_SITE_FILE" 2>/dev/null && sudo -n nginx -t 2>/dev/null; then
-    sudo -n systemctl reload nginx 2>/dev/null || true
-    echo "🔧 Updated Nginx proxy_cache max_size to 2g"
+if [[ -f "$NGINX_SITE_FILE" ]] && sudo -n true 2>/dev/null; then
+  sudo -n cp "$NGINX_SITE_FILE" "${NGINX_SITE_FILE}.bak"
+  sudo -n sed -i -E \
+    -e 's/max_size=(10g|2g)/max_size=1g/g' \
+    -e 's/proxy_cache_valid[[:space:]]+200[[:space:]]+10m;/proxy_cache_valid 200 1h;/g' \
+    -e 's/proxy_cache_valid[[:space:]]+301[[:space:]]+302[[:space:]]+1h;/proxy_cache_valid 301 302 308 1h;/g' \
+    "$NGINX_SITE_FILE"
+  if sudo -n nginx -t 2>/dev/null; then
+    sudo -n systemctl reload nginx || true
+    sudo -n rm -f "${NGINX_SITE_FILE}.bak"
+    echo "🔧 Verified & reloaded Nginx config (max_size=1g, 200 TTL=1h)"
+  else
+    echo "⚠️ Nginx config test failed after patch; restoring backup!" >&2
+    sudo -n mv "${NGINX_SITE_FILE}.bak" "$NGINX_SITE_FILE" || true
   fi
 fi
 
+if [[ -d /var/cache/nginx/henotic ]]; then
+  find /var/cache/nginx/henotic -type f -delete 2>/dev/null || sudo -n find /var/cache/nginx/henotic -type f -delete 2>/dev/null || true
+  echo "🧹 Flushed stale Nginx proxy cache entries under /var/cache/nginx/henotic"
+fi
+
+if [[ -n "${CLOUDFLARE_ZONE_ID:-}" && -n "${CLOUDFLARE_API_TOKEN:-}" ]]; then
+  CF_STATUS="$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+    "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
+    -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+    -H "Content-Type: application/json" \
+    --data '{"purge_everything":true}' || echo "000")"
+  echo "☁️ Cloudflare cache purge HTTP status: $CF_STATUS"
+else
+  echo "ℹ️ CLOUDFLARE_ZONE_ID/CLOUDFLARE_API_TOKEN not set; skipping Cloudflare API purge."
+fi
+
 git gc --auto 2>/dev/null || true
+
+echo "=== Post-deploy disk space (df -h /) ==="
+df -h / || true
 
 echo "🎉 Deployment complete: $RELEASE_ID"

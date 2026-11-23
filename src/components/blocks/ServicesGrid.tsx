@@ -8,7 +8,7 @@ export default function ServicesGrid() {
   const serviceCards = [
     { id: "mri-scan", title: "MRI Scan (3T)", icon: Orbit, color: "text-blue-600", bg: "bg-blue-50" },
     { id: "ct-scan", title: "CT Scan (128 Slice)", icon: Activity, color: "text-emerald-600", bg: "bg-emerald-50" },
-    { id: "pet-scan", title: "PET-CT Scan", icon: ScanHeart, color: "text-purple-600", bg: "bg-purple-50" },
+    { id: "pet-ct", title: "PET-CT Scan", icon: ScanHeart, color: "text-purple-600", bg: "bg-purple-50" },
     { id: "ultrasound", title: "Sonography / USG", icon: Baby, color: "text-pink-600", bg: "bg-pink-50" },
     { id: "blood-test", title: "Pathology Tests", icon: Droplets, color: "text-red-600", bg: "bg-red-50" },
     { id: "2d-echo", title: "2D Echo / ECG", icon: Heart, color: "text-rose-600", bg: "bg-rose-50" },

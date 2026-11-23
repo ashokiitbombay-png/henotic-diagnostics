@@ -12,7 +12,7 @@ const rawCities = [
 ];
 
 const rawTests = [
-  "blood-tests", "full-body-check-up", "health-checkup", "sonography", "ultrasound", "ct-scan", "mri-scan", "pet-scan", "spect-scan", "dtpa-scan", "dexa-bone-scan", "2d-echo", "2d-echo-test", "tmt-test", "stress-test", "holter-monitoring", "angiography", "angioplasty", "TAVR", "pregnancy-sonography", "obstetric-ultrasound", "anomaly-scan", "nt-scan", "color-doppler", "liver-fibroscan", "liver-elastography", "mammography", "follicular-study", "prenatal-test", "nipt-test", "nips-test", "nippt"
+  "blood-tests", "full-body-check-up", "health-checkup", "sonography", "ultrasound", "ct-scan", "mri-scan", "pet-ct", "spect-scan", "dtpa-scan", "dexa-bone-scan", "2d-echo", "tmt-test", "stress-test", "holter-monitoring", "angiography", "angioplasty", "TAVR", "pregnancy-sonography", "obstetric-ultrasound", "anomaly-scan", "nt-scan", "color-doppler", "liver-elastography", "fibroscan", "mammography", "follicular-study", "prenatal-test", "nipt-test"
 ];
 
 const formatSlug = (slug: string) => slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');

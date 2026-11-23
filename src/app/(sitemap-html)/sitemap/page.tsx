@@ -6,7 +6,14 @@ import { REGION_LOCATIONS, REGION_NAMES } from '@/config/locations';
 import { SERVICE_CATEGORIES } from '@/config/categories';
 import { GMC_PRODUCTS } from '@/config/gmc-products';
 import { formatSlug } from '@/lib/utils';
-import { Map, FileText, Stethoscope, MapPin, ShoppingBag, Scale, BookOpen } from 'lucide-react';
+import { Map, FileText, Stethoscope, MapPin, ShoppingBag, BookOpen } from 'lucide-react';
+import {
+  DEPRECATED_REGIONS,
+  DUPLICATE_RAIGAD_LOCATIONS,
+  getL2IndexingDirective,
+  getL3IndexingDirective,
+  isRedirectedServiceSlug,
+} from '@/lib/seo/indexing-policy';
 
 export const metadata: Metadata = {
   title: 'Sitemap — All Pages | Henotic Diagnostics',
@@ -44,9 +51,24 @@ SERVICE_CATEGORIES.forEach(cat => {
 });
 
 export default function HTMLSitemap() {
-  const regions = Object.entries(REGION_LOCATIONS);
+  const canonicalServices = services.filter((s) => !isRedirectedServiceSlug(s));
+  const regions = Object.entries(REGION_LOCATIONS)
+    .filter(([region]) => !DEPRECATED_REGIONS.has(region))
+    .map(([region, locs]) => [
+      region,
+      region === 'raigad' ? locs.filter((l) => !DUPLICATE_RAIGAD_LOCATIONS.has(l)) : locs,
+    ] as [string, string[]]);
   const totalLocations = regions.reduce((sum, [, locs]) => sum + locs.length, 0);
-  const totalPages = services.length + (services.length * totalLocations) + (services.length * regions.length);
+
+  let indexableCount = canonicalServices.length;
+  for (const service of canonicalServices) {
+    for (const [region, locs] of regions) {
+      if (getL2IndexingDirective(service, region).includeInSitemap) indexableCount++;
+      for (const loc of locs) {
+        if (getL3IndexingDirective(service, region, loc).includeInSitemap) indexableCount++;
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 mt-[80px] pb-24">
@@ -60,7 +82,7 @@ export default function HTMLSitemap() {
             Sitemap
           </h1>
           <p className="text-blue-200/80 text-lg font-medium max-w-2xl mx-auto">
-            Browse all {totalPages.toLocaleString('en-IN')}+ pages across {services.length} diagnostic services, {regions.length} regions, and {totalLocations} locations.
+            Browse {indexableCount.toLocaleString('en-IN')}+ indexed pages across {canonicalServices.length} diagnostic services, {regions.length} regions, and {totalLocations} locations.
           </p>
           <div className="mt-6 flex justify-center gap-4 flex-wrap">
             <a href="/sitemap.xml" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-sm font-bold hover:bg-white/20 transition-all">
@@ -124,20 +146,24 @@ export default function HTMLSitemap() {
         <section className="mb-12">
           <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center"><Stethoscope size={20} className="text-purple-600" /></div>
-            All Services ({services.length})
+            All Services ({canonicalServices.length})
           </h2>
-          {Object.entries(SITEMAP_CATEGORIES).map(([category, slugs]) => (
-            <div key={category} className="mb-8">
-              <h3 className="text-lg font-bold text-slate-800 mb-3 pb-2 border-b border-slate-200">{category} ({slugs.length})</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-                {slugs.map(slug => (
-                  <Link key={slug} href={`/services/${slug}`} className="px-3 py-2 rounded-lg bg-white border border-slate-100 text-xs font-semibold text-slate-600 hover:border-purple-300 hover:text-purple-600 transition-all truncate" title={formatSlug(slug)}>
-                    {formatSlug(slug)}
-                  </Link>
-                ))}
+          {Object.entries(SITEMAP_CATEGORIES).map(([category, rawSlugs]) => {
+            const slugs = rawSlugs.filter((s) => !isRedirectedServiceSlug(s));
+            if (slugs.length === 0) return null;
+            return (
+              <div key={category} className="mb-8">
+                <h3 className="text-lg font-bold text-slate-800 mb-3 pb-2 border-b border-slate-200">{category} ({slugs.length})</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+                  {slugs.map(slug => (
+                    <Link key={slug} href={`/services/${slug}`} className="px-3 py-2 rounded-lg bg-white border border-slate-100 text-xs font-semibold text-slate-600 hover:border-purple-300 hover:text-purple-600 transition-all truncate" title={formatSlug(slug)}>
+                      {formatSlug(slug)}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
 
         {/* Regions & Locations */}
@@ -181,28 +207,30 @@ export default function HTMLSitemap() {
               </a>
               <a href="/sitemap-nipt-tests.xml" target="_blank" rel="noopener noreferrer" className="px-3 py-2.5 rounded-xl bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 hover:bg-purple-100 transition-all text-center flex flex-col items-center justify-center gap-0.5">
                 <span>🧬 NIPT Authority</span>
-                <span className="text-[10px] text-purple-500 font-normal">20 Slugs + Images</span>
+                <span className="text-[10px] text-purple-500 font-normal">18 Slugs + Images</span>
               </a>
               <a href="/sitemap-health-checkups.xml" target="_blank" rel="noopener noreferrer" className="px-3 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition-all text-center flex flex-col items-center justify-center gap-0.5">
                 <span>❤️ Health Checkups</span>
                 <span className="text-[10px] text-emerald-500 font-normal">26 Slugs + Images</span>
               </a>
               {[
-                { id: 1, urls: "10,000 URLs" },
-                { id: 2, urls: "10,000 URLs" },
-                { id: 3, urls: "10,000 URLs" },
-                { id: 4, urls: "10,000 URLs" },
-                { id: 5, urls: "5,084 URLs" },
+                { file: 'sitemap-core.xml', label: 'Core Pages', sub: 'L1 & Guides' },
+                { file: 'sitemap-hubs.xml', label: 'Regional Hubs', sub: '2,275 L2 URLs' },
+                { file: 'sitemap-tier1a-1.xml', label: 'Tier 1A (1/3)', sub: 'Core Belt' },
+                { file: 'sitemap-tier1a-2.xml', label: 'Tier 1A (2/3)', sub: 'Core Belt' },
+                { file: 'sitemap-tier1a-3.xml', label: 'Tier 1A (3/3)', sub: 'Core Belt' },
+                { file: 'sitemap-tier1b.xml', label: 'Tier 1B', sub: '10–24 km Belt' },
+                { file: 'sitemap-tier2.xml', label: 'Tier 2', sub: 'Mumbai & Thane' },
               ].map(segment => (
                 <a
-                  key={segment.id}
-                  href={`/sitemaps/sitemap-${segment.id}.xml`}
+                  key={segment.file}
+                  href={`/sitemaps/${segment.file}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 hover:border-blue-300 hover:text-blue-600 hover:bg-white hover:shadow-sm transition-all text-center flex flex-col items-center justify-center gap-0.5"
                 >
-                  <span>Segment {segment.id}</span>
-                  <span className="text-[10px] text-slate-400 font-normal">{segment.urls}</span>
+                  <span>{segment.label}</span>
+                  <span className="text-[10px] text-slate-400 font-normal">{segment.sub}</span>
                 </a>
               ))}
             </div>

@@ -1,7 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { services } from '@/config/services';
+import {
+  getCanonicalServiceSlug,
+  getL2IndexingDirective,
+  getL3IndexingDirective,
+  isCanonicalPrimaryService,
+} from '@/lib/seo/indexing-policy';
 
 interface RelatedServicesProps {
   currentService: string;
@@ -10,55 +16,55 @@ interface RelatedServicesProps {
 }
 
 /**
- * 🔗 Related Services Component — Auto Internal Linking
- * Finds related services based on keyword overlap and displays them as cards.
- * Critical for SEO: distributes PageRank and improves crawl efficiency.
+ * 🔗 Related Services Component — Crawl-Safe Internal Linking
+ * Links ONLY to canonical primary services and resolves to the highest-specificity indexable URL
+ * (L3 if indexable -> L2 if indexable -> canonical L1).
  */
 export default function RelatedServices({ currentService, region, location }: RelatedServicesProps) {
   const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const currentPrimary = getCanonicalServiceSlug(currentService);
+  const keywords = currentPrimary.split('-').filter(w => w.length > 2);
 
-  // Extract keywords from current service slug
-  const keywords = currentService.split('-').filter(w => w.length > 2);
-  
-  // Score all services by keyword overlap
   const scored = services
-    .filter(s => s !== currentService)
+    .filter(s => isCanonicalPrimaryService(s) && s !== currentService && s !== currentPrimary)
     .map(s => {
       const parts = s.split('-');
       const score = keywords.reduce((acc, kw) => acc + (parts.includes(kw) ? 2 : 0), 0);
-      // Also boost services in the same general category
-      const categoryBoost = 
-        (currentService.includes('mri') && s.includes('mri')) ||
-        (currentService.includes('ct-') && s.includes('ct-')) ||
-        (currentService.includes('ultrasound') && s.includes('ultrasound')) ||
-        (currentService.includes('sonography') && s.includes('sonography')) ||
-        (currentService.includes('doppler') && s.includes('doppler')) ||
-        (currentService.includes('echo') && s.includes('echo')) ||
-        (currentService.includes('blood') && s.includes('blood')) ||
-        (currentService.includes('pet') && s.includes('pet')) ||
-        (currentService.includes('pregnancy') && s.includes('pregnancy')) ||
-        (currentService.includes('mammography') && s.includes('mammography')) ||
-        (currentService.includes('breast') && s.includes('breast')) ||
-        (currentService.includes('cardiac') && s.includes('cardiac'))
+      const categoryBoost =
+        (currentPrimary.includes('mri') && s.includes('mri')) ||
+        (currentPrimary.includes('ct-') && s.includes('ct-')) ||
+        (currentPrimary.includes('ultrasound') && s.includes('ultrasound')) ||
+        (currentPrimary.includes('sonography') && s.includes('sonography')) ||
+        (currentPrimary.includes('doppler') && s.includes('doppler')) ||
+        (currentPrimary.includes('echo') && s.includes('echo')) ||
+        (currentPrimary.includes('blood') && s.includes('blood')) ||
+        (currentPrimary.includes('pet') && s.includes('pet')) ||
+        (currentPrimary.includes('pregnancy') && s.includes('pregnancy')) ||
+        (currentPrimary.includes('mammography') && s.includes('mammography')) ||
+        (currentPrimary.includes('breast') && s.includes('breast')) ||
+        (currentPrimary.includes('cardiac') && s.includes('cardiac'))
           ? 3 : 0;
       return { slug: s, score: score + categoryBoost };
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, 6);
 
-  // If not enough related, fill with popular services
   const popular = ['mri-scan', 'ct-scan', 'ultrasound', 'blood-test', 'full-body-check-up', '2d-echo', 'pet-ct', 'mammography'];
   while (scored.length < 6) {
-    const next = popular.find(p => p !== currentService && !scored.find(s => s.slug === p));
+    const next = popular.find(p => p !== currentPrimary && !scored.find(s => s.slug === p));
     if (next) scored.push({ slug: next, score: 0 });
     else break;
   }
 
-  const basePath = location && region
-    ? (slug: string) => `/services/${slug}/${region}/${location}`
-    : region
-      ? (slug: string) => `/services/${slug}/${region}`
-      : (slug: string) => `/services/${slug}`;
+  const buildIndexableHref = (slug: string): string => {
+    if (region && location && getL3IndexingDirective(slug, region, location).includeInSitemap) {
+      return `/services/${slug}/${region}/${location}`;
+    }
+    if (region && getL2IndexingDirective(slug, region).includeInSitemap) {
+      return `/services/${slug}/${region}`;
+    }
+    return `/services/${slug}`;
+  };
 
   return (
     <section className="py-12 px-4 md:px-8 bg-slate-50">
@@ -71,14 +77,16 @@ export default function RelatedServices({ currentService, region, location }: Re
           {scored.map(({ slug }) => (
             <Link
               key={slug}
-              href={basePath(slug)}
+              href={buildIndexableHref(slug)}
               prefetch={false}
               className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-lg hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 group text-center"
             >
               <p className="font-bold text-slate-700 group-hover:text-blue-600 text-sm leading-tight mb-2">
                 {formatText(slug)}
               </p>
-              <ArrowRight size={14} className="text-slate-300 group-hover:text-blue-400 mx-auto transition-colors" />
+              <span aria-hidden="true" className="text-slate-300 group-hover:text-blue-400 text-sm transition-colors">
+                →
+              </span>
             </Link>
           ))}
         </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -130,7 +132,7 @@ export default function SiteFooter() {
             <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
               <li><Link href={routesConfig.getServiceUrl("mri-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">MRI Scan (3T)</Link></li>
               <li><Link href={routesConfig.getServiceUrl("ct-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">CT Scan (128 Slice)</Link></li>
-              <li><Link href={routesConfig.getServiceUrl("pet-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">PET-CT Scan</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("pet-ct")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">PET-CT Scan</Link></li>
               <li><Link href={routesConfig.getServiceUrl("ultrasound")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Ultrasound / USG</Link></li>
               <li><Link href="/pricing" className="hover:text-white hover:translate-x-1 transition-all duration-200 block text-emerald-300 font-bold">Test Pricing &amp; Cost Estimator</Link></li>
             </ul>

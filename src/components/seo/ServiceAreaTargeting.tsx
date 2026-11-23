@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import {
   MapPin,
-  Clock,
   ShieldCheck,
   Truck,
   FileCheck2,
@@ -10,9 +9,15 @@ import {
   PhoneCall,
   CheckCircle,
   Building,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 import { getLocationBySlug, CITY_MICRO_NEIGHBORHOODS } from '@/config/locations';
+import { isHomeCollectionService } from '@/lib/seo/location-faqs';
+import {
+  KHARGHAR_HUB,
+  getDistanceFromHubKm,
+  getEstimatedTravelSummary,
+} from '@/lib/seo/geo-utils';
 
 interface ServiceAreaTargetingProps {
   service: string;
@@ -29,7 +34,7 @@ const formatText = (text: string) =>
 export default function ServiceAreaTargeting({
   service,
   region,
-  location
+  location,
 }: ServiceAreaTargetingProps) {
   const loc = getLocationBySlug(location, region);
   const locationName = loc ? loc.name : formatText(location);
@@ -37,41 +42,43 @@ export default function ServiceAreaTargeting({
   const cityName = loc ? loc.city : formatText(region);
   const pincode = loc ? loc.pincode : '410210';
   const turnaround = loc ? loc.homeCollectionTurnaround : '30–60 mins';
-  const nearestHub = loc ? loc.nearestPartnerHub : 'Henotic Diagnostics Central Hub';
-  const lat = loc ? loc.latitude : 19.033;
-  const lng = loc ? loc.longitude : 73.067;
+  const lat = loc ? loc.latitude : KHARGHAR_HUB.latitude;
+  const lng = loc ? loc.longitude : KHARGHAR_HUB.longitude;
 
-  // Retrieve micro-neighborhoods or fallback
-  const microList = (CITY_MICRO_NEIGHBORHOODS[location] && CITY_MICRO_NEIGHBORHOODS[location].length > 0)
-    ? CITY_MICRO_NEIGHBORHOODS[location]
-    : [locationName, `${locationName} Station`, `Central ${locationName}`, `Main Market`];
+  const distanceKm = getDistanceFromHubKm(location, region);
+  const distanceLabel = distanceKm !== null ? `${distanceKm.toFixed(1)} km` : 'nearby';
+  const travelSummary = getEstimatedTravelSummary(distanceKm ?? 5, region);
+  const supportsHomeCollection = isHomeCollectionService(service);
 
-  const mapDirectionUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  const microList =
+    CITY_MICRO_NEIGHBORHOODS[location] && CITY_MICRO_NEIGHBORHOODS[location].length > 0
+      ? CITY_MICRO_NEIGHBORHOODS[location].slice(0, 12)
+      : [locationName, `${locationName} Station`, `Central ${locationName}`, `PIN ${pincode}`];
+
+  // Directs patients from their locality's coordinates -> actual Kharghar flagship hub
+  const mapDirectionUrl = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${KHARGHAR_HUB.latitude},${KHARGHAR_HUB.longitude}`;
 
   return (
     <section className="py-8 sm:py-12 px-4 md:px-8" aria-label={`Service area coverage for ${locationName}`}>
       <div className="max-w-7xl mx-auto">
         <div className="bg-gradient-to-br from-white via-slate-50 to-blue-50/40 rounded-[2.5rem] border border-blue-100 shadow-xl overflow-hidden p-5 sm:p-8 md:p-12 relative">
-          {/* Subtle background glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-rose-400/10 rounded-full blur-3xl pointer-events-none" />
-
           {/* Header Row */}
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-slate-200/80">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/80 text-blue-800 text-xs font-black uppercase tracking-wider mb-3">
                 <MapPin size={14} className="text-blue-600" />
-                Hyper-Local Service Coverage
+                Catchment &amp; Service Delivery — PIN {pincode}
               </div>
               <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
-                {serviceName} in {locationName}, PIN {pincode}
+                {serviceName} Serving {locationName}, PIN {pincode}
               </h3>
               <p className="text-sm md:text-base text-slate-600 font-medium mt-1">
-                Official diagnostic service-area for <strong className="text-slate-800">{locationName}</strong> and adjoining micro-neighbourhoods in {cityName}.
+                {supportsHomeCollection
+                  ? `24/7 doorstep sample collection in ${locationName} (${cityName}) processed at our NABL-accredited Sector 15, Kharghar lab (${distanceLabel} from ${locationName}).`
+                  : `In-center ${serviceName} performed at our Sector 15, Kharghar flagship center — ${distanceLabel} from ${locationName}, ${cityName}.`}
               </p>
             </div>
 
-            {/* Quick Action Badges */}
             <div className="flex flex-wrap items-center gap-3">
               <a
                 href={mapDirectionUrl}
@@ -80,7 +87,7 @@ export default function ServiceAreaTargeting({
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-bold hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition shadow-sm"
               >
                 <Navigation size={14} className="text-blue-600" />
-                GPS: {lat.toFixed(4)}°N, {lng.toFixed(4)}°E
+                Directions to Kharghar Hub ({distanceLabel})
               </a>
 
               <a
@@ -88,87 +95,91 @@ export default function ServiceAreaTargeting({
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/20"
               >
                 <PhoneCall size={14} />
-                Call Center Support
+                Call 088793 27184
               </a>
             </div>
           </div>
 
-          {/* 3 Value Proposition Pillars */}
+          {/* 3 Honest Delivery Pillars */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8 relative z-10">
             {/* Pillar 1 */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-slate-100 shadow-sm">
+            <div className="bg-white/90 rounded-2xl p-6 border border-slate-100 shadow-sm">
               <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
-                <Truck size={24} />
+                {supportsHomeCollection ? <Truck size={24} /> : <Building size={24} />}
               </div>
               <h4 className="text-base font-bold text-slate-900 mb-1">
-                24/7 Home Sample Collection
+                {supportsHomeCollection
+                  ? `Home Sample Collection in ${locationName}`
+                  : 'In-Center Scan at Sector 15, Kharghar'}
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Certified phlebotomists arrive at your doorstep in <strong className="text-slate-800">{locationName}</strong> within <strong>{turnaround}</strong>. Strict cold-chain sample preservation guaranteed.
+                {supportsHomeCollection
+                  ? `Certified phlebotomists reach your doorstep in ${locationName} within ${turnaround} with cold-chain barcoded vacutainers.`
+                  : `All ${serviceName} imaging is performed exclusively on our AERB/PCPNDT-registered scanners in Sector 15, Kharghar (${distanceLabel} away).`}
               </p>
               <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
-                <CheckCircle size={14} /> Zero convenience fee for checkups
+                <CheckCircle size={14} />
+                {supportsHomeCollection ? `PIN ${pincode} home pickup active` : 'Zero waiting with prior slot'}
               </div>
             </div>
 
             {/* Pillar 2 */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-slate-100 shadow-sm">
+            <div className="bg-white/90 rounded-2xl p-6 border border-slate-100 shadow-sm">
               <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                 <FileCheck2 size={24} />
               </div>
               <h4 className="text-base font-bold text-slate-900 mb-1">
-                Same-Day Verified Reports
+                Same-Day Verified Digital Reports
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Get NABL & AERB verified digital reports for your <strong>{serviceName}</strong> delivered directly to your WhatsApp and email within 6–12 hours.
+                Receive NABL &amp; AERB verified digital reports for your <strong>{serviceName}</strong> directly via WhatsApp and email without revisiting the center.
               </p>
               <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-blue-700">
-                <CheckCircle size={14} /> MD Radiologist & Pathologist signed
+                <CheckCircle size={14} /> MD Radiologist &amp; Pathologist signed
               </div>
             </div>
 
             {/* Pillar 3 */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-slate-100 shadow-sm">
+            <div className="bg-white/90 rounded-2xl p-6 border border-slate-100 shadow-sm">
               <div className="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center mb-4">
-                <Building size={24} />
+                <Navigation size={24} />
               </div>
               <h4 className="text-base font-bold text-slate-900 mb-1">
-                Partner Scan Center
+                Hub Access ({distanceLabel} from {locationName})
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Serving {locationName}: <strong className="text-slate-800">{nearestHub}</strong>. Equipped with 3.0T MRI, 128-Slice CT, 4D Ultrasound, and digital mammography.
+                {travelSummary} Flagship address: {KHARGHAR_HUB.streetAddress}, {KHARGHAR_HUB.addressLocality} {KHARGHAR_HUB.postalCode}.
               </p>
               <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-violet-700">
-                <ShieldCheck size={14} /> 100% NABL Accredited Partner
+                <ShieldCheck size={14} /> Open 24 Hours · 365 Days
               </div>
             </div>
           </div>
 
-          {/* Micro-Neighbourhood Coverage Tag Cloud */}
+          {/* Micro-Neighbourhood Coverage Cloud (lean markup, zero per-pill SVGs) */}
           <div className="relative z-10 pt-6 border-t border-slate-200/80">
             <div className="flex items-center gap-2 mb-3">
               <Sparkles size={16} className="text-amber-500" />
               <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-700">
-                Micro-Neighbourhoods, Sectors & Landmarks Covered Near PIN {pincode}:
+                Micro-Neighbourhoods &amp; Landmarks Covered Near PIN {pincode}:
               </h4>
             </div>
             <div className="flex flex-wrap gap-2">
               {microList.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200/80 text-xs font-semibold text-slate-600 shadow-2xs hover:border-blue-400 hover:text-blue-600 transition"
+                  className="inline-flex items-center px-3 py-1.5 rounded-lg bg-white border border-slate-200/80 text-xs font-semibold text-slate-600"
                 >
-                  <MapPin size={11} className="text-slate-400" />
                   {tag}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Directory Navigation Shortcut */}
+          {/* Directory Shortcut */}
           <div className="relative z-10 mt-6 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-medium gap-3">
             <span>
-              Looking for diagnostics in another part of {cityName}? Browse all areas in our{' '}
+              Explore all covered PIN codes in our{' '}
               <Link href="/locations" className="text-blue-600 font-bold hover:underline">
                 Geographical Directory
               </Link>.
@@ -177,7 +188,7 @@ export default function ServiceAreaTargeting({
               href="#booking"
               className="inline-flex items-center gap-1.5 text-blue-600 font-bold hover:text-blue-800 transition"
             >
-              Book {serviceName} in {locationName} &rarr;
+              Book {serviceName} for {locationName} Patients &rarr;
             </Link>
           </div>
         </div>

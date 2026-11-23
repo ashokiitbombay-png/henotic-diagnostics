@@ -257,7 +257,7 @@ export const GMC_PRODUCTS: GMCProduct[] = [
     imageUrl: "https://cdn.henoticdiagnostics.com/GMC/SONOGRAPHY/fetal-2d-echo-scan-kamothe-henotic-diagnostics_service.webp",
     category: "Fetal Cardiology",
     slug: "fetal-2d-echo",
-    serviceSlug: "fetal-echo",
+    serviceSlug: "fetal-echocardiography",
     availability: "in_stock",
     condition: "new",
     brand: "Henotic Diagnostics",

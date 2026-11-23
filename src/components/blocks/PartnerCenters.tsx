@@ -31,7 +31,7 @@ const centersData: Center[] = [
     gbpUrl: "https://share.google/cfhShzzofe7LmgiPN",
     mapsUrl: "https://maps.app.goo.gl/Ex2RG9afjvuEJp7y5",
     embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.4687576643887!2d73.07795039999999!3d19.043116999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3812919666b%3A0xa377f33beeed1944!2sHenotic%20Diagnostics!5e0!3m2!1sen!2sin!4v1786048629791!5m2!1sen!2sin",
-    services: ["blood-test", "ultrasound", "pet-scan", "mri-scan", "ct-scan", "2d-echo", "ecg", "tmt"],
+    services: ["blood-test", "ultrasound", "pet-ct", "mri-scan", "ct-scan", "2d-echo", "ecg", "tmt"],
     regionGroup: "navi-mumbai"
   },
   // 2. TURBHE CENTER
@@ -101,7 +101,7 @@ const centersData: Center[] = [
     gbpUrl: "https://share.google/t8ZAPGem2llVUk8Lh",
     mapsUrl: "https://maps.app.goo.gl/NWs87cJjGrnYbTXe7",
     embedUrl: "https://maps.google.com/maps?q=Hilton%20Centre,%20Sector%2011,%20CBD%20Belapur,%20Navi%20Mumbai&z=15&output=embed",
-    services: ["ultrasound", "pregnancy-sonography", "anomaly-scan", "usg-scan", "pet-scan", "mri-scan", "ct-scan"],
+    services: ["ultrasound", "pregnancy-sonography", "anomaly-scan", "pet-ct", "mri-scan", "ct-scan"],
     regionGroup: "navi-mumbai"
   },
   // 7. KHARGHAR NDC
@@ -143,7 +143,7 @@ const centersData: Center[] = [
     gbpUrl: "https://share.google/XYjWwS8OY8SRIFmzA",
     mapsUrl: "https://maps.app.goo.gl/e7wLNkWGsPiqUzaT7",
     embedUrl: "https://maps.google.com/maps?q=Sarvodaya%20Hospital,%20Ghatkopar%20West,%20Mumbai&z=15&output=embed",
-    services: ["pet-scan"],
+    services: ["pet-ct"],
     regionGroup: "mumbai"
   },
   // 10. CHEMBUR MEDCARE
@@ -157,7 +157,7 @@ const centersData: Center[] = [
     gbpUrl: "https://share.google/RjuPj9NdR0V0H6I8Y",
     mapsUrl: "https://maps.app.goo.gl/kmWCDDfPv247Nbb5A",
     embedUrl: "https://maps.google.com/maps?q=Sushrut%20Hospital,%20Chembur,%20Mumbai&z=15&output=embed",
-    services: ["pet-scan"],
+    services: ["pet-ct"],
     regionGroup: "mumbai"
   },
   // 11. PANVEL LOTUS
@@ -412,7 +412,7 @@ export default function PartnerCenters({ service, region }: PartnerCentersProps)
       return 'ultrasound';
     }
     if (slug.includes('pet') || slug.includes('nuclear') || slug.includes('psma') || slug.includes('dopa') || slug.includes('dtpa') || slug.includes('dmsa')) {
-      return 'pet-scan';
+      return 'pet-ct';
     }
     if (slug.includes('mri') || slug.includes('ct')) {
       return 'mri-scan';

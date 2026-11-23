@@ -84,7 +84,7 @@ export default function SiteHeader() {
                   <h4 className="text-xs font-bold text-blue-800 uppercase tracking-widest mb-2 border-b border-gray-100 pb-2 w-full text-left">Advanced Imaging</h4>
                   <Link href={routesConfig.getServiceUrl("mri-scan")} className="hover:text-blue-600 font-medium transition-colors block text-gray-600 text-sm text-left">MRI Scan (3T)</Link>
                   <Link href={routesConfig.getServiceUrl("ct-scan")} className="hover:text-blue-600 font-medium transition-colors block text-gray-600 text-sm text-left">CT Scan (128 Slice)</Link>
-                  <Link href={routesConfig.getServiceUrl("pet-scan")} className="hover:text-blue-600 font-medium transition-colors block text-gray-600 text-sm text-left">PET-CT Scan</Link>
+                  <Link href={routesConfig.getServiceUrl("pet-ct")} className="hover:text-blue-600 font-medium transition-colors block text-gray-600 text-sm text-left">PET-CT Scan</Link>
                 </div>
                 <div className="flex flex-col gap-2">
                   <h4 className="text-xs font-bold text-pink-600 uppercase tracking-widest mb-2 border-b border-gray-100 pb-2 w-full text-left">Pathology &amp; More</h4>

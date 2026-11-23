@@ -688,15 +688,35 @@ export function generateLocationClinicSchema(params: LocationClinicParams) {
   // Only emit real, verified reviews from configuration; never generate synthetic ratings
   const realReview = REAL_LOCATION_REVIEWS[locationSlug];
 
+  // Google-compliant MedicalClinic/DiagnosticLab anchored to real Sector 15 Kharghar hub
+  // with GeoCircle areaServed centered on the target neighborhood (never implying fake branch addresses).
+  const areaServed: Record<string, unknown>[] = [];
+  if (loc) {
+    areaServed.push({
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: loc.latitude,
+        longitude: loc.longitude,
+      },
+      geoRadius: '5000',
+    });
+  }
+  areaServed.push({
+    '@type': 'AdministrativeArea',
+    name: loc ? `${loc.name} (${loc.pincode})` : locationName,
+    ...(loc?.pincode ? { postalCode: loc.pincode } : {}),
+  });
+
   const medicalClinicSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'MedicalClinic',
-    '@id': `${pageUrl}#clinic`,
-    name: `Henotic Diagnostics - ${locationName}`,
-    alternateName: `Henotic Diagnostics serving ${locationName}`,
+    '@id': `${BASE_URL}/#clinic`,
+    name: 'Henotic Diagnostics',
+    alternateName: `Henotic Diagnostics serving ${locationName}, ${regionName}`,
     description: serviceName
-      ? `Book ${serviceName} at Henotic Diagnostics serving ${locationName}, ${regionName}. NABL accredited center with 24/7 availability, instant digital reports, and up to 50% savings.`
-      : `Premium NABL-accredited diagnostic center serving ${locationName}, ${regionName}. MRI, CT, PET-CT, Ultrasound, Pathology & more.`,
+      ? `Book ${serviceName} at Henotic Diagnostics (Sector 15, Kharghar) serving ${locationName}, ${regionName}. NABL-accredited center with 24/7 availability and same-day digital reports.`
+      : `NABL-accredited diagnostic center in Sector 15, Kharghar serving ${locationName}, ${regionName}.`,
     url: pageUrl,
     image: serviceSlug ? getHeroImageForService(serviceSlug) : `${BASE_URL}/icon.svg`,
     telephone: '+91-8879327184',
@@ -721,24 +741,9 @@ export function generateLocationClinicSchema(params: LocationClinicParams) {
         }
       }
     ],
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: loc?.formattedAddress || `Henotic Diagnostics serving ${locationName}`,
-      addressLocality: loc?.name || locationName,
-      addressRegion: loc ? `${loc.city}, Maharashtra` : regionName,
-      postalCode: loc?.pincode,
-      addressCountry: 'IN'
-    },
-    geo: loc ? {
-      '@type': 'GeoCoordinates',
-      latitude: loc.latitude,
-      longitude: loc.longitude
-    } : HENOTIC_MEDICAL_ORGANIZATION.geo,
-    areaServed: {
-      '@type': 'AdministrativeArea',
-      name: loc ? `${loc.name} (${loc.pincode})` : locationName,
-      postalCode: loc?.pincode
-    },
+    address: HENOTIC_MEDICAL_ORGANIZATION.address,
+    geo: HENOTIC_MEDICAL_ORGANIZATION.geo,
+    areaServed,
     openingHoursSpecification: HENOTIC_MEDICAL_ORGANIZATION.openingHoursSpecification,
     ...(realReview ? {
       aggregateRating: {

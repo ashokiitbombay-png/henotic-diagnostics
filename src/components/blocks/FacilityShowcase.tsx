@@ -21,7 +21,7 @@ const FACILITIES = [
   },
   {
     title: "Latest PET CT Technology",
-    slug: "pet-scan",
+    slug: "pet-ct",
     image: "https://cdn.henoticdiagnostics.com/PET%20SCAN/pet-ct-scan-mri-scan-ct-scan-henotic-diagnostics-kharghar.webp",
     description: "Our latest-generation PET CT scanner combines metabolic and anatomical imaging to provide comprehensive insights into complex medical conditions including cancer and cardiac disorders.",
     highlights: ["Advanced cancer detection", "Accurate tumor staging", "Treatment monitoring", "Whole-body functional imaging"]

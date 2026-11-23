@@ -1,6 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { MapPin, Activity, ShieldCheck, ChevronRight } from "lucide-react";
+import { MapPin, Activity, ShieldCheck } from "lucide-react";
 
 /**
  * 🌐 Regional Diagnostic Hubs & Service Directory
@@ -18,7 +20,7 @@ const REGIONAL_HUBS = [
 const CORE_MODALITIES = [
   { name: "3.0T MRI Scan", href: "/services/mri-scan" },
   { name: "128-Slice CT Scan", href: "/services/ct-scan" },
-  { name: "Whole Body PET-CT", href: "/services/pet-scan" },
+  { name: "Whole Body PET-CT", href: "/services/pet-ct" },
   { name: "Ultrasound & Sonography", href: "/services/ultrasound" },
   { name: "Pathology Blood Tests", href: "/services/blood-test" },
   { name: "Full Body Checkup", href: "/services/full-body-check-up" },
@@ -84,7 +86,7 @@ export default function SecondFooter() {
                       <span className="font-bold text-white group-hover:text-amber-300 transition-colors text-sm">
                         {hub.name}
                       </span>
-                      <ChevronRight size={14} className="text-white/50 group-hover:text-amber-300 group-hover:translate-x-1 transition-all" />
+                      <span aria-hidden="true" className="text-white/50 group-hover:text-amber-300 group-hover:translate-x-1 transition-all text-base leading-none">›</span>
                     </div>
                     <p className="text-xs text-white/70 mt-0.5">{hub.sub}</p>
                   </Link>
@@ -128,7 +130,7 @@ export default function SecondFooter() {
                     className="flex items-center justify-between p-2 rounded-lg text-xs font-bold text-white/80 hover:text-white hover:bg-white/10 transition-colors group"
                   >
                     <span>{nav.name}</span>
-                    <ChevronRight size={14} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                    <span aria-hidden="true" className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all text-base leading-none">›</span>
                   </Link>
                 </li>
               ))}

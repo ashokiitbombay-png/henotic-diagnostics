@@ -44,7 +44,12 @@ export async function GET(
     }
   }
 
-  // 2. Validate chunk exists dynamically
+  // 2. If tiered static sitemaps are active in public/sitemap.xml, deprecated /sitemap/:id.xml chunks return 404
+  if (fs.existsSync(path.join(process.cwd(), 'public', 'sitemap.xml'))) {
+    return new NextResponse('Not Found', { status: 404 });
+  }
+
+  // 3. Fallback dynamic chunk generation (only when static master sitemap is absent)
   const totalUrls = getTotalUrlsCount();
   const maxChunks = Math.ceil(totalUrls / CHUNK_SIZE);
   if (id >= maxChunks) {

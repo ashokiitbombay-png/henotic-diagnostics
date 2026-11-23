@@ -13,6 +13,11 @@ import { COMPARISONS } from "@/config/comparisons";
 import { DOCTORS } from "@/config/doctors";
 import { GMC_PRODUCTS } from "@/config/gmc-products";
 import { formatSlug } from "@/lib/utils";
+import {
+  getCanonicalServiceSlug,
+  getL3IndexingDirective,
+  isRedirectedServiceSlug,
+} from "@/lib/seo/indexing-policy";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -103,7 +108,7 @@ const CATEGORY_ICONS: Record<string, any> = {
 const TRENDING_SEARCHES = [
   { title: "3.0 Tesla MRI Scan", subtitle: "Brain, Spine & Joint Imaging", slug: "mri-scan", category: "MRI Services", icon: Orbit },
   { title: "128-Slice HRCT Chest", subtitle: "Ultra-low dose chest scan", slug: "hrct-chest", category: "CT Scan", icon: Orbit },
-  { title: "Whole Body PET-CT", subtitle: "Advanced cancer screening", slug: "pet-scan", category: "PET-CT & Nuclear", icon: Orbit },
+  { title: "Whole Body PET-CT", subtitle: "Advanced cancer screening", slug: "pet-ct", category: "PET-CT & Nuclear", icon: Orbit },
   { title: "Pregnancy Anomaly Scan", subtitle: "Level-2 Fetal Ultrasound", slug: "anomaly-scan", category: "Pregnancy & Fetal", icon: Baby },
   { title: "Full Body Health Checkup", subtitle: "85+ vital biomarkers", slug: "full-body-check-up", category: "Health Checkup", icon: Activity },
   { title: "Complete Blood Count (CBC)", subtitle: "Same day lab report", slug: "cbc-test", category: "Pathology & Lab", icon: Droplets },
@@ -281,17 +286,23 @@ export default function SimpleSubHeaderSearchBar() {
       return 0;
     };
 
-    // 1. Core Services Search (Ranked High)
+    // 1. Core Services Search (Ranked High — canonical non-redirected URLs only)
     services.forEach((slug) => {
+      if (isRedirectedServiceSlug(slug)) return;
+      const canonical = getCanonicalServiceSlug(slug);
       const formatted = formatSlug(slug);
       const category = SERVICE_CATEGORY_MAP[slug] || "Diagnostic Service";
       const score = computeScore(formatted, [category, slug.replace(/-/g, " ")]);
       if (score > 0) {
+        const l3 = getL3IndexingDirective(canonical, selectedLocation.region, selectedLocation.city);
+        const url = l3.includeInSitemap
+          ? `/services/${canonical}/${selectedLocation.region}/${selectedLocation.city}`
+          : `/services/${canonical}`;
         results.push({
           type: "service",
           title: formatted,
           subtitle: `${category} • Available in ${selectedLocation.displayName}`,
-          url: `/services/${slug}/${selectedLocation.region}/${selectedLocation.city}`,
+          url,
           badge: category,
           icon: CATEGORY_ICONS[category] || Activity,
           score: score + 10,
@@ -622,7 +633,7 @@ export default function SimpleSubHeaderSearchBar() {
                       {[
                         { name: "MRI Scan (3.0T)", slug: "mri-scan" },
                         { name: "128-Slice CT", slug: "ct-scan" },
-                        { name: "PET-CT Scan", slug: "pet-scan" },
+                        { name: "PET-CT Scan", slug: "pet-ct" },
                         { name: "Blood Tests", slug: "blood-test" },
                         { name: "Health Checkups", slug: "health-checkup" },
                         { name: "Pregnancy USG", slug: "pregnancy-sonography" },

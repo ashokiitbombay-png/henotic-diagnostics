@@ -6,6 +6,12 @@ import ServiceHero from '@/components/blocks/ServiceHero';
 import NiptSchema from './NiptSchema';
 import NiptInteractiveSuite from './NiptInteractiveSuite';
 import RelatedNiptLinks from './RelatedNiptLinks';
+import {
+  buildRobotsMetadata,
+  getL1IndexingDirective,
+  getL2IndexingDirective,
+  getL3IndexingDirective,
+} from '@/lib/seo/indexing-policy';
 
 const BASE_URL = 'https://www.henoticdiagnostics.com';
 const PAGE_BACKGROUND =
@@ -13,12 +19,17 @@ const PAGE_BACKGROUND =
 
 /**
  * Builds Next.js Metadata for NIPT Test pages across Tier 1, Tier 2, and Tier 3.
- * Uses `title.absolute` so the root layout does not double-append branding.
+ * Applies central catchment + variant deduplication directives (canonical consolidation & noindex).
  */
 export function buildNiptMetadata(data: NiptPageData): Metadata {
   const { routeSlug, page, locationContext } = data;
-  const pathSegments = [routeSlug, locationContext?.regionSlug, locationContext?.locationSlug].filter(Boolean);
-  const url = `${BASE_URL}/services/${pathSegments.join('/')}`;
+  const directive =
+    locationContext?.regionSlug && locationContext?.locationSlug
+      ? getL3IndexingDirective(routeSlug, locationContext.regionSlug, locationContext.locationSlug)
+      : locationContext?.regionSlug
+        ? getL2IndexingDirective(routeSlug, locationContext.regionSlug)
+        : getL1IndexingDirective(routeSlug);
+  const url = directive.canonicalUrl || `${BASE_URL}/services/${routeSlug}`;
 
   const primaryImage = {
     url: page.primaryImage.url,
@@ -33,17 +44,7 @@ export function buildNiptMetadata(data: NiptPageData): Metadata {
     description: page.metaDescription,
     keywords: [page.keyword, ...page.secondaryKeywords],
     alternates: { canonical: url },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-        'max-video-preview': -1,
-      },
-    },
+    robots: buildRobotsMetadata(directive.index),
     openGraph: {
       type: 'website',
       locale: 'en_IN',

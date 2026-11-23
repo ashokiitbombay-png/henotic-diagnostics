@@ -7,9 +7,18 @@ import { COMPARISONS } from '../src/config/comparisons';
 import { CONDITIONS } from '../src/config/conditions';
 import { DOCTORS } from '../src/config/doctors';
 import { SERVICE_CATEGORIES } from '../src/config/categories';
+import { GMC_PRODUCTS } from '../src/config/gmc-products';
 import { STATIC_BLOG_ARTICLES } from '../src/config/blog-articles';
+import {
+  BASE_URL,
+  DEPRECATED_REGIONS,
+  DUPLICATE_RAIGAD_LOCATIONS,
+  SITEMAP_LASTMOD,
+  getL1IndexingDirective,
+  getL2IndexingDirective,
+  getL3IndexingDirective,
+} from '../src/lib/seo/indexing-policy';
 
-const BASE_URL = 'https://www.henoticdiagnostics.com';
 const CHUNK_SIZE = 10000;
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const SITEMAPS_DIR = path.join(PUBLIC_DIR, 'sitemaps');
@@ -21,29 +30,27 @@ interface SitemapUrl {
   priority?: number;
 }
 
-// Top high-priority services
 const TOP_SERVICES = new Set([
-  'mri-scan', 'ct-scan', 'pet-scan', 'ultrasound', 'blood-test',
-  '2d-echo', 'full-body-check-up', 'mammography', 'pregnancy-sonography',
-  'dexa-bone-scan', 'ecg', 'hrct-scan', 'whole-body-pet-ct', 'nipt-test'
+  'mri-scan',
+  'ct-scan',
+  'pet-ct',
+  'ultrasound',
+  'blood-test',
+  '2d-echo',
+  'full-body-check-up',
+  'mammography',
+  'pregnancy-sonography',
+  'dexa-bone-scan',
+  'ecg',
+  'hrct-chest',
+  'whole-body-pet-ct',
+  'nipt-test',
 ]);
 
-const GMC_SLUGS = [
-  'mri-brain-plain', 'ct-brain-plain', 'pet-ct-whole-body',
-  'cbc-test', 'hba1c-test', 'crp-test', 'digital-mammography',
-  'bmd-dexa-scan', 'nt-scan', 'anomaly-scan', 'abdomen-ultrasound',
-  'fetal-2d-echo', '2d-echo-test'
-];
-
-/**
- * Helper to write a sitemap chunk file using Node.js Streams for memory efficiency.
- */
 async function writeChunkFile(filePath: string, urls: SitemapUrl[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const stream = fs.createWriteStream(filePath, { encoding: 'utf8' });
-
     stream.on('error', reject);
-
     stream.write('<?xml version="1.0" encoding="UTF-8"?>\n');
     stream.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n');
 
@@ -65,9 +72,8 @@ async function writeChunkFile(filePath: string, urls: SitemapUrl[]): Promise<voi
         if (i === urls.length) {
           stream.write(entry + '</urlset>\n', () => resolve());
           return;
-        } else {
-          ok = stream.write(entry);
         }
+        ok = stream.write(entry);
       }
 
       if (i < urls.length) {
@@ -79,237 +85,262 @@ async function writeChunkFile(filePath: string, urls: SitemapUrl[]): Promise<voi
   });
 }
 
-/**
- * Helper to write the master sitemap index XML file.
- */
-async function writeSitemapIndex(filePath: string, chunkFilenames: string[], lastmod: string): Promise<void> {
+async function writeSitemapIndex(
+  filePath: string,
+  chunkFilenames: string[],
+  lastmod: string
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const stream = fs.createWriteStream(filePath, { encoding: 'utf8' });
-
     stream.on('error', reject);
 
     stream.write('<?xml version="1.0" encoding="UTF-8"?>\n');
     stream.write('<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n');
 
     for (const file of chunkFilenames) {
-      stream.write(`  <sitemap>\n    <loc>${BASE_URL}/sitemaps/${file}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`);
+      stream.write(
+        `  <sitemap>\n    <loc>${BASE_URL}/sitemaps/${file}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`
+      );
     }
 
-    // Include dedicated health checkups and NIPT authority & image sitemaps
-    stream.write(`  <sitemap>\n    <loc>${BASE_URL}/sitemap-health-checkups.xml</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`);
-    stream.write(`  <sitemap>\n    <loc>${BASE_URL}/sitemap-nipt-tests.xml</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`);
+    stream.write(
+      `  <sitemap>\n    <loc>${BASE_URL}/sitemap-health-checkups.xml</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`
+    );
+    stream.write(
+      `  <sitemap>\n    <loc>${BASE_URL}/sitemap-nipt-tests.xml</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>\n`
+    );
 
     stream.write('</sitemapindex>\n', () => resolve());
   });
 }
 
-// Services that 301-redirect to canonical test slugs (must not appear in sitemap index)
-const REDIRECTED_SYNONYM_SERVICES = new Set([
-  'ecg-test',
-  'electrocardiogram',
-  '2d-echo-test',
-  'echo-test',
-  'echocardiography',
-  'fetal-echo',
-  'whole-body-pet-scan',
-  'pet-scan',
-]);
+async function writeTierChunks(
+  prefix: string,
+  urls: SitemapUrl[],
+  writtenFiles: string[]
+): Promise<void> {
+  if (urls.length === 0) return;
+  if (urls.length <= CHUNK_SIZE) {
+    const filename = `${prefix}.xml`;
+    await writeChunkFile(path.join(SITEMAPS_DIR, filename), urls);
+    console.log(`  [ok] ${filename} (${urls.length.toLocaleString()} URLs)`);
+    writtenFiles.push(filename);
+    return;
+  }
 
-// Inpatient hospital surgical procedures that do not have neighborhood clinic pages
-const HOSPITAL_SURGICAL_SERVICES = new Set([
-  'angioplasty',
-  'tavr',
-  'cardiac-catheterization',
-]);
+  let part = 1;
+  for (let offset = 0; offset < urls.length; offset += CHUNK_SIZE) {
+    const slice = urls.slice(offset, offset + CHUNK_SIZE);
+    const filename = `${prefix}-${part}.xml`;
+    await writeChunkFile(path.join(SITEMAPS_DIR, filename), slice);
+    console.log(`  [ok] ${filename} (${slice.length.toLocaleString()} URLs)`);
+    writtenFiles.push(filename);
+    part++;
+  }
+}
 
-/**
- * Generator function yielding all sitemap URLs sequentially.
- */
-function* generateAllUrls(today: string): Generator<SitemapUrl> {
-  // 1. Core Static Pages (canonical legal routes only; redirected aliases excluded)
+function collectTieredUrls(lastmod: string) {
+  const coreUrls: SitemapUrl[] = [];
+  const hubUrls: SitemapUrl[] = [];
+  const tier1aUrls: SitemapUrl[] = [];
+  const tier1bUrls: SitemapUrl[] = [];
+  const tier2Urls: SitemapUrl[] = [];
+
+  // 1. Core Static Pages (canonical indexable routes only)
   const staticRoutes = [
-    '', '/about-us', '/contact', '/services', '/doctors', '/conditions',
-    '/blog', '/privacy', '/terms', '/cancellation-policy', '/delivery-policy',
-    '/grievance-policy', '/medical-disclaimer', '/refund-policy'
+    '',
+    '/services',
+    '/locations',
+    '/pricing',
+    '/city',
+    '/doctors',
+    '/conditions',
+    '/compare',
+    '/blog',
+    '/about-us',
+    '/contact',
+    '/gallery',
+    '/leadership',
+    '/video/corporate-overview',
+    '/privacy',
+    '/terms',
+    '/cancellation-policy',
+    '/delivery-policy',
+    '/grievance-policy',
+    '/medical-disclaimer',
+    '/refund-policy',
   ];
 
   for (const route of staticRoutes) {
-    yield {
-      loc: `${BASE_URL}${route}`,
-      lastmod: today,
+    coreUrls.push({
+      loc: `${BASE_URL}${route || '/'}`,
+      lastmod,
       changefreq: 'weekly',
-      priority: route === '' ? 1.0 : ['/services', '/doctors', '/conditions'].includes(route) ? 0.9 : 0.7,
-    };
+      priority:
+        route === ''
+          ? 1.0
+          : ['/services', '/locations', '/city'].includes(route)
+            ? 0.9
+            : 0.7,
+    });
   }
 
-  // 2. Base Services (Canonical only)
+  // 2. Canonical / Live L1 Service Pages
   for (const service of services) {
-    if (REDIRECTED_SYNONYM_SERVICES.has(service)) continue;
-    yield {
-      loc: `${BASE_URL}/services/${service}`,
-      lastmod: today,
+    const l1 = getL1IndexingDirective(service);
+    if (!l1.includeInSitemap) continue;
+    coreUrls.push({
+      loc: l1.canonicalUrl,
+      lastmod,
       changefreq: 'weekly',
-      priority: 0.85,
-    };
+      priority: TOP_SERVICES.has(service) ? 0.9 : 0.85,
+    });
   }
 
   // 3. Service Categories
   for (const category of SERVICE_CATEGORIES) {
-    yield {
+    coreUrls.push({
       loc: `${BASE_URL}/services/category/${category.id}`,
-      lastmod: today,
+      lastmod,
       changefreq: 'monthly',
       priority: 0.8,
-    };
+    });
   }
 
-  // 3b. Static Clinical Blog Articles
+  // 4. Static Clinical Blog Articles
   for (const article of STATIC_BLOG_ARTICLES) {
-    yield {
+    coreUrls.push({
       loc: `${BASE_URL}/blog/${article.slug}`,
-      lastmod: today,
+      lastmod,
       changefreq: 'monthly',
       priority: 0.75,
-    };
+    });
   }
 
-  // 4. GMC Products
-  for (const slug of GMC_SLUGS) {
-    yield {
-      loc: `${BASE_URL}/gmc/${slug}`,
-      lastmod: today,
+  // 5. GMC Products
+  for (const product of GMC_PRODUCTS) {
+    coreUrls.push({
+      loc: `${BASE_URL}/gmc/${product.slug}`,
+      lastmod,
       changefreq: 'monthly',
-      priority: 0.6,
-    };
+      priority: 0.7,
+    });
   }
 
-  // 5. City Hubs
-  yield { loc: `${BASE_URL}/city`, lastmod: today, changefreq: 'weekly', priority: 0.85 };
+  // 6. City Hubs
   for (const city of CITIES) {
-    yield {
+    coreUrls.push({
       loc: `${BASE_URL}/city/${city.slug}`,
-      lastmod: today,
+      lastmod,
       changefreq: 'weekly',
       priority: 0.85,
-    };
+    });
   }
 
-  // 6. Comparison Pages
-  yield { loc: `${BASE_URL}/compare`, lastmod: today, changefreq: 'weekly', priority: 0.85 };
+  // 7. Comparisons, Conditions & Doctors
   for (const comp of COMPARISONS) {
-    yield {
+    coreUrls.push({
       loc: `${BASE_URL}/compare/${comp.slug}`,
-      lastmod: today,
+      lastmod,
       changefreq: 'monthly',
-      priority: 0.8,
-    };
+      priority: 0.75,
+    });
   }
-
-  // 7. Medical Conditions Pages
   for (const cond of CONDITIONS) {
-    yield {
+    coreUrls.push({
       loc: `${BASE_URL}/conditions/${cond.id}`,
-      lastmod: today,
+      lastmod,
       changefreq: 'monthly',
       priority: 0.75,
-    };
+    });
   }
-
-  // 8. Doctor Profiles
   for (const doc of DOCTORS) {
-    yield {
+    coreUrls.push({
       loc: `${BASE_URL}/doctors/${doc.id}`,
-      lastmod: today,
+      lastmod,
       changefreq: 'monthly',
       priority: 0.75,
-    };
+    });
   }
 
-  // 9. Regional & Location Service Pages (Canonical & Non-duplicate only)
+  // 8. Regional L2 Hubs & Tiered L3 Pages (ONLY 200 OK, self-canonical, indexable URLs)
   for (const service of services) {
-    if (REDIRECTED_SYNONYM_SERVICES.has(service)) continue;
-    if (HOSPITAL_SURGICAL_SERVICES.has(service)) continue;
     const isTopService = TOP_SERVICES.has(service);
 
     for (const [region, locationsList] of Object.entries(REGION_LOCATIONS)) {
-      // Skip deprecated/synthetic region 301-redirected in next.config.js
-      if (region === 'mumbai-suburban') continue;
+      if (DEPRECATED_REGIONS.has(region)) continue;
 
-      // Regional Hub
-      yield {
-        loc: `${BASE_URL}/services/${service}/${region}`,
-        lastmod: today,
-        changefreq: 'weekly',
-        priority: isTopService ? 0.8 : 0.7,
-      };
+      const l2 = getL2IndexingDirective(service, region);
+      if (l2.includeInSitemap) {
+        hubUrls.push({
+          loc: l2.canonicalUrl,
+          lastmod,
+          changefreq: 'weekly',
+          priority: isTopService ? 0.85 : 0.75,
+        });
+      }
 
-      // Hyper-local Location Pages
       for (const location of locationsList) {
-        // Skip duplicate raigad locations that are canonically mapped under navi-mumbai
-        if (region === 'raigad' && ['old-panvel', 'khandeshwar', 'karanjade'].includes(location)) {
-          continue;
-        }
+        if (region === 'raigad' && DUPLICATE_RAIGAD_LOCATIONS.has(location)) continue;
 
-        yield {
-          loc: `${BASE_URL}/services/${service}/${region}/${location}`,
-          lastmod: today,
+        const l3 = getL3IndexingDirective(service, region, location);
+        if (!l3.includeInSitemap) continue;
+
+        const entry: SitemapUrl = {
+          loc: l3.canonicalUrl,
+          lastmod,
           changefreq: 'monthly',
-          priority: isTopService ? 0.7 : 0.5,
+          priority: l3.tier === '1A' ? (isTopService ? 0.8 : 0.7) : l3.tier === '1B' ? 0.65 : 0.6,
         };
+
+        if (l3.tier === '1A') tier1aUrls.push(entry);
+        else if (l3.tier === '1B') tier1bUrls.push(entry);
+        else if (l3.tier === '2') tier2Urls.push(entry);
       }
     }
   }
+
+  return { coreUrls, hubUrls, tier1aUrls, tier1bUrls, tier2Urls };
 }
 
 async function main() {
-  console.log('🚀 Starting streaming sitemap generation...');
+  console.log('Starting tiered sitemap generation...');
   const startTime = Date.now();
-  const today = new Date().toISOString().split('T')[0];
+  const lastmod = SITEMAP_LASTMOD;
 
-  // Ensure output directories exist
   if (!fs.existsSync(SITEMAPS_DIR)) {
     fs.mkdirSync(SITEMAPS_DIR, { recursive: true });
-  }
-
-  let totalUrls = 0;
-  let chunkIndex = 1;
-  let currentChunk: SitemapUrl[] = [];
-  const chunkFilenames: string[] = [];
-
-  for (const urlObj of generateAllUrls(today)) {
-    totalUrls++;
-    currentChunk.push(urlObj);
-
-    if (currentChunk.length >= CHUNK_SIZE) {
-      const filename = `sitemap-${chunkIndex}.xml`;
-      const filePath = path.join(SITEMAPS_DIR, filename);
-      await writeChunkFile(filePath, currentChunk);
-      console.log(`  ✓ Generated ${filename} (${currentChunk.length} URLs)`);
-      chunkFilenames.push(filename);
-      chunkIndex++;
-      currentChunk = [];
+  } else {
+    // Clean stale sitemap chunks (e.g. old sitemap-1..14.xml) so index & disk stay 1:1
+    for (const file of fs.readdirSync(SITEMAPS_DIR)) {
+      if (file.endsWith('.xml')) {
+        fs.unlinkSync(path.join(SITEMAPS_DIR, file));
+      }
     }
   }
 
-  // Write remaining URLs in last chunk
-  if (currentChunk.length > 0) {
-    const filename = `sitemap-${chunkIndex}.xml`;
-    const filePath = path.join(SITEMAPS_DIR, filename);
-    await writeChunkFile(filePath, currentChunk);
-    console.log(`  ✓ Generated ${filename} (${currentChunk.length} URLs)`);
-    chunkFilenames.push(filename);
-  }
+  const { coreUrls, hubUrls, tier1aUrls, tier1bUrls, tier2Urls } = collectTieredUrls(lastmod);
+  const writtenFiles: string[] = [];
 
-  // Write Master sitemap-index.xml to public/sitemap.xml
+  await writeTierChunks('sitemap-core', coreUrls, writtenFiles);
+  await writeTierChunks('sitemap-hubs', hubUrls, writtenFiles);
+  await writeTierChunks('sitemap-tier1a', tier1aUrls, writtenFiles);
+  await writeTierChunks('sitemap-tier1b', tier1bUrls, writtenFiles);
+  await writeTierChunks('sitemap-tier2', tier2Urls, writtenFiles);
+
   const masterIndexPath = path.join(PUBLIC_DIR, 'sitemap.xml');
-  await writeSitemapIndex(masterIndexPath, chunkFilenames, today);
-  console.log(`  ✓ Generated master sitemap.xml (${chunkFilenames.length} sitemap chunks indexed)`);
+  await writeSitemapIndex(masterIndexPath, writtenFiles, lastmod);
 
+  const totalUrls =
+    coreUrls.length + hubUrls.length + tier1aUrls.length + tier1bUrls.length + tier2Urls.length;
   const duration = ((Date.now() - startTime) / 1000).toFixed(2);
-  console.log(`✅ Finished generating sitemaps in ${duration}s. Total URLs: ${totalUrls.toLocaleString()}`);
+  console.log(`Master sitemap.xml updated (${writtenFiles.length} tiered files + 2 authority sitemaps).`);
+  console.log(
+    `Totals: core=${coreUrls.length}, hubs=${hubUrls.length}, tier1a=${tier1aUrls.length}, tier1b=${tier1bUrls.length}, tier2=${tier2Urls.length}, TOTAL=${totalUrls.toLocaleString()} in ${duration}s`
+  );
 }
 
 main().catch((err) => {
-  console.error('❌ Error generating sitemaps:', err);
+  console.error('Error generating sitemaps:', err);
   process.exit(1);
 });

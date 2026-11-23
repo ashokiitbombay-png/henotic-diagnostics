@@ -5,12 +5,11 @@ import {
   STATIC_NIPT_PANELS,
   orderPanelsForPage,
 } from '@/config/nipt-test';
+import { TYPO_REDIRECT_SLUGS } from '@/lib/seo/indexing-policy';
 
 /**
- * Image & Authority Sitemap for the 20 NIPT Prenatal Screening pages.
- *
- * Lists, per canonical URL, the page's primary Google SERP thumbnail image first,
- * followed by the NIPT dark hero banner and the 3 NIPT panel cut-out images.
+ * Image & Authority Sitemap for canonical non-redirected NIPT Prenatal Screening L1 pages.
+ * Excludes 301-redirected typo slugs (e.g. nip-t-test, npt-test-pregnancy).
  */
 export const revalidate = 86400;
 
@@ -32,6 +31,7 @@ export async function GET() {
   ];
 
   for (const page of STATIC_NIPT_PAGES) {
+    if (page.slug in TYPO_REDIRECT_SLUGS) continue;
     const orderedPanels = orderPanelsForPage(STATIC_NIPT_PANELS, page.featuredPanelCodes);
     const images = Array.from(
       new Set([

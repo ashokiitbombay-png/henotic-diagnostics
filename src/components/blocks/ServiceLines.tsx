@@ -5,7 +5,7 @@ import { ArrowRight, Star } from "lucide-react";
 
 const services = [
   { id: "radiology", title: "Advanced Radiology", desc: "3T MRI, 128-Slice CT, and Digital X-Ray with low-radiation protocols.", img: "https://cdn.henoticdiagnostics.com/Miscellaneous%20Section%20Images/934e91ce-ct-scan-kharghar-01-scaled.webp", link: "/services/mri-scan" },
-  { id: "nuclear", title: "Nuclear Medicine", desc: "PET-CT for precise cancer staging and metabolic imaging.", img: "https://cdn.henoticdiagnostics.com/2026/01/49b5aa8f-henotic-diagnostics-mri-scan-ct-scan-pet-scan-dopa-scan.webp", link: "/services/pet-scan" },
+  { id: "nuclear", title: "Nuclear Medicine", desc: "PET-CT for precise cancer staging and metabolic imaging.", img: "https://cdn.henoticdiagnostics.com/2026/01/49b5aa8f-henotic-diagnostics-mri-scan-ct-scan-pet-scan-dopa-scan.webp", link: "/services/pet-ct" },
   { id: "cardiac", title: "Cardiac Sciences", desc: "Angiography, 2D Echo, and TMT for comprehensive heart evaluation.", img: "https://cdn.henoticdiagnostics.com/2026/01/7f8eb649-tmt-test-stress-echo-test-stress-test-2d-echo-test-kharghar-henotic-diagnostics-navi-mumbai.webp", link: "/services/ultrasound" },
   { id: "pathology", title: "Clinical Pathology", desc: "Automated analyzers for blood, hormone, and infection markers.", img: "https://cdn.henoticdiagnostics.com/Laboratory/laboratory-henotic-diagnostics-ct-scan-dexa-bone-scan-mri-scan-sonography-ultrasound-pet-scan-dopa-scan-kharghar-navi-mumbai.webp", link: "/services/blood-test" }
 ];
@@ -22,9 +22,9 @@ const MODALITIES = [
   { name: "Ultrasound & Color Doppler", href: "/services/ultrasound" },
   { name: "CT Scan", href: "/services/ct-scan" },
   { name: "MRI", href: "/services/mri-scan" },
-  { name: "PET-CT", href: "/services/pet-scan" },
+  { name: "PET-CT", href: "/services/pet-ct" },
   { name: "Nuclear Medicine", href: "/services/nuclear-medicine" },
-  { name: "Digital X-Ray", href: "/services/digital-x-ray" },
+  { name: "Diagnostic Imaging", href: "/services/diagnostic-imaging" },
   { name: "Mammography", href: "/services/mammography" },
   { name: "DEXA", href: "/services/dexa-bone-scan" },
   { name: "Cardiology", href: "/services/2d-echo" },

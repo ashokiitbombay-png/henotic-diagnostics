@@ -121,15 +121,15 @@ export default function MedicalPseoSchema({
 
   if (schemasToRender.length === 0) return null;
 
+  const consolidatedGraph = {
+    '@context': 'https://schema.org',
+    '@graph': schemasToRender.map(({ '@context': _ctx, ...rest }) => rest),
+  };
+
   return (
-    <>
-      {schemasToRender.map((schema, index) => (
-        <script
-          key={`schema-${index}`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      ))}
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(consolidatedGraph) }}
+    />
   );
 }

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import dynamic from 'next/dynamic';
 import MedicalClinicSchema from '@/components/seo/MedicalClinicSchema';
 import { OrganizationSchema } from '@/components/seo/OrganizationSchema';
 import ThirdPartyScripts from '@/components/seo/ThirdPartyScripts';
 import SiteHeader from "@/components/layout/SiteHeader";
+import SiteFooter from "@/components/layout/SiteFooter";
 import ClientWidgets from "@/components/layout/ClientWidgets";
 import Providers from '@/providers/Providers';
 import SecondFooter from "@/components/layout/SecondFooter";
@@ -16,9 +16,6 @@ import "./globals.css";
  * Inter-like geometric sans-serif fonts. Zero network cost, instant render.
  */
 const systemFontClass = 'font-system';
-
-// Lazy-load footer
-const SiteFooter = dynamic(() => import("@/components/layout/SiteFooter"));
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.henoticdiagnostics.com'),

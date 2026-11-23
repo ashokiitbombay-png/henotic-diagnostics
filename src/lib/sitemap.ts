@@ -7,14 +7,34 @@ import { DOCTORS } from '@/config/doctors';
 import { SERVICE_CATEGORIES } from '@/config/categories';
 import { GMC_PRODUCTS } from '@/config/gmc-products';
 import { STATIC_BLOG_ARTICLES } from '@/config/blog-articles';
+import {
+  BASE_URL,
+  DEPRECATED_REGIONS,
+  DUPLICATE_RAIGAD_LOCATIONS,
+  SITEMAP_LASTMOD,
+  getL1IndexingDirective,
+  getL2IndexingDirective,
+  getL3IndexingDirective,
+} from '@/lib/seo/indexing-policy';
 
-export const CHUNK_SIZE = 40000;
-export const BASE_URL = 'https://www.henoticdiagnostics.com';
+export const CHUNK_SIZE = 10000;
+export { BASE_URL };
 
 const topServices = new Set([
-  'mri-scan', 'ct-scan', 'pet-scan', 'ultrasound', 'blood-test', 
-  '2d-echo', 'full-body-check-up', 'mammography', 'pregnancy-sonography', 
-  'dexa-bone-scan', 'ecg', 'hrct-scan', 'whole-body-pet-ct'
+  'mri-scan',
+  'ct-scan',
+  'pet-ct',
+  'ultrasound',
+  'blood-test',
+  '2d-echo',
+  'full-body-check-up',
+  'mammography',
+  'pregnancy-sonography',
+  'dexa-bone-scan',
+  'ecg',
+  'hrct-chest',
+  'whole-body-pet-ct',
+  'nipt-test',
 ]);
 
 // Legal & informational pages that should be in the sitemap (canonical routes only)
@@ -31,86 +51,82 @@ const STATIC_PAGES = [
   { path: '/terms', priority: '0.3' },
 ];
 
-export function getTotalUrlsCount(): number {
-  let count = 8; // Home, services, locations, city, blog, about-us, contact, gallery (/reports excluded — noindex)
-  count += STATIC_PAGES.length;
-  count += GMC_PRODUCTS.length;
-  count += services.length;
-  count += services.length * Object.keys(REGION_LOCATIONS).length;
-  
-  let totalLocations = 0;
-  for (const region in REGION_LOCATIONS) {
-    totalLocations += REGION_LOCATIONS[region].length;
-  }
-  count += services.length * totalLocations;
-  count += CITIES.length;
-  count += CONDITIONS.length;
-  count += COMPARISONS.length;
-  count += DOCTORS.length;
-  count += SERVICE_CATEGORIES.length;
-  count += STATIC_BLOG_ARTICLES.length;
-  
-  return count;
-}
-
 export type SitemapUrl = { loc: string; priority: string; lastmod: string };
 
 export function* generateUrls(): Generator<SitemapUrl> {
-  const now = new Date().toISOString().split('T')[0];
-  
-  yield { loc: `${BASE_URL}/`, priority: '1.0', lastmod: now };
-  yield { loc: `${BASE_URL}/services`, priority: '0.9', lastmod: now };
-  yield { loc: `${BASE_URL}/locations`, priority: '0.9', lastmod: now };
-  yield { loc: `${BASE_URL}/city`, priority: '0.85', lastmod: now };
-  yield { loc: `${BASE_URL}/blog`, priority: '0.8', lastmod: now };
-  yield { loc: `${BASE_URL}/about-us`, priority: '0.5', lastmod: now };
-  yield { loc: `${BASE_URL}/contact`, priority: '0.5', lastmod: now };
-  yield { loc: `${BASE_URL}/gallery`, priority: '0.5', lastmod: now };
+  const lastmod = SITEMAP_LASTMOD;
 
-  // Static pages (legal, informational)
+  yield { loc: `${BASE_URL}/`, priority: '1.0', lastmod };
+  yield { loc: `${BASE_URL}/services`, priority: '0.9', lastmod };
+  yield { loc: `${BASE_URL}/locations`, priority: '0.9', lastmod };
+  yield { loc: `${BASE_URL}/city`, priority: '0.85', lastmod };
+  yield { loc: `${BASE_URL}/compare`, priority: '0.85', lastmod };
+  yield { loc: `${BASE_URL}/doctors`, priority: '0.8', lastmod };
+  yield { loc: `${BASE_URL}/conditions`, priority: '0.8', lastmod };
+  yield { loc: `${BASE_URL}/blog`, priority: '0.8', lastmod };
+  yield { loc: `${BASE_URL}/about-us`, priority: '0.5', lastmod };
+  yield { loc: `${BASE_URL}/contact`, priority: '0.5', lastmod };
+  yield { loc: `${BASE_URL}/gallery`, priority: '0.5', lastmod };
+
   for (const page of STATIC_PAGES) {
-    yield { loc: `${BASE_URL}${page.path}`, priority: page.priority, lastmod: now };
+    yield { loc: `${BASE_URL}${page.path}`, priority: page.priority, lastmod };
   }
 
-  // GMC product pages
   for (const product of GMC_PRODUCTS) {
-    yield { loc: `${BASE_URL}/gmc/${product.slug}`, priority: '0.7', lastmod: now };
+    yield { loc: `${BASE_URL}/gmc/${product.slug}`, priority: '0.7', lastmod };
   }
 
   for (const service of services) {
+    if (!getL1IndexingDirective(service).includeInSitemap) continue;
     const priority = topServices.has(service) ? '0.85' : '0.7';
-    yield { loc: `${BASE_URL}/services/${service}`, priority, lastmod: now };
-    
+    yield { loc: `${BASE_URL}/services/${service}`, priority, lastmod };
+
     for (const region of Object.keys(REGION_LOCATIONS)) {
-      yield { loc: `${BASE_URL}/services/${service}/${region}`, priority: '0.65', lastmod: now };
-      
+      if (DEPRECATED_REGIONS.has(region)) continue;
+
+      if (getL2IndexingDirective(service, region).includeInSitemap) {
+        yield { loc: `${BASE_URL}/services/${service}/${region}`, priority: '0.75', lastmod };
+      }
+
       for (const location of REGION_LOCATIONS[region]) {
-        yield { loc: `${BASE_URL}/services/${service}/${region}/${location}`, priority: '0.5', lastmod: now };
+        if (region === 'raigad' && DUPLICATE_RAIGAD_LOCATIONS.has(location)) continue;
+        const l3 = getL3IndexingDirective(service, region, location);
+        if (!l3.includeInSitemap) continue;
+        const locPriority = l3.tier === '1A' ? '0.7' : l3.tier === '1B' ? '0.65' : '0.6';
+        yield { loc: l3.canonicalUrl, priority: locPriority, lastmod };
       }
     }
   }
 
   for (const city of CITIES) {
-    yield { loc: `${BASE_URL}/city/${city.slug}`, priority: '0.8', lastmod: now };
+    yield { loc: `${BASE_URL}/city/${city.slug}`, priority: '0.8', lastmod };
   }
 
   for (const condition of CONDITIONS) {
-    yield { loc: `${BASE_URL}/conditions/${condition.id}`, priority: '0.7', lastmod: now };
+    yield { loc: `${BASE_URL}/conditions/${condition.id}`, priority: '0.75', lastmod };
   }
 
   for (const comp of COMPARISONS) {
-    yield { loc: `${BASE_URL}/compare/${comp.slug}`, priority: '0.6', lastmod: now };
+    yield { loc: `${BASE_URL}/compare/${comp.slug}`, priority: '0.75', lastmod };
   }
 
   for (const doc of DOCTORS) {
-    yield { loc: `${BASE_URL}/doctors/${doc.id}`, priority: '0.7', lastmod: now };
+    yield { loc: `${BASE_URL}/doctors/${doc.id}`, priority: '0.75', lastmod };
   }
 
   for (const cat of SERVICE_CATEGORIES) {
-    yield { loc: `${BASE_URL}/services/category/${cat.id}`, priority: '0.7', lastmod: now };
+    yield { loc: `${BASE_URL}/services/category/${cat.id}`, priority: '0.8', lastmod };
   }
 
   for (const article of STATIC_BLOG_ARTICLES) {
-    yield { loc: `${BASE_URL}/blog/${article.slug}`, priority: '0.75', lastmod: now };
+    yield { loc: `${BASE_URL}/blog/${article.slug}`, priority: '0.75', lastmod };
   }
+}
+
+export function getTotalUrlsCount(): number {
+  let count = 0;
+  for (const _url of generateUrls()) {
+    count++;
+  }
+  return count;
 }

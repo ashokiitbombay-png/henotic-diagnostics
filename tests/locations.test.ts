@@ -105,7 +105,7 @@ describe('Geographical Location Database & Local PSEO Matrix', () => {
     expect(isValidLocationForRegion('south-mumbai', 'hinjewadi-phase-1')).toBe(false);
   });
 
-  it('generates MedicalClinic JSON-LD schema with exact pincode and geo-coordinates', () => {
+  it('generates MedicalClinic JSON-LD schema anchored to Kharghar hub with GeoCircle areaServed', () => {
     const schema = generateLocationClinicSchema({
       regionSlug: 'south-mumbai',
       locationSlug: 'colaba',
@@ -114,10 +114,17 @@ describe('Geographical Location Database & Local PSEO Matrix', () => {
     });
 
     expect(schema['@type']).toBe('MedicalClinic');
-    expect(schema.name).toBe('Henotic Diagnostics - Colaba');
-    expect((schema.address as any).postalCode).toBe('400005');
-    expect((schema.geo as any).latitude).toBe(18.9145);
-    expect((schema.geo as any).longitude).toBe(72.8241);
-    expect(schema.areaServed).toBeDefined();
+    expect(schema.name).toBe('Henotic Diagnostics');
+    expect(schema.alternateName).toContain('Colaba');
+    expect((schema.address as any).postalCode).toBe('410210');
+    expect((schema.geo as any).latitude).toBe(19.0445195);
+    expect((schema.geo as any).longitude).toBe(73.0787376);
+    expect(Array.isArray(schema.areaServed)).toBe(true);
+    const areas = schema.areaServed as any[];
+    expect(areas[0]['@type']).toBe('GeoCircle');
+    expect(areas[0].geoMidpoint.latitude).toBe(18.9145);
+    expect(areas[0].geoMidpoint.longitude).toBe(72.8241);
+    expect(areas[1]['@type']).toBe('AdministrativeArea');
+    expect(areas[1].postalCode).toBe('400005');
   });
 });

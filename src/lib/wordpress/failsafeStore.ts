@@ -23,6 +23,10 @@ const fallbackDatabase: Record<string, { title: string; content: string }> = {
     title: "CT Scan (128 Slice)",
     content: "<p>Low-dose 128-slice CT Scan for high-speed diagnostic accuracy.</p>"
   },
+  "pet-ct": {
+    title: "PET-CT Scan",
+    content: "<p>Whole body PET-CT scan for oncologist-level precision and pathology detection.</p>"
+  },
   "pet-scan": {
     title: "PET-CT Scan",
     content: "<p>Whole body PET-CT scan for oncologist-level precision and pathology detection.</p>"

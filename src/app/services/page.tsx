@@ -3,6 +3,7 @@ import Link from "next/link";
 import { services } from "@/config/services";
 import ServicesSearchFilter from "@/components/features/ServicesSearchFilter";
 import ServiceHero from '@/components/blocks/ServiceHero';
+import { isRedirectedServiceSlug } from "@/lib/seo/indexing-policy";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -162,19 +163,21 @@ function getServiceDesc(slug: string, title: string, category: string): string {
 }
 
 export default function ServicesIndexPage() {
-  // Map raw slugs from the constants database to full service items
-  const mappedServices: ServiceItem[] = services.map(slug => {
-    const title = getServiceTitle(slug);
-    const category = getServiceCategory(slug);
-    const desc = getServiceDesc(slug, title, category);
-    
-    return {
-      id: slug,
-      title,
-      category,
-      desc
-    };
-  });
+  // Map canonical/non-redirected slugs from database to full service items
+  const mappedServices: ServiceItem[] = services
+    .filter((slug) => !isRedirectedServiceSlug(slug))
+    .map(slug => {
+      const title = getServiceTitle(slug);
+      const category = getServiceCategory(slug);
+      const desc = getServiceDesc(slug, title, category);
+
+      return {
+        id: slug,
+        title,
+        category,
+        desc
+      };
+    });
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
@@ -222,9 +225,9 @@ export default function ServicesIndexPage() {
             {mappedServices.map((service) => (
               <Link 
                 key={service.id}
-                href={`/services/${service.id}/navi-mumbai/kharghar`}
+                href={`/services/${service.id}`}
                 className="hover:text-blue-600 transition-colors p-2 bg-slate-50 hover:bg-blue-50 rounded-xl border border-slate-100 truncate block"
-                title={`Book ${service.title} in Kharghar`}
+                title={`View ${service.title}`}
               >
                 {service.title}
               </Link>

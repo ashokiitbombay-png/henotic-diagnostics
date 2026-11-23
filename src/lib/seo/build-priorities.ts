@@ -11,6 +11,11 @@
  */
 import buildManifest from '@/config/build-priorities.json';
 import { filterShardParams } from '@/lib/seo/shard-helper';
+import {
+  getL1IndexingDirective,
+  getL2IndexingDirective,
+  getL3IndexingDirective,
+} from '@/lib/seo/indexing-policy';
 
 export interface PriorityEntry {
   service: string;
@@ -29,35 +34,45 @@ interface BuildManifest {
 }
 
 /**
- * Returns the top N pre-build paths for a given route level,
- * already filtered through the build shard helper for parallel CI.
+ * Returns the top N indexable pre-build paths for a given route level,
+ * already filtered through indexing-policy + the build shard helper for parallel CI.
  */
 export function getServicePriorities(maxPaths: number = 60) {
   const manifest = buildManifest as BuildManifest;
-  return filterShardParams(
-    manifest.service.slice(0, maxPaths).map(p => ({ service: p.service }))
-  );
+  const indexable = manifest.service
+    .filter((p) => getL1IndexingDirective(p.service).includeInSitemap)
+    .slice(0, maxPaths)
+    .map((p) => ({ service: p.service }));
+  return filterShardParams(indexable);
 }
 
 export function getRegionPriorities(maxPaths: number = 150) {
   const manifest = buildManifest as BuildManifest;
-  return filterShardParams(
-    manifest.region.slice(0, maxPaths).map(p => ({
+  const indexable = manifest.region
+    .filter((p) => Boolean(p.region) && getL2IndexingDirective(p.service, p.region!).includeInSitemap)
+    .slice(0, maxPaths)
+    .map((p) => ({
       service: p.service,
       region: p.region!,
-    }))
-  );
+    }));
+  return filterShardParams(indexable);
 }
 
 export function getLocationPriorities(maxPaths: number = 250) {
   const manifest = buildManifest as BuildManifest;
-  return filterShardParams(
-    manifest.location.slice(0, maxPaths).map(p => ({
+  const indexable = manifest.location
+    .filter(
+      (p) =>
+        Boolean(p.region && p.location) &&
+        getL3IndexingDirective(p.service, p.region!, p.location!).includeInSitemap
+    )
+    .slice(0, maxPaths)
+    .map((p) => ({
       service: p.service,
       region: p.region!,
       location: p.location!,
-    }))
-  );
+    }));
+  return filterShardParams(indexable);
 }
 
 export function getConditionPriorities(maxPaths: number = 30) {

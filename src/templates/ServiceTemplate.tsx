@@ -44,7 +44,7 @@ export default function ServiceTemplate({
         serviceName={formattedService}
         wpContent={content}
       />
-      <ServiceHero service={service} />
+      <ServiceHero service={service} hideBreadcrumbSchema />
 
       {/* 🌟 Health Checkup Packages Suite (17 Comprehensive Packages) */}
       {isHealthCheckupService(service) && (

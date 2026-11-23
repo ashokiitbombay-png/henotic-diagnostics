@@ -19,6 +19,10 @@ import {
   AlertCircle
 } from 'lucide-react';
 import type { LocationItem } from '@/config/locations';
+import {
+  getL2IndexingDirective,
+  getL3IndexingDirective,
+} from '@/lib/seo/indexing-policy';
 
 interface LocationsDirectoryProps {
   initialLocations: LocationItem[];
@@ -417,15 +421,25 @@ export default function LocationsDirectory({
                     Available Diagnostic Services:
                   </div>
                   <div className="flex flex-wrap gap-1.5">
-                    {POPULAR_TESTS.map(test => (
-                      <Link
-                        key={test.slug}
-                        href={`/services/${test.slug}/${loc.region}/${loc.slug}`}
-                        className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-2xs font-bold text-slate-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"
-                      >
-                        {test.label}
-                      </Link>
-                    ))}
+                    {POPULAR_TESTS.map(test => {
+                      const l3 = getL3IndexingDirective(test.slug, loc.region, loc.slug);
+                      const l2 = getL2IndexingDirective(test.slug, loc.region);
+                      const href = l3.includeInSitemap
+                        ? `/services/${test.slug}/${loc.region}/${loc.slug}`
+                        : l2.includeInSitemap
+                          ? `/services/${test.slug}/${loc.region}`
+                          : `/services/${test.slug}`;
+                      return (
+                        <Link
+                          key={test.slug}
+                          href={href}
+                          prefetch={false}
+                          className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-2xs font-bold text-slate-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"
+                        >
+                          {test.label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Search, Orbit, Activity, ScanHeart, Baby, Droplets, Heart, Bone, Stethoscope, Microscope, ArrowRight, Filter } from "lucide-react";
+import { getCanonicalServiceSlug } from "@/lib/seo/indexing-policy";
 
 interface ServiceItem {
   id: string;
@@ -162,10 +163,10 @@ export default function ServicesSearchFilter({ initialServices }: ServicesSearch
                       
                       <div className="mt-auto pt-6 border-t border-slate-100">
                         <Link 
-                          href={`/services/${service.id}/navi-mumbai/kharghar`}
+                          href={`/services/${getCanonicalServiceSlug(service.id)}`}
                           className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-pink-600 hover:text-pink-700 transition-colors group/link"
                         >
-                          Book Appointment <ArrowRight size={14} className="transform group-hover/link:translate-x-1 transition-transform" />
+                          View Details & Book <ArrowRight size={14} className="transform group-hover/link:translate-x-1 transition-transform" />
                         </Link>
                       </div>
                     </div>

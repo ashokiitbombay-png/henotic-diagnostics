@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 
 interface FAQ {
   question: string;
@@ -44,10 +44,12 @@ export default function ServiceFAQ({ faqs, serviceName }: ServiceFAQProps) {
                 <span className="font-bold text-base md:text-lg text-slate-800 group-open:text-blue-700 transition-colors">
                   {faq.question}
                 </span>
-                <ChevronDown
-                  size={20}
-                  className="shrink-0 mt-1 text-slate-400 group-open:rotate-180 group-open:text-blue-500 transition-transform duration-200"
-                />
+                <span
+                  aria-hidden="true"
+                  className="shrink-0 mt-0.5 text-slate-400 group-open:rotate-180 group-open:text-blue-500 transition-transform duration-200 text-lg leading-none"
+                >
+                  ▾
+                </span>
               </summary>
               <div className="px-5 md:px-6 pb-5 md:pb-6 text-slate-600 font-medium leading-relaxed text-[15px] border-t border-slate-50 pt-4">
                 {faq.answer}

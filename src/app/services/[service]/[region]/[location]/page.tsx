@@ -17,6 +17,7 @@ import ServiceAreaTargeting from '@/components/seo/ServiceAreaTargeting';
 import PeopleAlsoSearchFor from '@/components/seo/PeopleAlsoSearchFor';
 import RelatedServices from '@/components/seo/RelatedServices';
 import LocalSEOMastery from '@/components/seo/LocalSEOMastery';
+import { buildRobotsMetadata, getL3IndexingDirective } from '@/lib/seo/indexing-policy';
 
 export const revalidate = 604800; // 7 days cache revalidation
 
@@ -50,6 +51,12 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
     if (niptData) return buildNiptMetadata(niptData);
   }
 
+  const directive = getL3IndexingDirective(
+    resolvedParams.service,
+    resolvedParams.region,
+    resolvedParams.location
+  );
+
   const serviceName = formatSlug(resolvedParams.service);
   const locationName = formatSlug(resolvedParams.location);
   const regionName = formatSlug(resolvedParams.region);
@@ -59,13 +66,14 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   const description = isHealth
     ? `Looking for ${serviceName} in ${locationName}, ${regionName}? Book certified health checkup packages with 24/7 home sample collection in ${locationName}. NABL-accredited pathology & same-day reports.`
     : `Looking for a ${serviceName} in ${locationName}? Henotic Diagnostics offers highly accurate, NABL-accredited imaging and pathology with same-day reports. Book now!`;
-  const canonicalUrl = `https://www.henoticdiagnostics.com/services/${resolvedParams.service}/${resolvedParams.region}/${resolvedParams.location}`;
+  const canonicalUrl = directive.canonicalUrl;
   const heroImage = getHeroImageForService(resolvedParams.service);
 
   return {
     title,
     description,
     keywords: `${serviceName} in ${locationName}, best ${serviceName} near me, ${serviceName} cost in ${locationName}, diagnostic center in ${locationName} ${regionName}`,
+    robots: buildRobotsMetadata(directive.index),
     alternates: {
       canonical: canonicalUrl,
     },

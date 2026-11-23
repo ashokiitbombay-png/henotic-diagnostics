@@ -6,6 +6,7 @@ import { ArrowRight, ChevronDown, HelpCircle } from 'lucide-react';
 import { SERVICE_CATEGORIES, getCategoryById } from '@/config/categories';
 import { getHeroImageForService } from '@/config/services';
 import { buildCategoryFAQs, truncateMeta } from '@/lib/seo/aeo-helpers';
+import { getCanonicalServiceSlug, isRedirectedServiceSlug } from '@/lib/seo/indexing-policy';
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
@@ -136,16 +137,24 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       <section className="py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cat.services.map(slug => (
-              <Link key={slug} href={`/services/${slug}/navi-mumbai/kharghar`}
-                className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 group flex items-center justify-between gap-4">
-                <div>
-                  <h3 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{formatText(slug)}</h3>
-                  <p className="text-sm text-slate-500 mt-1">Book in Navi Mumbai →</p>
-                </div>
-                <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-500 shrink-0 transition-colors" />
-              </Link>
-            ))}
+            {cat.services
+              .filter((slug) => !isRedirectedServiceSlug(slug))
+              .map((slug) => {
+                const canonical = getCanonicalServiceSlug(slug);
+                return (
+                  <Link
+                    key={slug}
+                    href={`/services/${canonical}`}
+                    className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 group flex items-center justify-between gap-4"
+                  >
+                    <div>
+                      <h3 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{formatText(slug)}</h3>
+                      <p className="text-sm text-slate-500 mt-1">View test details & pricing →</p>
+                    </div>
+                    <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-500 shrink-0 transition-colors" />
+                  </Link>
+                );
+              })}
           </div>
         </div>
       </section>

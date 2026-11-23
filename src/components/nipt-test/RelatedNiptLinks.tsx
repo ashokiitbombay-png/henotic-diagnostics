@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Dna, MapPin } from 'lucide-react';
 import { STATIC_NIPT_PAGES, type NiptPageContent } from '@/config/nipt-test';
 import { REGION_LOCATIONS, REGION_NAMES } from '@/config/locations';
+import { TYPO_REDIRECT_SLUGS, getL2IndexingDirective } from '@/lib/seo/indexing-policy';
 
 interface RelatedNiptLinksProps {
   currentSlug: string;
@@ -17,26 +18,24 @@ const BY_SLUG = new Map(STATIC_NIPT_PAGES.map((p) => [p.slug, p]));
 const CANONICAL_REGIONS = Object.keys(REGION_LOCATIONS).filter((r) => r !== 'mumbai-suburban');
 
 /**
- * Internal-linking topic cluster hub across all 20 NIPT keyword slugs + regional hubs.
- * Preserves region/location context when rendered on Tier 2 or Tier 3 pages.
+ * Internal-linking topic cluster hub across canonical non-redirected NIPT guides & regional hubs.
+ * Variant links always point to canonical L1 authority guides (never creating internal links to variant L2/L3 trees).
  */
 export default function RelatedNiptLinks({
   currentSlug,
   relatedSlugs,
-  regionSlug,
-  locationSlug,
   showRegionDirectory = false,
 }: RelatedNiptLinksProps) {
   const related = relatedSlugs
+    .filter((s) => !(s in TYPO_REDIRECT_SLUGS))
     .map((s) => BY_SLUG.get(s))
     .filter((p): p is NiptPageContent => Boolean(p && p.slug !== currentSlug));
-  const cluster = STATIC_NIPT_PAGES.filter((p) => p.slug !== currentSlug);
+  const cluster = STATIC_NIPT_PAGES.filter(
+    (p) => p.slug !== currentSlug && !(p.slug in TYPO_REDIRECT_SLUGS)
+  );
 
-  const buildHref = (slug: string) => {
-    if (regionSlug && locationSlug) return `/services/${slug}/${regionSlug}/${locationSlug}`;
-    if (regionSlug) return `/services/${slug}/${regionSlug}`;
-    return `/services/${slug}`;
-  };
+  // Always link to canonical L1 authority guides rather than cross-canonicalized variant L2/L3 trees
+  const buildHref = (slug: string) => `/services/${slug}`;
 
   return (
     <section
@@ -100,10 +99,12 @@ export default function RelatedNiptLinks({
             <span>NIPT Home Collection &amp; Centers by Region</span>
           </h3>
           <ul className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            {CANONICAL_REGIONS.map((region) => (
+            {CANONICAL_REGIONS.filter((region) =>
+              getL2IndexingDirective('nipt-test', region).includeInSitemap
+            ).map((region) => (
               <li key={region}>
                 <Link
-                  href={`/services/${currentSlug}/${region}`}
+                  href={`/services/nipt-test/${region}`}
                   prefetch={false}
                   className="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-purple-50 hover:border-purple-300 text-xs font-bold text-slate-800 hover:text-purple-900 transition"
                 >

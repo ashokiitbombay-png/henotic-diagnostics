@@ -73,7 +73,7 @@ const CATEGORY_SLUGS: Record<string, string[]> = {
     "dating-scan", "viability-scan", "first-trimester-scan", "second-trimester-scan", "third-trimester-scan", 
     "nt-scan", "anomaly-scan", "target-scan", "targeted-anomaly-scan", "level-2-scan", "growth-scan", 
     "fetal-growth-scan", "fetal-wellbeing-scan", "fetal-weight-estimation", "cervical-length-scan", 
-    "fetal-doppler", "fetal-doppler-study", "fetal-echocardiography", "fetal-echo", "fetal-bpp", 
+    "fetal-doppler", "fetal-doppler-study", "fetal-echocardiography", "fetal-bpp", 
     "biophysical-profile", "bpp-scan", "high-risk-pregnancy-scan", "multiple-pregnancy-scan", 
     "twin-pregnancy-scan", "antenatal-scan", "fetal-medicine-scan"
   ],
@@ -112,7 +112,7 @@ const CATEGORY_SLUGS: Record<string, string[]> = {
     "low-dose-ct", "lung-cancer-screening-ct"
   ],
   "PET CT & Nuclear Medicine": [
-    "pet-scan", "pet-ct", "whole-body-pet-ct", "whole-body-pet-scan", "fdg-pet-ct", "oncology-pet-ct", 
+    "pet-ct", "whole-body-pet-ct", "fdg-pet-ct", "oncology-pet-ct", 
     "cardiac-pet-ct", "neurology-pet-ct", "cancer-pet-scan", "pet-cancer-screening", "spect-scan", 
     "nuclear-medicine", "dtpa-scan", "ec-scan", "renal-scan", "renal-function-scan", "ec-renal-scan", 
     "mag3-scan", "bone-scan", "bone-scintigraphy", "thyroid-scan", "thyroid-scintigraphy", 
@@ -124,7 +124,7 @@ const CATEGORY_SLUGS: Record<string, string[]> = {
     "dexa-bone-scan", "bone-density-test", "bmd-test", "osteoporosis-screening"
   ],
   "Cardiology Diagnostics": [
-    "ecg", "ecg-test", "electrocardiogram", "2d-echo", "2d-echo-test", "echo-test", "echocardiography", 
+    "ecg", "2d-echo", 
     "color-echo", "stress-echo", "dobutamine-stress-echo", "tmt-test", "stress-test", "holter-monitoring", 
     "24-hour-holter", "48-hour-holter", "72-hour-holter", "ambulatory-ecg", "ambulatory-bp-monitoring", 
     "bp-monitoring", "24-hour-bp-monitoring", "heart-screening", "cardiac-screening", 
@@ -140,7 +140,7 @@ const CATEGORY_SLUGS: Record<string, string[]> = {
     "chronic-liver-disease-screening"
   ],
   "Genetic Testing & Molecular Diagnostics": [
-    "prenatal-test", "prenatal-genetic-testing", "nipt-test", "nips-test", "nippt", "karyotype-test", 
+    "prenatal-test", "prenatal-genetic-testing", "nipt-test", "karyotype-test", 
     "chromosomal-analysis", "chromosomal-testing", "chromosome-analysis", "genetic-test", 
     "genetic-screening", "genetic-counselling", "genetic-counselling-service", "carrier-screening", 
     "carrier-testing", "dna-test", "dna-analysis", "paternity-test", "relationship-dna-test", 

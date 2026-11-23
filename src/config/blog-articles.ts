@@ -396,7 +396,7 @@ export const STATIC_BLOG_ARTICLES: StaticBlogArticle[] = [
     },
     readingTimeMinutes: 8,
     medicalSpecialty: "Nuclear Medicine & Oncological Radiology",
-    relatedServiceSlug: "pet-scan",
+    relatedServiceSlug: "pet-ct",
     tableOfContents: [
       { id: "what-is-pet-ct", title: "What Makes PET-CT the Gold Standard in Oncology?" },
       { id: "how-fdg-works", title: "How 18F-FDG Radiotracers Highlight Tumors" },
