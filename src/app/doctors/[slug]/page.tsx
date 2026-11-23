@@ -21,6 +21,7 @@ import { DOCTORS } from '@/config/doctors';
 import MedicalPseoSchema from '@/components/seo/MedicalPseoSchema';
 import { LAB_WHATSAPP_NUMBER, LAB_PHONE_DISPLAY, LAB_PHONE_TEL } from '@/config/health-checkup/trust';
 import { siteConfig } from '@/config/site';
+import { truncateMeta } from '@/lib/seo/aeo-helpers';
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
@@ -32,8 +33,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const doc = DOCTORS.find(d => d.id === slug);
   if (!doc) notFound();
-  const title = `${doc.name} — ${doc.designation} | Henotic Diagnostics`;
-  const description = doc?.bio || 'Expert medical professionals at Henotic Diagnostics.';
+  const shortRole = doc.designation.split('—')[0].trim();
+  const title = truncateMeta(`${doc.name} — ${shortRole} | Henotic`, 60);
+  const description = truncateMeta(doc.bio || 'Senior medical specialist at Henotic Diagnostics.', 155);
   const doctorImage = doc?.imageUrl || 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
 
   return {

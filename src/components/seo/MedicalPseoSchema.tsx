@@ -97,6 +97,9 @@ export default function MedicalPseoSchema({
       schemasToRender.push(conditionSchemas.medicalWebPageSchema);
       schemasToRender.push(conditionSchemas.medicalConditionSchema);
       schemasToRender.push(conditionSchemas.breadcrumbSchema);
+      if (conditionSchemas.faqSchema) {
+        schemasToRender.push(conditionSchemas.faqSchema);
+      }
     }
   } else if (type === 'doctor' && doctorId) {
     const doctorSchemas = generateDoctorSchema(doctorId);

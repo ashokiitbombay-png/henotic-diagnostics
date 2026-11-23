@@ -7,13 +7,13 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Diagnostic Services Directory | Henotic Diagnostics",
-  description: "Browse our directory of over 200+ NABL accredited diagnostic services, including 3T MRI, 128-Slice CT, Ultrasound, Cardiology, and Pathology tests.",
+  description: "Browse our directory of 400+ NABL-accredited diagnostic services, including 3T MRI, 128-Slice CT, Ultrasound, Cardiology, and Pathology tests.",
   alternates: {
     canonical: "https://www.henoticdiagnostics.com/services"
   },
   openGraph: {
     title: "Diagnostic Services Directory | Henotic Diagnostics",
-    description: "Browse our directory of over 200+ NABL accredited diagnostic services, including 3T MRI, 128-Slice CT, Ultrasound, Cardiology, and Pathology tests.",
+    description: "Browse our directory of 400+ NABL-accredited diagnostic services, including 3T MRI, 128-Slice CT, Ultrasound, Cardiology, and Pathology tests.",
     url: "https://www.henoticdiagnostics.com/services",
     type: "website",
     images: [{
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Diagnostic Services Directory | Henotic Diagnostics",
-    description: "Browse 200+ NABL accredited diagnostic services in Mumbai & Navi Mumbai.",
+    description: "Browse 400+ NABL-accredited diagnostic services in Mumbai & Navi Mumbai.",
     images: ["https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp"],
   },
 };
@@ -177,7 +177,7 @@ export default function ServicesIndexPage() {
   });
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
       
       {/* 🤖 SSR ItemList Schema — helps AI systems enumerate all diagnostic services */}
       <script
@@ -186,7 +186,7 @@ export default function ServicesIndexPage() {
           "@context": "https://schema.org",
           "@type": "ItemList",
           "name": "Diagnostic Services at Henotic Diagnostics",
-          "description": "Complete directory of 250+ diagnostic tests including MRI, CT scan, PET-CT, ultrasound, blood tests, and health checkup packages.",
+          "description": "Complete directory of 400+ diagnostic tests including MRI, CT scan, PET-CT, ultrasound, blood tests, and health checkup packages.",
           "numberOfItems": mappedServices.length,
           "itemListElement": mappedServices.slice(0, 50).map((service, index) => ({
             "@type": "ListItem",
@@ -249,6 +249,6 @@ export default function ServicesIndexPage() {
         </div>
       </section>
 
-    </main>
+    </div>
   );
 }

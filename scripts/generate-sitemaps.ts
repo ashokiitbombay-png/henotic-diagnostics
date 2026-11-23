@@ -126,12 +126,11 @@ const HOSPITAL_SURGICAL_SERVICES = new Set([
  * Generator function yielding all sitemap URLs sequentially.
  */
 function* generateAllUrls(today: string): Generator<SitemapUrl> {
-  // 1. Core Static Pages
+  // 1. Core Static Pages (canonical legal routes only; redirected aliases excluded)
   const staticRoutes = [
     '', '/about-us', '/contact', '/services', '/doctors', '/conditions',
     '/blog', '/privacy', '/terms', '/cancellation-policy', '/delivery-policy',
-    '/disclaimers', '/grievance-policy', '/medical-disclaimer', '/refund-returns',
-    '/refund-policy', '/return-policy'
+    '/grievance-policy', '/medical-disclaimer', '/refund-policy'
   ];
 
   for (const route of staticRoutes) {

@@ -41,17 +41,22 @@ export interface NewsletterInquiry {
   source: string;
 }
 
-const DATA_DIR = process.env.LEAD_DATA_DIR
-  ? path.resolve(process.env.LEAD_DATA_DIR)
-  : path.join(process.cwd(), 'data');
-const LEADS_FILE = path.join(DATA_DIR, 'leads.jsonl');
-const PAYMENTS_FILE = path.join(DATA_DIR, 'payments.jsonl');
-const INQUIRIES_FILE = path.join(DATA_DIR, 'inquiries.jsonl');
+function getLeadDataPaths() {
+  const dataDir = process.env.LEAD_DATA_DIR
+    ? path.resolve(process.env.LEAD_DATA_DIR)
+    : path.join(process.cwd(), 'data');
+  return {
+    dataDir,
+    leadsFile: path.join(dataDir, 'leads.jsonl'),
+    paymentsFile: path.join(dataDir, 'payments.jsonl'),
+    inquiriesFile: path.join(dataDir, 'inquiries.jsonl'),
+  };
+}
 
-function ensureDataDirectory() {
+function ensureDataDirectory(dataDir: string) {
   try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
+    if (!fs.existsSync(/*turbopackIgnore: true*/ dataDir)) {
+      fs.mkdirSync(/*turbopackIgnore: true*/ dataDir, { recursive: true });
     }
   } catch (err) {
     // Graceful fallback on read-only environments
@@ -100,8 +105,9 @@ export async function recordLead(lead: Omit<BookingLead, 'id' | 'createdAt'>): P
 
   // 1. Guaranteed Local Persistence (Zero-drop failsafe)
   try {
-    ensureDataDirectory();
-    fs.appendFileSync(LEADS_FILE, JSON.stringify(fullLead) + '\n', 'utf8');
+    const { dataDir, leadsFile } = getLeadDataPaths();
+    ensureDataDirectory(dataDir);
+    fs.appendFileSync(/*turbopackIgnore: true*/ leadsFile, JSON.stringify(fullLead) + '\n', 'utf8');
   } catch (fsErr) {
     console.error('[LeadService] Critical error writing to local log:', fsErr);
   }
@@ -132,8 +138,9 @@ export async function recordPayment(payment: Omit<PaymentRecord, 'id' | 'created
   };
 
   try {
-    ensureDataDirectory();
-    fs.appendFileSync(PAYMENTS_FILE, JSON.stringify(fullRecord) + '\n', 'utf8');
+    const { dataDir, paymentsFile } = getLeadDataPaths();
+    ensureDataDirectory(dataDir);
+    fs.appendFileSync(/*turbopackIgnore: true*/ paymentsFile, JSON.stringify(fullRecord) + '\n', 'utf8');
   } catch (fsErr) {
     console.error('[LeadService] Error logging payment:', fsErr);
   }
@@ -163,8 +170,9 @@ export async function recordInquiry(email: string, source: string = 'newsletter'
   };
 
   try {
-    ensureDataDirectory();
-    fs.appendFileSync(INQUIRIES_FILE, JSON.stringify(inquiry) + '\n', 'utf8');
+    const { dataDir, inquiriesFile } = getLeadDataPaths();
+    ensureDataDirectory(dataDir);
+    fs.appendFileSync(/*turbopackIgnore: true*/ inquiriesFile, JSON.stringify(inquiry) + '\n', 'utf8');
   } catch (fsErr) {
     console.error('[LeadService] Error logging inquiry:', fsErr);
   }
@@ -187,8 +195,9 @@ export async function recordInquiry(email: string, source: string = 'newsletter'
  */
 export function getStoredLeads(limit: number = 100): BookingLead[] {
   try {
-    if (!fs.existsSync(LEADS_FILE)) return [];
-    const lines = fs.readFileSync(LEADS_FILE, 'utf8').trim().split('\n').filter(Boolean);
+    const { leadsFile } = getLeadDataPaths();
+    if (!fs.existsSync(/*turbopackIgnore: true*/ leadsFile)) return [];
+    const lines = fs.readFileSync(/*turbopackIgnore: true*/ leadsFile, 'utf8').trim().split('\n').filter(Boolean);
     return lines
       .slice(-limit)
       .reverse()
@@ -203,8 +212,9 @@ export function getStoredLeads(limit: number = 100): BookingLead[] {
  */
 export function getStoredPayments(limit: number = 100): PaymentRecord[] {
   try {
-    if (!fs.existsSync(PAYMENTS_FILE)) return [];
-    const lines = fs.readFileSync(PAYMENTS_FILE, 'utf8').trim().split('\n').filter(Boolean);
+    const { paymentsFile } = getLeadDataPaths();
+    if (!fs.existsSync(/*turbopackIgnore: true*/ paymentsFile)) return [];
+    const lines = fs.readFileSync(/*turbopackIgnore: true*/ paymentsFile, 'utf8').trim().split('\n').filter(Boolean);
     return lines
       .slice(-limit)
       .reverse()
@@ -219,8 +229,9 @@ export function getStoredPayments(limit: number = 100): PaymentRecord[] {
  */
 export function getStoredInquiries(limit: number = 100): NewsletterInquiry[] {
   try {
-    if (!fs.existsSync(INQUIRIES_FILE)) return [];
-    const lines = fs.readFileSync(INQUIRIES_FILE, 'utf8').trim().split('\n').filter(Boolean);
+    const { inquiriesFile } = getLeadDataPaths();
+    if (!fs.existsSync(/*turbopackIgnore: true*/ inquiriesFile)) return [];
+    const lines = fs.readFileSync(/*turbopackIgnore: true*/ inquiriesFile, 'utf8').trim().split('\n').filter(Boolean);
     return lines
       .slice(-limit)
       .reverse()

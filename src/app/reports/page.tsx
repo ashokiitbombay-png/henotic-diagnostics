@@ -217,7 +217,7 @@ export default function ReportPortalPage() {
   };
 
   return (
-    <main className="min-h-screen mt-[80px]">
+    <div className="min-h-screen mt-[80px]">
 
       {/* ── Toast notification ──────────────────────────────────────────── */}
       {toast && <Toast message={toast} onClose={() => setToast('')} />}
@@ -502,6 +502,6 @@ export default function ReportPortalPage() {
           to   { opacity: 1; transform: translate(-50%, 0); }
         }
       `}</style>
-    </main>
+    </div>
   );
 }

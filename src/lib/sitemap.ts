@@ -17,25 +17,22 @@ const topServices = new Set([
   'dexa-bone-scan', 'ecg', 'hrct-scan', 'whole-body-pet-ct'
 ]);
 
-// Legal & informational pages that should be in the sitemap
+// Legal & informational pages that should be in the sitemap (canonical routes only)
 const STATIC_PAGES = [
   { path: '/leadership', priority: '0.5' },
   { path: '/pricing', priority: '0.6' },
   { path: '/video/corporate-overview', priority: '0.5' },
   { path: '/cancellation-policy', priority: '0.3' },
   { path: '/delivery-policy', priority: '0.3' },
-  { path: '/disclaimers', priority: '0.3' },
   { path: '/grievance-policy', priority: '0.3' },
   { path: '/medical-disclaimer', priority: '0.3' },
   { path: '/privacy', priority: '0.3' },
   { path: '/refund-policy', priority: '0.3' },
-  { path: '/refund-returns', priority: '0.3' },
-  { path: '/return-policy', priority: '0.3' },
   { path: '/terms', priority: '0.3' },
 ];
 
 export function getTotalUrlsCount(): number {
-  let count = 9; // Home, services, locations, city, blog, about-us, contact, gallery, reports
+  let count = 8; // Home, services, locations, city, blog, about-us, contact, gallery (/reports excluded — noindex)
   count += STATIC_PAGES.length;
   count += GMC_PRODUCTS.length;
   count += services.length;
@@ -69,7 +66,6 @@ export function* generateUrls(): Generator<SitemapUrl> {
   yield { loc: `${BASE_URL}/about-us`, priority: '0.5', lastmod: now };
   yield { loc: `${BASE_URL}/contact`, priority: '0.5', lastmod: now };
   yield { loc: `${BASE_URL}/gallery`, priority: '0.5', lastmod: now };
-  yield { loc: `${BASE_URL}/reports`, priority: '0.5', lastmod: now };
 
   // Static pages (legal, informational)
   for (const page of STATIC_PAGES) {

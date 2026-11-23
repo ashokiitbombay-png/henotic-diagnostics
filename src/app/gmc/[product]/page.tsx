@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { GMC_PRODUCTS, getGMCProduct } from '@/config/gmc-products';
 import { Calendar, Phone, Shield, CheckCircle2, MapPin, Clock, Award, Star } from 'lucide-react';
 import ProductSchema from '@/components/seo/ProductSchema';
+import { truncateMeta } from '@/lib/seo/aeo-helpers';
 
 interface Props {
   params: Promise<{ product: string }>;
@@ -22,22 +23,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = getGMCProduct(slug);
   if (!product) notFound();
 
+  const title = truncateMeta(`${product.title} — ₹${product.price.toLocaleString('en-IN')} | Henotic`, 60);
+  const description = truncateMeta(product.description, 155);
+
   return {
-    title: `${product.title} — ₹${product.price.toLocaleString('en-IN')} | Henotic Diagnostics`,
-    description: product.description,
+    title,
+    description,
     alternates: {
       canonical: `https://www.henoticdiagnostics.com/gmc/${slug}`,
     },
     openGraph: {
       title: `${product.title} — ₹${product.price.toLocaleString('en-IN')}`,
-      description: product.description,
+      description,
       images: [{ url: product.imageUrl, width: 1200, height: 630 }],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: `${product.title} — ₹${product.price.toLocaleString('en-IN')}`,
-      description: product.description,
+      description,
       images: [product.imageUrl],
     },
   };

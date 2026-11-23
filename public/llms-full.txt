@@ -1,11 +1,11 @@
 # Henotic Diagnostics — Full Reference
 
-> Henotic Diagnostics is a NABL-accredited medical diagnostic and imaging center in Kharghar, Navi Mumbai, India. Founded in 2012, it provides advanced diagnostic imaging, pathology, cardiac diagnostics, and genetic testing services. The center operates 24/7 and is equipped with 3.0 Tesla MRI, 128-slice CT, digital PET-CT, 4D ultrasound, and automated pathology systems.
+> Henotic Diagnostics is a NABL-accredited medical diagnostic and imaging center in Kharghar, Navi Mumbai, India. Founded in 2012, it provides 400+ diagnostic imaging, pathology, cardiac diagnostics, health checkup, and NIPT genetic testing services. The center operates 24/7 and is equipped with 3.0 Tesla MRI, 128-slice CT, Digital PET-CT, 4D ultrasound, and automated NABL pathology systems.
 
 ## Entity Definition
 
 **Legal Name**: Henotic Diagnostics Centre
-**Type**: Medical Diagnostic & Imaging Center
+**Type**: Medical Diagnostic & Imaging Center (`DiagnosticLab`)
 **Industry**: Healthcare / Medical Diagnostics
 **Founded**: 2012
 **Headquarters**: Kharghar, Navi Mumbai, Maharashtra, India
@@ -16,24 +16,35 @@ Second floor, Millennium Empire, Business Park, Plot No 47, D Mart Road, Sector 
 ### Contact
 - **Primary Phone**: +91 88793 27184
 - **Secondary Phone**: +91 93728 53584
-- **Email**: henoticdiagnostics@gmail.com
+- **Email**: info@henoticdiagnostics.com
 - **Website**: https://www.henoticdiagnostics.com
+- **Pricing & Bundle Estimator**: https://www.henoticdiagnostics.com/pricing
+- **Online Booking**: https://www.henoticdiagnostics.com/booking-system
 - **WhatsApp**: +91 88793 27184
 
 ### Operating Hours
-Open 24 hours, Monday through Sunday (all 7 days)
+Open 24 hours, Monday through Sunday (00:00–23:59, all 7 days)
 
 ### Accreditations & Certifications
-- NABL Accredited Laboratory
+- NABL Accredited Laboratory (ISO 15189)
 - AERB (Atomic Energy Regulatory Board) Accredited
 - PCPNDT (Pre-Conception and Pre-Natal Diagnostic Techniques Act) Registered
-- ISO Certified Facility
+- ISO 9001:2015 Certified Facility
 
 ### Key Metrics
-- Google Rating: 4.9 out of 5 stars
-- Reviews: 1,030+ verified Google reviews
-- Services Offered: 250+ diagnostic tests
-- Experience: 12+ years of operation
+- **Google Rating**: 4.9 out of 5 stars (96% 5-star reviews)
+- **Verified Google Reviews**: 1,240+
+- **Services Offered**: 400+ (399 indexed clinical investigations across 18 specialties)
+- **On-Time Report Delivery**: 99.4%
+- **Locations Covered**: 361 micro-locations across 9 metropolitan regions
+
+## Key Clinical Leadership & Specialists
+
+- **[Clinical Leadership](https://www.henoticdiagnostics.com/leadership)**: Executive quality oversight, NABL governance, and clinical reporting standards
+- **Dr. Rajesh Sharma** (`MBBS, MD Radiology, FRCR UK`) — Chief Consultant Radiologist & Head of Imaging, 22+ years experience ([Profile](https://www.henoticdiagnostics.com/doctors/dr-rajesh-sharma))
+- **Dr. Priya Menon** (`MBBS, DNB Radiodiagnosis, DMRD`) — Senior Consultant Radiologist, Women's Imaging, 16+ years ([Profile](https://www.henoticdiagnostics.com/doctors/dr-priya-menon))
+- **Dr. Vikram Desai** (`MBBS, MD Radiology, DNB Radiodiagnosis`) — Consultant Radiologist, MSK & Abdominal Imaging, 12+ years ([Profile](https://www.henoticdiagnostics.com/doctors/dr-vikram-desai))
+- **Dr. Anita Kulkarni** (`MBBS, MD Radiology, Fellowship in CT & MRI`) — Consultant Radiologist, CT, MRI & Doppler Studies, 10+ years ([Profile](https://www.henoticdiagnostics.com/doctors/dr-anita-kulkarni))
 
 ## Equipment & Technology
 
@@ -47,12 +58,30 @@ Open 24 hours, Monday through Sunday (all 7 days)
 | ECG/Echo | Digital | 2D Echo, stress echo, Holter monitoring |
 | Mammography | Full-Field Digital | Breast cancer screening, 3D tomosynthesis |
 | FibroScan | Transient Elastography | Non-invasive liver stiffness assessment |
-| Pathology Lab | Fully Automated | Blood tests, biochemistry, hematology |
+| Pathology Lab | Fully Automated | Blood tests, biochemistry, hematology, NGS genetics |
 
-## Service Categories
+## Transparent Starting Prices (INR)
+
+| Service / Package | Henotic Starting Price | URL |
+|---|---|---|
+| ECG (Electrocardiogram) | ₹200 | https://www.henoticdiagnostics.com/services/ecg |
+| CBC (Complete Blood Count) | ₹250 | https://www.henoticdiagnostics.com/services/cbc-test |
+| Thyroid Profile (T3, T4, TSH) | ₹400 | https://www.henoticdiagnostics.com/services/thyroid-test |
+| Full Body / Health Checkup Packages | ₹1,650 | https://www.henoticdiagnostics.com/services/full-body-check-up |
+| Ultrasound (Single Part) | ₹1,800 | https://www.henoticdiagnostics.com/services/ultrasound |
+| 2D Echocardiography | ₹3,000 | https://www.henoticdiagnostics.com/services/2d-echo |
+| Digital Mammography | ₹3,000 | https://www.henoticdiagnostics.com/services/mammography |
+| DEXA Bone Scan | ₹4,000 | https://www.henoticdiagnostics.com/services/dexa-bone-scan |
+| 3.0T MRI Scan | ₹4,500 | https://www.henoticdiagnostics.com/services/mri-scan |
+| 128-Slice CT Scan | ₹4,500 | https://www.henoticdiagnostics.com/services/ct-scan |
+| Liver FibroScan | ₹4,500 | https://www.henoticdiagnostics.com/services/liver-fibroscan |
+| NIPT Prenatal cfDNA Test | ₹10,000 | https://www.henoticdiagnostics.com/services/nipt-test |
+| Whole-Body Digital PET-CT | ₹14,500 | https://www.henoticdiagnostics.com/services/pet-ct |
+
+## Service Categories (18 Specialties)
 
 ### Advanced Imaging
-MRI Scan (3.0T), CT Scan (128-slice), PET-CT Scan, SPECT Scan, HRCT Chest, MR Angiography, CT Angiography, CT-guided biopsy, whole-body scans
+MRI Scan (3.0T), CT Scan (128-slice), [PET-CT Scan](https://www.henoticdiagnostics.com/services/pet-ct), SPECT Scan, HRCT Chest, MR Angiography, CT Angiography, CT-guided biopsy, whole-body scans
 
 ### Ultrasound & Sonography
 Abdominal ultrasound, pelvic ultrasound, obstetric sonography (NT scan, anomaly scan, growth scan), musculoskeletal ultrasound, thyroid ultrasound, breast ultrasound
@@ -66,62 +95,51 @@ Color Doppler, carotid artery Doppler, renal Doppler, obstetric Doppler, arteria
 ### Pathology & Blood Tests
 CBC, lipid profile, thyroid function, diabetes screening (HbA1c), liver function, kidney function, complete metabolic panel, hormone tests, tumor markers, vitamin panels
 
-### Women's Health
+### Women's Health & Fertility
 Digital mammography, 3D breast tomosynthesis, follicular study, fertility assessment, gynecology ultrasound, HSG test, pelvic scan
 
-### Bone Health
-DEXA bone density scan, BMD test, osteoporosis screening
+### Bone & Liver Health
+DEXA bone density scan, BMD test, osteoporosis screening, FibroScan, liver elastography, fatty liver assessment
 
-### Liver Diagnostics
-FibroScan, liver elastography, fatty liver assessment, cirrhosis screening, hepatic stiffness test
-
-### Genetic Testing
-NIPT (Non-Invasive Prenatal Testing), karyotype analysis, carrier screening, DNA test, paternity test, molecular diagnostics, cytogenetics
+### Genetic Testing & NIPT Authority Hub
+[NIPT Prenatal Screening](https://www.henoticdiagnostics.com/services/nipt-test) (Basic Trisomies 21/18/13, Comprehensive genome-wide cfDNA, Advanced microdeletion panels), karyotype analysis, carrier screening, clinical exome & genomic sequencing, microbiome diagnostics
 
 ### Health Checkup Packages
-Full body checkup, cardiac health package, diabetes screening package, women's health package, senior citizen package, executive health checkup
+[Full Body Checkup](https://www.henoticdiagnostics.com/services/full-body-check-up), 17 specialized packages from ₹1,650 (Men, Women, Senior Citizen, Cardiac, Diabetes, Executive screenings)
 
-## Service Area Coverage
+## Service Area Coverage ([Full Locations Directory](https://www.henoticdiagnostics.com/locations))
 
-### Navi Mumbai
-Vashi, Sanpada, Juinagar, Nerul, Seawoods, CBD Belapur, Kharghar, Kamothe, Kalamboli, Panvel, New Panvel, Taloja, Ghansoli, Kopar Khairane, Airoli, Turbhe
-
-### Mumbai (Western Line)
-Bandra, Khar, Santacruz, Vile Parle, Andheri, Jogeshwari, Goregaon, Malad, Kandivali, Borivali, Dahisar
-
-### Mumbai (Central Line)
-Dadar, Sion, Kurla, Chembur, Ghatkopar, Vikhroli, Kanjurmarg, Bhandup, Mulund
-
-### South Mumbai
-Colaba, Cuffe Parade, Fort, Churchgate, Marine Lines, Nariman Point, Worli, Parel, Lower Parel, Mahalaxmi, Byculla
+- **Navi Mumbai (84 locations)**: Kharghar (HQ), Vashi, Nerul, Seawoods, CBD Belapur, Sanpada, Juinagar, Kamothe, Kalamboli, Panvel, New Panvel, Ulwe, Taloja, Airoli, Ghansoli, Kopar Khairane, Turbhe
+- **South Mumbai (38 locations)**: Colaba, Fort, Marine Lines, Worli, Parel, Lower Parel, Mahalaxmi, Dadar, Byculla
+- **Western Suburbs (48 locations)**: Bandra, Khar, Santacruz, Vile Parle, Andheri, Jogeshwari, Goregaon, Malad, Kandivali, Borivali, Dahisar, Mira Bhayandar
+- **Central Suburbs (26 locations)**: Sion, Kurla, Ghatkopar, Vikhroli, Kanjurmarg, Bhandup, Mulund
+- **Eastern Suburbs (12 locations)**: Chembur, Govandi, Mankhurd, Trombay, Deonar
+- **Thane (51 locations)**: Thane West, Thane East, Ghodbunder Road, Hiranandani Estate, Majiwada, Kalyan, Dombivli, Ulhasnagar, Ambernath, Bhiwandi
+- **Pune (75 locations)**: Koregaon Park, Baner, Hinjewadi, Kothrud, Viman Nagar, Wakad, Hadapsar, Aundh, Pimpri-Chinchwad
+- **Raigad (19 locations)**: Alibag, Pen, Khopoli, Karjat, Uran, Roha, Mahad
 
 ## Differentiators
 
-1. **24/7 Operations**: One of the few diagnostic centers in Navi Mumbai open round the clock
-2. **Same-Day Reports**: Most imaging and pathology reports delivered within hours
-3. **Advanced Equipment**: 3.0T MRI (highest field strength for clinical imaging) and 128-slice CT
-4. **NABL Accredited**: National Accreditation Board for Testing and Calibration Laboratories
-5. **Affordable Pricing**: Competitive rates with transparent pricing, no hidden charges
-6. **Multi-Location Access**: In-house diagnostics plus certified partner center network across Mumbai
-7. **Digital Reports**: Online report access and WhatsApp delivery
-8. **Walk-in & Online Booking**: No mandatory prior appointment for most tests
+1. **24/7 Operations**: Open round the clock across diagnostic imaging, pathology, and home sample collection
+2. **Same-Day Reports**: 99.4% on-time delivery; routine blood reports in 4–6 hours and imaging within 24 hours
+3. **Advanced Equipment**: 3.0T MRI, 128-slice CT, Digital PET-CT, 4D Ultrasound
+4. **NABL Accredited**: ISO 15189 compliant laboratory precision signed by MD Radiologists and Pathologists
+5. **Affordable Pricing**: 30–50% savings vs corporate hospital charges ([Price Estimator](https://www.henoticdiagnostics.com/pricing))
+6. **Digital & Home Access**: Doorstep sample pickup across 350+ pincodes, WhatsApp delivery, online appointment portal ([Book Now](https://www.henoticdiagnostics.com/booking-system))
 
 ## Frequently Asked Questions
 
 **Q: What services does Henotic Diagnostics offer?**
-A: Henotic Diagnostics provides a complete range of diagnostic services including blood tests, full-body health checkups, advanced imaging (MRI, CT, PET scan, ultrasound), cardiac diagnostics (2D Echo, ECG), women's health screening (mammography, sonography), and genetic testing.
+A: Henotic Diagnostics provides 400+ diagnostic services including blood tests, full-body health checkups (from ₹1,650), advanced imaging (3.0T MRI from ₹4,500, 128-slice CT from ₹4,500, Digital PET-CT from ₹14,500, ultrasound), cardiac diagnostics (2D Echo, ECG), women's health screening (mammography, sonography), and NIPT genetic testing (from ₹10,000).
 
 **Q: Is an MRI scan safe?**
-A: Yes, MRI is a non-invasive and radiation-free imaging technique using magnetic fields and radio waves, making it safe for most patients. It does not use ionizing radiation like X-rays or CT scans.
+A: Yes, MRI is a non-invasive and radiation-free imaging technique using magnetic fields and radio waves, making it safe for most patients without ionizing radiation.
 
 **Q: How long does a CT or MRI scan take?**
-A: CT scans typically take 5–10 minutes, while MRI scans may take 20–45 minutes depending on the body part being examined and whether contrast is needed.
+A: CT scans typically take 5–10 minutes on our 128-slice scanner, while 3.0T MRI scans take 20–45 minutes depending on the body region and contrast protocol.
 
 **Q: Do I need a doctor's prescription for imaging tests?**
-A: Yes, most advanced imaging tests (MRI, CT, PET-CT) require a valid doctor's prescription. Basic tests like blood tests and ECG can often be done without one.
+A: Yes, imaging scans involving radiation or contrast (CT, PET-CT, MRI with contrast) generally require a valid doctor's prescription, while preventive health checkups and routine blood tests can be booked directly.
 
 **Q: How are reports delivered?**
-A: Reports are available digitally through our online portal and can also be sent via WhatsApp. Physical copies are available at our center. Most reports are ready within 24 hours, with many available same-day.
-
-**Q: What should I bring to my appointment?**
-A: Bring your doctor's prescription, previous reports if any, valid photo ID, and any relevant medical history. For specific tests, our team will provide preparation instructions at the time of booking.
+A: Reports are delivered digitally via WhatsApp and email with 99.4% on-time reliability (most blood tests within 4–6 hours, imaging within 24 hours), alongside physical copies at our Kharghar center.

@@ -1,25 +1,24 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ChevronRight, ShieldCheck, MapPin, Award, CheckCircle2 } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import DiagnosticCostEstimator from '@/components/pricing/DiagnosticCostEstimator';
-import { siteConfig } from '@/config/site';
 
 export const revalidate = 86400; // 24 hours ISR
 
 export const metadata: Metadata = {
-  title: 'Diagnostic Test Pricing & Scan Cost Estimator (30–50% Savings) | Henotic Diagnostics',
+  title: 'Diagnostic Test Pricing & Cost Estimator | Henotic',
   description:
-    'Calculate and compare transparent prices for 100+ diagnostic investigations across 3T MRI, 128-Slice CT, PET-CT, Ultrasound, and Pathology blood tests in Mumbai, Navi Mumbai, Thane & Pune. NABL accredited with instant multi-test bundle discounts and free doorstep blood sample collection.',
+    'Compare transparent prices for 125+ MRI, CT, PET-CT, Ultrasound & NABL blood tests in Mumbai & Navi Mumbai. Save 30–50% with free home sample collection.',
   keywords:
     'diagnostic test price list, MRI cost Mumbai, CT scan price Navi Mumbai, PET CT scan charges Kharghar, blood test cost Thane, NABL diagnostic pricing, health package calculator, medical imaging rates',
   alternates: {
     canonical: 'https://www.henoticdiagnostics.com/pricing',
   },
   openGraph: {
-    title: 'Diagnostic Test Pricing & Scan Cost Estimator | Henotic Diagnostics',
+    title: 'Diagnostic Test Pricing & Cost Estimator | Henotic',
     description:
-      'Compare transparent pricing for 100+ diagnostic scans and pathology profiles. Save 30-50% vs corporate hospital rates with NABL accredited quality.',
+      'Compare transparent prices for 125+ MRI, CT, PET-CT, Ultrasound & NABL blood tests in Mumbai & Navi Mumbai. Save 30–50% with free home sample collection.',
     url: 'https://www.henoticdiagnostics.com/pricing',
     type: 'website',
     siteName: 'Henotic Diagnostics',
@@ -28,15 +27,15 @@ export const metadata: Metadata = {
         url: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
         width: 1200,
         height: 630,
-        alt: 'Diagnostic Test Pricing & Scan Cost Estimator | Henotic Diagnostics',
+        alt: 'Diagnostic Test Pricing & Cost Estimator | Henotic Diagnostics',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Diagnostic Test Pricing & Scan Cost Estimator | Henotic Diagnostics',
+    title: 'Diagnostic Test Pricing & Cost Estimator | Henotic',
     description:
-      'Transparent diagnostic investigation pricing with 30-50% savings. Calculate costs for MRI, CT, PET-CT & blood tests in Navi Mumbai & Mumbai.',
+      'Transparent diagnostic pricing with 30–50% savings for MRI, CT, PET-CT & blood tests in Navi Mumbai & Mumbai.',
     images: ['https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp'],
   },
 };
@@ -49,28 +48,6 @@ export default function PricingPage() {
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.henoticdiagnostics.com' },
       { '@type': 'ListItem', position: 2, name: 'Diagnostic Pricing & Cost Estimator', item: 'https://www.henoticdiagnostics.com/pricing' }
     ]
-  };
-
-  const clinicSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'MedicalClinic',
-    name: 'Henotic Diagnostics',
-    url: 'https://www.henoticdiagnostics.com',
-    logo: siteConfig.logoUrl,
-    image: 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp',
-    description: 'Premier NABL-accredited diagnostic imaging and automated pathology center serving Navi Mumbai, Mumbai, Thane, Pune & Raigad.',
-    priceRange: '₹200 - ₹25,500',
-    currenciesAccepted: 'INR',
-    paymentAccepted: 'Cash, Credit Card, Debit Card, UPI, Net Banking, Mediclaim Reimbursement',
-    telephone: siteConfig.contact.phonePrimary,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Second floor, Millennium Empire, Business Park, Plot No 47, D Mart Rd, Sector 15',
-      addressLocality: 'Kharghar',
-      addressRegion: 'Navi Mumbai',
-      postalCode: '410210',
-      addressCountry: 'IN'
-    }
   };
 
   const faqSchema = {
@@ -121,15 +98,11 @@ export default function PricingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
-      {/* Schema Markup */}
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
+      {/* Schema Markup (global #clinic DiagnosticLab emitted by root layout) */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(clinicSchema) }}
       />
       <script
         type="application/ld+json"
@@ -153,6 +126,6 @@ export default function PricingPage() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8">
         <DiagnosticCostEstimator />
       </div>
-    </main>
+    </div>
   );
 }

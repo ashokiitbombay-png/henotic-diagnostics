@@ -211,6 +211,60 @@ export const SERVICE_PRICING: ServicePricing[] = [
   { serviceSlug: 'npt-test-pregnancy', serviceName: 'NPT Test Pregnancy Screening', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
   { serviceSlug: 'pregnancy-test-nipt', serviceName: 'Pregnancy Test NIPT', henoticPrice: 10000, marketPrice: 12500, savings: 20, currency: 'INR', category: 'Genetic Testing' },
   { serviceSlug: 'karyotype-test', serviceName: 'Karyotype Analysis', henoticPrice: 3500, marketPrice: 6000, savings: 42, currency: 'INR', category: 'Genetic Testing' },
+
+  // ────────────────────────────────────
+  // EXPANDED DOPPLER STUDIES (6)
+  // ────────────────────────────────────
+  { serviceSlug: 'arterial-doppler', serviceName: 'Arterial Doppler (Single Limb)', henoticPrice: 2800, marketPrice: 4000, savings: 30, currency: 'INR', category: 'Doppler Studies' },
+  { serviceSlug: 'venous-doppler', serviceName: 'Venous Doppler (Single Limb)', henoticPrice: 2800, marketPrice: 4000, savings: 30, currency: 'INR', category: 'Doppler Studies' },
+  { serviceSlug: 'renal-doppler', serviceName: 'Renal Artery Doppler', henoticPrice: 3000, marketPrice: 4500, savings: 33, currency: 'INR', category: 'Doppler Studies' },
+  { serviceSlug: 'lower-limb-doppler', serviceName: 'Lower Limb Color Doppler', henoticPrice: 3000, marketPrice: 4500, savings: 33, currency: 'INR', category: 'Doppler Studies' },
+  { serviceSlug: 'upper-limb-doppler', serviceName: 'Upper Limb Color Doppler', henoticPrice: 2800, marketPrice: 4000, savings: 30, currency: 'INR', category: 'Doppler Studies' },
+  { serviceSlug: 'dvt-doppler', serviceName: 'DVT Color Doppler Scan', henoticPrice: 2800, marketPrice: 4000, savings: 30, currency: 'INR', category: 'Doppler Studies' },
+
+  // ────────────────────────────────────
+  // EXPANDED WOMEN'S & FERTILITY IMAGING (5)
+  // ────────────────────────────────────
+  { serviceSlug: 'digital-mammography', serviceName: 'Digital Mammography (Bilateral)', henoticPrice: 3000, marketPrice: 4500, savings: 33, currency: 'INR', category: "Women's Imaging" },
+  { serviceSlug: 'sonomammography', serviceName: 'Sonomammography (Breast Ultrasound)', henoticPrice: 2500, marketPrice: 3500, savings: 29, currency: 'INR', category: "Women's Imaging" },
+  { serviceSlug: 'hsg-test', serviceName: 'HSG Test (Hysterosalpingography)', henoticPrice: 3500, marketPrice: 5000, savings: 30, currency: 'INR', category: "Women's Imaging" },
+  { serviceSlug: 'ssg-test', serviceName: 'SSG Test (Sonosalpingography)', henoticPrice: 3000, marketPrice: 4500, savings: 33, currency: 'INR', category: "Women's Imaging" },
+  { serviceSlug: 'fertility-scan', serviceName: 'Pelvic Fertility Ultrasound Scan', henoticPrice: 1800, marketPrice: 2500, savings: 28, currency: 'INR', category: "Women's Imaging" },
+
+  // ────────────────────────────────────
+  // INTERVENTIONAL DIAGNOSTICS (2)
+  // ────────────────────────────────────
+  { serviceSlug: 'guided-fnac', serviceName: 'Ultrasound-Guided FNAC', henoticPrice: 2500, marketPrice: 4000, savings: 38, currency: 'INR', category: 'Interventional Diagnostics' },
+  { serviceSlug: 'guided-biopsy', serviceName: 'Image-Guided Tissue Biopsy', henoticPrice: 5500, marketPrice: 8500, savings: 35, currency: 'INR', category: 'Interventional Diagnostics' },
+
+  // ────────────────────────────────────
+  // UROLOGY & URODYNAMICS (5)
+  // ────────────────────────────────────
+  { serviceSlug: 'uroflowmetry', serviceName: 'Uroflowmetry Test', henoticPrice: 1200, marketPrice: 2000, savings: 40, currency: 'INR', category: 'Urology & Urodynamics' },
+  { serviceSlug: 'urodynamic-study', serviceName: 'Urodynamic Study (UDS)', henoticPrice: 6500, marketPrice: 9500, savings: 32, currency: 'INR', category: 'Urology & Urodynamics' },
+  { serviceSlug: 'complete-urodynamic-study', serviceName: 'Complete Urodynamic Study', henoticPrice: 7500, marketPrice: 11000, savings: 32, currency: 'INR', category: 'Urology & Urodynamics' },
+  { serviceSlug: 'post-void-residual-urine', serviceName: 'Post-Void Residual Urine (PVR) Scan', henoticPrice: 1000, marketPrice: 1600, savings: 38, currency: 'INR', category: 'Urology & Urodynamics' },
+  { serviceSlug: 'cystometry', serviceName: 'Cystometry Study', henoticPrice: 4500, marketPrice: 6500, savings: 31, currency: 'INR', category: 'Urology & Urodynamics' },
+
+  // ────────────────────────────────────
+  // GENOMIC SEQUENCING (8)
+  // ────────────────────────────────────
+  { serviceSlug: 'clinical-exome-sequencing', serviceName: 'Clinical Exome Sequencing (CES)', henoticPrice: 14500, marketPrice: 20000, savings: 28, currency: 'INR', category: 'Genomic Sequencing' },
+  { serviceSlug: 'whole-exome-sequencing', serviceName: 'Whole Exome Sequencing (WES)', henoticPrice: 19500, marketPrice: 28000, savings: 30, currency: 'INR', category: 'Genomic Sequencing' },
+  { serviceSlug: 'whole-genome-sequencing', serviceName: 'Whole Genome Sequencing (WGS)', henoticPrice: 45000, marketPrice: 65000, savings: 31, currency: 'INR', category: 'Genomic Sequencing' },
+  { serviceSlug: 'targeted-gene-panel', serviceName: 'Targeted NGS Gene Panel', henoticPrice: 12500, marketPrice: 18000, savings: 31, currency: 'INR', category: 'Genomic Sequencing' },
+  { serviceSlug: 'chromosomal-microarray', serviceName: 'Chromosomal Microarray (CMA)', henoticPrice: 13500, marketPrice: 19000, savings: 29, currency: 'INR', category: 'Genomic Sequencing' },
+  { serviceSlug: 'carrier-screening', serviceName: 'Genetic Carrier Screening Panel', henoticPrice: 6500, marketPrice: 10000, savings: 35, currency: 'INR', category: 'Genomic Sequencing' },
+  { serviceSlug: 'liquid-biopsy-ngs', serviceName: 'Liquid Biopsy (ctDNA NGS)', henoticPrice: 28500, marketPrice: 40000, savings: 29, currency: 'INR', category: 'Genomic Sequencing' },
+  { serviceSlug: 'metagenomic-sequencing', serviceName: 'Metagenomic Sequencing', henoticPrice: 16500, marketPrice: 24000, savings: 31, currency: 'INR', category: 'Genomic Sequencing' },
+
+  // ────────────────────────────────────
+  // GUT MICROBIOME (4)
+  // ────────────────────────────────────
+  { serviceSlug: 'gut-microbiome-test', serviceName: 'Gut Microbiome Test', henoticPrice: 6500, marketPrice: 9500, savings: 32, currency: 'INR', category: 'Gut Microbiome' },
+  { serviceSlug: 'gut-health-test', serviceName: 'Comprehensive Gut Health Test', henoticPrice: 6500, marketPrice: 9500, savings: 32, currency: 'INR', category: 'Gut Microbiome' },
+  { serviceSlug: 'stool-microbiome-analysis', serviceName: 'Stool Microbiome Analysis', henoticPrice: 7500, marketPrice: 11000, savings: 32, currency: 'INR', category: 'Gut Microbiome' },
+  { serviceSlug: 'microbiome-dna-sequencing', serviceName: 'Microbiome DNA Sequencing (16S/Shotgun)', henoticPrice: 9500, marketPrice: 14000, savings: 32, currency: 'INR', category: 'Gut Microbiome' },
 ];
 
 // ────────────────────────────────────

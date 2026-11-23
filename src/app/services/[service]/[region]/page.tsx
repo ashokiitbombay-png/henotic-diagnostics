@@ -2,6 +2,8 @@ import ServiceHero from '@/components/blocks/ServiceHero';
 import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
 import HealthPackagesSchema from '@/components/health-packages/HealthPackagesSchema';
 import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
+import ClinicalServiceOverview from '@/components/clinical/ClinicalServiceOverview';
+import WordPressRenderer from '@/components/content/WordPressRenderer';
 import { isHealthCheckupService } from '@/config/health-packages';
 import React from "react";
 import { Metadata } from "next";
@@ -14,7 +16,7 @@ import PricingTable from "@/components/blocks/PricingTable";
 import ServiceFAQ from "@/components/blocks/ServiceFAQ";
 import { getFAQsForService } from "@/config/faqs";
 import { REGION_LOCATIONS, REGION_NAMES } from '@/config/locations';
-import { optimizeWordPressHTML, formatSlug } from '@/lib/utils';
+import { formatSlug } from '@/lib/utils';
 import { getService } from '@/lib/wordpress/getService';
 import PartnerCenters from '@/components/blocks/PartnerCenters';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
@@ -48,8 +50,8 @@ export async function generateMetadata({ params }: { params: Promise<{ service: 
   const title = `Best ${serviceName} in ${regionName} | Book Online | Henotic Diagnostics`;
   const isHealth = isHealthCheckupService(resolvedParams.service);
   const description = isHealth
-    ? `Looking for ${serviceName} in ${regionName}? Henotic Diagnostics offers up to 63% off on certified health checkup packages with 24/7 home blood collection across ${regionName}. NABL-accredited pathology & same-day reports.`
-    : `Looking for a reliable ${serviceName} in ${regionName}? Henotic Diagnostics offers highly accurate, NABL-accredited diagnostic services with state-of-the-art technology. Same-day reports available.`;
+    ? `Book ${serviceName} in ${regionName} at up to 63% off. NABL-accredited health checkups with 24/7 home sample collection & same-day digital reports.`
+    : `Book NABL-accredited ${serviceName} in ${regionName} at Henotic Diagnostics. Advanced imaging & pathology with same-day digital reports.`;
 
   return {
     title,
@@ -228,6 +230,7 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
             serviceSlug={resolvedParams.service}
             heading={`${serviceName} Packages`}
             regionName={regionName}
+            regionSlug={resolvedParams.region}
           />
           <HealthPackagesSection 
               key={resolvedParams.service}
@@ -251,11 +254,12 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
           </div>
           
           {wpContent ? (
-            <div 
-              className="wp-content-wrapper text-slate-700 font-medium leading-relaxed"
-              suppressHydrationWarning
-              dangerouslySetInnerHTML={{ __html: optimizeWordPressHTML(wpContent) }} 
-            />
+            <div className="wp-content-wrapper text-slate-700 font-medium leading-relaxed space-y-6">
+              <WordPressRenderer
+                content={wpContent}
+                context={{ serviceName, regionName }}
+              />
+            </div>
           ) : isHealthCheckupService(resolvedParams.service) ? (
             <ClinicalHealthOverview
               serviceSlug={resolvedParams.service}
@@ -263,7 +267,11 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
               regionName={regionName}
             />
           ) : (
-            <p className="text-slate-500 italic text-center py-10">Detailed medical information for this service is being updated.</p>
+            <ClinicalServiceOverview
+              serviceSlug={resolvedParams.service}
+              formattedService={serviceName}
+              regionName={regionName}
+            />
           )}
         </div>
       </section>

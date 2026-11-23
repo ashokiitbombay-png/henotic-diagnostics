@@ -49,7 +49,7 @@ export default function HTMLSitemap() {
   const totalPages = services.length + (services.length * totalLocations) + (services.length * regions.length);
 
   return (
-    <main className="min-h-screen bg-slate-50 mt-[80px] pb-24">
+    <div className="min-h-screen bg-slate-50 mt-[80px] pb-24">
       {/* Hero */}
       <section className="bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-900 py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
@@ -210,6 +210,6 @@ export default function HTMLSitemap() {
         </section>
 
       </div>
-    </main>
+    </div>
   );
 }

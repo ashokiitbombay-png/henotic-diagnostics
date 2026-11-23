@@ -76,11 +76,11 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
 
   // ─── CT SCAN (6 FAQs) ─────────────
   {
-    servicePattern: 'ct-scan|ct-brain|hrct|ct-abdomen|ct-angiography|ct-pulmonary|ct-kub|ct-spine|ct-neck|ct-pns|ct-colonography|ct-enterography|ct-urology|ct-guided|whole-body-ct|contrast-ct|low-dose-ct|lung-cancer-screening|chest-ct|ct-temporal|ct-face|ct-orbit',
+    servicePattern: 'ct-scan|ct-brain|hrct|ct-abdomen|ct-angiography|ct-coronary|ct-pulmonary|ct-kub|ct-spine|ct-neck|ct-pns|ct-colonography|ct-enterography|ct-urology|ct-guided|whole-body-ct|contrast-ct|low-dose-ct|lung-cancer-screening|chest-ct|ct-temporal|ct-face|ct-orbit',
     faqs: [
       {
         question: 'What is the cost of {service} at Henotic Diagnostics {location}?',
-        answer: 'The cost of {service} at Henotic Diagnostics {location} starts from ₹2,000-2,500 for plain scans, which is 40-50% lower than market rates of ₹4,000-6,000. Contrast-enhanced CT scans and specialized studies like CT angiography may have different pricing. We offer transparent, upfront pricing with no hidden fees. Call us or WhatsApp for the exact cost based on your doctor\'s prescription.'
+        answer: 'The cost of {service} at Henotic Diagnostics {location} starts from ₹3,500 for plain scans (such as CT Brain) and ₹4,500 for HRCT Chest (vs typical market rates of ₹4,500-6,500), with CT Abdomen & Pelvis at ₹6,500 and specialized CT Angiography from ₹10,500-15,000. We offer transparent, upfront pricing with no hidden fees. Call or WhatsApp 088793 27184 for an exact quote based on your prescription.'
       },
       {
         question: 'What preparation is needed before a {service}?',
@@ -111,7 +111,7 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
     faqs: [
       {
         question: 'How much does an {service} cost at Henotic Diagnostics {location}?',
-        answer: 'An {service} at Henotic Diagnostics {location} is priced from just ₹800, compared to the market rate of ₹1,200-2,000 — saving you up to 50%. Specialized ultrasounds (whole abdomen, Doppler, guided procedures) may have different pricing. All our ultrasounds are performed by experienced sonologists using high-resolution equipment. Contact us for exact pricing based on your requirement.'
+        answer: 'An {service} at Henotic Diagnostics {location} starts from ₹1,800 for single-part, abdominal, pelvic, and transvaginal scans (vs market rate of ₹2,200-2,500) and ₹2,500 for thyroid or breast ultrasound — saving up to 29%. All ultrasounds are performed by experienced sonologists using high-resolution equipment. Contact us for exact pricing based on your prescription.'
       },
       {
         question: 'What preparation is needed for an {service}?',
@@ -205,7 +205,7 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
     faqs: [
       {
         question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
-        answer: 'The cost of {service} at Henotic Diagnostics {location} starts from ₹1,000 for basic pregnancy scans and goes up to ₹2,500 for advanced scans like fetal echocardiography — all priced 40-50% lower than hospital rates. Our fetal medicine specialist ensures thorough evaluation at every scan. Contact us for exact pricing based on your gestational stage and clinical requirement.'
+        answer: 'At Henotic Diagnostics {location}, Pregnancy Sonography and Fetal Growth Scans start at ₹2,500 (market avg ₹3,500), NT Scan is ₹3,200, Fetal Doppler is ₹3,500, and Anomaly (Level 2) Scans and Fetal Echocardiography are ₹4,500 (market avg ₹5,500). Our fetal medicine specialist ensures thorough evaluation at every stage.'
       },
       {
         question: 'When should I get each pregnancy scan done?',
@@ -232,11 +232,11 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
 
   // ─── CARDIOLOGY (6 FAQs) ──────────
   {
-    servicePattern: 'ecg|electrocardiogram|2d-echo|echo-test|echocardiography|color-echo|stress-echo|dobutamine|tmt-test|stress-test|holter|ambulatory-ecg|ambulatory-bp|bp-monitoring|heart-screening|cardiac-screening|cardiac-risk|cardiac-evaluation|heart-health|cardiac-health',
+    servicePattern: 'ecg|electrocardiogram|2d-echo|echo-test|echocardiography|color-echo|stress-echo|dobutamine|tmt-test|stress-test|holter|ambulatory-ecg|ambulatory-bp|bp-monitoring|heart-screening|cardiac-screening|cardiac-risk|cardiac-evaluation|heart-health|cardiac-health|angiography|angioplasty|tavr|cardiac-catheterization',
     faqs: [
       {
         question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
-        answer: 'The cost of {service} at Henotic Diagnostics {location} is very affordable: ECG starts at ₹200, 2D Echo at ₹1,500, TMT at ₹1,000, and Holter Monitoring at ₹1,500 — all priced 40-50% lower than hospital rates. All cardiac tests are interpreted by qualified cardiologists. Call us for exact pricing or ask about our cardiac health checkup package for comprehensive evaluation.'
+        answer: 'Cardiac diagnostics at Henotic Diagnostics {location} are transparently priced: ECG starts at ₹200, TMT (Treadmill Stress Test) at ₹2,800, 2D Echo at ₹3,000, Stress Echo at ₹3,500, and 24-hour Holter Monitoring at ₹6,500 — saving 24-50% compared to hospital rates. All cardiac tests are interpreted by qualified cardiologists.'
       },
       {
         question: 'What is the difference between ECG, 2D Echo, and TMT?',
@@ -261,13 +261,13 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
     ]
   },
 
-  // ─── PET CT (5 FAQs) ──────────────
+  // ─── PET CT & NUCLEAR MEDICINE (5 FAQs) ──
   {
-    servicePattern: 'pet-scan|pet-ct|pet-cancer|fdg-pet|oncology-pet|cardiac-pet|neurology-pet',
+    servicePattern: 'pet-scan|pet-ct|pet-cancer|fdg-pet|oncology-pet|cardiac-pet|neurology-pet|spect|nuclear-medicine|dtpa-scan|ec-scan|ec-renal-scan|renal-scan|renal-function-scan|mag3-scan|^bone-scan$|bone-scintigraphy|thyroid-scan|thyroid-scintigraphy|thyroid-uptake|parathyroid-scan|gfr-test|myocardial-perfusion|lung-perfusion|gastric-emptying|hepatobiliary|fapi|dota|dopa|psma',
     faqs: [
       {
         question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
-        answer: 'The cost of {service} at Henotic Diagnostics {location} starts from ₹12,000, compared to the market rate of ₹18,000-25,000 at most hospitals — saving you 40-50%. This includes the FDG radiotracer, the scan, and the specialist interpretation. Our PET CT scans are reported by nuclear medicine physicians with 15+ years of experience. Contact us for exact pricing and available appointment slots.'
+        answer: 'At Henotic Diagnostics {location}, nuclear medicine and SPECT studies (Thyroid, Gastric Emptying, Hepatobiliary, DTPA, Renal, and Bone Scans) start from ₹5,500-10,500, Whole Body FDG PET CT is ₹14,500 (market avg ₹16,500), and specialty tracer scans (PSMA, DOTA, FAPI, DOPA PET CT) are ₹25,500 (market avg ₹30,500). Pricing includes the radiotracer, scan, and nuclear medicine specialist report with zero hidden fees.'
       },
       {
         question: 'What preparation is required before a {service}?',
@@ -294,7 +294,7 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
     faqs: [
       {
         question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
-        answer: 'The cost of {service} at Henotic Diagnostics {location} is just ₹1,200, compared to the market rate of ₹2,000-3,000 at hospitals. This includes scanning of the lumbar spine and hip (the two most critical sites for osteoporosis assessment), detailed T-score and Z-score reporting, and interpretation by our specialist. No hidden charges — transparent pricing guaranteed.'
+        answer: 'The cost of {service} at Henotic Diagnostics {location} is ₹4,000, compared to the market rate of ₹6,500 at hospitals — saving 38%. This includes scanning of the lumbar spine and hip (the two most critical sites for osteoporosis assessment), detailed T-score and Z-score reporting, and specialist interpretation with no hidden charges.'
       },
       {
         question: 'Who should get a {service} done?',
@@ -317,7 +317,7 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
     faqs: [
       {
         question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
-        answer: 'The cost of {service} at Henotic Diagnostics {location} is just ₹2,000, compared to ₹3,000-5,000 at most hospitals — saving you over 40%. This includes the full liver stiffness measurement (LSM) and controlled attenuation parameter (CAP) score for fatty liver grading. The scan is performed by a trained hepatologist or radiologist for accurate interpretation.'
+        answer: 'The cost of {service} at Henotic Diagnostics {location} is ₹4,500, compared to ₹5,500 at most hospitals — saving 18%. This includes the full liver stiffness measurement (LSM) and controlled attenuation parameter (CAP) score for fatty liver grading, interpreted by experienced specialists.'
       },
       {
         question: 'What preparation is required before a {service}?',
@@ -330,6 +330,217 @@ export const SERVICE_FAQ_TEMPLATES: ServiceFAQTemplate[] = [
       {
         question: 'Is Fibroscan better than a liver biopsy?',
         answer: 'For most patients, Fibroscan is an excellent non-invasive alternative to liver biopsy: (1) Painless — no needles, no sedation. (2) No risk — no bleeding, infection, or complications. (3) Results in minutes — instant liver stiffness and fat score. (4) Repeatable — can be done periodically to monitor treatment response. (5) Equally accurate — Fibroscan has been validated in numerous clinical studies and correlates well with biopsy results for staging fibrosis. Liver biopsy is only needed in rare, complex cases where Fibroscan findings are inconclusive or a specific histological diagnosis is required. At Henotic Diagnostics {location}, we use the latest FibroScan® (Echosens) device for maximum accuracy.'
+      }
+    ]
+  },
+
+  // ─── COLOR DOPPLER & VASCULAR STUDIES (4 FAQs) ──
+  {
+    servicePattern: 'color-doppler|doppler-scan|arterial-doppler|venous-doppler|vascular-doppler|vascular-color-doppler|carotid-doppler|carotid-artery-doppler|renal-doppler|uterine-artery-doppler|uterine-doppler|umbilical-artery-doppler|middle-cerebral-artery-doppler|lower-limb-doppler|upper-limb-doppler|peripheral-arterial-doppler|venous-insufficiency-scan|deep-vein-thrombosis-scan|dvt-doppler',
+    faqs: [
+      {
+        question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
+        answer: 'At Henotic Diagnostics {location}, Carotid Artery Doppler is priced at ₹1,500 (market avg ₹2,800), Arterial, Venous, Upper Limb, and DVT Color Doppler studies start at ₹2,800 (market avg ₹4,000), and single-part Color Doppler, Renal Artery Doppler, and Lower Limb Doppler are ₹3,000 — saving up to 46% with zero hidden fees.'
+      },
+      {
+        question: 'What preparation is needed before a {service}?',
+        answer: 'Most {service} scans (carotid, upper limb, lower limb, arterial, and venous DVT Doppler) require no fasting or special preparation. For a Renal Artery Doppler or Abdominal Doppler, fasting for 6 hours helps reduce bowel gas for clearer visualization. For pregnancy uterine or umbilical Doppler studies, drink 1-2 glasses of water before your appointment and carry your antenatal records.'
+      },
+      {
+        question: 'What conditions does a {service} detect?',
+        answer: 'A {service} evaluates live blood flow speed and direction through arteries and veins using radiation-free high-frequency ultrasound. It accurately detects deep vein thrombosis (DVT), varicose vein venous insufficiency, peripheral arterial blockages, carotid plaque narrowing, renal artery stenosis, and feto-placental blood flow resistance.'
+      },
+      {
+        question: 'How long does a {service} take and when are reports ready?',
+        answer: 'A {service} typically takes 20-35 minutes depending on whether one or both limbs or multiple vessels are evaluated. Our senior radiologists and sonologists prepare detailed waveform and velocity reports within 1-2 hours, delivered digitally on WhatsApp and email with printed films on request.'
+      }
+    ]
+  },
+
+  // ─── BREAST IMAGING & MAMMOGRAPHY (4 FAQs) ──
+  {
+    servicePattern: 'mammography|sonomammography|breast-imaging|breast-screening|breast-cancer-screening|breast-diagnostics|digital-breast-tomosynthesis|3d-breast-imaging',
+    faqs: [
+      {
+        question: 'How much does {service} cost at Henotic Diagnostics {location}?',
+        answer: 'At Henotic Diagnostics {location}, 3D Mammography (Tomosynthesis) and Bilateral Sonomammography (Breast Ultrasound) are priced at ₹2,500 (market avg ₹3,500-4,500), and Digital Mammography is ₹3,000 (market avg ₹4,500) — saving 29-44%. All scans are interpreted by MD radiologists specialized in women\'s imaging.'
+      },
+      {
+        question: 'Are female radiographers available for {service}?',
+        answer: 'Yes. At Henotic Diagnostics {location}, {service} examinations are performed by trained female technologists in a private, comfortable suite, ensuring utmost dignity and patient ease throughout the scan.'
+      },
+      {
+        question: 'What is the best time and preparation for {service}?',
+        answer: 'For pre-menopausal women, schedule your {service} about one week after your menstrual period ends, when breasts are least tender. On the day of the exam, avoid applying deodorants, antiperspirants, talcum powder, or body lotions under your arms or on your breasts, wear a two-piece outfit, and bring prior mammograms or ultrasound films for comparison.'
+      },
+      {
+        question: 'Does {service} include BI-RADS grading in the report?',
+        answer: 'Yes. Every mammography and sonomammography report includes standardized BI-RADS (Breast Imaging-Reporting and Data System) classification along with detailed density notes and clinical follow-up guidance, delivered within 2-6 hours (or same-day for combined tomosynthesis review).'
+      }
+    ]
+  },
+
+  // ─── WOMEN\'S FERTILITY & REPRODUCTIVE IMAGING (4 FAQs) ──
+  {
+    servicePattern: 'follicular-study|fertility-scan|fertility-assessment|fertility-monitoring|ovulation-study|ovulation-monitoring|reproductive-health-screening|pelvic-scan-for-fertility|hsg-test|ssg-test',
+    faqs: [
+      {
+        question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
+        answer: 'At Henotic Diagnostics {location}, Follicular Study / Ovulation Monitoring starts at ₹600 per visit (market avg ₹1,200), Pelvic Fertility Ultrasound is ₹1,800 (market avg ₹2,500), SSG (Sonosalpingography) is ₹3,000 (market avg ₹4,500), and HSG (Hysterosalpingography) is ₹3,500 (market avg ₹5,000) — saving 28-50%.'
+      },
+      {
+        question: 'When in my menstrual cycle should I schedule a {service}?',
+        answer: 'Cycle timing depends on the investigation: (1) Baseline fertility scans and Antral Follicle Counts (AFC) are typically performed on Day 2 or Day 3 of menstruation. (2) Serial follicular tracking starts around Day 8-10 and repeats every 2-3 days until ovulation. (3) Tubal patency tests like HSG and SSG are best scheduled between Day 7 and Day 11, after bleeding stops and before ovulation.'
+      },
+      {
+        question: 'What is the difference between HSG and SSG tubal patency tests?',
+        answer: 'Both HSG (Hysterosalpingography) and SSG (Sonosalpingography) assess fallopian tube patency and uterine cavity shape. HSG uses low-dose fluoroscopic X-ray imaging with water-soluble contrast media, whereas SSG uses painless saline ultrasound without any ionizing radiation. Your fertility specialist or gynecologist will advise whichever suits your clinical workup.'
+      },
+      {
+        question: 'Are fertility scans conducted privately by female sonologists?',
+        answer: 'Yes. At Henotic Diagnostics {location}, pelvic fertility scans and serial follicular monitoring are performed in dedicated private suites with female staff and experienced reproductive imaging specialists, with rapid WhatsApp reporting to share immediately with your gynecologist or IVF clinic.'
+      }
+    ]
+  },
+
+  // ─── IMAGE-GUIDED BIOPSY & FNAC (4 FAQs) ──
+  {
+    servicePattern: 'guided-fnac|guided-biopsy',
+    faqs: [
+      {
+        question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
+        answer: 'At Henotic Diagnostics {location}, Ultrasound-Guided FNAC is priced at ₹2,500 (market avg ₹4,000, saving 38%), and Image-Guided Core Needle Tissue Biopsy is ₹5,500 (market avg ₹8,500, saving 35%). Charges cover procedural ultrasound/CT guidance and specialist intervention with transparent lab histopathology options.'
+      },
+      {
+        question: 'Is a {service} painful or performed under anesthesia?',
+        answer: 'A {service} is a minimally invasive outpatient procedure performed under local anesthesia (for core needle biopsies) or with fine 23G-25G needles (for FNAC), causing minimal brief discomfort similar to a routine injection. Real-time ultrasound or CT guidance ensures pinpoint needle accuracy on the first pass.'
+      },
+      {
+        question: 'What preparation is required before a {service}?',
+        answer: 'Before an image-guided biopsy or FNAC: (1) Inform our interventional radiologist if you take blood thinners or antiplatelets (aspirin, clopidogrel, warfarin, apixaban), as they may need temporary physician-approved pause. (2) Coagulation profile (PT/INR, platelet count) is advised prior to core biopsy. (3) Carry all prior ultrasound, CT, MRI, or PET-CT scans.'
+      },
+      {
+        question: 'How long do cytopathology or histopathology results take after {service}?',
+        answer: 'Guided FNAC cytology reports are typically ready within 24-48 hours, while Image-Guided Core Biopsy histopathology and immunohistochemistry (IHC) results take 3-5 working days. Digital reports are shared securely via WhatsApp and our online portal.'
+      }
+    ]
+  },
+
+  // ─── GUT MICROBIOME & STOOL SEQUENCING (4 FAQs) ──
+  {
+    servicePattern: 'gut-microbiome|gut-health-test|stool-microbiome|gut-dysbiosis|gut-flora|microbiome-dna-sequencing',
+    faqs: [
+      {
+        question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
+        answer: 'At Henotic Diagnostics {location}, Gut Microbiome and Comprehensive Gut Health tests start at ₹6,500 (market avg ₹9,500), Stool Microbiome Analysis is ₹7,500 (market avg ₹11,000), and full 16S/Shotgun Microbiome DNA Sequencing is ₹9,500 (market avg ₹14,000) — saving 32% with doorstep collection kit delivery.'
+      },
+      {
+        question: 'How is the sample collected for {service} in {location}?',
+        answer: 'Sample collection for {service} is simple, hygienic, and done from the privacy of your home across {location}. We deliver a sterile DNA-stabilizing stool collection kit to your doorstep and arrange cold-chain pickup back to our molecular genomics laboratory.'
+      },
+      {
+        question: 'What does a {service} report tell me about my digestive health?',
+        answer: 'Using next-generation DNA sequencing (16S rRNA or whole shotgun metagenomics), {service} profiles beneficial vs opportunistic gut bacteria, diversity score, dysbiosis index, short-chain fatty acid (SCFA) production potential, and gut inflammation insights to guide targeted probiotic, prebiotic, and dietary plans.'
+      },
+      {
+        question: 'Should I stop probiotics or antibiotics before taking {service}?',
+        answer: 'For the most accurate baseline gut flora profile, avoid antibiotics for 2-4 weeks before sample collection if clinically safe (always consult your prescribing doctor first), and pause non-essential probiotic supplements 3-5 days prior. Reports are delivered digitally within 10-14 working days.'
+      }
+    ]
+  },
+
+  // ─── GENETIC TESTING & GENOMIC SEQUENCING (NGS) (5 FAQs) ──
+  {
+    servicePattern: 'prenatal-test|prenatal-genetic-testing|karyotype-test|chromosomal-analysis|chromosomal-testing|chromosome-analysis|genetic-test|genetic-screening|genetic-counselling|carrier-screening|carrier-testing|dna-test|dna-analysis|paternity-test|relationship-dna-test|molecular-diagnostics|cytogenetics|fertility-genetic|reproductive-genetics|whole-exome-sequencing|whole-genome-sequencing|clinical-exome-sequencing|targeted-gene-panel|next-generation-sequencing|trio-whole-exome|rna-sequencing|transcriptome-sequencing|exome-plus-sequencing|mitochondrial-genome|long-read-genome|copy-number-variation|chromosomal-microarray|whole-transcriptome-sequencing|metagenomic-sequencing|16s-rrna-sequencing|cell-free-dna-sequencing|liquid-biopsy-ngs|somatic-tumor-sequencing|germline-sequencing',
+    faqs: [
+      {
+        question: 'How much does {service} cost at Henotic Diagnostics {location}?',
+        answer: 'At Henotic Diagnostics {location}, Karyotype Analysis starts at ₹3,500, Genetic Carrier Screening is ₹6,500, Targeted NGS Panels are ₹12,500, Chromosomal Microarray (CMA) is ₹13,500, Clinical Exome Sequencing (CES) is ₹14,500, Whole Exome Sequencing (WES) is ₹19,500, Liquid Biopsy NGS is ₹28,500, and Whole Genome Sequencing (WGS) is ₹45,000 — saving 28-42% below hospital reference rates.'
+      },
+      {
+        question: 'What is the difference between Karyotype, Clinical Exome, and Whole Exome Sequencing?',
+        answer: 'Karyotyping examines visible chromosome number and large structural rearrangements (e.g., translocation or Trisomy). Clinical Exome Sequencing (CES) analyzes ~5,000-8,000 genes known to cause inherited human diseases, whereas Whole Exome Sequencing (WES) covers all ~20,000 protein-coding genes for rare, undiagnosed, or complex syndromes. Chromosomal Microarray (CMA) detects sub-microscopic copy number variants (CNVs).'
+      },
+      {
+        question: 'What sample is required and is fasting needed for {service}?',
+        answer: 'Most blood-based {service} panels require only a 4-6 mL peripheral EDTA blood draw (or cheek swab for relationship DNA testing). No fasting is needed — you can eat and drink normally, and we provide free doorstep phlebotomy collection across {location}. Tumor somatic panels use FFPE tissue blocks or plasma for ctDNA liquid biopsy.'
+      },
+      {
+        question: 'Do you provide pre- and post-test genetic counselling?',
+        answer: 'Yes. All complex cytogenetic, hereditary oncology, reproductive carrier, and NGS sequencing tests include expert report interpretation by MD Molecular Pathologists and access to certified genetic counselling so your family and physician can clearly act on ACMG-classified variants.'
+      },
+      {
+        question: 'What is the turnaround time for {service} reports?',
+        answer: 'Targeted PCR and cytogenetic Karyotype reports typically take 7-14 days, Chromosomal Microarray takes 10-14 days, and Clinical Exome, Whole Exome, Whole Genome, or Liquid Biopsy NGS reports are finalized within 2-4 weeks depending on trio analysis and bioinformatics validation.'
+      }
+    ]
+  },
+
+  // ─── UROLOGY & URODYNAMICS (4 FAQs) ──
+  {
+    servicePattern: 'uroflowmetry|urodynamic-study|complete-urodynamic-study|video-urodynamic-study|cystometry|pressure-flow-study|post-void-residual-urine|urethral-pressure-profile|leak-point-pressure-test|pelvic-floor-electromyography',
+    faqs: [
+      {
+        question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
+        answer: 'At Henotic Diagnostics {location}, Post-Void Residual Urine (PVR) ultrasound is ₹1,000 (market avg ₹1,600), Uroflowmetry is ₹1,200 (market avg ₹2,000), Cystometry is ₹4,500 (market avg ₹6,500), and Complete Urodynamic Study (UDS) is ₹6,500-7,500 (market avg ₹9,500-11,000) — saving 31-40% with sterile single-use consumables.'
+      },
+      {
+        question: 'What preparation is needed before a {service}?',
+        answer: 'For Uroflowmetry and Post-Void Residual Urine (PVR) scans, arrive with a comfortably full bladder (drink 3-4 glasses of water 45-60 minutes prior without straining). For multi-channel Urodynamics or Cystometry, carry a recent negative urine culture report (within 7 days) and your urologist\'s prescription.'
+      },
+      {
+        question: 'Is a {service} painful or invasive?',
+        answer: 'Uroflowmetry and PVR ultrasound are 100% non-invasive and painless — you simply urinate naturally into a calibrated flow sensor funnel followed by a quick abdominal ultrasound. Cystometry and full urodynamic studies use ultra-thin sterile catheters lubricated with numbing gel for minimal mild discomfort.'
+      },
+      {
+        question: 'How long does the test take and when are results ready?',
+        answer: 'Standalone Uroflowmetry + PVR takes 15-20 minutes, while Complete Urodynamic Studies take 45-60 minutes. Flow curves, detrusor pressure traces, and specialist reports are generated promptly on the same day.'
+      }
+    ]
+  },
+
+  // ─── PREVENTIVE HEALTH CHECKUPS & SCREENING PACKAGES (4 FAQs) ──
+  {
+    servicePattern: 'health-checkup|full-body-check-up|health-screening|wellness-screening|cancer-screening',
+    faqs: [
+      {
+        question: 'How much does a {service} cost at Henotic Diagnostics {location}?',
+        answer: 'Preventive {service} plans at Henotic Diagnostics {location} start from affordable baseline panels at ₹999-1,499 up to comprehensive executive, cardiac, senior citizen, women\'s wellness, and diabetes screening packages — bundled at 40-50% savings compared to ordering individual blood and imaging tests separately.'
+      },
+      {
+        question: 'What tests are included in a {service}?',
+        answer: 'Packages typically combine Complete Blood Count (CBC), Fasting Blood Sugar & HbA1c, Lipid Profile, Liver Function (LFT), Kidney Function (KFT), Thyroid Profile (T3/T4/TSH), Vitamin D & B12, Urine Routine, and targeted add-ons such as ECG, 2D Echo, Ultrasound Abdomen, or tumor markers based on age and gender.'
+      },
+      {
+        question: 'How should I prepare and can samples be collected at home in {location}?',
+        answer: 'Fast for 10-12 hours overnight (plain water allowed) prior to morning sample collection so lipid and fasting glucose readings remain accurate. Free doorstep home sample collection is available across {location} from 6:00 AM daily, with in-center slots for ECG, ultrasound, or imaging add-ons.'
+      },
+      {
+        question: 'How quickly are preventive {service} reports delivered?',
+        answer: 'Routine pathology blood and urine panels inside your {service} are verified by MD Pathologists and delivered digitally via WhatsApp, email, and the patient portal within 6-12 hours, with same-day physician guidance on key risk markers.'
+      }
+    ]
+  },
+
+  // ─── DIAGNOSTIC CENTERS, IMAGING & PATHOLOGY HUBS (4 FAQs) ──
+  {
+    servicePattern: 'diagnostic-center|medical-imaging-center|radiology-center|pathology-lab|diagnostic-lab|diagnostic-services|medical-diagnostics|diagnostic-imaging|medical-imaging|radiology-services',
+    faqs: [
+      {
+        question: 'What tests and scans are available under {service} in {location}?',
+        answer: 'Henotic Diagnostics serving {location} brings high-field MRI, 128-slice CT, PET-CT & Nuclear Medicine, 4D/3D Ultrasound & Color Doppler, Digital Mammography, ECG/2D Echo/TMT/Holter, DEXA Bone Scan, Fibroscan, Urodynamics, and NABL-certified Pathology & NGS Genomics under one integrated diagnostic network.'
+      },
+      {
+        question: 'How much can patients save at Henotic Diagnostics {location}?',
+        answer: 'Patients save 20-50% across MRI, CT, PET-CT, Ultrasound, and Pathology compared to private hospital tariffs — starting from ₹200 for ECG, ₹250 for CBC, ₹1,800 for Ultrasound, ₹3,500 for CT Brain, ₹4,500 for MRI Scan, and ₹14,500 for Whole Body FDG PET-CT — with cashless TPA/insurance assistance where eligible.'
+      },
+      {
+        question: 'Are your labs and imaging modalities NABL, ISO, and AERB certified?',
+        answer: 'Yes. Our diagnostic operations follow NABL and ISO 9001:2015 laboratory quality protocols with Bio-Rad/CMC Vellore EQAS participation, AERB radiation safety compliance, PCPNDT registration for prenatal scans, and 24/7 operation including Sundays and public holidays.'
+      },
+      {
+        question: 'Does Henotic Diagnostics {location} provide free home collection and rapid reports?',
+        answer: 'Yes. Doorstep blood, urine, and microbiome sample collection is available across {location} for pathology and genetic tests, with routine blood and ultrasound reports delivered in 2-6 hours directly on WhatsApp, email, and our patient portal.'
       }
     ]
   }

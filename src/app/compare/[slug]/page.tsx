@@ -171,7 +171,7 @@ export default async function ComparisonPage({
                 Overview
               </h2>
             </div>
-            <p className="text-slate-600 text-lg leading-relaxed font-medium">
+            <p id="quick-answer" className="text-slate-600 text-lg leading-relaxed font-medium">
               {comparison.overview}
             </p>
           </div>

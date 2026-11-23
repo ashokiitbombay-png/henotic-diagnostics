@@ -44,7 +44,7 @@ export default function ConditionsIndexPage() {
   })).filter(g => g.conditions.length > 0);
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       {/* Hero */}
       <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-[#1e1b4b] py-20 px-4 md:px-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#E55D87] rounded-full mix-blend-screen filter blur-[120px] opacity-15"></div>
@@ -92,6 +92,6 @@ export default function ConditionsIndexPage() {
           })}
         </div>
       </section>
-    </main>
+    </div>
   );
 }

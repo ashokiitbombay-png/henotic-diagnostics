@@ -65,4 +65,23 @@ describe('normalizeWordPressHtml', () => {
     expect(result).toContain('href="https://maps.google.com/?cid=123"');
     expect(result).toContain('href="tel:08879327184"');
   });
+
+  it('downgrades embedded WordPress <h1> tags to <h2> so pages keep a single hero <h1>', () => {
+    const input = `
+      <h1>CBC Test Overview</h1>
+      <h1 class="wp-block-heading">Clinical Notes</h1>
+      <p>Sample paragraph</p>
+    `;
+    const result = normalizeWordPressHtml(input);
+    expect(result).not.toMatch(/<h1[\s>]/i);
+    expect(result).not.toMatch(/<\/h1>/i);
+    expect(result).toContain('<h2>CBC Test Overview</h2>');
+    expect(result).toContain('<h2 class="wp-block-heading">Clinical Notes</h2>');
+  });
+
+  it('converts embedded <main> wrappers into <div> so layout.tsx keeps a single <main> landmark', () => {
+    const result = normalizeWordPressHtml('<main class="wp-content"><p>Scan</p></main>');
+    expect(result).toBe('<div class="wp-content"><p>Scan</p></div>');
+    expect(result).not.toMatch(/<\/?main[\s>]/i);
+  });
 });

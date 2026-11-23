@@ -74,7 +74,7 @@ export default function HealthCheckupAuthorityPage({ data }: { data: HealthCheck
   const minPrice = Math.min(...(featured.length ? featured : packages).map((p) => p.offerPrice));
 
   return (
-    <main
+    <div
       className="min-h-screen text-gray-900 font-sans antialiased selection:bg-purple-200 mt-[80px]"
       style={{ background: PAGE_BACKGROUND }}
       data-content-source={`page:${data.source.page};packages:${data.source.packages};trust:${data.source.trust}`}
@@ -113,6 +113,6 @@ export default function HealthCheckupAuthorityPage({ data }: { data: HealthCheck
           </time>
         </p>
       </div>
-    </main>
+    </div>
   );
 }

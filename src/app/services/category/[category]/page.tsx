@@ -2,9 +2,10 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown, HelpCircle } from 'lucide-react';
 import { SERVICE_CATEGORIES, getCategoryById } from '@/config/categories';
 import { getHeroImageForService } from '@/config/services';
+import { buildCategoryFAQs, truncateMeta } from '@/lib/seo/aeo-helpers';
 
 const formatText = (t: string) => t.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
@@ -13,18 +14,22 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const { category } = await params;
   const cat = getCategoryById(category);
-  const title = cat?.title || formatText(category);
-  const description = cat?.description || `Browse all ${title} diagnostic services at Henotic Diagnostics.`;
+  const rawTitle = cat?.title || formatText(category);
+  const pageTitle = truncateMeta(`${rawTitle} Services | Henotic Diagnostics`, 60);
+  const description = truncateMeta(
+    cat?.description || `Browse NABL-accredited ${rawTitle} diagnostic tests and imaging at Henotic Diagnostics with same-day digital reports.`,
+    155
+  );
   const heroImage = cat?.services?.[0]
     ? getHeroImageForService(cat.services[0])
     : 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
 
   return {
-    title: `${title} Services | Henotic Diagnostics`,
+    title: pageTitle,
     description,
     alternates: { canonical: `https://www.henoticdiagnostics.com/services/category/${category}` },
     openGraph: {
-      title: `${title} Services | Henotic Diagnostics`,
+      title: pageTitle,
       description,
       url: `https://www.henoticdiagnostics.com/services/category/${category}`,
       type: 'website',
@@ -32,12 +37,12 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
         url: heroImage,
         width: 1200,
         height: 630,
-        alt: `${title} Services — Henotic Diagnostics`,
+        alt: `${rawTitle} Services — Henotic Diagnostics`,
       }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} Services | Henotic Diagnostics`,
+      title: pageTitle,
       description,
       images: [heroImage],
     },
@@ -83,17 +88,34 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       height: 630
     },
     image: [heroImage],
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '#quick-answer'],
+    },
     publisher: {
-      '@type': 'Organization',
-      name: 'Henotic Diagnostics',
-      url: 'https://www.henoticdiagnostics.com'
-    }
+      '@id': 'https://www.henoticdiagnostics.com/#organization',
+    },
+  };
+
+  const categoryFaqs = buildCategoryFAQs(cat);
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: categoryFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
   };
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* Hero */}
       <section className="bg-gradient-to-r from-blue-950 to-[#1e1b4b] py-20 px-4 md:px-8 relative overflow-hidden">
@@ -105,7 +127,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           <h1 className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight">
             {cat.title}
           </h1>
-          <p className="text-lg text-blue-100 font-medium max-w-2xl mx-auto">{cat.description}</p>
+          <p id="quick-answer" className="text-lg text-blue-100 font-medium max-w-2xl mx-auto">{cat.description}</p>
           <p className="text-sm text-blue-300 font-bold mt-4">{cat.services.length} Services Available</p>
         </div>
       </section>
@@ -123,6 +145,37 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                 </div>
                 <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-500 shrink-0 transition-colors" />
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Category FAQs (Synced with FAQPage JSON-LD) */}
+      <section className="pb-20 px-4 md:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-extrabold uppercase tracking-widest mb-3">
+              <HelpCircle size={14} /> Category FAQs
+            </span>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900">
+              Frequently Asked Questions — {cat.title}
+            </h2>
+          </div>
+          <div className="space-y-3">
+            {categoryFaqs.map((faq, idx) => (
+              <details
+                key={idx}
+                open={idx === 0}
+                className="group bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden"
+              >
+                <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer font-bold text-slate-800 list-none select-none">
+                  <span>{faq.question}</span>
+                  <ChevronDown size={18} className="shrink-0 text-slate-400 group-open:rotate-180 transition-transform" />
+                </summary>
+                <div className="px-5 pb-5 text-sm text-slate-600 font-medium leading-relaxed border-t border-slate-100 pt-3">
+                  {faq.answer}
+                </div>
+              </details>
             ))}
           </div>
         </div>

@@ -74,7 +74,7 @@ const CATEGORIES = [
 
 export default function ComparisonsListingPage() {
   return (
-    <main className="min-h-screen font-sans mt-[80px]">
+    <div className="min-h-screen font-sans mt-[80px]">
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-[#1e1b4b] py-20 md:py-28 px-4 md:px-8">
         {/* Decorative orbs */}
@@ -293,6 +293,6 @@ export default function ComparisonsListingPage() {
           }),
         }}
       />
-    </main>
+    </div>
   );
 }

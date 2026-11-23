@@ -6,6 +6,17 @@ interface HealthPackagesSchemaProps {
   heading: string;
   regionName?: string;
   locationName?: string;
+  regionSlug?: string;
+  locationSlug?: string;
+}
+
+function toUrlSlug(value?: string): string {
+  if (!value) return '';
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 export default function HealthPackagesSchema({
@@ -13,12 +24,18 @@ export default function HealthPackagesSchema({
   heading,
   regionName,
   locationName,
+  regionSlug,
+  locationSlug,
 }: HealthPackagesSchemaProps) {
+  const cleanService = toUrlSlug(serviceSlug);
+  const cleanRegion = toUrlSlug(regionSlug || regionName);
+  const cleanLocation = toUrlSlug(locationSlug || locationName);
+
   const pageUrl = [
     'https://www.henoticdiagnostics.com/services',
-    serviceSlug,
-    regionName,
-    locationName,
+    cleanService,
+    cleanRegion,
+    cleanLocation,
   ].filter(Boolean).join('/');
 
   const schemaData = {
@@ -44,10 +61,7 @@ export default function HealthPackagesSchema({
           url: pageUrl,
           priceValidUntil: '2027-12-31',
           seller: {
-            '@type': 'DiagnosticLab',
-            name: 'Henotic Diagnostics',
-            telephone: '+918879327184',
-            url: 'https://www.henoticdiagnostics.com',
+            '@id': 'https://www.henoticdiagnostics.com/#clinic',
           },
         },
       },

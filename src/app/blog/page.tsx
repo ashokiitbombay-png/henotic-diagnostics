@@ -63,7 +63,7 @@ export default async function BlogPage() {
   };
 
   return (
-    <main className="min-h-screen font-sans mt-[80px]">
+    <div className="min-h-screen font-sans mt-[80px]">
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "/" },
@@ -163,6 +163,6 @@ export default async function BlogPage() {
           </p>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

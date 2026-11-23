@@ -67,12 +67,6 @@
     <priority>0.70</priority>
   </url>
   <url>
-    <loc>https://www.henoticdiagnostics.com/disclaimers</loc>
-    <lastmod>2026-11-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
-  </url>
-  <url>
     <loc>https://www.henoticdiagnostics.com/grievance-policy</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -85,19 +79,7 @@
     <priority>0.70</priority>
   </url>
   <url>
-    <loc>https://www.henoticdiagnostics.com/refund-returns</loc>
-    <lastmod>2026-11-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
-  </url>
-  <url>
     <loc>https://www.henoticdiagnostics.com/refund-policy</loc>
-    <lastmod>2026-11-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
-  </url>
-  <url>
-    <loc>https://www.henoticdiagnostics.com/return-policy</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>

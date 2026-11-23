@@ -28,6 +28,7 @@ import {
 } from "@/config/blog-articles";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import type { BlogPost } from "@/types/cms";
+import { truncateMeta } from "@/lib/seo/aeo-helpers";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -94,12 +95,13 @@ export async function generateMetadata({
     };
   }
 
-  const description = stripHtml(post.excerpt).slice(0, 160);
+  const description = truncateMeta(stripHtml(post.excerpt), 155);
+  const pageTitle = `${truncateMeta(post.title, 48)} | Henotic`;
   const postImageUrl = getBlogImageUrl(post);
   const authorName = post.author?.node?.name ?? "Henotic Medical Faculty";
 
   return {
-    title: `${post.title} | Henotic Diagnostics`,
+    title: pageTitle,
     description,
     alternates: {
       canonical: `https://www.henoticdiagnostics.com/blog/${post.slug}`,
@@ -174,15 +176,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const medicalSpecialty = fullStatic?.medicalSpecialty;
   const relatedServiceSlug = fullStatic?.relatedServiceSlug;
 
+  const articleSummary = stripHtml(post.excerpt);
+
   // ── Structured Data: MedicalScholarlyArticle & MedicalWebPage ──────────
   const medicalArticleSchema = {
     "@context": "https://schema.org",
     "@type": "MedicalScholarlyArticle",
     headline: post.title,
-    description: stripHtml(post.excerpt).slice(0, 160),
+    description: truncateMeta(articleSummary, 155),
     image: postImageUrl,
     datePublished: post.date,
     dateModified: ("modified" in post && post.modified) ? (post as StaticBlogArticle).modified : post.date,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "#quick-answer"],
+    },
     author: {
       "@type": "Physician",
       name: authorName,
@@ -240,7 +248,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   } : null;
 
   return (
-    <main className="min-h-screen font-sans mt-[80px]">
+    <div className="min-h-screen font-sans mt-[80px]">
       {/* ── Structured Data ──────────────────────────────────────────── */}
       <BreadcrumbSchema
         items={[
@@ -379,6 +387,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 className="object-cover"
               />
             </div>
+
+            {/* AEO Quick Answer Key Takeaways */}
+            {articleSummary && (
+              <div id="quick-answer" className="mb-8 p-6 bg-blue-50/70 rounded-2xl border border-blue-200/70 shadow-sm">
+                <p className="text-xs font-black uppercase tracking-widest text-blue-700 mb-2">
+                  Clinical Key Summary
+                </p>
+                <p className="text-slate-700 font-medium leading-relaxed text-sm sm:text-base">
+                  {articleSummary}
+                </p>
+              </div>
+            )}
 
             {/* Quick Clinical Highlights / Table of Contents */}
             {tableOfContents && tableOfContents.length > 0 && (
@@ -638,6 +658,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </aside>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

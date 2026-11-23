@@ -2,15 +2,35 @@ import { REGION_NAMES, getLocationBySlug, REAL_LOCATION_REVIEWS } from '@/config
 import { getPricingForService } from '@/config/pricing';
 import { getFAQsForService } from '@/config/faqs';
 import { getConditionById } from '@/config/conditions';
-import { getDoctorById } from '@/config/doctors';
+import { DOCTORS, getDoctorById, getDoctorsForService } from '@/config/doctors';
 import { getComparisonBySlug } from '@/config/comparisons';
 import { getHeroImageForService } from '@/config/services';
+import { buildLocationFAQs } from '@/lib/seo/location-faqs';
+import { buildConditionFAQs } from '@/lib/seo/aeo-helpers';
 
 const BASE_URL = 'https://www.henoticdiagnostics.com';
+export const SCHEMA_LAST_REVIEWED = '2026-11-22';
+
+const CLINIC_REF = { '@id': `${BASE_URL}/#clinic` };
+const ORG_REF = { '@id': `${BASE_URL}/#organization` };
+
+function buildReviewedBy(serviceSlug?: string) {
+  const doc = (serviceSlug ? getDoctorsForService(serviceSlug)[0] : undefined) || DOCTORS[0];
+  return {
+    '@type': 'Physician',
+    '@id': `${BASE_URL}/doctors/${doc.id}#doctor`,
+    name: doc.name,
+    jobTitle: doc.designation,
+    description: doc.credentials,
+    url: `${BASE_URL}/doctors/${doc.id}`,
+    worksFor: ORG_REF,
+  };
+}
 
 // ── Medical Organization Shared Entity ────────────────────────────────────
+// Aligned 1:1 with root MedicalClinicSchema (#clinic, DiagnosticLab, 24/7)
 export const HENOTIC_MEDICAL_ORGANIZATION = {
-  '@type': 'MedicalBusiness',
+  '@type': 'DiagnosticLab',
   '@id': `${BASE_URL}/#clinic`,
   name: 'Henotic Diagnostics',
   alternateName: 'Henotic Diagnostic Center Kharghar',
@@ -52,8 +72,8 @@ export const HENOTIC_MEDICAL_ORGANIZATION = {
         'Saturday',
         'Sunday'
       ],
-      opens: '07:00',
-      closes: '21:00'
+      opens: '00:00',
+      closes: '23:59'
     }
   ]
 };
@@ -65,15 +85,35 @@ export function extractWpMetadata(wpContent?: string): {
 } {
   if (!wpContent || typeof wpContent !== 'string') return {};
 
-  const cleanText = wpContent.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-  const summary = cleanText.slice(0, 250);
+  const sanitizedHtml = wpContent
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi, ' ')
+    .replace(/<meta\b[^>]*\/?>/gi, ' ');
 
-  let howMatch = wpContent.match(/(?:procedure|how it is done|during the test):?[\s\S]*?(?:<\/p>|<\/li>)/i);
-  let howText = howMatch ? howMatch[0].replace(/<[^>]*>/g, '').trim() : undefined;
+  const decodeEntities = (input: string) =>
+    input
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&amp;/gi, '&')
+      .replace(/&#8217;|&rsquo;|&#39;/gi, "'")
+      .replace(/&lsquo;/gi, "'")
+      .replace(/&quot;/gi, '"')
+      .replace(/&ndash;|&mdash;/gi, '-');
+
+  const cleanText = decodeEntities(sanitizedHtml.replace(/<[^>]*>/g, ' '))
+    .replace(/\s+/g, ' ')
+    .trim();
+  const summary = cleanText.slice(0, 250).trim();
+
+  const howMatch = sanitizedHtml.match(/(?:procedure|how it is done|during the test):?[\s\S]*?(?:<\/p>|<\/li>)/i);
+  const howText = howMatch
+    ? decodeEntities(howMatch[0].replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim()
+    : undefined;
 
   return {
     cleanSummary: summary.length > 30 ? summary : undefined,
-    howPerformedText: howText
+    howPerformedText: howText && howText.length > 10 ? howText : undefined,
   };
 }
 
@@ -107,8 +147,11 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
 
   // Formulate location string
   const regionName = regionSlug ? REGION_NAMES[regionSlug] || regionSlug : '';
-  const formattedLocation = locationSlug 
-    ? `${locationSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}, ${regionName}`
+  const locationNameOnly = locationSlug
+    ? locationSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    : '';
+  const formattedLocation = locationNameOnly
+    ? `${locationNameOnly}, ${regionName}`
     : regionName || 'Mumbai & Navi Mumbai';
 
   const pageUrl = locationSlug
@@ -119,7 +162,27 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
 
   const bodyLocation = inferBodyLocation(serviceSlug);
   const pricingData = getPricingForService(serviceSlug);
-  const faqs = getFAQsForService(serviceSlug, serviceName);
+  const serviceFaqs = getFAQsForService(serviceSlug, serviceName, locationNameOnly || undefined);
+  const combinedFaqs = locationSlug
+    ? [
+        ...serviceFaqs,
+        ...buildLocationFAQs({
+          serviceName,
+          serviceSlug,
+          locationName: locationNameOnly,
+          regionName: regionName || 'Navi Mumbai',
+          price: pricingData?.henoticPrice,
+        }),
+      ]
+    : serviceFaqs;
+
+  const seenFaqQuestions = new Set<string>();
+  const faqs = combinedFaqs.filter((item) => {
+    const key = item.question.trim().toLowerCase();
+    if (seenFaqQuestions.has(key)) return false;
+    seenFaqQuestions.add(key);
+    return true;
+  });
 
   // 1A. DiagnosticProcedure Schema
   const diagnosticProcedureSchema: Record<string, unknown> = {
@@ -141,14 +204,15 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
         availability: 'https://schema.org/InStock',
         url: pageUrl,
         validFrom: '2026-01-01',
-        seller: HENOTIC_MEDICAL_ORGANIZATION
+        seller: CLINIC_REF
       }
     } : {}),
-    provider: HENOTIC_MEDICAL_ORGANIZATION
+    provider: CLINIC_REF
   };
 
-  // 1B. MedicalWebPage Schema — with primaryImageOfPage for SERP thumbnails
+  // 1B. MedicalWebPage Schema — with primaryImageOfPage & E-E-A-T reviewer metadata
   const heroImageUrl = getHeroImageForService(serviceSlug);
+  const reviewedBy = buildReviewedBy(serviceSlug);
   const medicalWebPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'MedicalWebPage',
@@ -156,8 +220,6 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     name: `${serviceName} in ${formattedLocation} | Henotic Diagnostics`,
     description: `Book ${serviceName} in ${formattedLocation}. Top NABL accredited diagnostic center with 3.0T MRI, 128-Slice CT, 4D Ultrasound, and Pathology.`,
     url: pageUrl,
-    // Google SERP thumbnail: primaryImageOfPage is the schema.org signal
-    // that tells Google which image to use as the page thumbnail
     primaryImageOfPage: {
       '@type': 'ImageObject',
       url: heroImageUrl,
@@ -167,7 +229,13 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
       height: 630
     },
     image: [heroImageUrl],
-    dateModified: '2026-10-31',
+    dateModified: SCHEMA_LAST_REVIEWED,
+    lastReviewed: SCHEMA_LAST_REVIEWED,
+    reviewedBy,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '#quick-answer'],
+    },
     aspect: 'Diagnosis',
     medicalAudience: {
       '@type': 'MedicalAudience',
@@ -176,8 +244,8 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     about: {
       '@id': `${pageUrl}#procedure`
     },
-    publisher: HENOTIC_MEDICAL_ORGANIZATION,
-    author: HENOTIC_MEDICAL_ORGANIZATION
+    publisher: ORG_REF,
+    author: ORG_REF
   };
 
   // 1C. BreadcrumbList Schema
@@ -281,11 +349,18 @@ export function generateConditionSchema(conditionId: string) {
       height: 630
     },
     image: [condHeroImage],
+    dateModified: SCHEMA_LAST_REVIEWED,
+    lastReviewed: SCHEMA_LAST_REVIEWED,
+    reviewedBy: buildReviewedBy(condition.recommendedServices?.[0]),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '#quick-answer'],
+    },
     aspect: 'Diagnosis',
     about: {
       '@id': `${pageUrl}#condition`
     },
-    publisher: HENOTIC_MEDICAL_ORGANIZATION
+    publisher: ORG_REF
   };
 
   const breadcrumbSchema = {
@@ -298,10 +373,25 @@ export function generateConditionSchema(conditionId: string) {
     ]
   };
 
+  const conditionFaqs = buildConditionFAQs(condition);
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: conditionFaqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
   return {
     medicalConditionSchema,
     medicalWebPageSchema,
-    breadcrumbSchema
+    breadcrumbSchema,
+    faqSchema,
   };
 }
 
@@ -323,8 +413,8 @@ export function generateDoctorSchema(doctorId: string) {
     medicalSpecialty: doctor.specializations,
     alumniOf: doctor.education,
     memberOf: doctor.memberships,
-    worksFor: HENOTIC_MEDICAL_ORGANIZATION,
-    hospitalAffiliation: HENOTIC_MEDICAL_ORGANIZATION
+    worksFor: ORG_REF,
+    hospitalAffiliation: CLINIC_REF
   };
 
   const medicalWebPageSchema = {
@@ -343,8 +433,10 @@ export function generateDoctorSchema(doctorId: string) {
       height: 630
     },
     image: [docHeroImage],
+    dateModified: SCHEMA_LAST_REVIEWED,
+    lastReviewed: SCHEMA_LAST_REVIEWED,
     about: { '@id': `${pageUrl}#doctor` },
-    publisher: HENOTIC_MEDICAL_ORGANIZATION
+    publisher: ORG_REF
   };
 
   const breadcrumbSchema = {
@@ -388,6 +480,13 @@ export function generateComparisonSchema(slug: string) {
       height: 630
     },
     image: [compHeroImage],
+    dateModified: SCHEMA_LAST_REVIEWED,
+    lastReviewed: SCHEMA_LAST_REVIEWED,
+    reviewedBy: buildReviewedBy(comparison.serviceA.slug),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '#quick-answer'],
+    },
     aspect: 'Diagnosis',
     about: [
       {
@@ -401,7 +500,7 @@ export function generateComparisonSchema(slug: string) {
         description: comparison.overview
       }
     ],
-    publisher: HENOTIC_MEDICAL_ORGANIZATION
+    publisher: ORG_REF
   };
 
   const breadcrumbSchema = {
@@ -556,14 +655,10 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
         availability: 'https://schema.org/InStock',
         priceValidUntil: '2027-12-31',
         url: pageUrl,
-        seller: {
-          '@type': 'MedicalBusiness',
-          name: 'Henotic Diagnostics',
-          '@id': `${BASE_URL}/#clinic`
-        }
+        seller: CLINIC_REF
       }
     } : {}),
-    provider: HENOTIC_MEDICAL_ORGANIZATION
+    provider: CLINIC_REF
   };
 
   return medicalTestSchema;
@@ -659,11 +754,7 @@ export function generateLocationClinicSchema(params: LocationClinicParams) {
       name: serviceName || serviceSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
       url: `${BASE_URL}/services/${serviceSlug}`
     } : undefined,
-    parentOrganization: {
-      '@type': 'MedicalBusiness',
-      name: 'Henotic Diagnostics',
-      '@id': `${BASE_URL}/#clinic`
-    }
+    parentOrganization: ORG_REF
   };
 
   return medicalClinicSchema;

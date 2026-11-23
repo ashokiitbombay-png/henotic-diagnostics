@@ -1,11 +1,12 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { MapPin, ArrowRight, Clock, Shield, Stethoscope, Phone, Building2, ChevronRight } from 'lucide-react';
+import { MapPin, ArrowRight, Clock, Shield, Stethoscope, Phone, Building2, ChevronRight, ChevronDown, HelpCircle } from 'lucide-react';
 import { CITIES, getCityBySlug, SERVICE_ICONS } from '@/config/cities';
 import { REGION_LOCATIONS, REGION_NAMES, getLocationBySlug } from '@/config/locations';
 import { services } from '@/config/services';
 import { notFound } from 'next/navigation';
+import { buildCityFAQs, truncateMeta } from '@/lib/seo/aeo-helpers';
 
 export const revalidate = 604800; // 7 days cache revalidation
 
@@ -24,11 +25,14 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
   const city = getCityBySlug(citySlug);
   if (!city) notFound();
 
-  const title = `Diagnostic Services in ${city.name} | MRI, CT, PET-CT, Pathology | Henotic Diagnostics`;
-  const description = `Book ${city.name}'s best diagnostic services — MRI, CT Scan, PET-CT, Ultrasound, Blood Tests & Health Checkups. NABL accredited, same-day reports, 340+ tests available.`;
+  const title = truncateMeta(`Diagnostic Services in ${city.name} | Henotic`, 60);
+  const description = truncateMeta(
+    `Book NABL-accredited MRI, CT, PET-CT, Ultrasound & blood tests in ${city.name}. ${services.length}+ tests, 30-50% savings & same-day digital reports.`,
+    155
+  );
 
   const heroImage = 'https://cdn.henoticdiagnostics.com/Hero%20Image/medical-imaging-diagnostics-henotic-diagnostics-hero-image.webp';
-  const dynamicOgImage = `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(`Diagnostic Services in ${city.name}`)}&subtitle=${encodeURIComponent('NABL Accredited • 340+ Tests • Same-Day Reports')}`;
+  const dynamicOgImage = `https://www.henoticdiagnostics.com/api/og?title=${encodeURIComponent(`Diagnostic Services in ${city.name}`)}&subtitle=${encodeURIComponent(`NABL Accredited • ${services.length}+ Tests • Same-Day Reports`)}`;
 
   return {
     title,
@@ -140,11 +144,27 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
       height: 630
     },
     image: [heroImageUrl],
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '#quick-answer'],
+    },
     publisher: {
-      '@type': 'Organization',
-      name: 'Henotic Diagnostics',
-      url: 'https://www.henoticdiagnostics.com'
-    }
+      '@id': 'https://www.henoticdiagnostics.com/#organization',
+    },
+  };
+
+  const cityFaqs = buildCityFAQs(city, totalServices, totalLocations);
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: cityFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
   };
 
   return (
@@ -153,6 +173,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ── Hero Section ───────────────────────────────────────────────── */}
       <section className="relative bg-gradient-to-br from-blue-950 via-[#1e1b4b] to-blue-900 py-20 md:py-28 px-4 md:px-8 overflow-hidden">
@@ -181,7 +202,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
             in <span className="bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">{city.name}</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-blue-100 font-medium max-w-3xl mb-8 leading-relaxed">
+          <p id="quick-answer" className="text-lg md:text-xl text-blue-100 font-medium max-w-3xl mb-8 leading-relaxed">
             {city.description}
           </p>
 
@@ -401,6 +422,37 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
                 <h3 className="text-lg font-black text-slate-800 mb-2">{card.title}</h3>
                 <p className="text-sm text-slate-600 font-medium leading-relaxed">{card.desc}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── City FAQs (Synced with FAQPage JSON-LD) ──────────────────────── */}
+      <section className="py-16 px-4 md:px-8 bg-slate-50 border-t border-slate-200/70">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-extrabold uppercase tracking-widest mb-3">
+              <HelpCircle size={14} /> Patient FAQs — {city.name}
+            </span>
+            <h2 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tight">
+              Diagnostic Testing in {city.name}: Common Questions
+            </h2>
+          </div>
+          <div className="space-y-3">
+            {cityFaqs.map((faq, idx) => (
+              <details
+                key={idx}
+                open={idx === 0}
+                className="group bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden"
+              >
+                <summary className="flex items-center justify-between gap-4 p-5 md:p-6 cursor-pointer font-bold text-slate-800 list-none select-none">
+                  <span>{faq.question}</span>
+                  <ChevronDown size={18} className="shrink-0 text-slate-400 group-open:rotate-180 transition-transform" />
+                </summary>
+                <div className="px-5 md:px-6 pb-5 md:pb-6 text-sm text-slate-600 font-medium leading-relaxed border-t border-slate-100 pt-4">
+                  {faq.answer}
+                </div>
+              </details>
             ))}
           </div>
         </div>

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function ContactUs() {
   return (
-    <main className="min-h-screen bg-slate-50 font-sans overflow-hidden mt-[80px]">
+    <div className="min-h-screen bg-slate-50 font-sans overflow-hidden mt-[80px]">
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Contact", url: "/contact" }]} />
       
       {/* Header Section */}
@@ -170,6 +170,6 @@ export default function ContactUs() {
       {/* 🌟 FINAL SECTION: 3D GOOGLE REVIEWS WIDGET ADDED HERE */}
       <GoogleReviews />
 
-    </main>
+    </div>
   );
 }

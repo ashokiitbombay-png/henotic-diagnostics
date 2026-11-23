@@ -3,6 +3,10 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Download Reports | Henotic Diagnostics',
   description: 'Access and download your diagnostic reports securely online.',
+  robots: {
+    index: false,
+    follow: false,
+  },
   alternates: {
     canonical: 'https://www.henoticdiagnostics.com/reports',
   },

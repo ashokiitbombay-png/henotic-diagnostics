@@ -174,6 +174,22 @@ const nextConfig = {
         destination: '/services/cardiac-catheterization',
         permanent: true,
       },
+      // 5. Legal page consolidation -> canonical policies
+      {
+        source: '/refund-returns',
+        destination: '/refund-policy',
+        permanent: true,
+      },
+      {
+        source: '/return-policy',
+        destination: '/refund-policy',
+        permanent: true,
+      },
+      {
+        source: '/disclaimers',
+        destination: '/medical-disclaimer',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
@@ -226,6 +242,7 @@ const nextConfig = {
         headers: [
           { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
           { key: 'Pragma', value: 'no-cache' },
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
         ],
       },
       {

@@ -89,7 +89,7 @@ const categories = ['All', 'Equipment', 'Facility', 'Laboratory'] as const;
 
 export default function GalleryPage() {
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px]">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px]">
 
       {/* ─── Hero Section ─── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 pt-20 pb-24 text-center">
@@ -153,6 +153,6 @@ export default function GalleryPage() {
           </Link>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

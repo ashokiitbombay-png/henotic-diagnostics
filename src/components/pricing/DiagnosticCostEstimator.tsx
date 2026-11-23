@@ -205,12 +205,12 @@ Please let me know the earliest available slot.`;
             100% Transparent Healthcare Pricing
           </div>
 
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-4">
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-4">
             Custom Diagnostic Cost Estimator &amp;{' '}
             <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-pink-200 bg-clip-text text-transparent">
               Bundle Builder
             </span>
-          </h2>
+          </h1>
 
           <p className="text-sm md:text-base text-blue-100/90 font-medium leading-relaxed max-w-3xl mb-6">
             Compare Henotic institutional pricing directly against corporate hospital market averages. Add multiple scans or blood profiles to your estimate to unlock automatic package discounts with free doorstep sample pickup.

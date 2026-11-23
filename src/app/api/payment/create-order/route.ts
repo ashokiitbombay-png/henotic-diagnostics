@@ -3,11 +3,10 @@ import crypto from 'crypto';
 import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 import { getPricingForService } from '@/config/pricing';
 
-const RAZORPAY_KEY_ID = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
-const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
-
 export async function POST(request: NextRequest) {
   try {
+    const razorpayKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
+    const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET || '';
     // Rate limit: 10 order creations per minute per IP
     const ip = getClientIP(request);
     const limiter = await rateLimitDistributed(`payment-create:${ip}`, 10, 60_000);
@@ -36,7 +35,7 @@ export async function POST(request: NextRequest) {
     const isProd = process.env.NODE_ENV === 'production';
 
     // If Razorpay is not configured, fail-closed in production, mock in dev
-    if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) {
+    if (!razorpayKeyId || !razorpayKeySecret) {
       if (isProd) {
         return NextResponse.json({ error: 'Payment gateway configuration error' }, { status: 500 });
       }
@@ -50,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Razorpay order via API
-    const auth = Buffer.from(`${RAZORPAY_KEY_ID}:${RAZORPAY_KEY_SECRET}`).toString('base64');
+    const auth = Buffer.from(`${razorpayKeyId}:${razorpayKeySecret}`).toString('base64');
     const response = await fetch('https://api.razorpay.com/v1/orders', {
       method: 'POST',
       headers: {
@@ -58,7 +57,7 @@ export async function POST(request: NextRequest) {
         Authorization: `Basic ${auth}`,
       },
       body: JSON.stringify({
-        amount: amount * 100, // Convert to paise
+        amount: numAmount * 100, // Convert validated rupee integer to paise
         currency: 'INR',
         receipt: `hd_${serviceSlug}_${Date.now()}`,
         notes: {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronDown, MapPin } from 'lucide-react';
+import { buildLocationFAQs } from '@/lib/seo/location-faqs';
 
 interface LocationFAQProps {
   serviceName: string;
@@ -7,16 +8,6 @@ interface LocationFAQProps {
   locationName: string;
   regionName: string;
   price?: number;
-}
-
-/** Slugs where home sample collection is relevant */
-const HOME_COLLECTION_SLUGS = [
-  'cbc-test', 'lipid-profile', 'thyroid-test', 'liver-function-test',
-  'kidney-function-test', 'hba1c-test', 'vitamin-d-test', 'vitamin-b12-test',
-];
-
-function formatPrice(amount: number): string {
-  return `₹${amount.toLocaleString('en-IN')}`;
 }
 
 /**
@@ -30,35 +21,13 @@ export default function LocationFAQ({
   regionName,
   price,
 }: LocationFAQProps) {
-  const isPathology = HOME_COLLECTION_SLUGS.includes(serviceSlug);
-  const priceDisplay = price ? formatPrice(price) : 'competitive rates';
-
-  const faqs: { question: string; answer: string }[] = [
-    {
-      question: `Is ${serviceName} available in ${locationName}?`,
-      answer: `Yes, Henotic Diagnostics offers ${serviceName} services near ${locationName}, ${regionName}. Our NABL-accredited centre provides accurate diagnostics with state-of-the-art equipment and experienced radiologists. Book your appointment today for priority service.`,
-    },
-    {
-      question: `What is the cost of ${serviceName} in ${locationName}?`,
-      answer: `The cost of ${serviceName} at Henotic Diagnostics starts from ${priceDisplay}. We offer up to 50% savings compared to market rates in ${locationName}, with no compromise on quality. Contact us at +91 8879327184 for the latest pricing.`,
-    },
-    {
-      question: `How to book ${serviceName} in ${locationName}?`,
-      answer: `You can book ${serviceName} near ${locationName} by calling +91 8879327184 or booking online through our website. We offer instant confirmation, zero waiting time with prior booking, and WhatsApp report delivery for your convenience.`,
-    },
-    {
-      question: `Are reports available same day for ${serviceName} in ${locationName}?`,
-      answer: `Yes, most ${serviceName} reports at Henotic Diagnostics are available within 24 hours, with many delivered same day. Reports are shared digitally via WhatsApp and email, so patients in ${locationName} can access results quickly without revisiting the centre.`,
-    },
-  ];
-
-  // Conditionally add home collection FAQ for pathology services
-  if (isPathology) {
-    faqs.push({
-      question: `Is home sample collection available in ${locationName}?`,
-      answer: `Yes, Henotic Diagnostics provides home sample collection services in and around ${locationName}, ${regionName}. Our trained phlebotomists visit your doorstep at your preferred time. Call +91 8879327184 to schedule a home collection for ${serviceName}.`,
-    });
-  }
+  const faqs = buildLocationFAQs({
+    serviceName,
+    serviceSlug,
+    locationName,
+    regionName,
+    price,
+  });
 
   return (
     <section className="py-16 px-4 md:px-8">

@@ -9,7 +9,7 @@ const PAGE_URL = 'https://www.henoticdiagnostics.com/video/corporate-overview';
 
 export const metadata: Metadata = {
   title: 'Corporate Overview Video | Henotic Diagnostics',
-  description: 'Watch the Henotic Diagnostics corporate overview video. NABL-accredited diagnostic center offering 3.0T MRI, 128-slice CT scan, PET-CT, 4D Ultrasound, Pathology, and Cardiac testing in Mumbai & Navi Mumbai.',
+  description: 'Watch Henotic Diagnostics corporate overview: NABL-accredited 3.0T MRI, 128-slice CT, PET-CT, 4D Ultrasound & automated pathology in Navi Mumbai.',
   alternates: { canonical: PAGE_URL },
   openGraph: {
     title: 'Henotic Diagnostics — Trusted Healthcare Partner',
@@ -56,7 +56,7 @@ export default function CorporateOverviewPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 font-sans mt-[80px]">
+    <div className="min-h-screen bg-slate-950 font-sans mt-[80px]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
@@ -134,6 +134,6 @@ export default function CorporateOverviewPage() {
           </a>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

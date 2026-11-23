@@ -16,7 +16,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <main className="min-h-[70vh] flex items-center justify-center bg-slate-50 font-sans px-4 py-20 mt-[80px]">
+    <div className="min-h-[70vh] flex items-center justify-center bg-slate-50 font-sans px-4 py-20 mt-[80px]">
       <div className="max-w-md w-full bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100 text-center relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-pink-50 rounded-bl-full -z-10"></div>
         
@@ -49,6 +49,6 @@ export default function GlobalError({ error, reset }: ErrorProps) {
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

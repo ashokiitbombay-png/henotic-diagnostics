@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 import { recordLead } from '@/lib/leads/lead-service';
 
+const INDIAN_MOBILE_REGEX = /^[6-9]\d{9}$/;
+
 export async function POST(req: Request) {
   try {
     // Rate limit: 5 bookings per minute per IP
@@ -16,16 +18,32 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { name, phone, service, location } = body;
 
-    if (!name || !phone || !service) {
-      return NextResponse.json({ success: false, error: "Missing required fields." }, { status: 400 });
+    if (typeof name !== 'string' || typeof phone !== 'string' || typeof service !== 'string') {
+      return NextResponse.json({ success: false, error: 'Missing or invalid required fields.' }, { status: 400 });
+    }
+
+    const cleanName = name.trim().slice(0, 120);
+    const cleanService = service.trim().slice(0, 160);
+    const cleanLocation = typeof location === 'string' ? location.trim().slice(0, 120) : undefined;
+    const cleanPhone = phone.replace(/[\s\-+()]/g, '').replace(/^91(?=\d{10}$)/, '');
+
+    if (!cleanName || !cleanService) {
+      return NextResponse.json({ success: false, error: 'Missing required fields.' }, { status: 400 });
+    }
+
+    if (!INDIAN_MOBILE_REGEX.test(cleanPhone)) {
+      return NextResponse.json(
+        { success: false, error: 'Please enter a valid 10-digit Indian mobile number.' },
+        { status: 400 }
+      );
     }
 
     // 🛡️ ZERO-DROP LEAD PERSISTENCE
     await recordLead({
-      name,
-      phone,
-      service,
-      location,
+      name: cleanName,
+      phone: cleanPhone,
+      service: cleanService,
+      location: cleanLocation || undefined,
       status: 'new',
       channel: 'direct_modal',
     }).catch(err => console.warn('[api/booking] Lead persistence note:', err.message));
@@ -38,7 +56,7 @@ export async function POST(req: Request) {
 
     if (!WA_API_URL || !WA_BEARER_TOKEN) {
       console.warn("⚠️ [DEV MODE] WhatsApp API credentials missing. Simulating WhatsApp success.");
-      console.log(`✅ [DEV MODE] Automated WhatsApp Triggered for ${phone}: "Hi ${name}, your ${service} at ${location || 'our center'} is confirmed."`);
+      console.log(`✅ [DEV MODE] Automated WhatsApp Triggered for ${cleanPhone}: "Hi ${cleanName}, your ${cleanService} at ${cleanLocation || 'our center'} is confirmed."`);
       return NextResponse.json({ 
         success: true, 
         message: "Booking confirmed! A member of our clinical team will contact you shortly." 
@@ -48,7 +66,7 @@ export async function POST(req: Request) {
     // Official Meta WhatsApp Cloud API Payload
     const whatsappPayload = {
       messaging_product: "whatsapp",
-      to: `91${phone}`,
+      to: `91${cleanPhone}`,
       type: "template",
       template: {
         name: "booking_confirmation",
@@ -57,9 +75,9 @@ export async function POST(req: Request) {
           {
             type: "body",
             parameters: [
-              { type: "text", text: name },
-              { type: "text", text: service },
-              { type: "text", text: location || "our center" }
+              { type: "text", text: cleanName },
+              { type: "text", text: cleanService },
+              { type: "text", text: cleanLocation || "our center" }
             ]
           }
         ]

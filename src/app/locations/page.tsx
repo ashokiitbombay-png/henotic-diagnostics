@@ -8,8 +8,8 @@ import LocationsDirectory from '@/components/locations/LocationsDirectory';
 export const revalidate = 86400; // 24 hours ISR
 
 export const metadata: Metadata = {
-  title: 'Geographical Directory — 350+ Diagnostic Service Locations & PIN Codes | Henotic Diagnostics',
-  description: 'Search Henotic Diagnostics network across 350+ locations and PIN codes in Mumbai, Navi Mumbai, Thane, Pune & Raigad. Book NABL accredited MRI, CT Scan, Ultrasound & Home Blood Sample Collection.',
+  title: '350+ Diagnostic Locations & PIN Codes | Henotic',
+  description: 'Find Henotic Diagnostics centers & 24/7 home blood collection across 350+ PIN codes in Mumbai, Navi Mumbai, Thane, Pune & Raigad. NABL accredited.',
   keywords: 'diagnostic centers near me, blood test pin code, MRI scan locations Mumbai, CT scan Pune, pathology lab Thane, diagnostic center Navi Mumbai',
   alternates: {
     canonical: 'https://www.henoticdiagnostics.com/locations'
@@ -65,7 +65,7 @@ export default function LocationsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px] pb-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -189,6 +189,6 @@ export default function LocationsPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

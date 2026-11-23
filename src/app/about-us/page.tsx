@@ -10,8 +10,8 @@ const AboutBookingForm = dynamic(() => import('./AboutBookingForm'), { ssr: true
 const AboutFaqAccordion = dynamic(() => import('./AboutFaqAccordion'), { ssr: true });
 
 export const metadata: Metadata = {
-  title: 'About Henotic Diagnostics | Trusted Diagnostic Center in Navi Mumbai',
-  description: 'Learn about Henotic Diagnostics — a NABL-accredited diagnostic imaging center in Kharghar, Navi Mumbai. 12+ years of trusted service with 3.0T MRI, 128-slice CT, and 1030+ Google reviews.',
+  title: 'About Henotic Diagnostics | Navi Mumbai Diagnostic Lab',
+  description: 'NABL-accredited diagnostic center in Kharghar, Navi Mumbai since 2012. 3.0T MRI, 128-slice CT, PET-CT, 4D Ultrasound & pathology open 24/7.',
   alternates: { canonical: 'https://www.henoticdiagnostics.com/about-us' },
   openGraph: {
     title: 'About Henotic Diagnostics | Trusted Diagnostic Center in Navi Mumbai',

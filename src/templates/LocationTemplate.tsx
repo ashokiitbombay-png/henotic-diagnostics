@@ -73,6 +73,8 @@ export default function LocationTemplate({
             heading={`${formattedService} Packages`}
             regionName={formattedRegion}
             locationName={formattedLocation}
+            regionSlug={region}
+            locationSlug={location}
           />
           <HealthPackagesSection 
               key={service}

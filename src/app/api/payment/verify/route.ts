@@ -4,10 +4,9 @@ import { timingSafeCompare } from '@/lib/webhook/security';
 import { rateLimitDistributed, getClientIP } from '@/lib/rate-limit';
 import { recordPayment } from '@/lib/leads/lead-service';
 
-const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
-
 export async function POST(request: NextRequest) {
   try {
+    const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET || '';
     // Rate limit: 10 payment verifications per minute per IP
     const ip = getClientIP(request);
     const limiter = await rateLimitDistributed(`payment-verify:${ip}`, 10, 60_000);
@@ -27,7 +26,7 @@ export async function POST(request: NextRequest) {
     const isProd = process.env.NODE_ENV === 'production';
 
     // If Razorpay not configured, fail closed in production; allow mock in dev only
-    if (!RAZORPAY_KEY_SECRET) {
+    if (!razorpayKeySecret) {
       if (isProd) {
         console.error('[payment/verify] RAZORPAY_KEY_SECRET is unset in production. Rejecting verification.');
         return NextResponse.json({ verified: false, message: 'Payment gateway configuration error' }, { status: 500 });
@@ -50,7 +49,7 @@ export async function POST(request: NextRequest) {
     // Verify payment signature
     const body = `${razorpay_order_id}|${razorpay_payment_id}`;
     const expectedSignature = crypto
-      .createHmac('sha256', RAZORPAY_KEY_SECRET)
+      .createHmac('sha256', razorpayKeySecret)
       .update(body)
       .digest('hex');
 

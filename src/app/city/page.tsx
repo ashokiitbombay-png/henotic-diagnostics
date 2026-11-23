@@ -6,8 +6,8 @@ import { CITIES, SERVICE_ICONS } from '@/config/cities';
 import { REGION_LOCATIONS } from '@/config/locations';
 
 export const metadata: Metadata = {
-  title: 'Diagnostic Centers by City | Mumbai, Navi Mumbai, Thane, Pune | Henotic Diagnostics',
-  description: 'Find Henotic Diagnostics centers near you. Advanced MRI, CT, PET-CT, Ultrasound, Pathology across Mumbai, Navi Mumbai, Thane, Pune & Panvel. NABL accredited.',
+  title: 'Diagnostic Centers by City | Henotic Diagnostics',
+  description: 'Find NABL-accredited Henotic Diagnostics centers across Mumbai, Navi Mumbai, Thane, Pune, Panvel & Raigad. 399+ tests with same-day digital reports.',
   alternates: {
     canonical: 'https://www.henoticdiagnostics.com/city'
   },
@@ -66,7 +66,7 @@ export default function CitiesListingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
+    <div className="min-h-screen bg-slate-50 font-sans mt-[80px] overflow-hidden">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       {/* ── Hero ────────────────────────────────────────────────────────── */}
@@ -194,6 +194,6 @@ export default function CitiesListingPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

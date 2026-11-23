@@ -2,8 +2,9 @@ import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowRight, AlertCircle, Activity, Stethoscope } from 'lucide-react';
+import { ArrowRight, AlertCircle, Activity, Stethoscope, ChevronDown, HelpCircle } from 'lucide-react';
 import { CONDITIONS } from '@/config/conditions';
+import { buildConditionFAQs, truncateMeta } from '@/lib/seo/aeo-helpers';
 
 import MedicalPseoSchema from '@/components/seo/MedicalPseoSchema';
 import { isValidConditionSlug } from '@/lib/seo/slug-validator';
@@ -19,8 +20,11 @@ import { getHeroImageForService } from '@/config/services';
 export async function generateMetadata({ params }: { params: Promise<{ condition: string }> }): Promise<Metadata> {
   const { condition } = await params;
   const cond = getCondition(condition);
-  const title = `${cond?.title || formatText(condition)} - Diagnostic Tests | Henotic Diagnostics`;
-  const description = cond?.description || `Find the right diagnostic tests for ${formatText(condition)}. NABL accredited, same-day reports.`;
+  const title = truncateMeta(`${cond?.title || formatText(condition)} Tests | Henotic`, 60);
+  const description = truncateMeta(
+    cond?.description || `Find NABL-accredited diagnostic tests for ${formatText(condition)} with same-day digital reports at Henotic Diagnostics.`,
+    155
+  );
   // Use hero image from the first recommended service for a relevant thumbnail
   const heroImage = cond?.recommendedServices?.[0]
     ? getHeroImageForService(cond.recommendedServices[0])
@@ -84,6 +88,8 @@ export default async function ConditionPage({ params }: { params: Promise<{ cond
     urgent: 'bg-red-100 text-red-800 border-red-200'
   };
 
+  const conditionFaqs = buildConditionFAQs(cond);
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans mt-[80px]">
       <MedicalPseoSchema type="condition" conditionId={condition} />
@@ -97,12 +103,21 @@ export default async function ConditionPage({ params }: { params: Promise<{ cond
             </span>
             <span className="text-blue-300 text-sm font-bold">{cond.bodySystem}</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight">{cond.title}</h1>
+          <h1 id="condition-h1" className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight">{cond.title}</h1>
           <p className="text-lg text-slate-300 font-medium max-w-3xl leading-relaxed">{cond.description}</p>
         </div>
       </section>
 
       <div className="max-w-4xl mx-auto px-4 md:px-8 -mt-8 relative z-20">
+        {/* AEO Quick Answer TL;DR */}
+        <div id="quick-answer" className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-blue-100 mb-8">
+          <p className="text-xs font-black uppercase tracking-widest text-blue-600 mb-2">Quick Clinical Answer</p>
+          <p className="text-slate-700 font-medium leading-relaxed">
+            Diagnostic evaluation for <strong>{cond.title}</strong> ({cond.bodySystem}) typically includes{' '}
+            <strong>{cond.recommendedServices.slice(0, 4).map(formatText).join(', ')}</strong>. At Henotic Diagnostics, NABL-accredited scans and blood investigations deliver specialist-verified reports within 4–24 hours across Navi Mumbai &amp; Mumbai.
+          </p>
+        </div>
+
         {/* Symptoms Card */}
         <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100 mb-8">
           <div className="flex items-center gap-3 mb-6">
@@ -132,6 +147,31 @@ export default async function ConditionPage({ params }: { params: Promise<{ cond
                 </div>
                 <ArrowRight size={16} className="text-slate-400 group-hover:text-blue-500 shrink-0" />
               </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Condition FAQs (Synced with FAQPage JSON-LD) */}
+        <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-indigo-100 p-2.5 rounded-xl text-indigo-600"><HelpCircle size={22} /></div>
+            <h2 className="text-xl font-black text-slate-900">Frequently Asked Questions — {cond.title}</h2>
+          </div>
+          <div className="space-y-3">
+            {conditionFaqs.map((faq, idx) => (
+              <details
+                key={idx}
+                open={idx === 0}
+                className="group bg-slate-50 rounded-2xl border border-slate-200/80 overflow-hidden"
+              >
+                <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer font-bold text-slate-800 list-none select-none">
+                  <span>{faq.question}</span>
+                  <ChevronDown size={18} className="shrink-0 text-slate-400 group-open:rotate-180 transition-transform" />
+                </summary>
+                <div className="px-5 pb-5 text-sm text-slate-600 font-medium leading-relaxed border-t border-slate-200/60 pt-3">
+                  {faq.answer}
+                </div>
+              </details>
             ))}
           </div>
         </div>

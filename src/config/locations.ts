@@ -7438,5 +7438,584 @@ export const CITY_MICRO_NEIGHBORHOODS: Record<string, string[]> = {
     "Moshi",
     "Chikhali",
     "Ravet"
+  ],
+  // ─── Eastern Suburbs Mumbai (12) ──
+  "kurla-east": [
+    "Nehru Nagar",
+    "Thakkar Bappa Colony",
+    "Qureshi Nagar",
+    "Chunabhatti East",
+    "Kurla Terminus (LTT) Road"
+  ],
+  "chembur-east": [
+    "Chembur Camp",
+    "Sindhi Society",
+    "RCF Colony",
+    "Trombay Road",
+    "Subhash Nagar"
+  ],
+  "govandi": [
+    "Shivaji Nagar",
+    "Baiganwadi",
+    "Govandi Station Road",
+    "Gautam Nagar",
+    "Lotus Colony"
+  ],
+  "deonar": [
+    "Deonar Village",
+    "Telecom Factory Colony",
+    "Shatabdi Hospital Road",
+    "Deonar Municipal Colony",
+    "Mankhurd Link Road"
+  ],
+  "mankhurd": [
+    "Mandala",
+    "Lallubhai Compound",
+    "Mankhurd Station Road",
+    "Maharashtra Nagar",
+    "Sion-Panvel Highway Stretch"
+  ],
+  "anushakti-nagar": [
+    "BARC Colony",
+    "Trombay Township",
+    "Sector 1 to Sector 10",
+    "New Mandala",
+    "AEES School Road"
+  ],
+  "ghatkopar-east": [
+    "Pant Nagar",
+    "Garodia Nagar",
+    "Naidu Colony",
+    "Rajawadi",
+    "Tilak Road"
+  ],
+  "vikhroli-east": [
+    "Tagore Nagar",
+    "Kannamwar Nagar",
+    "Vikhroli Station East",
+    "Group No 1 to 8",
+    "Eastern Express Highway Vikhroli"
+  ],
+  "tagore-nagar": [
+    "Group No 2",
+    "Group No 5",
+    "Group No 7",
+    "Tagore Nagar Market",
+    "Vikhroli Court Road"
+  ],
+  "kannamwar-nagar": [
+    "Kannamwar Nagar Phase 1",
+    "Kannamwar Nagar Phase 2",
+    "Ambedkar Chowk",
+    "Building No 1 to 100",
+    "Ghatkopar-Vikhroli Link"
+  ],
+  "bhandup-east": [
+    "Kanjurmarg East Border",
+    "Datar Colony",
+    "Nahur East",
+    "Mithi Nagar",
+    "Eastern Express Service Road"
+  ],
+  "mulund-east": [
+    "Mithagar Road",
+    "Navghar Road",
+    "Tata Colony",
+    "Neelam Nagar",
+    "Gavanpada"
+  ],
+  // ─── Raigad Corridor (19) ──
+  "alibag": [
+    "Alibag ST Stand",
+    "Varsoli",
+    "Kihim Road",
+    "Sri Bag",
+    "Raigad Bazaar"
+  ],
+  "nagaon": [
+    "Nagaon Beach Road",
+    "Nagaon Bandar",
+    "Akshi Border",
+    "Revdanda-Alibag Road",
+    "Sane Guruji Nagar"
+  ],
+  "revdanda": [
+    "Revdanda Fort Area",
+    "Cheul",
+    "Agarkot",
+    "Kundalika Bridge Road",
+    "Salav Border"
+  ],
+  "uran": [
+    "Uran City",
+    "Mora Port Road",
+    "Dronagiri Node",
+    "Bori Pakhadi",
+    "Karanja Road"
+  ],
+  "jnpt-township": [
+    "Sheva",
+    "Nhava Sheva Port Road",
+    "JNPT Hospital Area",
+    "Sector 1 Township",
+    "Puna Devi Road"
+  ],
+  "jasai": [
+    "Jasai Phata",
+    "Chirner-Uran Highway",
+    "Dighode",
+    "Gavan Phata",
+    "NH-348 Freight Corridor"
+  ],
+  "chirner": [
+    "Chirner Village",
+    "Koproli",
+    "Khar Chirner",
+    "Sai Chirner Road",
+    "Kalambusare"
+  ],
+  "pen": [
+    "Pen Town",
+    "Pen ST Stand",
+    "Chhatrapati Shivaji Maharaj Chowk",
+    "Hamrapur",
+    "Khopoli-Pen Road"
+  ],
+  "nagothane": [
+    "Nagothane MIDC",
+    "Amba River Bridge",
+    "Roha-Nagothane Junction",
+    "IPCL Township",
+    "Pali Phata"
+  ],
+  "karjat": [
+    "Karjat Railway Station",
+    "Dahivali",
+    "Bhishma Nagar",
+    "Mudre Budruk",
+    "Kadav Road"
+  ],
+  "neral": [
+    "Neral Station Area",
+    "Matheran Foothills Road",
+    "Dhamote",
+    "Shelu",
+    "Karjat-Badlapur Highway"
+  ],
+  "khopoli": [
+    "Khopoli Industrial Estate",
+    "Shilphata-Khopoli Junction",
+    "Bazaar Peth",
+    "Khopoli Station Road",
+    "Patalganga Express Link"
+  ],
+  "pali": [
+    "Pali Ballaleshwar Temple Road",
+    "Sudhagad Foothills",
+    "Amba River Bank",
+    "Nadsur Road",
+    "Bazar Peth Pali"
+  ],
+  "roha": [
+    "Dhatav MIDC",
+    "Roha Station Road",
+    "Ashtami",
+    "Kundalika Riverside",
+    "Bhopoli"
+  ],
+  "mangaon": [
+    "Mangaon Bazar Peth",
+    "Morba Road",
+    "Nizampur Phata",
+    "Tala Junction",
+    "Mumbai-Goa NH-66 Corridor"
+  ],
+  "murud": [
+    "Murud-Janjira Coast",
+    "Rajapuri",
+    "Garambi",
+    "Khorbunder",
+    "Dandarwadi"
+  ],
+  "old-panvel": [
+    "Shivaji Chowk Panvel",
+    "Panvel ST Stand",
+    "Tapal Naka",
+    "Middle Class Society",
+    "Takka Colony"
+  ],
+  "khandeshwar": [
+    "Khandeshwar Station",
+    "Sector 11 New Panvel East",
+    "Sector 15A",
+    "Sector 18",
+    "Asudgaon"
+  ],
+  "karanjade": [
+    "Sector R1 to R5",
+    "Sector 1A",
+    "Vadghar",
+    "Panvel-JNPT Junction",
+    "Karanjade Node Park"
+  ],
+  // ─── Thane District (21) ──
+  "naupada": [
+    "Gokhale Road",
+    "Ram Maruti Road",
+    "Gaondevi",
+    "Subhash Road",
+    "Talao Pali Area"
+  ],
+  "panch-pakhadi": [
+    "Teen Hath Naka",
+    "Almeida Road",
+    "Nitin Company Junction",
+    "Hariniwas Circle",
+    "Service Road East"
+  ],
+  "majiwada": [
+    "Majiwada Flyover",
+    "Viviana Mall Corridor",
+    "Lodha Luxuria Road",
+    "Saket Complex",
+    "Balkum Pada No 1"
+  ],
+  "wagle-estate": [
+    "Road No 16",
+    "Road No 22",
+    "Kisan Nagar",
+    "Nehru Nagar Thane",
+    "Nitin Company MIDC"
+  ],
+  "manpada": [
+    "Chitalsar Manpada",
+    "Tikujiniwadi Road",
+    "Happy Valley",
+    "R Mall Ghodbunder",
+    "Azad Nagar Thane"
+  ],
+  "hiranandani-estate": [
+    "Hiranandani Hospital Road",
+    "Patlipada Link",
+    "Rodas Enclave",
+    "Solitaire Building",
+    "Brahmand Border"
+  ],
+  "ghodbunder-road": [
+    "Tulsidham",
+    "Kapurbawdi Circle",
+    "Waghbil",
+    "Kavesar",
+    "Gaimukh"
+  ],
+  "kasarvadavali": [
+    "Waghbil Naka",
+    "Godbunder Highway Stretch",
+    "Anand Nagar Junction",
+    "Mogarpada",
+    "Kavesar Lake Road"
+  ],
+  "kolshet": [
+    "Kolshet Road",
+    "Dhokali Naka",
+    "Azad Nagar Kolshet",
+    "Lodha Amara Precinct",
+    "Air Force Station Gate"
+  ],
+  "kapurbawdi": [
+    "Kapurbawdi Junction",
+    "Balkum Fire Station",
+    "Highland Corporate Park",
+    "Majiwada-Kolshet Crossing",
+    "Tattvagyan Vidyapeeth"
+  ],
+  "balkum": [
+    "Balkum Naka",
+    "Piramal Vaikunth Road",
+    "Saket Road",
+    "Dosti West County",
+    "Balkum Village"
+  ],
+  "kalwa": [
+    "Kalwa Bridge",
+    "Kharegaon",
+    "Shivaji Hospital Area",
+    "Parsik Nagar",
+    "Vitawa"
+  ],
+  "mumbra": [
+    "Amrut Nagar",
+    "Kausa",
+    "Mumbra Station Road",
+    "Shilphata Link",
+    "Dattawadi Mumbra"
+  ],
+  "dombivli-east": [
+    "Phadke Road",
+    "Manpada Road",
+    "MIDC Phase 1 & 2",
+    "Thakurli East Border",
+    "Pendharkar College Road"
+  ],
+  "dombivli-west": [
+    "Shastri Nagar",
+    "Vishnu Nagar",
+    "Kopergaon",
+    "Subhash Road Dombivli",
+    "Dombivli Station West"
+  ],
+  "kalyan-east": [
+    "Chinchpada",
+    "Netivali",
+    "Katemanivali",
+    "Tisgaon Naka",
+    "Chakki Naka"
+  ],
+  "kalyan-west": [
+    "Khadakpada Circle",
+    "Birla College Road",
+    "Gandhari",
+    "Rambaug",
+    "Wayle Nagar"
+  ],
+  "ulhasnagar": [
+    "Camp 1 to Camp 5",
+    "Gol Maidan",
+    "Vitthalwadi",
+    "Chopra Court",
+    "Shanti Nagar Ulhasnagar"
+  ],
+  "ambernath": [
+    "Ambernath MIDC",
+    "Shiv Mandir Road",
+    "Morivali",
+    "Pale Gaon",
+    "Kansai Section"
+  ],
+  "badlapur": [
+    "Katrap",
+    "Shirgaon",
+    "Kulgaon",
+    "Belavali",
+    "Badlapur East MIDC"
+  ],
+  "bhiwandi": [
+    "Anjurphata",
+    "Kamatghar",
+    "Dhamankar Naka",
+    "Mankoli Naka",
+    "Bhiwandi Bypass NH-160"
+  ],
+  // ─── Pune Metro (20) ──
+  "shivajinagar": [
+    "Jangli Maharaj (JM) Road",
+    "Model Colony",
+    "Gokhale Nagar",
+    "College of Agriculture",
+    "Shivajinagar Court Area"
+  ],
+  "deccan": [
+    "Deccan Gymkhana",
+    "Bhandarkar Road",
+    "Prabhat Road",
+    "Garware Bridge",
+    "Law College Road"
+  ],
+  "fc-road": [
+    "Fergusson College Gate",
+    "Dnyaneshwar Paduka Chowk",
+    "Goodluck Chowk",
+    "Senapati Bapat Road Link",
+    "Gokhale Cross Road"
+  ],
+  "swargate": [
+    "Swargate Bus Hub",
+    "Mukund Nagar",
+    "Gultekdi",
+    "Parvati Paytha",
+    "Tilak Road Crossing"
+  ],
+  "karve-nagar": [
+    "Karve Putala",
+    "Cummins College Road",
+    "Hingne Khurd",
+    "Kakade City",
+    "DP Road Karve Nagar"
+  ],
+  "erandwane": [
+    "Mhatre Bridge",
+    "FTII / Film Institute Road",
+    "Paud Phata",
+    "Damle Path",
+    "Kamala Nehru Park"
+  ],
+  "warje": [
+    "Warje Malwadi",
+    "NDA Road",
+    "Mumbai-Pune Bypass Stretch",
+    "Atul Nagar",
+    "Karve Nagar Border"
+  ],
+  "bavdhan": [
+    "Bavdhan Khurd",
+    "Chandani Chowk",
+    "Pashan-NDA Road",
+    "DSK Ranwara Road",
+    "Ryan International Road"
+  ],
+  "pashan": [
+    "NCL Colony",
+    "Pashan-Sus Road",
+    "Someshwarwadi",
+    "Abhinav College Road",
+    "Panchawati"
+  ],
+  "aundh": [
+    "Parihar Chowk",
+    "ITI Road",
+    "Bremen Chowk",
+    "DP Road Aundh",
+    "Sindh Society"
+  ],
+  "balewadi": [
+    "Balewadi Phata",
+    "Balewadi High Street",
+    "Laxmi Nagar Balewadi",
+    "Mhalunge Stadium Road",
+    "Dasara Chowk"
+  ],
+  "pimple-saudagar": [
+    "Kunal Icon Road",
+    "Kokate Vasti",
+    "Jagtap Dairy Chowk",
+    "Shivar Garden",
+    "Roseland Residency Road"
+  ],
+  "pimple-nilakh": [
+    "Vishal Nagar",
+    "Rakshak Chowk",
+    "D.P. Road Pimple Nilakh",
+    "New Sangvi Link",
+    "Kalewadi Phata Corridor"
+  ],
+  "koregaon-park": [
+    "North Main Road",
+    "South Main Road",
+    "Lane 1 to Lane 7",
+    "Osho Ashram Area",
+    "Koregaon Park Annexe"
+  ],
+  "kalyani-nagar": [
+    "East Avenue",
+    "Central Avenue",
+    "Marigold Complex",
+    "Joggers Park Kalyani Nagar",
+    "Vadgaon Sheri Link"
+  ],
+  "yerawada": [
+    "Shastri Nagar Yerawada",
+    "Commerzone IT Park",
+    "Bund Garden Bridge",
+    "Nagpur Chawl",
+    "Gunjan Chowk"
+  ],
+  "dhanori": [
+    "Tingre Nagar Border",
+    "Porwal Road",
+    "Jakat Naka Dhanori",
+    "Gokul Nagar",
+    "Dhanori-Lohegaon Road"
+  ],
+  "lohegaon": [
+    "Lohegaon Airport Road",
+    "Sant Nagar",
+    "Nimbalkar Nagar",
+    "Wagholi-Lohegaon Link",
+    "Pathare Wasti"
+  ],
+  "wagholi": [
+    "Kesnand Road",
+    "Bakori Phata",
+    "UBALE Nagar",
+    "Nagar Road Wagholi",
+    "Awhalwadi"
+  ],
+  "kondhwa": [
+    "NIBM Road",
+    "Lullanagar",
+    "Salunkhe Vihar",
+    "Kausar Baugh",
+    "Kondhwa Budruk"
+  ],
+  // ─── Navi Mumbai Sub-Hubs (10) ──
+  "vashi-sector-17": [
+    "Arenja Corner",
+    "Shivaji Chowk",
+    "Plot 1 to 90 Commercial Belt",
+    "Vashi Plaza",
+    "Sector 16-17 Crossing"
+  ],
+  "apmc-market-vashi": [
+    "Spice Market",
+    "Grain Market Phase 1",
+    "Fruit & Vegetable Market",
+    "Mathadi Bhavan",
+    "Turbhe-Vashi Naka"
+  ],
+  "nerul-east": [
+    "Sector 19 Nerul",
+    "Sector 21",
+    "DY Patil Stadium Road",
+    "Shiravane MIDC Link",
+    "LP Bus Stop"
+  ],
+  "nerul-west": [
+    "Sector 2 to Sector 10",
+    "Palm Beach Road Nerul",
+    "Terna Medical Campus",
+    "Nerul Gymkhana",
+    "Sector 14 Jewel of Navi Mumbai"
+  ],
+  "seawoods-darave": [
+    "Seawoods Grand Central",
+    "Sector 40",
+    "Sector 44A",
+    "Sector 48 NRI Estate",
+    "Darave Village"
+  ],
+  "cbd-belapur-sector-11": [
+    "Kokan Bhavan",
+    "CBD Bus Terminus",
+    "Times of India Tower Area",
+    "Sector 11 Commercial Complex",
+    "Sector 15 Waterfront"
+  ],
+  "kharghar-sector-10": [
+    "Hiranandani Crystal Plaza Road",
+    "Utsav Chowk Sector 10",
+    "Jalvayu Vihar Gate",
+    "Shilp Chowk Link",
+    "Little World Mall Road"
+  ],
+  "kharghar-sector-35": [
+    "Sector 35D & 35G",
+    "Tata Memorial ACTREC Road",
+    "Central Park Extension",
+    "Owe Dam Stretch",
+    "Metro Station Pethpada"
+  ],
+  "kamothe-sector-6": [
+    "MGM Hospital Kamothe Road",
+    "Sector 6A",
+    "Sector 7 Junction",
+    "Khandeshwar Approach",
+    "Sion-Panvel Service Road"
+  ],
+  "kalamboli-steel-market": [
+    "Road No 1 to 20 Steel Market",
+    "KWIC Warehouse Zone",
+    "McDonald's Highway Exit",
+    "Sector 10E Border",
+    "Taloja Phase 1 Link"
   ]
 };

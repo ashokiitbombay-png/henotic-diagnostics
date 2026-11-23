@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { MapPin, HelpCircle } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { REGION_LOCATIONS, CITY_MICRO_NEIGHBORHOODS } from '@/config/locations';
 
 const formatSlug = (slug: string) => slug?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '';
@@ -10,23 +10,7 @@ export default function LocalSEOMastery({ service, region, location }: { service
   const locationName = formatSlug(location);
   const regionName = formatSlug(region);
 
-  // 1. DYNAMIC FAQ GENERATION (Varies slightly based on location to prevent Thin Content)
-  const faqs = [
-    {
-      question: `How much does a ${serviceName} cost in ${locationName}?`,
-      answer: `The cost of a ${serviceName} serving ${locationName} is highly competitive. We offer transparent pricing with zero hidden fees. Contact us directly for today's discounted rate.`
-    },
-    {
-      question: `How quickly can I get my ${serviceName} reports in ${regionName}?`,
-      answer: `For patients visiting from ${locationName} and across ${regionName}, Henotic Diagnostics guarantees fast turnaround times. Most ${serviceName} reports are available the same day via secure WhatsApp delivery.`
-    },
-    {
-      question: `Is the diagnostic facility serving ${locationName} NABL & AERB accredited?`,
-      answer: `Yes! Our central diagnostic facility serving ${locationName} maintains strict NABL, ISO, and AERB accreditations to guarantee 100% precision for your ${serviceName}.`
-    }
-  ];
-
-  // 2. PROGRAMMATIC CROSS-LINKING (Nearby Hubs resolved dynamically from the same region)
+  // Programmatic cross-linking (nearby hubs resolved dynamically from the same region)
   const regionCities = REGION_LOCATIONS[region] || [];
   const nearbyLocations = regionCities.filter(l => l !== location).slice(0, 4);
 
@@ -60,47 +44,27 @@ export default function LocalSEOMastery({ service, region, location }: { service
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* DYNAMIC FAQ UI */}
+      {/* Nearby Centers Cross-Linking */}
+      {nearbyLocations.length > 0 && (
         <div>
           <h3 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
-            <HelpCircle className="text-[#3494E6]" /> Frequently Asked Questions
+            <MapPin className="text-[#EC6EAD]" /> Nearby Centers in {regionName}
           </h3>
-          <div className="space-y-4">
-            {faqs.map((faq, i) => (
-              <details key={i} className="group bg-white/60 backdrop-blur-md rounded-2xl border border-white shadow-sm p-5 cursor-pointer open:bg-white/90 transition-all">
-                <summary className="font-bold text-slate-800 outline-none list-none flex justify-between items-center">
-                  {faq.question}
-                  <span className="text-[#3494E6] group-open:rotate-45 transition-transform">+</span>
-                </summary>
-                <p className="mt-4 text-slate-600 text-sm leading-relaxed">{faq.answer}</p>
-              </details>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {nearbyLocations.map((loc) => (
+              <Link key={loc} href={`/services/${service}/${region}/${loc}`} prefetch={false} className="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-white shadow-sm hover:-translate-y-1 hover:shadow-md transition-all flex items-center gap-3 group min-w-0">
+                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-[#3494E6]/10 transition-colors">
+                  <MapPin size={14} className="text-slate-500 group-hover:text-[#3494E6]" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-500 font-bold uppercase truncate">{serviceName}</p>
+                  <p className="text-sm font-black text-slate-800 break-words">{formatSlug(loc)}</p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
-
-        {/* PROGRAMMATIC CROSS-LINKING */}
-        {nearbyLocations.length > 0 && (
-          <div>
-            <h3 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
-              <MapPin className="text-[#EC6EAD]" /> Nearby Centers in {regionName}
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {nearbyLocations.map((loc) => (
-                <Link key={loc} href={`/services/${service}/${region}/${loc}`} prefetch={false} className="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-white shadow-sm hover:-translate-y-1 hover:shadow-md transition-all flex items-center gap-3 group min-w-0">
-                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-[#3494E6]/10 transition-colors">
-                    <MapPin size={14} className="text-slate-500 group-hover:text-[#3494E6]" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-slate-500 font-bold uppercase truncate">{serviceName}</p>
-                    <p className="text-sm font-black text-slate-800 break-words">{formatSlug(loc)}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
