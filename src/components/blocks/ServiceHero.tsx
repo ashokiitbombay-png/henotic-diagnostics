@@ -1,36 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronRight, Home } from 'lucide-react';
 import { getHeroImageForService } from '@/config/services';
 import { formatSlug } from '@/lib/utils';
 import AccreditationLogos from '@/components/blocks/AccreditationLogos';
-
-// 🏅 ACCREDITATION LOGOS - National Bodies
-const ACCREDITATIONS = [
-  { 
-    title: "NABL", 
-    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/NABL-henotic-diagnsotics-kharghar.webp" 
-  },
-  { 
-    title: "ISO", 
-    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/iso-certification-for-henotic-diagnsotics-kharghar.webp" 
-  },
-  { 
-    title: "AERB", 
-    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/Atomic_Energy_Regulatory_Board_Henotic-Diagnostics-LOGO.svg%20(1).webp" 
-  },
-  { 
-    title: "PCPNDT", 
-    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/pcpndt-certified-henotic-diagnsotics-kharghar.webp" 
-  },
-  { 
-    title: "NABH", 
-    img: "https://cdn.henoticdiagnostics.com/Accreditation%20Logos/nabh-henotic-diagnsotics-kharghar.webp" 
-  },
-];
-
-// HERO_IMAGE is now dynamically resolved per-service via getHeroImageForService()
 
 interface ServiceHeroProps {
   /** The raw service slug (e.g., "mri-scan") */
@@ -52,24 +25,21 @@ interface ServiceHeroProps {
 }
 
 /**
- * 🌟 Premium Service Hero Component
- * Combines: Gradient Breadcrumb Bar + Hero Image + Accreditation Logos
- * Used across: /services, /services/[service]/[region], /services/[service]/[region]/[location]
+ * Premium Service Hero Component.
+ * Combines Gradient Breadcrumb Bar + Hero Image + Interactive Accreditation Logos.
  */
-export default function ServiceHero({ 
-  service, 
-  region, 
-  location, 
-  title, 
+export default function ServiceHero({
+  service,
+  region,
+  location,
+  title,
   subtitle,
   isServicesIndex = false,
   hideBreadcrumbSchema = false,
   h1Id = 'service-hero-h1',
 }: ServiceHeroProps) {
-
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.henoticdiagnostics.com';
 
-  // 📍 Build breadcrumb hierarchy
   const breadcrumbs = [
     { name: 'Home', url: '/' },
     { name: 'Services', url: '/services' },
@@ -85,7 +55,6 @@ export default function ServiceHero({
     breadcrumbs.push({ name: formatSlug(location), url: `/services/${service}/${region}/${location}` });
   }
 
-  // 🤖 JSON-LD Structured Data for Google Search
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -93,11 +62,10 @@ export default function ServiceHero({
       "@type": "ListItem",
       "position": index + 1,
       "name": crumb.name,
-      "item": `${baseUrl}${crumb.url}`
-    }))
+      "item": `${baseUrl}${crumb.url}`,
+    })),
   };
 
-  // Auto-generate title if not provided
   const heroTitle = title || (
     location && region && service
       ? `Best ${formatSlug(service)} in ${formatSlug(location)}`
@@ -118,65 +86,43 @@ export default function ServiceHero({
 
   return (
     <>
-      {/* 🤖 Invisible Schema Tag for Google Bots */}
       {!hideBreadcrumbSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }} />
       )}
 
-      {/* 🖼️ FULL-WIDTH HERO SECTION WITH IMAGE BACKGROUND */}
-      <section className="relative min-h-[420px] md:min-h-[520px] overflow-hidden bg-slate-900">
-        
-        {/* Background Hero Image — Responsive for all devices */}
+      <section className="sh-hero">
         <div className="absolute inset-0 z-0">
-          <Image 
+          <Image
             src={getHeroImageForService(service || '')}
             alt={`${heroTitle} — Advanced Diagnostics at Henotic Diagnostics`}
             fill
-            className="object-cover object-center sm:object-center"
+            className="object-cover"
             priority
             sizes="100vw"
             style={{ objectPosition: '50% 30%' }}
           />
-          {/* Multi-layer gradient overlays for text readability on ALL devices */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/60 to-slate-900/30"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-950/30 to-transparent"></div>
-          {/* Extra mobile overlay for better contrast on small screens */}
-          <div className="absolute inset-0 bg-slate-900/20 md:bg-transparent transition-colors"></div>
+          <div className="sh-overlay" />
         </div>
 
-        {/* Decorative Gradient Glow */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[120px] opacity-20 bg-[#b06ab3]"></div>
-        <div className="absolute bottom-[-20%] left-[-10%] w-[400px] h-[400px] rounded-full mix-blend-screen filter blur-[100px] opacity-15 bg-[#4568dc]"></div>
-
-        {/* 🧭 PREMIUM BREADCRUMB BAR — Top of everything */}
         <div className="relative z-30 pt-4 md:pt-6 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
-            <nav 
-              aria-label="Breadcrumb"
-              className="w-full sm:w-fit p-3 sm:px-6 sm:py-3.5 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.25),_0_4px_6px_rgba(0,0,0,0.1)] border border-white/20 backdrop-blur-xl overflow-x-auto whitespace-nowrap hide-scrollbar"
-              style={{ background: "linear-gradient(135deg, rgba(69,104,220,0.92) 0%, rgba(176,106,179,0.92) 50%, rgba(229,93,135,0.92) 100%)" }}
-            >
-              <ol className="flex items-center space-x-1.5 sm:space-x-2 min-w-max text-xs sm:text-sm font-black text-white drop-shadow-md">
+            <nav aria-label="Breadcrumb" className="sh-crumb hide-scrollbar">
+              <ol className="flex items-center space-x-1 min-w-max text-xs sm:text-sm font-black text-white">
                 {breadcrumbs.map((crumb, index) => {
                   const isLast = index === breadcrumbs.length - 1;
                   return (
                     <li key={crumb.url} className="flex items-center">
                       {isLast ? (
-                        <span className="text-white flex items-center gap-1.5 opacity-90 cursor-default" aria-current="page">
-                          {index === 0 && <Home size={14} className="mb-0.5" />}
+                        <span className="text-white opacity-90 cursor-default" aria-current="page">
                           {crumb.name}
                         </span>
                       ) : (
-                        <Link 
-                          href={crumb.url} 
-                          className="hover:text-slate-200 hover:underline decoration-2 underline-offset-4 transition-all flex items-center gap-1.5"
-                        >
-                          {index === 0 && <Home size={14} className="mb-0.5" />}
+                        <Link href={crumb.url} className="hover:text-slate-200 hover:underline underline-offset-4">
                           {crumb.name}
                         </Link>
                       )}
                       {!isLast && (
-                        <ChevronRight size={16} className="mx-1 sm:mx-2 text-white/70" />
+                        <span aria-hidden="true" className="mx-1.5 opacity-70">›</span>
                       )}
                     </li>
                   );
@@ -186,41 +132,34 @@ export default function ServiceHero({
           </div>
         </div>
 
-        {/* 🏅 ACCREDITATION LOGOS — Interactive with Certificate Viewer */}
         <div className="relative z-20 mt-4 md:mt-6 px-4 md:px-8">
           <div className="max-w-7xl mx-auto">
-            <AccreditationLogos badges={ACCREDITATIONS} variant="hero" />
+            <AccreditationLogos variant="hero" />
           </div>
         </div>
 
-        {/* 📝 HERO CONTENT — Title, Subtitle */}
         <div className="relative z-20 px-4 md:px-8 pt-6 md:pt-10 pb-16 md:pb-20">
           <div className="max-w-7xl mx-auto">
-            <h1 id={h1Id} className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-5 tracking-tight drop-shadow-2xl max-w-4xl">
+            <h1 id={h1Id} className="sh-h1">
               {heroTitle.includes(' in ') ? (
                 <>
                   {heroTitle.split(' in ')[0]} in{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-pink-400 to-[#E55D87]">
+                  <span className="sh-acc">
                     {heroTitle.split(' in ').slice(1).join(' in ')}
                   </span>
                 </>
+              ) : isServicesIndex ? (
+                <>Our Diagnostic <span className="sh-acc">Services</span></>
               ) : (
-                <>
-                  {isServicesIndex ? (
-                    <>Our Diagnostic <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-400">Services</span></>
-                  ) : (
-                    heroTitle
-                  )}
-                </>
+                heroTitle
               )}
             </h1>
-            
-            <p className="text-base sm:text-lg md:text-xl text-slate-200 font-medium max-w-3xl drop-shadow-md leading-relaxed">
+
+            <p className="sh-sub">
               {heroSubtitle}
             </p>
           </div>
         </div>
-
       </section>
     </>
   );

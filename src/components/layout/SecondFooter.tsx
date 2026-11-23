@@ -2,13 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { MapPin, Activity, ShieldCheck } from "lucide-react";
 
-/**
- * 🌐 Regional Diagnostic Hubs & Service Directory
- * Server-rendered, high-equity internal linking hub.
- * Replaces the heavy 1,600-link client accordion with an optimized, accessible directory.
- */
 const REGIONAL_HUBS = [
   { name: "Navi Mumbai Hub", href: "/city/navi-mumbai", sub: "Kharghar, Panvel, Vashi, Nerul & Belapur" },
   { name: "Mumbai Central & Suburbs", href: "/city/mumbai", sub: "Bandra, Andheri, Chembur, Kurla & Borivali" },
@@ -43,7 +37,7 @@ const QUICK_NAV = [
 
 export default function SecondFooter() {
   return (
-    <section 
+    <section
       aria-label="Regional Diagnostic Network"
       className="text-white py-12 md:py-16 font-sans relative border-t border-white/10"
       style={{
@@ -51,42 +45,32 @@ export default function SecondFooter() {
       }}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-        
-        {/* Header */}
         <div className="mb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold uppercase tracking-wider mb-3">
-            <ShieldCheck size={14} /> NABL Accredited Regional Diagnostic Network
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold uppercase tracking-wider mb-3">
+            NABL Accredited Regional Diagnostic Network
           </div>
           <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-            Accredited Centers & Diagnostic Services Across Mumbai & Pune
+            Accredited Centers &amp; Diagnostic Services Across Mumbai &amp; Pune
           </h2>
           <p className="mt-2 text-white/80 text-sm md:text-base font-medium max-w-2xl mx-auto">
             Explore our state-of-the-art diagnostic facilities, NABL-accredited pathology, and advanced imaging centers.
           </p>
         </div>
 
-        {/* 3-Column Directory Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Column 1: Regional Hubs */}
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/15">
-              <MapPin className="text-amber-300" size={20} />
-              <h3 className="text-lg font-black text-white">City & Regional Hubs</h3>
-            </div>
-            <ul className="space-y-3">
+          <div className="sf2-card">
+            <h3 className="text-lg font-black text-white mb-4 pb-3 border-b border-white/15">
+              City &amp; Regional Hubs
+            </h3>
+            <ul className="space-y-2.5">
               {REGIONAL_HUBS.map((hub) => (
                 <li key={hub.name}>
-                  <Link
-                    href={hub.href}
-                    prefetch={false}
-                    className="group block p-2.5 rounded-xl hover:bg-white/10 transition-colors"
-                  >
+                  <Link href={hub.href} prefetch={false} className="sf2-hub group">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-white group-hover:text-amber-300 transition-colors text-sm">
+                      <span className="font-bold text-white group-hover:text-amber-300 text-sm">
                         {hub.name}
                       </span>
-                      <span aria-hidden="true" className="text-white/50 group-hover:text-amber-300 group-hover:translate-x-1 transition-all text-base leading-none">›</span>
+                      <span aria-hidden="true" className="text-white/50 text-base leading-none">›</span>
                     </div>
                     <p className="text-xs text-white/70 mt-0.5">{hub.sub}</p>
                   </Link>
@@ -95,50 +79,35 @@ export default function SecondFooter() {
             </ul>
           </div>
 
-          {/* Column 2: Key Diagnostic Modalities */}
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/15">
-              <Activity className="text-sky-300" size={20} />
-              <h3 className="text-lg font-black text-white">Top Diagnostic Modalities</h3>
-            </div>
+          <div className="sf2-card">
+            <h3 className="text-lg font-black text-white mb-4 pb-3 border-b border-white/15">
+              Top Diagnostic Modalities
+            </h3>
             <div className="grid grid-cols-2 gap-2">
               {CORE_MODALITIES.map((service) => (
-                <Link
-                  key={service.name}
-                  href={service.href}
-                  prefetch={false}
-                  className="p-2 rounded-lg text-xs font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-                >
+                <Link key={service.name} href={service.href} prefetch={false} className="sf2-mod">
                   {service.name}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Column 3: Quick Navigation */}
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/15">
-              <ShieldCheck className="text-emerald-300" size={20} />
-              <h3 className="text-lg font-black text-white">Direct Access</h3>
-            </div>
-            <ul className="space-y-2.5">
+          <div className="sf2-card">
+            <h3 className="text-lg font-black text-white mb-4 pb-3 border-b border-white/15">
+              Direct Access
+            </h3>
+            <ul className="space-y-2">
               {QUICK_NAV.map((nav) => (
                 <li key={nav.name}>
-                  <Link
-                    href={nav.href}
-                    prefetch={false}
-                    className="flex items-center justify-between p-2 rounded-lg text-xs font-bold text-white/80 hover:text-white hover:bg-white/10 transition-colors group"
-                  >
+                  <Link href={nav.href} prefetch={false} className="sf2-nav group">
                     <span>{nav.name}</span>
-                    <span aria-hidden="true" className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all text-base leading-none">›</span>
+                    <span aria-hidden="true" className="text-white/40 text-base leading-none">›</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-
         </div>
-
       </div>
     </section>
   );

@@ -192,8 +192,9 @@ describe('P1 Payment Webhook, Booking Hardening & Schema/FAQ Integrity', () => {
       '@id': 'https://www.henoticdiagnostics.com/#organization',
     });
 
-    const faqQuestions = (schemas.faqSchema as any).mainEntity.map((q: any) => q.name);
-    expect(faqQuestions).toContain('Is MRI Scan available in Kharghar?');
+    const faqQuestions: string[] = (schemas.faqSchema as any).mainEntity.map((q: any) => q.name);
+    expect(faqQuestions).toHaveLength(6);
+    expect(faqQuestions.some((q) => q.includes('MRI Scan') && q.includes('Kharghar'))).toBe(true);
   });
 
   it('isHomeCollectionService classifies pathology/genetics/checkups accurately and excludes imaging scans', () => {

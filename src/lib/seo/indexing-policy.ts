@@ -319,6 +319,49 @@ const URAN_BELT_LOCATIONS = new Set<string>(['uran', 'jnpt-township', 'jasai', '
 const RAIGAD_INNER_TIER2 = new Set<string>(['neral', 'karjat', 'pen', 'khopoli']);
 const THANE_RURAL_TIER3 = new Set<string>(['shahapur', 'wada', 'palghar']);
 
+export const MICRO_SECTOR_SLUG_RE = /-sector-\d+[a-z]?$/i;
+
+export interface CoveredSectorInfo {
+  slug: string;
+  label: string;
+  pincode: string;
+}
+
+/**
+ * Returns true for granular Navi Mumbai micro-sector sub-locations (e.g. `kharghar-sector-12`,
+ * `kalamboli-sector-10e`) consolidated onto their parent town page to avoid Tier 1A index bloat.
+ */
+export function isMicroSectorLocation(locationSlug: string): boolean {
+  return MICRO_SECTOR_SLUG_RE.test(locationSlug.toLowerCase());
+}
+
+/**
+ * Lists all covered sub-sectors belonging to a parent town inside a region along with their PIN codes.
+ */
+export function getCoveredSectorsForLocation(
+  regionSlug: string,
+  locationSlug: string
+): CoveredSectorInfo[] {
+  const region = regionSlug.toLowerCase();
+  const parent = locationSlug.toLowerCase();
+  const locs = REGION_LOCATIONS[region] || [];
+  const sectors: CoveredSectorInfo[] = [];
+
+  for (const slug of locs) {
+    if (!slug.startsWith(`${parent}-sector-`)) continue;
+    const match = slug.slice(parent.length).match(/^-sector-(\d+[a-z]?)$/i);
+    if (!match) continue;
+    const item = getLocationBySlug(slug, region);
+    sectors.push({
+      slug,
+      label: `Sector ${match[1].toUpperCase()}`,
+      pincode: item?.pincode || '',
+    });
+  }
+
+  return sectors;
+}
+
 const ALL_SERVICE_SET = new Set<string>(services);
 
 export const CANONICAL_PRIMARY_SERVICES: string[] = services.filter(
@@ -386,16 +429,25 @@ function isPrimaryAllowedForTier(primarySlug: string, tier: LocationTier): boole
   return false;
 }
 
+function isPrimaryAllowedForRegion(primarySlug: string, regionSlug: string): boolean {
+  if (!isCanonicalPrimaryService(primarySlug)) return false;
+  if (DEPRECATED_REGIONS.has(regionSlug) || !(regionSlug in REGION_LOCATIONS)) return false;
+  if (regionSlug === 'navi-mumbai') return true;
+  if (regionSlug === 'raigad') return TIER1B_CLINICAL_SERVICES.has(primarySlug);
+  return TIER2_CORE_SERVICES.has(primarySlug);
+}
+
 /**
  * Returns indexing directive and canonical URL for L1 `/services/[service]`.
  */
 export function getL1IndexingDirective(serviceSlug: string): IndexingDirective {
   const s = serviceSlug.toLowerCase();
+  const selfUrl = `${BASE_URL}/services/${s}`;
   if (s in ALL_REDIRECTED_SERVICE_SLUGS) {
     return {
       index: false,
       follow: true,
-      canonicalUrl: `${BASE_URL}/services/${ALL_REDIRECTED_SERVICE_SLUGS[s]}`,
+      canonicalUrl: selfUrl,
       includeInSitemap: false,
     };
   }
@@ -403,7 +455,7 @@ export function getL1IndexingDirective(serviceSlug: string): IndexingDirective {
   return {
     index: exists,
     follow: true,
-    canonicalUrl: `${BASE_URL}/services/${s}`,
+    canonicalUrl: selfUrl,
     includeInSitemap: exists,
   };
 }
@@ -415,20 +467,18 @@ export function getL2IndexingDirective(serviceSlug: string, regionSlug: string):
   const s = serviceSlug.toLowerCase();
   const r = regionSlug.toLowerCase();
   const primary = getCanonicalServiceSlug(s);
+  const selfUrl = `${BASE_URL}/services/${s}/${r}`;
 
   if (DEPRECATED_REGIONS.has(r) || s in ALL_REDIRECTED_SERVICE_SLUGS || HOSPITAL_SURGICAL_SERVICES.has(s)) {
     return {
       index: false,
       follow: true,
-      canonicalUrl: HOSPITAL_SURGICAL_SERVICES.has(s)
-        ? `${BASE_URL}/services/${s}`
-        : `${BASE_URL}/services/${primary}`,
+      canonicalUrl: selfUrl,
       includeInSitemap: false,
     };
   }
 
-  const primaryIndexable =
-    isCanonicalPrimaryService(primary) && (r !== 'pune' || TIER2_CORE_SERVICES.has(primary));
+  const primaryIndexable = isPrimaryAllowedForRegion(primary, r);
 
   if (s in CANONICAL_VARIANT_TO_PRIMARY) {
     if (primaryIndexable) {
@@ -443,7 +493,7 @@ export function getL2IndexingDirective(serviceSlug: string, regionSlug: string):
     return {
       index: false,
       follow: true,
-      canonicalUrl: `${BASE_URL}/services/${primary}`,
+      canonicalUrl: selfUrl,
       includeInSitemap: false,
     };
   }
@@ -452,7 +502,7 @@ export function getL2IndexingDirective(serviceSlug: string, regionSlug: string):
     return {
       index: false,
       follow: true,
-      canonicalUrl: `${BASE_URL}/services/${s}/${r}`,
+      canonicalUrl: selfUrl,
       includeInSitemap: false,
     };
   }
@@ -460,7 +510,7 @@ export function getL2IndexingDirective(serviceSlug: string, regionSlug: string):
   return {
     index: true,
     follow: true,
-    canonicalUrl: `${BASE_URL}/services/${s}/${r}`,
+    canonicalUrl: selfUrl,
     includeInSitemap: true,
   };
 }
@@ -478,17 +528,19 @@ export function getL3IndexingDirective(
   const l = locationSlug.toLowerCase();
   const tier = getLocationTier(r, l);
   const primary = getCanonicalServiceSlug(s);
+  const selfUrl = `${BASE_URL}/services/${s}/${r}/${l}`;
 
   if (
     DEPRECATED_REGIONS.has(r) ||
     (r === 'raigad' && DUPLICATE_RAIGAD_LOCATIONS.has(l)) ||
     s in ALL_REDIRECTED_SERVICE_SLUGS ||
-    HOSPITAL_SURGICAL_SERVICES.has(s)
+    HOSPITAL_SURGICAL_SERVICES.has(s) ||
+    isMicroSectorLocation(l)
   ) {
     return {
       index: false,
       follow: true,
-      canonicalUrl: `${BASE_URL}/services/${primary}`,
+      canonicalUrl: selfUrl,
       includeInSitemap: false,
       tier,
     };
@@ -510,7 +562,7 @@ export function getL3IndexingDirective(
     return {
       index: false,
       follow: true,
-      canonicalUrl: `${BASE_URL}/services/${primary}`,
+      canonicalUrl: selfUrl,
       includeInSitemap: false,
       tier,
     };
@@ -520,7 +572,7 @@ export function getL3IndexingDirective(
     return {
       index: true,
       follow: true,
-      canonicalUrl: `${BASE_URL}/services/${s}/${r}/${l}`,
+      canonicalUrl: selfUrl,
       includeInSitemap: true,
       tier,
     };
@@ -529,7 +581,7 @@ export function getL3IndexingDirective(
   return {
     index: false,
     follow: true,
-    canonicalUrl: `${BASE_URL}/services/${s}/${r}/${l}`,
+    canonicalUrl: selfUrl,
     includeInSitemap: false,
     tier,
   };

@@ -1,11 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { Search } from 'lucide-react';
-
-/**
- * "People Also Search For" — Boosts internal linking for PSEO pages.
- * Displays related service links based on the current service category.
- */
 
 const RELATED_SEARCHES: Record<string, Array<{ label: string; slug: string }>> = {
   mri: [
@@ -84,8 +78,8 @@ function getCategory(serviceSlug: string): string {
   if (serviceSlug.includes('mri')) return 'mri';
   if (serviceSlug.includes('ct') || serviceSlug.includes('hrct')) return 'ct';
   if (serviceSlug.includes('pet') || serviceSlug.includes('nuclear') || serviceSlug.includes('spect') || serviceSlug.includes('bone-scan')) return 'pet';
-  if (serviceSlug.includes('ultrasound') || serviceSlug.includes('sonography') || serviceSlug.includes('doppler') || serviceSlug.includes('scan') && serviceSlug.includes('pregnancy')) return 'ultrasound';
-  if (serviceSlug.includes('blood') || serviceSlug.includes('test') && !serviceSlug.includes('stress') || serviceSlug.includes('profile') || serviceSlug.includes('vitamin')) return 'blood';
+  if (serviceSlug.includes('ultrasound') || serviceSlug.includes('sonography') || serviceSlug.includes('doppler') || (serviceSlug.includes('scan') && serviceSlug.includes('pregnancy'))) return 'ultrasound';
+  if (serviceSlug.includes('blood') || (serviceSlug.includes('test') && !serviceSlug.includes('stress')) || serviceSlug.includes('profile') || serviceSlug.includes('vitamin')) return 'blood';
   if (serviceSlug.includes('echo') || serviceSlug.includes('ecg') || serviceSlug.includes('tmt') || serviceSlug.includes('holter') || serviceSlug.includes('cardiac') || serviceSlug.includes('angio')) return 'cardiac';
   return 'default';
 }
@@ -97,14 +91,12 @@ interface Props {
 export default function PeopleAlsoSearchFor({ currentServiceSlug }: Props) {
   const category = getCategory(currentServiceSlug);
   const suggestions = RELATED_SEARCHES[category] || RELATED_SEARCHES.default;
-  // Exclude current service
   const filtered = suggestions.filter(s => s.slug !== currentServiceSlug);
 
   return (
     <section className="py-8 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
-        <h3 className="text-lg font-black text-slate-800 mb-4 flex items-center gap-2">
-          <Search size={18} className="text-blue-500" />
+        <h3 className="text-lg font-black text-slate-800 mb-4">
           People Also Search For
         </h3>
         <div className="flex flex-wrap gap-2">
@@ -113,7 +105,7 @@ export default function PeopleAlsoSearchFor({ currentServiceSlug }: Props) {
               key={item.slug}
               href={item.slug.startsWith('/') ? item.slug : `/services/${item.slug}`}
               prefetch={false}
-              className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm font-bold text-slate-600 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200"
+              className="pas-pill"
             >
               {item.label}
             </Link>

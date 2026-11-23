@@ -6,6 +6,7 @@ import { DOCTORS, getDoctorById, getDoctorsForService } from '@/config/doctors';
 import { getComparisonBySlug } from '@/config/comparisons';
 import { getHeroImageForService } from '@/config/services';
 import { buildLocationFAQs } from '@/lib/seo/location-faqs';
+import { buildLocalLogistics } from '@/lib/seo/local-content-builder';
 import { buildConditionFAQs } from '@/lib/seo/aeo-helpers';
 
 const BASE_URL = 'https://www.henoticdiagnostics.com';
@@ -21,7 +22,6 @@ function buildReviewedBy(serviceSlug?: string) {
     '@id': `${BASE_URL}/doctors/${doc.id}#doctor`,
     name: doc.name,
     jobTitle: doc.designation,
-    description: doc.credentials,
     url: `${BASE_URL}/doctors/${doc.id}`,
     worksFor: ORG_REF,
   };
@@ -162,27 +162,33 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
 
   const bodyLocation = inferBodyLocation(serviceSlug);
   const pricingData = getPricingForService(serviceSlug);
-  const serviceFaqs = getFAQsForService(serviceSlug, serviceName, locationNameOnly || undefined);
-  const combinedFaqs = locationSlug
-    ? [
-        ...serviceFaqs,
-        ...buildLocationFAQs({
-          serviceName,
-          serviceSlug,
-          locationName: locationNameOnly,
-          regionName: regionName || 'Navi Mumbai',
-          price: pricingData?.henoticPrice,
-        }),
-      ]
-    : serviceFaqs;
-
-  const seenFaqQuestions = new Set<string>();
-  const faqs = combinedFaqs.filter((item) => {
-    const key = item.question.trim().toLowerCase();
-    if (seenFaqQuestions.has(key)) return false;
-    seenFaqQuestions.add(key);
-    return true;
-  });
+  const faqs =
+    regionSlug || locationSlug
+      ? (() => {
+          const logistics = buildLocalLogistics({
+            serviceSlug,
+            serviceName,
+            regionSlug: regionSlug || 'navi-mumbai',
+            regionName: regionName || 'Navi Mumbai',
+            locationSlug,
+            locationName: locationNameOnly || undefined,
+          });
+          return buildLocationFAQs({
+            serviceName,
+            serviceSlug,
+            locationName: locationSlug ? logistics.locationName : logistics.regionName,
+            regionName: logistics.regionName,
+            price: pricingData?.henoticPrice,
+            locationSlug: locationSlug || regionSlug,
+            regionSlug: regionSlug || 'navi-mumbai',
+            pincode: locationSlug ? logistics.pincode : undefined,
+            distanceKm: logistics.distanceKm,
+            turnaround: logistics.homeCollectionTurnaround,
+            microNeighborhoods: logistics.microNeighborhoods,
+            coveredSectors: logistics.coveredSectors.map((s) => `${s.label} (${s.pincode || logistics.pincode})`),
+          });
+        })()
+      : getFAQsForService(serviceSlug, serviceName);
 
   // 1A. DiagnosticProcedure Schema
   const diagnosticProcedureSchema: Record<string, unknown> = {
@@ -190,7 +196,6 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     '@type': 'DiagnosticProcedure',
     '@id': `${pageUrl}#procedure`,
     name: `${serviceName} in ${formattedLocation}`,
-    alternateName: serviceName,
     description: wpMeta.cleanSummary || `Accurate NABL-accredited ${serviceName} in ${formattedLocation} by Henotic Diagnostics. Fast digital reporting, high precision equipment.`,
     url: pageUrl,
     image: getHeroImageForService(serviceSlug),
@@ -203,7 +208,6 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
         url: pageUrl,
-        validFrom: '2026-01-01',
         seller: CLINIC_REF
       }
     } : {}),
@@ -218,17 +222,12 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
     '@type': 'MedicalWebPage',
     '@id': pageUrl,
     name: `${serviceName} in ${formattedLocation} | Henotic Diagnostics`,
-    description: `Book ${serviceName} in ${formattedLocation}. Top NABL accredited diagnostic center with 3.0T MRI, 128-Slice CT, 4D Ultrasound, and Pathology.`,
+    description: `Book NABL-accredited ${serviceName} in ${formattedLocation} with 24/7 booking & same-day digital reports.`,
     url: pageUrl,
     primaryImageOfPage: {
       '@type': 'ImageObject',
-      url: heroImageUrl,
-      contentUrl: heroImageUrl,
-      caption: `${serviceName} at Henotic Diagnostics, ${formattedLocation}`,
-      width: 1200,
-      height: 630
+      url: heroImageUrl
     },
-    image: [heroImageUrl],
     dateModified: SCHEMA_LAST_REVIEWED,
     lastReviewed: SCHEMA_LAST_REVIEWED,
     reviewedBy,
@@ -236,16 +235,10 @@ export function generateServiceSchemas(params: ServiceSchemaParams) {
       '@type': 'SpeakableSpecification',
       cssSelector: ['h1', '#quick-answer'],
     },
-    aspect: 'Diagnosis',
-    medicalAudience: {
-      '@type': 'MedicalAudience',
-      audienceType: 'Patient'
-    },
     about: {
       '@id': `${pageUrl}#procedure`
     },
-    publisher: ORG_REF,
-    author: ORG_REF
+    publisher: ORG_REF
   };
 
   // 1C. BreadcrumbList Schema
@@ -621,31 +614,17 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
     '@type': testType,
     '@id': `${pageUrl}#medicaltest`,
     name: `${serviceName} in ${formattedLocation}`,
-    alternateName: serviceName,
     description: wpMeta.cleanSummary ||
       `NABL-accredited ${serviceName} at Henotic Diagnostics, ${formattedLocation}. Accurate results with fast digital reporting by experienced radiologists and pathologists.`,
     url: pageUrl,
-    image: getHeroImageForService(serviceSlug),
     bodyLocation,
-    usedToDiagnose: {
-      '@type': 'MedicalCondition',
-      name: `Conditions requiring ${serviceName}`
-    },
-    normalRange: 'Results interpreted by senior specialists — normal ranges provided in report',
     usesDevice: {
       '@type': 'MedicalDevice',
       name: usedDevice
     },
-    isAvailableGenerically: false,
     relevantSpecialty: {
       '@type': 'MedicalSpecialty',
       name: testType === 'ImagingTest' ? 'Radiology' : testType === 'PathologyTest' ? 'Pathology' : 'Diagnostics'
-    },
-    medicineSystem: 'https://schema.org/WesternConventional',
-    recognizingAuthority: {
-      '@type': 'Organization',
-      name: 'National Accreditation Board for Testing and Calibration Laboratories (NABL)',
-      url: 'https://nabl-india.org/'
     },
     ...(pricingData?.henoticPrice ? {
       offers: {
@@ -653,7 +632,6 @@ export function generateMedicalTestSchema(params: MedicalTestParams) {
         price: String(pricingData.henoticPrice),
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
-        priceValidUntil: '2027-12-31',
         url: pageUrl,
         seller: CLINIC_REF
       }
@@ -718,33 +696,10 @@ export function generateLocationClinicSchema(params: LocationClinicParams) {
       ? `Book ${serviceName} at Henotic Diagnostics (Sector 15, Kharghar) serving ${locationName}, ${regionName}. NABL-accredited center with 24/7 availability and same-day digital reports.`
       : `NABL-accredited diagnostic center in Sector 15, Kharghar serving ${locationName}, ${regionName}.`,
     url: pageUrl,
-    image: serviceSlug ? getHeroImageForService(serviceSlug) : `${BASE_URL}/icon.svg`,
     telephone: '+91-8879327184',
-    priceRange: '₹200 - ₹25,000',
-    currenciesAccepted: 'INR',
-    paymentAccepted: 'Cash, Credit Card, Debit Card, UPI, Net Banking',
-    medicalSpecialty: [
-      'Radiology',
-      'Pathology',
-      'Cardiology',
-      'Ultrasonography',
-      'NuclearMedicine'
-    ],
-    isAcceptingNewPatients: true,
-    hasCredential: [
-      {
-        '@type': 'EducationalOccupationalCredential',
-        credentialCategory: 'NABL Accreditation',
-        recognizedBy: {
-          '@type': 'Organization',
-          name: 'National Accreditation Board for Testing and Calibration Laboratories'
-        }
-      }
-    ],
     address: HENOTIC_MEDICAL_ORGANIZATION.address,
     geo: HENOTIC_MEDICAL_ORGANIZATION.geo,
     areaServed,
-    openingHoursSpecification: HENOTIC_MEDICAL_ORGANIZATION.openingHoursSpecification,
     ...(realReview ? {
       aggregateRating: {
         '@type': 'AggregateRating',

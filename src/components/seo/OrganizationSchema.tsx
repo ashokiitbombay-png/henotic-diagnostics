@@ -6,10 +6,6 @@ export function OrganizationSchema() {
     "@type": "Organization",
     "@id": "https://www.henoticdiagnostics.com/#organization",
     "name": "Henotic Diagnostics",
-    "alternateName": [
-      "Henotic Diagnostics Centre",
-      "Henotic Diagnostic Center Kharghar"
-    ],
     "url": "https://www.henoticdiagnostics.com",
     "logo": {
       "@type": "ImageObject",
@@ -17,7 +13,7 @@ export function OrganizationSchema() {
       "width": 512,
       "height": 512
     },
-    "description": "Henotic Diagnostics is a NABL-accredited medical diagnostic and imaging center in Kharghar, Navi Mumbai, offering advanced 3.0T MRI, 128-slice CT, PET-CT, ultrasound, pathology, and cardiac diagnostics with same-day reports.",
+    "description": "Henotic Diagnostics is a NABL-accredited medical diagnostic and imaging center in Kharghar, Navi Mumbai, offering 3.0T MRI, 128-slice CT, PET-CT, ultrasound, pathology, and cardiac diagnostics with same-day reports.",
     "foundingDate": "2012",
     "founder": {
       "@type": "Person",
@@ -45,15 +41,6 @@ export function OrganizationSchema() {
         "contactType": "reservations"
       }
     ],
-    "sameAs": [
-      "https://www.facebook.com/henoticdiagnostics2019/",
-      "https://www.instagram.com/henoticdiagnostics2019/",
-      "https://x.com/henoticservices",
-      "https://www.youtube.com/@HenoticDiagnostics",
-      "https://www.linkedin.com/company/14610097/",
-      "https://in.pinterest.com/henoticdiagnostics2019/",
-      "https://maps.app.goo.gl/w5sBPF89Pf4nYQW97"
-    ],
     "areaServed": {
       "@type": "GeoCircle",
       "geoMidpoint": {
@@ -63,49 +50,11 @@ export function OrganizationSchema() {
       },
       "geoRadius": "50000"
     },
-    "knowsAbout": [
-      "MRI Scan",
-      "CT Scan",
-      "PET-CT Scan",
-      "Ultrasound",
-      "Blood Tests",
-      "Full Body Checkup",
-      "Mammography",
-      "DEXA Bone Scan",
-      "2D Echo",
-      "ECG",
-      "Pathology",
-      "Cardiac Diagnostics"
-    ],
     "hasCredential": [
-      {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "Accreditation",
-        "name": "NABL Accredited Laboratory",
-        "recognizedBy": {
-          "@type": "Organization",
-          "name": "National Accreditation Board for Testing and Calibration Laboratories"
-        }
-      },
-      {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "Certification",
-        "name": "AERB Accredited",
-        "recognizedBy": {
-          "@type": "Organization",
-          "name": "Atomic Energy Regulatory Board"
-        }
-      },
-      {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "Registration",
-        "name": "PCPNDT Registered"
-      },
-      {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "Certification",
-        "name": "ISO Certified Facility"
-      }
+      { "@type": "EducationalOccupationalCredential", "name": "NABL Accredited Laboratory" },
+      { "@type": "EducationalOccupationalCredential", "name": "AERB Accredited" },
+      { "@type": "EducationalOccupationalCredential", "name": "PCPNDT Registered" },
+      { "@type": "EducationalOccupationalCredential", "name": "ISO 9001:2015 Certified" }
     ]
   };
 

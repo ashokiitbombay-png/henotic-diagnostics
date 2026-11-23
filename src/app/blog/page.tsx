@@ -4,6 +4,8 @@ import { Metadata } from "next";
 import { PenLine, ShieldCheck, Stethoscope, ArrowRight, Award } from "lucide-react";
 import { getBlogPosts } from "@/lib/wordpress/getBlogPosts";
 import { getStaticBlogArticles } from "@/config/blog-articles";
+import blogRedirects from "@/config/blog-redirects.json";
+import { isValidServiceSlug } from "@/lib/seo/slug-validator";
 import BlogListClient from "@/components/blog/BlogListClient";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
@@ -39,9 +41,15 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const postsData = await getBlogPosts(12);
-  const wpPosts = postsData?.nodes ?? [];
-  const staticArticles = getStaticBlogArticles();
+  const postsData = await getBlogPosts(100);
+  const rawWpPosts = postsData?.nodes ?? [];
+  const redirectMap = blogRedirects as Record<string, string>;
+  const wpPosts = rawWpPosts.filter(
+    (p) => !(p.slug in redirectMap) && !isValidServiceSlug(p.slug)
+  );
+  const staticArticles = getStaticBlogArticles().filter(
+    (art) => !(art.slug in redirectMap) && !isValidServiceSlug(art.slug)
+  );
 
   // Merge: Avoid duplicating any slugs that already exist in WordPress
   const wpSlugs = new Set(wpPosts.map((p) => p.slug));

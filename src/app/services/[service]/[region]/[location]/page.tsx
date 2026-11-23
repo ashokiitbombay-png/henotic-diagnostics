@@ -2,7 +2,6 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import LocationTemplate from "@/templates/LocationTemplate";
-import { getService } from "@/lib/wordpress/getService";
 import { formatSlug } from "@/lib/utils";
 import { isValidServiceSlug, isValidLocationForRegion } from '@/lib/seo/slug-validator';
 import { isHealthCheckupService } from '@/config/health-packages';
@@ -158,25 +157,15 @@ export default async function ServiceLocationPage({ params }: { params: Promise<
     }
   }
 
-  let wpContent: any = null;
-  
   const serviceName = formatSlug(resolvedParams.service);
   const locationName = formatSlug(resolvedParams.location);
   const regionName = formatSlug(resolvedParams.region);
 
-  try {
-    const serviceData = await getService(resolvedParams.service);
-    if (serviceData) { wpContent = serviceData.content; }
-  } catch (error) {
-    console.error("Failed to fetch WordPress content:", error);
-  }
-
   return (
-    <LocationTemplate 
+    <LocationTemplate
       service={resolvedParams.service}
       region={resolvedParams.region}
       location={resolvedParams.location}
-      content={wpContent}
       formattedService={serviceName}
       formattedLocation={locationName}
       formattedRegion={regionName}

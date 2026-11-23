@@ -2,262 +2,257 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import Image from "next/image";
-import { 
-  MapPin, Building2, Phone, Mail, Clock, ExternalLink, 
-  FileText, Globe, Navigation, ArrowUpRight 
-} from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { routesConfig } from "@/config/routes";
 
-const NewsletterSignup = dynamic(() => import('@/components/ui/NewsletterSignup'));
+const NewsletterSignup = dynamic(() => import('@/components/ui/NewsletterSignup'), { ssr: false });
 
-/* --- BULLETPROOF INLINE BRAND ICONS --- */
-const FacebookIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-);
-const InstagramIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-);
-const TwitterIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-);
-const LinkedinIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-);
-const YoutubeIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2C5.12 19.54 12 19.54 12 19.54s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-);
-const GithubIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-);
+const PAYMENTS = [
+  { name: "Paytm", url: "https://cdn.henoticdiagnostics.com/2026/01/4cc15576-paytm-banking-henotic-diagnostics.webp" },
+  { name: "GPay", url: "https://cdn.henoticdiagnostics.com/2026/01/22f37b85-google-pay-payment-transfer-henotic-diagnostics.webp" },
+  { name: "BHIM", url: "https://cdn.henoticdiagnostics.com/2026/01/9ee511bb-bhim-upi-transfer-banking-henotic-diagnostics.webp" },
+  { name: "Amex", url: "https://cdn.henoticdiagnostics.com/2026/01/8982a1eb-american-experss-payment-transfer-henotic-diagnostics.webp" },
+  { name: "Amazon", url: "https://cdn.henoticdiagnostics.com/2026/01/57673992-amazon-pay-payment-transfer-henotic-diagnostics.webp" },
+  { name: "Cards", url: "https://cdn.henoticdiagnostics.com/2026/01/d412e583-all-debitcards-creditcards-payment-transfer-henotic-diagnostics.webp" },
+  { name: "Visa", url: "https://cdn.henoticdiagnostics.com/2026/01/7ecc0645-visa-payment-transfer-henotic-diagnostics.webp" },
+  { name: "Paypal", url: "https://cdn.henoticdiagnostics.com/2026/01/3ffff106-paypal-banking-henotic-diagnostics.webp" },
+];
 
 export default function SiteFooter() {
   return (
-    <footer 
-      className="relative text-white font-sans pt-12 pb-12 lg:pt-20 lg:pb-12 overflow-hidden bg-header-footer-gradient shadow-[0_-10px_20px_rgba(0,0,0,0.05)]"
-    >
-      <div className="container mx-auto px-4 lg:px-8 max-w-7xl w-full relative z-20">
-        
-        {/* ================= SECTION 1: NAP, MAP & BRAND ================= */}
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 mb-8 lg:mb-16 border-b border-white/20 pb-8 lg:pb-16 items-stretch">
-          
-          {/* BRAND & NAP (Left Column - Spans 5) */}
-          <div className="lg:col-span-5 flex flex-col gap-4 lg:gap-6">
-            <Link href={routesConfig.home} className="inline-block group relative z-50 w-max">
-              <div className="relative p-6 rounded-3xl bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.02]">
-                 <Image 
-                   src={siteConfig.logoUrl} 
-                   alt={siteConfig.name} 
-                   width={320}
-                   height={80}
-                   className="w-64 lg:w-80 h-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.6)] relative z-50"
-                   unoptimized
-                 />
+    <footer className="relative text-white font-sans py-12 lg:py-16 overflow-hidden bg-header-footer-gradient">
+      <div className="container mx-auto px-4 lg:px-8 max-w-7xl relative z-20">
+        {/* SECTION 1: NAP, MAP & BRAND */}
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 mb-10 border-b border-white/20 pb-10">
+          <div className="lg:col-span-5 flex flex-col gap-5">
+            <Link href={routesConfig.home} className="inline-block w-max">
+              <div className="sf-box">
+                <img
+                  src={siteConfig.logoUrl}
+                  alt={siteConfig.name}
+                  width={320}
+                  height={80}
+                  loading="lazy"
+                  className="w-64 lg:w-72 h-auto object-contain"
+                />
               </div>
             </Link>
-            
-            <div className="bg-white/10 p-8 rounded-3xl border border-white/20 backdrop-blur-md shadow-xl relative z-20 flex-grow">
-               <h4 className="text-white font-bold mb-6 flex items-center gap-2 uppercase tracking-widest text-xs border-b border-white/20 pb-4">
-                 <MapPin size={16} className="text-white" /> Headquarters & Flagship Center
-               </h4>
-               
-               <address className="text-white/90 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-white/40 not-italic">
-                  <strong className="text-lg text-white block mb-2">{siteConfig.name}</strong>
-                  Second floor, Millennium Empire, Business Park,<br/>
-                  Plot No 47, D Mart Rd, Sector 15, Kharghar,<br/>
-                  Panvel, Navi Mumbai, Maharashtra 410210
-               </address>
 
-               <div className="flex flex-col gap-3 text-sm font-semibold">
-                  <a href={siteConfig.contact.phonePrimaryRaw} className="flex items-center justify-between text-white hover:text-white transition bg-white/10 p-4 rounded-xl hover:bg-white/20 border border-white/10 shadow-inner">
-                    <span className="flex items-center gap-3"><Phone size={18} /> {siteConfig.contact.phonePrimary}</span>
-                    <ArrowUpRight size={16} className="opacity-50" />
-                  </a>
-                  <div className="flex items-center gap-3 text-white p-3 bg-black/10 rounded-xl border border-black/5">
-                    <Clock size={18} className="text-green-300" /> Open 24 Hours • 365 Days
-                  </div>
-               </div>
-            </div>
-          </div>
+            <div className="sf-box flex-grow">
+              <h4 className="sf-h">Headquarters &amp; Flagship Center</h4>
 
-          {/* GOOGLE MAP & GBP PROFILE (Right Column - Spans 7) */}
-          <div className="lg:col-span-7 flex flex-col gap-4 lg:gap-6 h-full relative z-20">
-             <div className="flex flex-col sm:flex-row gap-4 bg-white/10 p-4 rounded-3xl border border-white/20 backdrop-blur-md shadow-xl">
-                 <Image
-                   width={128}
-                   height={128}
-                   src="https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-name-plate.webp" 
-                   alt="Henotic Diagnostics Facility" 
-                   className="w-full sm:w-32 h-32 object-cover rounded-2xl shadow-md border border-white/20"
-                   loading="lazy"
-                 />
-                 <div className="flex flex-col justify-center">
-                   <h5 className="font-bold text-lg mb-1">Highly Rated on Google</h5>
-                   <p className="text-xs text-white/80 mb-3 max-w-sm">Experience world-class diagnostic imaging and pathology in Navi Mumbai.</p>
-                   <div className="flex gap-2">
-                     <a href="https://share.google/yRA62stKchzN8uOVe" target="_blank" rel="noreferrer" className="text-xs bg-white text-blue-900 px-3 py-1.5 rounded-lg font-bold hover:bg-gray-100 transition shadow-md flex items-center gap-1">
-                       <Globe size={12}/> View Profile
-                     </a>
-                     <a href="https://share.google/IcBtvtVjwozCBFMPp" target="_blank" rel="noreferrer" className="text-xs bg-black/20 text-white px-3 py-1.5 rounded-lg font-bold border border-white/20 hover:bg-black/30 transition flex items-center gap-1">
-                       Reviews
-                     </a>
-                   </div>
-                 </div>
-             </div>
+              <address className="text-white/90 text-sm leading-relaxed mb-5 pl-4 border-l-2 border-white/40 not-italic">
+                <strong className="text-lg text-white block mb-1.5">{siteConfig.name}</strong>
+                Second floor, Millennium Empire, Business Park,<br />
+                Plot No 47, D Mart Rd, Sector 15, Kharghar,<br />
+                Panvel, Navi Mumbai, Maharashtra 410210
+              </address>
 
-             <div className="bg-white/10 p-2 rounded-3xl border border-white/20 w-full shadow-2xl relative group overflow-hidden backdrop-blur-sm h-[220px] sm:h-[250px]">
-               <iframe title="Henotic Diagnostics Google Map Location" 
-                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.4687576643887!2d73.07795039999999!3d19.043116999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3812919666b%3A0xa377f33beeed1944!2sHenotic%20Diagnostics!5e0!3m2!1sen!2sin!4v1786048629791!5m2!1sen!2sin"
-                 width="100%" 
-                 height="100%" 
-                 style={{ border: 0 }} 
-                 allowFullScreen 
-                 loading="lazy" 
-                 referrerPolicy="no-referrer-when-downgrade"
-                 className="rounded-2xl w-full h-full opacity-95 group-hover:opacity-100 transition-opacity duration-300"
-               ></iframe>
-               <div className="absolute inset-0 pointer-events-none rounded-2xl ring-1 ring-inset ring-white/20"></div>
-               <a href="https://maps.app.goo.gl/Ex2RG9afjvuEJp7y5" target="_blank" rel="noreferrer" className="absolute bottom-4 left-4 bg-black/80 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full border border-white/20 shadow-xl flex items-center gap-2 hover:bg-black transition cursor-pointer">
-                 <Navigation size={14} className="text-blue-400" /> Get Directions
-               </a>
-            </div>
-          </div>
-        </div>
-
-        {/* ================= SECTION 2: ARCHITECTURE LINKS ================= */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 mb-8 lg:mb-16 relative z-20">
-          <div>
-            <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Core Diagnostics</h4>
-            <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
-              <li><Link href={routesConfig.getServiceUrl("mri-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">MRI Scan (3T)</Link></li>
-              <li><Link href={routesConfig.getServiceUrl("ct-scan")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">CT Scan (128 Slice)</Link></li>
-              <li><Link href={routesConfig.getServiceUrl("pet-ct")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">PET-CT Scan</Link></li>
-              <li><Link href={routesConfig.getServiceUrl("ultrasound")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Ultrasound / USG</Link></li>
-              <li><Link href="/pricing" className="hover:text-white hover:translate-x-1 transition-all duration-200 block text-emerald-300 font-bold">Test Pricing &amp; Cost Estimator</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Pathology</h4>
-            <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
-              <li><Link href={routesConfig.getServiceUrl("blood-test")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Blood Tests</Link></li>
-              <li><Link href={routesConfig.getServiceUrl("full-body-check-up")} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Full Body Checkups</Link></li>
-              <li><Link href={routesConfig.services} className="hover:text-white hover:translate-x-1 transition-all duration-200 block">Specialized Profiles</Link></li>
-              <li><a href={siteConfig.url} target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-1">Corporate Site <ExternalLink size={12}/></a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Web Presence</h4>
-            <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
-              <li><a href="https://medium.com/@henoticdiagnostics" target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> Medium Blog</a></li>
-              <li><a href="https://www.reddit.com/user/Top_Pen3672/" target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Globe size={14}/> Reddit Community</a></li>
-              <li><a href="https://www.tumblr.com/henotichealthcare" target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Globe size={14}/> Tumblr Updates</a></li>
-              <li><a href="https://www.peeptown.com/medical-diagnostic-imaging-center/henoticdiagnostics" target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Globe size={14}/> Peeptown</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-extrabold uppercase tracking-widest text-xs mb-6 border-b border-white/20 pb-3 text-white/90 drop-shadow-sm">Sitemap &amp; Dev</h4>
-            <ul className="flex flex-col gap-3 text-sm font-semibold text-white/90">
-              <li><Link href="/locations" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><MapPin size={14}/> Geographical Directory</Link></li>
-              <li><Link href="/city" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Building2 size={14}/> City Hubs</Link></li>
-              <li><Link href="/sitemap" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Navigation size={14}/> HTML Sitemap</Link></li>
-              <li><a href="/sitemap.xml" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> XML Sitemap</a></li>
-              <li><a href="/api/products/feed" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> Product Feed</a></li>
-              <li><a href="/robots.txt" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><FileText size={14}/> Robots.txt</a></li>
-              <li><a href="https://github.com/ashokiitbombay-png/headless-henotics" target="_blank" rel="noreferrer" className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><GithubIcon size={14}/> Open Source</a></li>
-              <li><a href={`mailto:${siteConfig.contact.email}`} className="hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"><Mail size={14}/> Support Email</a></li>
-            </ul>
-          </div>
-        </div>
-
-        {/* ================= SECTION 3: PAYMENTS ================= */}
-        <div className="mb-8 lg:mb-12 relative z-20 bg-black/5 p-6 lg:p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
-           <p className="text-center text-[10px] font-bold text-white/90 uppercase tracking-[0.2em] mb-6">Secure Payment Partners</p>
-           <div className="flex flex-wrap justify-center gap-4">
-              {[
-                { name: "Paytm", url: "https://cdn.henoticdiagnostics.com/2026/01/4cc15576-paytm-banking-henotic-diagnostics.webp" },
-                { name: "GPay", url: "https://cdn.henoticdiagnostics.com/2026/01/22f37b85-google-pay-payment-transfer-henotic-diagnostics.webp" },
-                { name: "BHIM", url: "https://cdn.henoticdiagnostics.com/2026/01/9ee511bb-bhim-upi-transfer-banking-henotic-diagnostics.webp" },
-                { name: "Amex", url: "https://cdn.henoticdiagnostics.com/2026/01/8982a1eb-american-experss-payment-transfer-henotic-diagnostics.webp" },
-                { name: "Amazon", url: "https://cdn.henoticdiagnostics.com/2026/01/57673992-amazon-pay-payment-transfer-henotic-diagnostics.webp" },
-                { name: "Cards", url: "https://cdn.henoticdiagnostics.com/2026/01/d412e583-all-debitcards-creditcards-payment-transfer-henotic-diagnostics.webp" },
-                { name: "Visa", url: "https://cdn.henoticdiagnostics.com/2026/01/7ecc0645-visa-payment-transfer-henotic-diagnostics.webp" },
-                { name: "Paypal", url: "https://cdn.henoticdiagnostics.com/2026/01/3ffff106-paypal-banking-henotic-diagnostics.webp" }
-              ].map((pay, i) => (
-                <div key={i} className="bg-white rounded-xl w-20 h-12 md:w-28 md:h-14 flex items-center justify-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 px-2">
-                  <Image width={72} height={28} src={pay.url} alt={pay.name} className="h-5 md:h-7 w-auto object-contain" loading="lazy" unoptimized />
+              <div className="flex flex-col gap-2.5 text-sm font-semibold">
+                <a
+                  href={siteConfig.contact.phonePrimaryRaw}
+                  className="flex items-center justify-between text-white bg-white/10 p-3.5 rounded-xl hover:bg-white/20"
+                >
+                  <span>Call {siteConfig.contact.phonePrimary}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <div className="text-white p-3 bg-black/10 rounded-xl">
+                  24×7 Open • 365 Days
                 </div>
-              ))}
-           </div>
-        </div>
+              </div>
+            </div>
+          </div>
 
-        {/* ================= SECTION 4: PATIENT POLICIES BOX ================= */}
-        <div className="mb-8 relative z-20 w-full">
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 backdrop-blur-md shadow-xl transition-all duration-300 hover:bg-white/10 w-full">
-            <h5 className="text-xs font-black text-white/90 uppercase tracking-[0.25em] mb-4 text-center md:text-left flex items-center justify-center md:justify-start gap-2">
-              <FileText size={14} className="text-blue-300" /> Patient Care & Legal Policies
-            </h5>
-            <div className="flex flex-wrap justify-center md:justify-start gap-x-4 md:gap-x-6 gap-y-3 text-xs md:text-sm font-semibold text-white/80">
-              <Link href={routesConfig.privacy} className="hover:text-blue-200 hover:underline transition-colors">Privacy Policy</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href={routesConfig.terms} className="hover:text-blue-200 hover:underline transition-colors">Terms of Service</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/cancellation-policy" className="hover:text-blue-200 hover:underline transition-colors">Cancellation Policy</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/delivery-policy" className="hover:text-blue-200 hover:underline transition-colors">Delivery Policy</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/disclaimers" className="hover:text-blue-200 hover:underline transition-colors">Disclaimers</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/grievance-policy" className="hover:text-blue-200 hover:underline transition-colors">Grievance Redressal</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/medical-disclaimer" className="hover:text-blue-200 hover:underline transition-colors">Medical Disclaimer</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/refund-returns" className="hover:text-blue-200 hover:underline transition-colors">Refund & Returns</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/refund-policy" className="hover:text-blue-200 hover:underline transition-colors">Refund Policy</Link>
-              <span className="text-white/30 hidden sm:inline">•</span>
-              <Link href="/return-policy" className="hover:text-blue-200 hover:underline transition-colors">Return Policy</Link>
+          <div className="lg:col-span-7 flex flex-col gap-5">
+            <div className="flex flex-col sm:flex-row gap-4 bg-white/10 p-4 rounded-3xl border border-white/20">
+              <img
+                width={128}
+                height={128}
+                src="https://cdn.henoticdiagnostics.com/Front%20Office/henotic-diagnostics-name-plate.webp"
+                alt="Henotic Diagnostics Facility"
+                className="w-full sm:w-32 h-32 object-cover rounded-2xl"
+                loading="lazy"
+              />
+              <div className="flex flex-col justify-center">
+                <h5 className="font-bold text-lg mb-1">Highly Rated on Google</h5>
+                <p className="text-xs text-white/80 mb-3 max-w-sm">
+                  Experience world-class diagnostic imaging and pathology in Navi Mumbai.
+                </p>
+                <div className="flex gap-2">
+                  <a
+                    href="https://share.google/yRA62stKchzN8uOVe"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs bg-white text-blue-900 px-3 py-1.5 rounded-lg font-bold"
+                  >
+                    View Profile
+                  </a>
+                  <a
+                    href="https://share.google/IcBtvtVjwozCBFMPp"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs bg-black/20 text-white px-3 py-1.5 rounded-lg font-bold border border-white/20"
+                  >
+                    Reviews
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/10 p-2 rounded-3xl border border-white/20 relative overflow-hidden h-[220px] sm:h-[250px]">
+              <iframe
+                title="Henotic Diagnostics Google Map Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.4687576643887!2d73.07795039999999!3d19.043116999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3812919666b%3A0xa377f33beeed1944!2sHenotic%20Diagnostics!5e0!3m2!1sen!2sin!4v1786048629791!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="rounded-2xl w-full h-full"
+              />
+              <a
+                href="https://maps.app.goo.gl/Ex2RG9afjvuEJp7y5"
+                target="_blank"
+                rel="noreferrer"
+                className="absolute bottom-4 left-4 bg-black/80 text-white text-xs font-bold px-4 py-2 rounded-full"
+              >
+                Directions →
+              </a>
             </div>
           </div>
         </div>
 
-        {/* ================= SECTION 5: SOCIAL MEDIA WITH HEADING ================= */}
-        <div className="mb-8 border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20 w-full">
-          <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
-            <span className="text-xs font-black text-white/95 uppercase tracking-[0.25em] min-w-max text-center md:text-left">
+        {/* SECTION 2: ARCHITECTURE LINKS */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 mb-8 lg:mb-12">
+          <div>
+            <h4 className="sf-h">
+              Core Diagnostics
+            </h4>
+            <ul className="sf-list flex flex-col gap-2.5 text-sm font-semibold text-white/90">
+              <li><Link href={routesConfig.getServiceUrl("mri-scan")}>MRI Scan (3T)</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("ct-scan")}>CT Scan (128 Slice)</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("pet-ct")}>PET-CT Scan</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("ultrasound")}>Ultrasound / USG</Link></li>
+              <li><Link href="/pricing" className="text-emerald-300 font-bold">Test Pricing &amp; Cost Estimator</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="sf-h">
+              Pathology
+            </h4>
+            <ul className="sf-list flex flex-col gap-2.5 text-sm font-semibold text-white/90">
+              <li><Link href={routesConfig.getServiceUrl("blood-test")}>Blood Tests</Link></li>
+              <li><Link href={routesConfig.getServiceUrl("full-body-check-up")}>Full Body Checkups</Link></li>
+              <li><Link href={routesConfig.services}>Specialized Profiles</Link></li>
+              <li><a href={siteConfig.url} target="_blank" rel="noreferrer">Corporate Site ↗</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="sf-h">
+              Web Presence
+            </h4>
+            <ul className="sf-list flex flex-col gap-2.5 text-sm font-semibold text-white/90">
+              <li><a href="https://medium.com/@henoticdiagnostics" target="_blank" rel="noreferrer">Medium Blog</a></li>
+              <li><a href="https://www.reddit.com/user/Top_Pen3672/" target="_blank" rel="noreferrer">Reddit Community</a></li>
+              <li><a href="https://www.tumblr.com/henotichealthcare" target="_blank" rel="noreferrer">Tumblr Updates</a></li>
+              <li><a href="https://www.peeptown.com/medical-diagnostic-imaging-center/henoticdiagnostics" target="_blank" rel="noreferrer">Peeptown</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="sf-h">
+              Sitemap &amp; Dev
+            </h4>
+            <ul className="sf-list flex flex-col gap-2.5 text-sm font-semibold text-white/90">
+              <li><Link href="/locations">Geographical Directory</Link></li>
+              <li><Link href="/city">City Hubs</Link></li>
+              <li><Link href="/sitemap">HTML Sitemap</Link></li>
+              <li><a href="/sitemap.xml">XML Sitemap</a></li>
+              <li><a href="/api/products/feed">Product Feed</a></li>
+              <li><a href="/robots.txt">Robots.txt</a></li>
+              <li><a href="https://github.com/ashokiitbombay-png/headless-henotics" target="_blank" rel="noreferrer">Open Source</a></li>
+              <li><a href={`mailto:${siteConfig.contact.email}`}>Support Email</a></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* SECTION 3: PAYMENTS */}
+        <div className="mb-8 bg-black/5 p-6 rounded-3xl border border-white/10">
+          <p className="text-center text-[10px] font-bold text-white/90 uppercase tracking-[0.2em] mb-5">
+            Secure Payment Partners
+          </p>
+          <div className="flex flex-wrap justify-center gap-3.5">
+            {PAYMENTS.map((pay) => (
+              <div key={pay.name} className="sf-pay">
+                <img
+                  width={72}
+                  height={28}
+                  src={pay.url}
+                  alt={pay.name}
+                  loading="lazy"
+                  className="h-5 md:h-7 w-auto object-contain"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SECTION 4: PATIENT POLICIES BOX */}
+        <div className="mb-8 bg-white/5 border border-white/10 rounded-3xl p-6">
+          <h5 className="text-xs font-black text-white/90 uppercase tracking-[0.25em] mb-3.5 text-center md:text-left">
+            Patient Care &amp; Legal Policies
+          </h5>
+          <div className="sf-pol flex flex-wrap justify-center md:justify-start gap-x-5 gap-y-2.5 text-xs md:text-sm font-semibold text-white/80">
+            <Link href={routesConfig.privacy}>Privacy Policy</Link>
+            <Link href={routesConfig.terms}>Terms of Service</Link>
+            <Link href="/cancellation-policy">Cancellation Policy</Link>
+            <Link href="/delivery-policy">Delivery Policy</Link>
+            <Link href="/disclaimers">Disclaimers</Link>
+            <Link href="/grievance-policy">Grievance Redressal</Link>
+            <Link href="/medical-disclaimer">Medical Disclaimer</Link>
+            <Link href="/refund-returns">Refund &amp; Returns</Link>
+            <Link href="/refund-policy">Refund Policy</Link>
+            <Link href="/return-policy">Return Policy</Link>
+          </div>
+        </div>
+
+        {/* SECTION 5: SOCIAL MEDIA */}
+        <div className="mb-8 border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <span className="text-xs font-black text-white/95 uppercase tracking-[0.25em]">
               Social Media Pages
             </span>
             <div className="flex flex-wrap justify-center gap-3">
-              <a aria-label="Facebook" href={siteConfig.socials.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-600 hover:-translate-y-1 shadow-lg text-white transition-all">
-                <FacebookIcon size={18} />
+              <a aria-label="Facebook" href={siteConfig.socials.facebook} target="_blank" rel="noreferrer" className="sf-soc hover:text-blue-600 font-bold text-xs">
+                f
               </a>
-              <a aria-label="Instagram" href={siteConfig.socials.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-pink-600 hover:-translate-y-1 shadow-lg text-white transition-all">
-                <InstagramIcon size={18} />
+              <a aria-label="Instagram" href={siteConfig.socials.instagram} target="_blank" rel="noreferrer" className="sf-soc hover:text-pink-600 font-bold text-xs">
+                IG
               </a>
-              <a aria-label="X Twitter" href={siteConfig.socials.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-black hover:-translate-y-1 shadow-lg text-white transition-all">
-                <TwitterIcon size={18} />
+              <a aria-label="X Twitter" href={siteConfig.socials.twitter} target="_blank" rel="noreferrer" className="sf-soc hover:text-black font-bold text-xs">
+                X
               </a>
-              <a aria-label="LinkedIn" href={siteConfig.socials.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-blue-700 hover:-translate-y-1 shadow-lg text-white transition-all">
-                <LinkedinIcon size={18} />
+              <a aria-label="LinkedIn" href={siteConfig.socials.linkedin} target="_blank" rel="noreferrer" className="sf-soc hover:text-blue-700 font-bold text-xs">
+                in
               </a>
-              <a aria-label="YouTube" href={siteConfig.socials.youtube} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-600 hover:-translate-y-1 shadow-lg text-white transition-all">
-                <YoutubeIcon size={18} />
+              <a aria-label="YouTube" href={siteConfig.socials.youtube} target="_blank" rel="noreferrer" className="sf-soc hover:text-red-600 font-bold text-xs">
+                YT
               </a>
-              <a href={siteConfig.socials.pinterest} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center hover:bg-white hover:text-red-500 hover:-translate-y-1 shadow-lg text-white transition-all font-bold text-lg font-serif">
+              <a aria-label="Pinterest" href={siteConfig.socials.pinterest} target="_blank" rel="noreferrer" className="sf-soc hover:text-red-500 font-bold text-base font-serif">
                 P
               </a>
             </div>
           </div>
-          <div className="text-[10px] font-bold text-white/60 tracking-widest uppercase text-center md:text-right hidden md:block">
+          <div className="text-[10px] font-bold text-white/60 tracking-widest uppercase hidden md:block">
             ISO 9001:2015 Certified Center
           </div>
         </div>
 
-        {/* ================= NEWSLETTER SIGNUP ================= */}
-        <div className="mb-8 border-t border-white/20 pt-8 relative z-20 w-full">
+        {/* NEWSLETTER SIGNUP */}
+        <div className="mb-8 border-t border-white/20 pt-8">
           <div className="max-w-md mx-auto md:mx-0">
-            <h4 className="font-extrabold uppercase tracking-widest text-xs mb-4 text-white/90 drop-shadow-sm flex items-center gap-2">
-              <Mail size={14} className="text-blue-300" /> Stay Updated
+            <h4 className="font-extrabold uppercase tracking-widest text-xs mb-3 text-white/90">
+              Stay Updated
             </h4>
             <p className="text-xs font-medium text-white/60 mb-4">
               Subscribe to our newsletter for health tips, diagnostic insights, and exclusive offers.
@@ -266,15 +261,11 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        {/* ================= SECTION 6: COPYRIGHT (ENDING ROW) ================= */}
-        <div className="border-t border-white/20 pt-6 flex flex-col items-center justify-center relative z-20 w-full">
-          <div className="text-[11px] font-bold text-white/90 tracking-[0.25em] uppercase text-center drop-shadow-sm select-none">
-            © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Henotic Diagnostics. All Rights Reserved.
-          </div>
+        {/* SECTION 6: COPYRIGHT */}
+        <div className="border-t border-white/20 pt-6 text-center text-[11px] font-bold text-white/90 tracking-[0.25em] uppercase select-none">
+          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Henotic Diagnostics. All Rights Reserved.
         </div>
-
       </div>
-
     </footer>
   );
 }

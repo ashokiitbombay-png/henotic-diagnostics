@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Metadata } from "next";
 import {
   ArrowLeft,
@@ -29,6 +29,9 @@ import {
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import type { BlogPost } from "@/types/cms";
 import { truncateMeta } from "@/lib/seo/aeo-helpers";
+import blogRedirects from "@/config/blog-redirects.json";
+import { isValidServiceSlug } from "@/lib/seo/slug-validator";
+import { getCanonicalServiceSlug } from "@/lib/seo/indexing-policy";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -130,9 +133,18 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
+  const normalizedSlug = slug.toLowerCase();
+  const redirectMap = blogRedirects as Record<string, string>;
+  if (normalizedSlug in redirectMap) {
+    permanentRedirect(redirectMap[normalizedSlug]);
+  }
+  if (isValidServiceSlug(normalizedSlug)) {
+    permanentRedirect(`/services/${getCanonicalServiceSlug(normalizedSlug)}`);
+  }
+
   const [wpPost, recentPostsData] = await Promise.all([
     getBlogPost(slug),
-    getBlogPosts(5),
+    getBlogPosts(100),
   ]);
 
   const staticArticle = getStaticBlogArticle(slug);
@@ -140,9 +152,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   if (!post) notFound();
 
-  // Combine recent posts: WordPress posts + static guides fallback
-  const staticRecent = STATIC_BLOG_ARTICLES.filter((a) => a.slug !== slug);
-  const wpRecent = (recentPostsData?.nodes ?? []).filter((p) => p.slug !== slug);
+  // Combine recent posts: non-redirected WordPress posts + static guides fallback
+  const staticRecent = STATIC_BLOG_ARTICLES.filter(
+    (a) => a.slug !== slug && !(a.slug in redirectMap) && !isValidServiceSlug(a.slug)
+  );
+  const wpRecent = (recentPostsData?.nodes ?? []).filter(
+    (p) => p.slug !== slug && !(p.slug in redirectMap) && !isValidServiceSlug(p.slug)
+  );
   const recentPosts = (wpRecent.length > 0 ? [...wpRecent, ...staticRecent] : staticRecent).slice(
     0,
     5

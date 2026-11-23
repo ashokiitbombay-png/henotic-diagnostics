@@ -9,6 +9,8 @@ import { DOCTORS } from '../src/config/doctors';
 import { SERVICE_CATEGORIES } from '../src/config/categories';
 import { GMC_PRODUCTS } from '../src/config/gmc-products';
 import { STATIC_BLOG_ARTICLES } from '../src/config/blog-articles';
+import blogRedirects from '../src/config/blog-redirects.json';
+import { isValidServiceSlug } from '../src/lib/seo/slug-validator';
 import {
   BASE_URL,
   DEPRECATED_REGIONS,
@@ -207,8 +209,10 @@ function collectTieredUrls(lastmod: string) {
     });
   }
 
-  // 4. Static Clinical Blog Articles
+  // 4. Static Clinical Blog Articles (excluding any slug redirected to /services/*)
+  const blogRedirectMap = blogRedirects as Record<string, string>;
   for (const article of STATIC_BLOG_ARTICLES) {
+    if (article.slug in blogRedirectMap || isValidServiceSlug(article.slug)) continue;
     coreUrls.push({
       loc: `${BASE_URL}/blog/${article.slug}`,
       lastmod,

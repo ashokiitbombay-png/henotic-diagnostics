@@ -1,5 +1,4 @@
 import React from 'react';
-import { MapPin } from 'lucide-react';
 import { buildLocationFAQs } from '@/lib/seo/location-faqs';
 
 interface LocationFAQProps {
@@ -8,11 +7,17 @@ interface LocationFAQProps {
   locationName: string;
   regionName: string;
   price?: number;
+  locationSlug?: string;
+  regionSlug?: string;
+  pincode?: string;
+  distanceKm?: number | null;
+  turnaround?: string;
+  microNeighborhoods?: string[];
+  coveredSectors?: string[];
 }
 
 /**
- * 🗺️ Location-Specific Programmatic FAQs
- * Server Component using native <details>/<summary> for zero JS runtime overhead.
+ * Location-Specific Programmatic FAQs (Server Component with native <details>/<summary>).
  */
 export default function LocationFAQ({
   serviceName,
@@ -20,6 +25,13 @@ export default function LocationFAQ({
   locationName,
   regionName,
   price,
+  locationSlug,
+  regionSlug,
+  pincode,
+  distanceKm,
+  turnaround,
+  microNeighborhoods,
+  coveredSectors,
 }: LocationFAQProps) {
   const faqs = buildLocationFAQs({
     serviceName,
@@ -27,14 +39,21 @@ export default function LocationFAQ({
     locationName,
     regionName,
     price,
+    locationSlug,
+    regionSlug,
+    pincode,
+    distanceKm,
+    turnaround,
+    microNeighborhoods,
+    coveredSectors,
   });
 
   return (
-    <section className="py-16 px-4 md:px-8">
+    <section className="py-12 px-4 md:px-8">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-extrabold uppercase tracking-widest mb-4">
-            <MapPin size={16} /> Local FAQs
+        <div className="text-center mb-8">
+          <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-extrabold uppercase tracking-widest mb-4">
+            Local FAQs
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
             {serviceName} in{' '}
@@ -43,31 +62,15 @@ export default function LocationFAQ({
             </span>
           </h2>
           <p className="text-slate-500 font-medium mt-3 max-w-xl mx-auto">
-            Answers to the most common questions about {serviceName} services near {locationName}.
+            Pricing, preparation, transit, and digital reporting guidance for {locationName} ({pincode ? `PIN ${pincode}` : regionName}).
           </p>
         </div>
 
         <div className="space-y-3">
           {faqs.map((faq, index) => (
-            <details
-              key={index}
-              open={index === 0}
-              className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-slate-200 open:border-emerald-200 open:shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-all duration-200 overflow-hidden cursor-pointer"
-            >
-              <summary className="w-full flex items-start justify-between gap-4 p-5 md:p-6 text-left list-none outline-none select-none">
-                <span className="font-bold text-base md:text-lg text-slate-800 group-open:text-emerald-700 transition-colors">
-                  {faq.question}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="shrink-0 mt-0.5 text-slate-400 group-open:rotate-180 group-open:text-emerald-500 transition-transform duration-200 text-lg leading-none"
-                >
-                  ▾
-                </span>
-              </summary>
-              <div className="px-5 md:px-6 pb-5 md:pb-6 text-slate-600 font-medium leading-relaxed text-[15px] border-t border-slate-50 pt-4">
-                {faq.answer}
-              </div>
+            <details key={index} open={index === 0} className="pfaq-item">
+              <summary>{faq.question}</summary>
+              <div className="pfaq-ans">{faq.answer}</div>
             </details>
           ))}
         </div>

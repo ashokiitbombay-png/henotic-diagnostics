@@ -79,7 +79,8 @@ export default function SiteHeader() {
               >
                 Services <ChevronDown size={16} className={`transition-transform duration-200 ${isServicesOpen ? "rotate-180" : ""}`} />
               </Link>
-              <div className={`absolute top-[120%] left-1/2 -translate-x-1/2 w-[450px] bg-white rounded-2xl shadow-xl p-6 transition-all duration-300 grid grid-cols-2 gap-6 border border-gray-100 ${isServicesOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-4 pointer-events-none"}`}>
+              {isServicesOpen && (
+              <div className="absolute top-[120%] left-1/2 -translate-x-1/2 w-[450px] bg-white rounded-2xl shadow-xl p-6 grid grid-cols-2 gap-6 border border-gray-100">
                 <div className="flex flex-col gap-2">
                   <h4 className="text-xs font-bold text-blue-800 uppercase tracking-widest mb-2 border-b border-gray-100 pb-2 w-full text-left">Advanced Imaging</h4>
                   <Link href={routesConfig.getServiceUrl("mri-scan")} className="hover:text-blue-600 font-medium transition-colors block text-gray-600 text-sm text-left">MRI Scan (3T)</Link>
@@ -93,6 +94,7 @@ export default function SiteHeader() {
                   <Link href={routesConfig.getServiceUrl("ultrasound")} className="hover:text-pink-600 font-medium transition-colors block text-gray-600 text-sm text-left">Ultrasound / USG</Link>
                 </div>
               </div>
+              )}
             </div>
 
             <Link href={routesConfig.contact} className="hover:text-white/80 transition-colors duration-200 py-2 drop-shadow-sm">
@@ -153,8 +155,9 @@ export default function SiteHeader() {
           </div>
         </div>
 
-        {/* MOBILE DRAWER (Only: Home, About Us, Services, Contact, Theme, Call, Book Appointment) */}
-        <div className={`lg:hidden fixed inset-0 top-[70px] bg-white transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} overflow-y-auto pb-20 w-full`}>
+        {/* MOBILE DRAWER (Only mounted when open to avoid duplicate SSR links/SVGs) */}
+        {isOpen && (
+        <div className="lg:hidden fixed inset-0 top-[70px] bg-white overflow-y-auto pb-20 w-full z-40">
            <div className="flex flex-col p-6 text-gray-800 font-semibold text-lg w-full max-w-md mx-auto">
               {/* Quick Search in Drawer */}
               <button
@@ -202,6 +205,7 @@ export default function SiteHeader() {
               </div>
            </div>
         </div>
+        )}
       </header>
 
       {/* 🌟 BULLETPROOF PREMIUM BOOKING MODAL (MAXIMUM Z-INDEX) 🌟 */}

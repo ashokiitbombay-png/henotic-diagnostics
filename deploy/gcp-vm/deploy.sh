@@ -197,6 +197,11 @@ if [[ -f "$NGINX_SITE_FILE" ]] && sudo -n true 2>/dev/null; then
     -e 's/proxy_cache_valid[[:space:]]+200[[:space:]]+10m;/proxy_cache_valid 200 1h;/g' \
     -e 's/proxy_cache_valid[[:space:]]+301[[:space:]]+302[[:space:]]+1h;/proxy_cache_valid 301 302 308 1h;/g' \
     "$NGINX_SITE_FILE"
+  if ! sudo -n grep -q 'add_header X-Robots-Tag "noindex, nofollow" always;' "$NGINX_SITE_FILE"; then
+    sudo -n sed -i -E \
+      '/location \/_next\/static\/ \{/,/\}/ s|add_header Cache-Control "public, max-age=31536000, immutable";|add_header Cache-Control "public, max-age=31536000, immutable" always;\n        add_header X-Robots-Tag "noindex, nofollow" always;|' \
+      "$NGINX_SITE_FILE"
+  fi
   if sudo -n nginx -t 2>/dev/null; then
     sudo -n systemctl reload nginx || true
     sudo -n rm -f "${NGINX_SITE_FILE}.bak"

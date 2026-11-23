@@ -1,23 +1,18 @@
 import ServiceHero from '@/components/blocks/ServiceHero';
 import HealthPackagesSection from '@/components/health-packages/HealthPackagesSection';
 import HealthPackagesSchema from '@/components/health-packages/HealthPackagesSchema';
-import ClinicalHealthOverview from '@/components/health-packages/ClinicalHealthOverview';
-import ClinicalServiceOverview from '@/components/clinical/ClinicalServiceOverview';
-import WordPressRenderer from '@/components/content/WordPressRenderer';
+import LocalClinicalBrief from '@/components/clinical/LocalClinicalBrief';
 import { isHealthCheckupService } from '@/config/health-packages';
 import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from 'next/navigation';
-import { Activity } from "lucide-react";
-import GoogleReviews from "@/components/features/reviews/GoogleReviews";
 import RelatedServices from "@/components/seo/RelatedServices";
 import PricingTable from "@/components/blocks/PricingTable";
-import ServiceFAQ from "@/components/blocks/ServiceFAQ";
-import { getFAQsForService } from "@/config/faqs";
+import LocationFAQ from "@/components/seo/LocationFAQ";
+import { getPricingForService } from "@/config/pricing";
 import { REGION_LOCATIONS, REGION_NAMES } from '@/config/locations';
 import { formatSlug } from '@/lib/utils';
-import { getService } from '@/lib/wordpress/getService';
 import PartnerCenters from '@/components/blocks/PartnerCenters';
 import MedicalPseoSchema from "@/components/seo/MedicalPseoSchema";
 import { isValidServiceSlug, isValidRegionSlug } from '@/lib/seo/slug-validator';
@@ -25,6 +20,7 @@ import { getHeroImageForService } from '@/config/services';
 import { isNiptService } from '@/config/nipt-test';
 import { getNiptPageData } from '@/lib/payload/nipt-tests';
 import NiptAuthorityPage, { buildNiptMetadata } from '@/components/nipt-test/NiptAuthorityPage';
+import { buildLocalLogistics } from '@/lib/seo/local-content-builder';
 import {
   DUPLICATE_RAIGAD_LOCATIONS,
   buildRobotsMetadata,
@@ -154,33 +150,23 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
                   </div>
 
                   {indexableLocations.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                       {indexableLocations.map((loc) => (
                         <Link
                           key={loc}
                           href={`/services/${canonicalService}/${resolvedParams.region}/${loc}`}
                           prefetch={false}
-                          className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 bg-slate-50/80 hover:bg-purple-50 hover:border-purple-300 transition-all group"
+                          className="l2-loc"
                         >
-                          <span className="font-bold text-slate-800 group-hover:text-purple-800 text-xs sm:text-sm">
-                            {formatSlug(loc)}
-                          </span>
-                          <span aria-hidden="true" className="text-slate-400 group-hover:text-purple-700 transform group-hover:translate-x-1 transition-all shrink-0 text-sm">→</span>
+                          {formatSlug(loc)}
                         </Link>
                       ))}
                     </div>
                   ) : coverageOnlyLocations.length > 0 ? (
                     <div className="space-y-6">
-                      <div className="flex flex-wrap justify-center gap-2">
-                        {coverageOnlyLocations.map((loc) => (
-                          <span
-                            key={loc}
-                            className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700"
-                          >
-                            {formatSlug(loc)}
-                          </span>
-                        ))}
-                      </div>
+                      <p className="text-xs sm:text-sm text-slate-600 font-semibold text-center leading-relaxed max-w-4xl mx-auto">
+                        {coverageOnlyLocations.map(formatSlug).join(' · ')}
+                      </p>
                       <div className="text-center">
                         <Link
                           href="/contact#booking"
@@ -206,14 +192,13 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
     }
   }
 
-  let wpContent: any = null;
-
-  try {
-    const serviceData = await getService(resolvedParams.service);
-    if (serviceData) { wpContent = serviceData.content; }
-  } catch (error) {
-    console.error("Failed to fetch WordPress content:", error);
-  }
+  const pricing = getPricingForService(resolvedParams.service);
+  const logistics = buildLocalLogistics({
+    serviceSlug: resolvedParams.service,
+    serviceName,
+    regionSlug: resolvedParams.region,
+    regionName,
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans mt-[80px]">
@@ -222,19 +207,19 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
         serviceSlug={resolvedParams.service}
         serviceName={serviceName}
         regionSlug={resolvedParams.region}
-        wpContent={wpContent}
       />
-      {/* 🌟 Premium Service Hero with Breadcrumbs & Accreditations */}
-      <ServiceHero 
-        service={resolvedParams.service} 
-        region={resolvedParams.region} 
+      {/* Service Hero with Breadcrumbs & Accreditations */}
+      <ServiceHero
+        service={resolvedParams.service}
+        region={resolvedParams.region}
+        subtitle={logistics.heroSubtitle}
         hideBreadcrumbSchema
       />
 
       {/* 2. SEO INTERNAL LINKING GRID */}
-      <section className="py-16 bg-white border-b border-slate-200 relative -mt-10 rounded-t-[3rem] z-20">
+      <section className="py-12 bg-white border-b border-slate-200 relative -mt-10 rounded-t-[3rem] z-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
               {indexableLocations.length > 0
                 ? `Areas Covered Near ${regionName}`
@@ -242,56 +227,41 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
             </h2>
             <p className="text-slate-500 mt-2 font-medium">
               {indexableLocations.length > 0
-                ? 'Select a neighbourhood below for priority slot availability and hub directions.'
+                ? 'Select a neighbourhood below for priority slot availability, PIN-level timings, and hub directions.'
                 : `Scans performed at our flagship Sector 15, Kharghar facility or via doorstep sample collection across ${regionName}.`}
             </p>
           </div>
 
           {indexableLocations.length > 0 ? (
             <>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {indexableLocations.map((loc) => (
-                  <Link 
+                  <Link
                     key={loc}
                     href={`/services/${canonicalService}/${resolvedParams.region}/${loc}`}
                     prefetch={false}
-                    className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all group"
+                    className="l2-loc"
                   >
-                    <span className="font-bold text-slate-700 group-hover:text-blue-700">{formatSlug(loc)}</span>
-                    <span aria-hidden="true" className="text-slate-500 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all text-sm">→</span>
+                    {formatSlug(loc)}
                   </Link>
                 ))}
               </div>
               {coverageOnlyLocations.length > 0 && (
-                <div className="mt-8 pt-6 border-t border-slate-100">
-                  <p className="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-3 text-center">
-                    Additional Covered Localities in {regionName}
+                <div className="mt-6 pt-5 border-t border-slate-100">
+                  <p className="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-2 text-center">
+                    Additional Covered Localities &amp; Sectors in {regionName}
                   </p>
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {coverageOnlyLocations.map((loc) => (
-                      <span
-                        key={loc}
-                        className="px-3 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-xs font-semibold text-slate-600"
-                      >
-                        {formatSlug(loc)}
-                      </span>
-                    ))}
-                  </div>
+                  <p className="text-xs text-slate-600 font-semibold text-center leading-relaxed max-w-5xl mx-auto">
+                    {coverageOnlyLocations.map(formatSlug).join(' · ')}
+                  </p>
                 </div>
               )}
             </>
           ) : coverageOnlyLocations.length > 0 ? (
             <div className="space-y-6">
-              <div className="flex flex-wrap justify-center gap-2">
-                {coverageOnlyLocations.map((loc) => (
-                  <span
-                    key={loc}
-                    className="px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700"
-                  >
-                    {formatSlug(loc)}
-                  </span>
-                ))}
-              </div>
+              <p className="text-xs sm:text-sm text-slate-600 font-semibold text-center leading-relaxed max-w-4xl mx-auto">
+                {coverageOnlyLocations.map(formatSlug).join(' · ')}
+              </p>
               <div className="text-center">
                 <Link
                   href="/contact#booking"
@@ -309,59 +279,43 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      {/* 🌟 Parent Diagnostic Centers Section */}
-      <PartnerCenters service={resolvedParams.service} region={resolvedParams.region} />
+      {/* Compact Diagnostic Centers Section (zero heavy iframes on L2) */}
+      <PartnerCenters service={resolvedParams.service} region={resolvedParams.region} compact />
 
-      {/* 🌟 Health Checkup Packages Suite (When applicable) */}
+      {/* Health Checkup Packages Suite (When applicable) */}
       {isHealthCheckupService(resolvedParams.service) && (
         <>
-          <HealthPackagesSchema 
+          <HealthPackagesSchema
             serviceSlug={resolvedParams.service}
             heading={`${serviceName} Packages`}
             regionName={regionName}
             regionSlug={resolvedParams.region}
           />
-          <HealthPackagesSection 
-              key={resolvedParams.service}
-              serviceSlug={resolvedParams.service}
-              serviceName={serviceName}
-              regionName={regionName}
-            />
+          <HealthPackagesSection
+            key={resolvedParams.service}
+            serviceSlug={resolvedParams.service}
+            serviceName={serviceName}
+            regionName={regionName}
+          />
         </>
       )}
 
-      {/* 3. MEDICAL CONTENT */}
-      <section className="py-16 px-4 md:px-8 max-w-5xl mx-auto">
-        <div className="bg-white rounded-[2rem] p-8 md:p-12 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] border border-slate-100">
-          <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-100">
-            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
-              <Activity size={24} />
-            </div>
-            <h2 className="text-3xl font-extrabold text-slate-900">
-              About {serviceName}
-            </h2>
+      {/* 3. CONCISE REGIONAL CLINICAL BRIEF & LOGISTICS */}
+      <section className="py-12 px-4 md:px-8 max-w-5xl mx-auto">
+        <div className="bg-white rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+          <div className="mb-5 pb-4 border-b border-slate-100">
+            <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-500">
+              {regionName} Clinical Summary &amp; Service Specifications
+            </span>
           </div>
-          
-          {wpContent ? (
-            <div className="wp-content-wrapper text-slate-700 font-medium leading-relaxed space-y-6">
-              <WordPressRenderer
-                content={wpContent}
-                context={{ serviceName, regionName }}
-              />
-            </div>
-          ) : isHealthCheckupService(resolvedParams.service) ? (
-            <ClinicalHealthOverview
-              serviceSlug={resolvedParams.service}
-              formattedService={serviceName}
-              regionName={regionName}
-            />
-          ) : (
-            <ClinicalServiceOverview
-              serviceSlug={resolvedParams.service}
-              formattedService={serviceName}
-              regionName={regionName}
-            />
-          )}
+
+          <LocalClinicalBrief
+            mode="region"
+            serviceSlug={resolvedParams.service}
+            formattedService={serviceName}
+            regionSlug={resolvedParams.region}
+            regionName={regionName}
+          />
         </div>
       </section>
 
@@ -370,14 +324,37 @@ export default async function ServiceRegionPage({ params }: { params: Promise<{ 
         <PricingTable serviceSlug={resolvedParams.service} serviceName={serviceName} locationName={regionName} />
       )}
 
-      {/* 5. FAQ SECTION */}
-      <ServiceFAQ faqs={getFAQsForService(resolvedParams.service, serviceName)} serviceName={serviceName} />
+      {/* 5. DYNAMIC SERVICE x REGION FAQs */}
+      <LocationFAQ
+        serviceName={serviceName}
+        serviceSlug={resolvedParams.service}
+        locationName={regionName}
+        regionName={regionName}
+        price={pricing?.henoticPrice}
+        locationSlug={resolvedParams.region}
+        regionSlug={resolvedParams.region}
+        microNeighborhoods={logistics.microNeighborhoods}
+      />
 
       {/* 6. RELATED SERVICES */}
       <RelatedServices currentService={resolvedParams.service} region={resolvedParams.region} />
 
-      {/* 7. TRUST SIGNALS */}
-      <GoogleReviews />
+      {/* 7. COMPACT SERVER-RENDERED TRUST BAR */}
+      <section className="py-10 px-4 md:px-8 bg-white border-t border-slate-200">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl bg-slate-50 border border-slate-200 p-6">
+          <div>
+            <h3 className="text-base sm:text-lg font-black text-slate-900">
+              NABL · ISO 15189 · AERB Accredited Care Across {regionName}
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 font-medium">
+              Trusted by 1,00,000+ patients · Same-day digital PDF &amp; WhatsApp reports
+            </p>
+          </div>
+          <div className="px-4 py-2 rounded-2xl bg-white border border-amber-200 shrink-0 text-sm font-black text-slate-900">
+            ★ 4.9 / 5 <span className="text-xs font-semibold text-slate-500">Verified Google Reviews</span>
+          </div>
+        </div>
+      </section>
 
     </div>
   );

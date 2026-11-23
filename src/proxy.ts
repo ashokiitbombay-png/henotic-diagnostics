@@ -71,6 +71,20 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
+  // 3b. Permanently retired ambulance service routes -> 410 Gone
+  if (/^\/services\/[^/]*ambulance[^/]*(?:\/|$)/i.test(pathname)) {
+    return new NextResponse('Gone: This service page has been permanently retired.', {
+      status: 410,
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'X-Robots-Tag': 'noindex, nofollow',
+        'Cache-Control': 'public, max-age=86400',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+      },
+    });
+  }
+
   // 4. Pass request with Security Headers
   const response = NextResponse.next();
   response.headers.set('X-Content-Type-Options', 'nosniff');

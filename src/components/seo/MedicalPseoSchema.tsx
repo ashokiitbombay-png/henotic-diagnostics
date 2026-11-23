@@ -49,7 +49,6 @@ export default function MedicalPseoSchema({
   if (type === 'service' && serviceSlug) {
     const formattedName = serviceName || serviceSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     
-    // 1. Core schemas: DiagnosticProcedure + MedicalWebPage + Breadcrumbs + FAQ
     const serviceSchemas = generateServiceSchemas({
       serviceSlug,
       serviceName: formattedName,
@@ -58,16 +57,6 @@ export default function MedicalPseoSchema({
       wpContent
     });
 
-    if (serviceSchemas) {
-      schemasToRender.push(serviceSchemas.medicalWebPageSchema);
-      schemasToRender.push(serviceSchemas.diagnosticProcedureSchema);
-      schemasToRender.push(serviceSchemas.breadcrumbSchema);
-      if (serviceSchemas.faqSchema) {
-        schemasToRender.push(serviceSchemas.faqSchema);
-      }
-    }
-
-    // 2. MedicalTest schema — higher YMYL signal than DiagnosticProcedure
     const medicalTestSchema = generateMedicalTestSchema({
       serviceSlug,
       serviceName: formattedName,
@@ -75,8 +64,33 @@ export default function MedicalPseoSchema({
       locationSlug,
       wpContent
     });
+
+    const isRegionalOrLocal = Boolean(regionSlug);
+
+    if (serviceSchemas) {
+      schemasToRender.push(serviceSchemas.medicalWebPageSchema);
+      if (!isRegionalOrLocal) {
+        schemasToRender.push(serviceSchemas.diagnosticProcedureSchema);
+      }
+      schemasToRender.push(serviceSchemas.breadcrumbSchema);
+      if (serviceSchemas.faqSchema) {
+        schemasToRender.push(serviceSchemas.faqSchema);
+      }
+    }
+
     if (medicalTestSchema) {
-      schemasToRender.push(medicalTestSchema);
+      if (isRegionalOrLocal) {
+        const mergedType = medicalTestSchema['@type'];
+        schemasToRender.push({
+          ...medicalTestSchema,
+          '@id': serviceSchemas?.diagnosticProcedureSchema?.['@id'] || medicalTestSchema['@id'],
+          '@type': Array.isArray(mergedType)
+            ? [...mergedType, 'DiagnosticProcedure']
+            : [mergedType, 'DiagnosticProcedure'],
+        });
+      } else {
+        schemasToRender.push(medicalTestSchema);
+      }
     }
 
     // 3. Location-specific MedicalClinic for hyper-local PSEO pages

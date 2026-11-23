@@ -215,10 +215,9 @@ export default function HTMLSitemap() {
               </a>
               {[
                 { file: 'sitemap-core.xml', label: 'Core Pages', sub: 'L1 & Guides' },
-                { file: 'sitemap-hubs.xml', label: 'Regional Hubs', sub: '2,275 L2 URLs' },
-                { file: 'sitemap-tier1a-1.xml', label: 'Tier 1A (1/3)', sub: 'Core Belt' },
-                { file: 'sitemap-tier1a-2.xml', label: 'Tier 1A (2/3)', sub: 'Core Belt' },
-                { file: 'sitemap-tier1a-3.xml', label: 'Tier 1A (3/3)', sub: 'Core Belt' },
+                { file: 'sitemap-hubs.xml', label: 'Regional Hubs', sub: '732 L2 URLs' },
+                { file: 'sitemap-tier1a-1.xml', label: 'Tier 1A (1/2)', sub: 'Core Belt' },
+                { file: 'sitemap-tier1a-2.xml', label: 'Tier 1A (2/2)', sub: 'Core Belt' },
                 { file: 'sitemap-tier1b.xml', label: 'Tier 1B', sub: '10–24 km Belt' },
                 { file: 'sitemap-tier2.xml', label: 'Tier 2', sub: 'Mumbai & Thane' },
               ].map(segment => (

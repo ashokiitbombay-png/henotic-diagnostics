@@ -1,3 +1,5 @@
+const blogRedirects = require('./src/config/blog-redirects.json');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -54,158 +56,94 @@ const nextConfig = {
   },
   turbopack: {},
   async redirects() {
+    const NON_AMBULANCE_SERVICE = ':service((?!.*ambulance)[^/]+)';
+
+    // 1. Inpatient hospital surgical procedures: L2 & L3 redirect in 1 hop directly to main L1 guide
+    const surgicalRedirects = ['angioplasty', 'tavr', 'cardiac-catheterization'].map((slug) => ({
+      source: `/services/${slug}/:path+`,
+      destination: `/services/${slug}`,
+      statusCode: 301,
+    }));
+
+    // Synonym + pure typo service rewrites
+    const serviceRewrites = [
+      ['ecg-test', 'ecg'],
+      ['electrocardiogram', 'ecg'],
+      ['2d-echo-test', '2d-echo'],
+      ['echo-test', '2d-echo'],
+      ['echocardiography', '2d-echo'],
+      ['fetal-echo', 'fetal-echocardiography'],
+      ['whole-body-pet-scan', 'whole-body-pet-ct'],
+      ['pet-scan', 'pet-ct'],
+      ['nippt', 'nipt-test'],
+      ['nip-t-test', 'nipt-test'],
+      ['npt-test-pregnancy', 'nipt-test'],
+    ];
+
+    // Legacy region & location rewrites (specific sub-paths must precede bare region rule)
+    const regionLocationRewrites = [
+      ['mumbai-suburban/mumbra', 'thane/mumbra'],
+      ['mumbai-suburban/diva', 'thane/diva'],
+      ['mumbai-suburban/shahapur', 'thane/shahapur'],
+      ['mumbai-suburban/wada', 'thane/wada'],
+      ['mumbai-suburban/mira-bhayandar', 'thane/mira-road'],
+      ['western-suburbs/mira-bhayandar', 'thane/mira-road'],
+      ['mumbai-suburban/bhiwandi-town', 'thane/bhiwandi'],
+      ['mumbai-suburban/thane-city', 'thane/thane-west'],
+      ['mumbai-suburban/navi-mumbai-east', 'navi-mumbai/vashi'],
+      ['mumbai-suburban', 'thane'],
+      ['raigad/old-panvel', 'navi-mumbai/old-panvel'],
+      ['raigad/khandeshwar', 'navi-mumbai/khandeshwar'],
+      ['raigad/karanjade', 'navi-mumbai/karanjade'],
+    ];
+
+    // 2. Combined service + region/location rewrites -> 1-hop 301 directly to canonical L2/L3
+    const combinedRedirects = [];
+    for (const [oldSvc, newSvc] of serviceRewrites) {
+      for (const [oldRL, newRL] of regionLocationRewrites) {
+        combinedRedirects.push({
+          source: `/services/${oldSvc}/${oldRL}`,
+          destination: `/services/${newSvc}/${newRL}`,
+          statusCode: 301,
+        });
+      }
+    }
+
+    // 3. Single-axis region/location consolidation (skipping retired ambulance routes -> 410 Gone)
+    const regionLocationRedirects = regionLocationRewrites.map(([oldRL, newRL]) => ({
+      source: `/services/${NON_AMBULANCE_SERVICE}/${oldRL}`,
+      destination: '/services/:service/' + newRL,
+      statusCode: 301,
+    }));
+
+    // 4. Single-axis synonym & NIPT typo service redirects -> 1-hop 301
+    const singleServiceRedirects = serviceRewrites.map(([oldSvc, newSvc]) => ({
+      source: `/services/${oldSvc}/:path*`,
+      destination: `/services/${newSvc}/:path*`,
+      statusCode: 301,
+    }));
+
+    // 5. Duplicate WordPress /blog/* -> canonical /services/* 301 redirects
+    const blogToServiceRedirects = Object.entries(blogRedirects).map(([slug, destination]) => ({
+      source: `/blog/${slug}`,
+      destination,
+      statusCode: 301,
+    }));
+
+    // 6. Legal page consolidation -> 1-hop 301
+    const legalRedirects = [
+      { source: '/refund-returns', destination: '/refund-policy', statusCode: 301 },
+      { source: '/return-policy', destination: '/refund-policy', statusCode: 301 },
+      { source: '/disclaimers', destination: '/medical-disclaimer', statusCode: 301 },
+    ];
+
     return [
-      // 1. Region consolidation: mumbai-suburban duplicate locations -> canonical regions
-      {
-        source: '/services/:service/mumbai-suburban/mumbra',
-        destination: '/services/:service/thane/mumbra',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/mumbai-suburban/diva',
-        destination: '/services/:service/thane/diva',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/mumbai-suburban/shahapur',
-        destination: '/services/:service/thane/shahapur',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/mumbai-suburban/wada',
-        destination: '/services/:service/thane/wada',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/mumbai-suburban/mira-bhayandar',
-        destination: '/services/:service/western-suburbs/mira-bhayandar',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/mumbai-suburban/bhiwandi-town',
-        destination: '/services/:service/thane/bhiwandi',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/mumbai-suburban/thane-city',
-        destination: '/services/:service/thane/thane-west',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/mumbai-suburban/navi-mumbai-east',
-        destination: '/services/:service/navi-mumbai/vashi',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/mumbai-suburban',
-        destination: '/services/:service/thane',
-        permanent: true,
-      },
-      // 2. Region consolidation: raigad duplicates -> navi-mumbai canonicals
-      {
-        source: '/services/:service/raigad/old-panvel',
-        destination: '/services/:service/navi-mumbai/old-panvel',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/raigad/khandeshwar',
-        destination: '/services/:service/navi-mumbai/khandeshwar',
-        permanent: true,
-      },
-      {
-        source: '/services/:service/raigad/karanjade',
-        destination: '/services/:service/navi-mumbai/karanjade',
-        permanent: true,
-      },
-      // 3. Synonym service slug consolidation -> canonical primary test
-      {
-        source: '/services/ecg-test/:path*',
-        destination: '/services/ecg/:path*',
-        permanent: true,
-      },
-      {
-        source: '/services/electrocardiogram/:path*',
-        destination: '/services/ecg/:path*',
-        permanent: true,
-      },
-      {
-        source: '/services/2d-echo-test/:path*',
-        destination: '/services/2d-echo/:path*',
-        permanent: true,
-      },
-      {
-        source: '/services/echo-test/:path*',
-        destination: '/services/2d-echo/:path*',
-        permanent: true,
-      },
-      {
-        source: '/services/echocardiography/:path*',
-        destination: '/services/2d-echo/:path*',
-        permanent: true,
-      },
-      {
-        source: '/services/fetal-echo/:path*',
-        destination: '/services/fetal-echocardiography/:path*',
-        permanent: true,
-      },
-      {
-        source: '/services/whole-body-pet-scan/:path*',
-        destination: '/services/whole-body-pet-ct/:path*',
-        permanent: true,
-      },
-      {
-        source: '/services/pet-scan/:path*',
-        destination: '/services/pet-ct/:path*',
-        permanent: true,
-      },
-      // 3b. Pure NIPT typo / broken-token slugs -> 301 redirect to canonical nipt-test (preserving query params)
-      {
-        source: '/services/nippt/:path*',
-        destination: '/services/nipt-test/:path*',
-        statusCode: 301,
-      },
-      {
-        source: '/services/nip-t-test/:path*',
-        destination: '/services/nipt-test/:path*',
-        statusCode: 301,
-      },
-      {
-        source: '/services/npt-test-pregnancy/:path*',
-        destination: '/services/nipt-test/:path*',
-        statusCode: 301,
-      },
-      // 4. Inpatient hospital surgical procedures: redirect micro-locations to main service guide
-      {
-        source: '/services/angioplasty/:region/:location',
-        destination: '/services/angioplasty',
-        permanent: true,
-      },
-      {
-        source: '/services/tavr/:region/:location',
-        destination: '/services/tavr',
-        permanent: true,
-      },
-      {
-        source: '/services/cardiac-catheterization/:region/:location',
-        destination: '/services/cardiac-catheterization',
-        permanent: true,
-      },
-      // 5. Legal page consolidation -> canonical policies
-      {
-        source: '/refund-returns',
-        destination: '/refund-policy',
-        permanent: true,
-      },
-      {
-        source: '/return-policy',
-        destination: '/refund-policy',
-        permanent: true,
-      },
-      {
-        source: '/disclaimers',
-        destination: '/medical-disclaimer',
-        permanent: true,
-      },
+      ...surgicalRedirects,
+      ...combinedRedirects,
+      ...regionLocationRedirects,
+      ...singleServiceRedirects,
+      ...blogToServiceRedirects,
+      ...legalRedirects,
     ];
   },
   async rewrites() {
@@ -240,6 +178,18 @@ const nextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://connect.facebook.net https://embed.tawk.to https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://apis.google.com https://www.gstatic.com https://www.clarity.ms https://scripts.clarity.ms https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob: https://cdn.henoticdiagnostics.com https://storage.googleapis.com https://cms.henoticdiagnostics.com https://secure.gravatar.com https://www.facebook.com https://*.google.com https://*.gstatic.com https://*.googleapis.com https://*.google-analytics.com https://*.clarity.ms; connect-src 'self' https://cdn.henoticdiagnostics.com https://storage.googleapis.com https://cms.henoticdiagnostics.com https://api.razorpay.com https://*.google-analytics.com https://*.clarity.ms https://www.clarity.ms https://scripts.clarity.ms https://www.googletagmanager.com https://*.facebook.com https://connect.facebook.net wss://*.tawk.to https://*.tawk.to; frame-src 'self' https://api.razorpay.com https://embed.tawk.to https://www.google.com https://maps.google.com https://*.google.com https://*.gstatic.com https://storage.googleapis.com https://cdn.henoticdiagnostics.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(self), payment=(self), usb=()' }
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+        ],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
         ],
       },
       {

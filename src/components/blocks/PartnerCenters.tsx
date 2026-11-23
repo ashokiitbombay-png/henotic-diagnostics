@@ -398,9 +398,10 @@ const getCardTheme = (isMainHub: boolean, index: number) => {
 interface PartnerCentersProps {
   service: string;
   region: string;
+  compact?: boolean;
 }
 
-export default function PartnerCenters({ service, region }: PartnerCentersProps) {
+export default function PartnerCenters({ service, region, compact = false }: PartnerCentersProps) {
   const serviceSlug = service.toLowerCase();
   const regionSlug = region.toLowerCase();
 
@@ -440,7 +441,72 @@ export default function PartnerCenters({ service, region }: PartnerCentersProps)
   const uniqueCenters = Array.from(new Set(filteredCenters.map(c => c.name)))
     .map(name => filteredCenters.find(c => c.name === name)!);
 
-  if (uniqueCenters.length === 0) return null;
+  const visibleCenters = compact ? uniqueCenters.slice(0, 3) : uniqueCenters;
+
+  if (visibleCenters.length === 0) return null;
+
+  if (compact) {
+    return (
+      <section className="py-14 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">
+              Our Parent Diagnostic Centers
+            </h2>
+            <p className="text-slate-600 max-w-2xl mx-auto font-medium text-sm md:text-base">
+              Henotic Diagnostics operates high-precision flagship and diagnostic network hubs near you, providing standardized clinical scans and pathology.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {visibleCenters.map((center) => {
+              const isMainHub = center.name === "Henotic Diagnostics - Kharghar" && center.subtitle.includes("Main Flagship");
+              const [brandPart, locationPart] = center.name.includes(' - ')
+                ? center.name.split(' - ')
+                : ['Henotic Diagnostics', center.name.replace('Henotic Diagnostics ', '')];
+
+              return (
+                <div key={center.name} className="pc-card">
+                  <div>
+                    <div className={isMainHub ? "pc-hd-flag" : "pc-hd"}>
+                      <span className="block text-[10px] font-black tracking-widest uppercase text-white/80 mb-1">
+                        {isMainHub ? "Flagship Hub · Parent Center" : "Parent Network Center"}
+                      </span>
+                      <span className="block text-xl font-black uppercase leading-tight">
+                        {brandPart} — {locationPart}
+                      </span>
+                      <span className="block text-xs font-bold text-white/90 mt-1">
+                        {center.subtitle}
+                      </span>
+                    </div>
+
+                    <div className="p-5 text-xs md:text-sm text-slate-700 font-medium space-y-2">
+                      <p className="leading-relaxed">{center.address}</p>
+                      <p className="text-blue-700 font-bold">{center.hours}</p>
+                    </div>
+                  </div>
+
+                  <div className="px-5 pb-5 space-y-2.5">
+                    <a href={center.mapsUrl} target="_blank" rel="noreferrer" className="pc-btn w-full">
+                      Open in Google Maps ↗
+                    </a>
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <a href={`tel:${center.phone.replace(/\s+/g, '')}`} className="pc-btn-pri">
+                        Call Center
+                      </a>
+                      <a href={center.gbpUrl} target="_blank" rel="noreferrer" className="pc-btn">
+                        Google Profile
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-slate-50 relative overflow-hidden border-b border-slate-200">
@@ -465,7 +531,7 @@ export default function PartnerCenters({ service, region }: PartnerCentersProps)
 
         {/* Centers Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-          {uniqueCenters.map((center, i) => {
+          {visibleCenters.map((center, i) => {
             const isMainHub = center.name === "Henotic Diagnostics - Kharghar" && center.subtitle.includes("Main Flagship");
             
             // Get custom theme styles based on flagship status and loop index
@@ -551,22 +617,32 @@ export default function PartnerCenters({ service, region }: PartnerCentersProps)
                   </div>
                 </div>
 
-                {/* Map Frame and Direct Actions Area */}
+                {/* Map Frame / Lightweight Map Link and Direct Actions Area */}
                 <div className="px-6 pb-6 mt-auto">
-                  {/* Google Map Box (Visual frame background edge color) */}
-                  <div className={`w-full h-44 rounded-2xl overflow-hidden shadow-inner relative mb-4 ${theme.mapFrame}`}>
-                    <iframe 
-                      title={`Google Map - ${center.name}`}
-                      src={center.embedUrl}
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen={false}
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      className="absolute inset-0 w-full h-full object-cover rounded-xl"
-                    ></iframe>
-                  </div>
+                  {!compact ? (
+                    <div className={`w-full h-44 rounded-2xl overflow-hidden shadow-inner relative mb-4 ${theme.mapFrame}`}>
+                      <iframe
+                        title={`Google Map - ${center.name}`}
+                        src={center.embedUrl}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen={false}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        className="absolute inset-0 w-full h-full object-cover rounded-xl"
+                      ></iframe>
+                    </div>
+                  ) : (
+                    <a
+                      href={center.mapsUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-center gap-2 w-full py-2.5 px-4 mb-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all"
+                    >
+                      <ExternalLink size={13} /> Open in Google Maps
+                    </a>
+                  )}
 
                   {/* Interactive Button Grid */}
                   <div className="grid grid-cols-2 gap-3">
