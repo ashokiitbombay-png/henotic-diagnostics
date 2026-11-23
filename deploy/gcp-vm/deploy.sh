@@ -34,6 +34,9 @@ for v in $(env | awk -F= '/^(VERCEL($|_)|TURBO_|NX_DAEMON$)/ {print $1}'); do
   unset "$v" || true
 done
 
+# Clean any leftover build artifacts from prior interrupted builds before installing & rebuilding
+rm -rf "$APP_DIR/.next" || true
+
 echo "📦 Installing production & build dependencies..."
 NODE_ENV=development npm ci
 
@@ -60,6 +63,9 @@ RELEASE_DIR="$RELEASES_DIR/$RELEASE_ID"
 echo "🔄 Activating release $RELEASE_ID..."
 mv .next/standalone "$RELEASE_DIR"
 ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"
+
+# Purge leftover .next build cache & npm download cache immediately (live PM2 runs from $CURRENT_LINK)
+rm -rf "$APP_DIR/.next" "$HOME/.npm/_cacache" "$HOME/.npm/_logs" 2>/dev/null || true
 
 if pm2 describe henotic-web >/dev/null 2>&1; then
   echo "♻️ Reloading PM2 cluster (henotic-web)..."
@@ -137,5 +143,16 @@ if command -v crontab >/dev/null 2>&1; then
   ensure_cron_job "prune-isr-cache.sh" "15 * * * * /var/www/henotic-diagnostics/deploy/gcp-vm/prune-isr-cache.sh >> /var/log/pm2/isr-prune.log 2>&1"
   ensure_cron_job "backup-leads.sh" "30 2 * * * /var/www/henotic-diagnostics/deploy/gcp-vm/backup-leads.sh >> /var/log/pm2/backup-leads.log 2>&1"
 fi
+
+# Tighten live Nginx proxy cache cap from 10g to 2g if present and passwordless sudo allows safe reload
+NGINX_SITE_FILE="/etc/nginx/sites-available/henotic-diagnostics"
+if [[ -f "$NGINX_SITE_FILE" ]] && grep -q 'max_size=10g' "$NGINX_SITE_FILE" 2>/dev/null; then
+  if sudo -n sed -i 's/max_size=10g/max_size=2g/g' "$NGINX_SITE_FILE" 2>/dev/null && sudo -n nginx -t 2>/dev/null; then
+    sudo -n systemctl reload nginx 2>/dev/null || true
+    echo "🔧 Updated Nginx proxy_cache max_size to 2g"
+  fi
+fi
+
+git gc --auto 2>/dev/null || true
 
 echo "🎉 Deployment complete: $RELEASE_ID"

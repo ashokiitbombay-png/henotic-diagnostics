@@ -9,12 +9,14 @@ APP_DIR="${APP_DIR:-/var/www/henotic-diagnostics}"
 CURRENT_LINK="$APP_DIR/current"
 RELEASES_DIR="$APP_DIR/.live-releases"
 
-MAX_ISR_CACHE_MB="${MAX_ISR_CACHE_MB:-4096}"
-TARGET_ISR_CACHE_MB="${TARGET_ISR_CACHE_MB:-2560}"
-INACTIVE_ISR_CAP_MB="${INACTIVE_ISR_CAP_MB:-512}"
-INACTIVE_ISR_TARGET_MB="${INACTIVE_ISR_TARGET_MB:-256}"
+MAX_ISR_CACHE_MB="${MAX_ISR_CACHE_MB:-1536}"
+TARGET_ISR_CACHE_MB="${TARGET_ISR_CACHE_MB:-1024}"
+INACTIVE_ISR_CAP_MB="${INACTIVE_ISR_CAP_MB:-128}"
+INACTIVE_ISR_TARGET_MB="${INACTIVE_ISR_TARGET_MB:-64}"
 MAX_AGE_DAYS="${MAX_AGE_DAYS:-7}"
-DISK_WARN_PCT="${DISK_WARN_PCT:-80}"
+DISK_WARN_PCT="${DISK_WARN_PCT:-75}"
+INODE_WARN_PCT="${INODE_WARN_PCT:-75}"
+EMERGENCY_PCT="${EMERGENCY_PCT:-90}"
 
 LOCK_FILE="/tmp/henotic-isr-prune.lock"
 if command -v flock >/dev/null 2>&1; then
@@ -25,16 +27,20 @@ if command -v flock >/dev/null 2>&1; then
   fi
 fi
 
-# Inspect filesystem usage where APP_DIR resides (fallback to /)
+# Inspect filesystem usage (disk blocks + inodes) where APP_DIR resides (fallback to /)
 DF_TARGET="$APP_DIR"
 [[ -d "$DF_TARGET" ]] || DF_TARGET="/"
 DISK_PCT="$(df -P "$DF_TARGET" | awk 'NR==2 {gsub(/%/, "", $5); print $5 + 0}')"
+INODE_PCT="$(df -Pi "$DF_TARGET" | awk 'NR==2 {gsub(/%/, "", $5); print $5 + 0}')"
 
 ACTIVE_CAP_MB="$MAX_ISR_CACHE_MB"
 ACTIVE_TARGET_MB="$TARGET_ISR_CACHE_MB"
-if (( DISK_PCT >= DISK_WARN_PCT )); then
-  (( ACTIVE_CAP_MB > 1024 )) && ACTIVE_CAP_MB=1024
-  (( ACTIVE_TARGET_MB > 512 )) && ACTIVE_TARGET_MB=512
+if (( DISK_PCT >= DISK_WARN_PCT || INODE_PCT >= INODE_WARN_PCT )); then
+  (( ACTIVE_CAP_MB > 768 )) && ACTIVE_CAP_MB=768
+  (( ACTIVE_TARGET_MB > 384 )) && ACTIVE_TARGET_MB=384
+  if [[ -d /var/cache/nginx/henotic ]]; then
+    find /var/cache/nginx/henotic -type f -mmin +120 -delete 2>/dev/null || true
+  fi
 fi
 
 if (( ACTIVE_TARGET_MB > ACTIVE_CAP_MB )); then
@@ -81,6 +87,24 @@ prune_services_cache() {
   local before_mb before_kb now_epoch cutoff_epoch removed_count=0
   before_mb="$(dir_size_mb "$services_dir")"
   before_kb="$(dir_size_kb "$services_dir")"
+
+  # Emergency zero-tempfile clear: avoids mktemp/sort failing with ENOSPC when disk or inodes >= EMERGENCY_PCT
+  if (( DISK_PCT >= EMERGENCY_PCT || INODE_PCT >= EMERGENCY_PCT )); then
+    find "$services_dir" -type f \( \
+      -name '*.prefetch.rsc' -o \
+      -name '*.segment.rsc' -o \
+      -name '*.html' -o \
+      -name '*.rsc' -o \
+      -name '*.meta' -o \
+      -name '*.body' \
+    \) -delete 2>/dev/null || true
+    find "$services_dir" -mindepth 1 -type d -empty -delete 2>/dev/null || true
+    local after_emg_mb
+    after_emg_mb="$(dir_size_mb "$services_dir")"
+    echo "[$(date -u '+%Y-%m-%d %H:%M:%S UTC')] [isr-prune] EMERGENCY disk=${DISK_PCT}% inodes=${INODE_PCT}% (${role} $(basename "$release_dir")): before=${before_mb}MB after=${after_emg_mb}MB (in-place clear)"
+    return 0
+  fi
+
   now_epoch="$(date +%s)"
   cutoff_epoch=$(( now_epoch - MAX_AGE_DAYS * 86400 ))
 
